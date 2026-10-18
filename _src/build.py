@@ -18,7 +18,7 @@ OUT = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else ROOT
 BASE = 'https://www.myfuneral.co.kr'
 VER = datetime.datetime.now().strftime('%Y%m%d%H%M')
 TODAY = datetime.date.today().isoformat()
-ROUTES = ['urgent', 'nobinso', 'price', 'print', 'clan', 'chon', 'manners']
+ROUTES = ['urgent', 'nobinso', 'price', 'print', 'date', 'clan', 'chon', 'manners']
 STATIC = ['CNAME', 'favicon.svg', 'apple-touch-icon.png', 'og.png', 'robots.txt',
           'naverb64ba87306a5179497b82d3c875bb21e.html']
 
@@ -33,6 +33,8 @@ META = {
               '장례 형태, 화장 · 매장, 관, 수의, 장의 차량, 접객 도우미까지 하나씩 골라 장례 비용을 바로 계산합니다. 나만의장례 가격표 그대로, 장례를 마친 뒤 정산합니다.'),
     'print': ('지방 · 위패 · 축문 · 명정 · 혼백 출력 | 나만의장례 출력실',
               '고인 정보를 한 번 입력하면 지방(위패), 명정, 혼백, 축문, 상중 안내문, 부의 봉투를 실물 크기로 바로 인쇄하거나 PDF로 받습니다. 부고 · 감사 문자도 만들 수 있습니다. 회원가입 없이 무료.'),
+    'date': ('삼우제 · 49재 · 기일 날짜 계산 · 음력 달력 | 나만의장례',
+             '돌아가신 날만 넣으면 발인, 삼우제, 49재, 100일, 첫 기일(음력)을 양력 날짜로 바로 계산합니다. 해마다 돌아오는 기일과 음력 달력, 손 없는 날까지 한눈에 봅니다.'),
     'clan': ('본관 찾기 · 성씨 본관 한자 검색 | 나만의장례',
              '김해 김씨, 밀양 박씨처럼 본관을 한글로 찾으면 한자 본관과 성을 알려 드립니다. 139개 성씨, 423개 본관. 지방 · 명정 · 축문에 바로 넣을 수 있습니다.'),
     'chon': ('촌수 계산 · 가족 호칭 정리 | 나만의장례',
@@ -74,6 +76,7 @@ JSPDF = re.search(r'(<script src="https://cdnjs[^>]*></script>)', src).group(1)
 # ── 2. 주소 바꾸기 (#price → /price/) ──
 def fix_links(s):
     s = s.replace('href="#print" data-goto-tab="env"', 'href="/print/?tab=env"')
+    s = s.replace('href="#print" data-goto-tab="ck"', 'href="/print/?tab=ck"')
     s = s.replace('href="#home"', 'href="/"')
     for r in ROUTES:
         s = s.replace(f'href="#{r}"', f'href="/{r}/"')
@@ -89,7 +92,7 @@ js = JS
 start = js.index('/* ── 화면 이동 ── */')
 end = js.index("window.addEventListener('hashchange',route);") + len("window.addEventListener('hashchange',route);")
 js = js[:start] + r"""/* ── 화면 이동 (메뉴마다 주소가 따로 있음) ── */
-const PAGES=['home','urgent','nobinso','price','print','clan','chon','manners'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners'];
 const PAGE=(function(){ const b=document.body.getAttribute('data-route'); return PAGES.indexOf(b)>=0?b:'home'; })();
 function route(){
   const p=PAGE;
@@ -101,6 +104,7 @@ function route(){
   if(p==='chon') renderChonAll(true);
   if(p==='price') renderWizard(false);
   if(p==='clan') renderClanPage();
+  if(p==='date') renderDate();
 }""" + js[end:]
 
 js = one(js, "b.addEventListener('click',()=>{ PS.c1=c; PS.man=false; toast(clanLabel(c)+' '+c.bh+c.sh+' · 출력실 고인 본관에 넣었습니다'); location.hash='print'; }); return b; }",
@@ -108,7 +112,7 @@ js = one(js, "b.addEventListener('click',()=>{ PS.c1=c; PS.man=false; toast(clan
 js = one(js, "b.href='#print';", "b.href='/print/?rel='+encodeURIComponent(rel);", 'jibang-link')
 
 old_start = """/* ── 시작 ── */
-bindPrint(); bindWizard(); bindChon();
+bindPrint(); bindWizard(); bindChon(); bindDate();
 $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();"""
 new_start = r"""/* ── 시작 : 이 주소의 화면만 준비 (입력한 내용은 어디에도 저장하지 않음) ── */
@@ -124,6 +128,7 @@ if(PAGE==='print'){
 }
 if(PAGE==='price') bindWizard();
 if(PAGE==='chon') bindChon();
+if(PAGE==='date') bindDate();
 if(PAGE==='clan') $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();"""
 js = one(js, old_start, new_start, 'start')

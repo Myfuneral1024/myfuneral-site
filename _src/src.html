@@ -191,6 +191,54 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .total{border-top:2px solid var(--ink);padding:14px 2px 2px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .total b{font-family:var(--serif);font-weight:900;font-size:32px;line-height:1}
 
+/* 날짜 계산 */
+.dt-grid{display:grid;grid-template-columns:380px minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:900px){.dt-grid{grid-template-columns:minmax(0,1fr)}}
+.dt-res{padding:18px 16px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.dt-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.dt-head h2{font-size:20px}
+.dt-head .btn{min-height:44px}
+.dt-list{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
+.dt-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:12px 2px;border-bottom:1px solid var(--line)}
+.dt-list .t{font-weight:700}
+.dt-list .d{font-family:var(--serif);font-weight:700;font-size:18px;text-align:right;white-space:nowrap}
+.dt-list .s{color:var(--muted);font-size:14px}
+.dt-list .dd{color:var(--muted);font-size:13px;text-align:right;white-space:nowrap}
+.dt-list .dd.soon{color:var(--ink);font-weight:700}
+.dt-more summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+.dt-sub{list-style:none;margin:0;padding:0}
+.dt-sub li{display:flex;justify-content:space-between;gap:10px;padding:8px 2px;border-bottom:1px solid var(--line);font-size:15px}
+.dt-h3{font-size:17px;margin-bottom:8px}
+.dt-years{width:100%;border-collapse:collapse;font-size:15px}
+.dt-years th{text-align:left;font-size:13px;color:var(--muted);font-weight:500;padding:6px 2px;border-bottom:1px solid var(--ink)}
+.dt-years td{padding:9px 2px;border-bottom:1px solid var(--line)}
+.dt-years td:last-child{font-weight:700;white-space:nowrap}
+.dt-years tr.past td{color:var(--muted);font-weight:400}
+#dt-yr-note{margin-top:8px}
+@media (max-width:560px){.dt-list .d{font-size:16px}}
+.cal-card{padding:14px 12px}
+.cal-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
+.cal-ttl{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
+.cal-ttl b{font-family:var(--serif);font-size:22px}
+.cal{width:100%;border-collapse:collapse;table-layout:fixed}
+.cal th{font-size:13px;color:var(--muted);font-weight:500;padding:6px 0}
+.cal td{vertical-align:top;border:1px solid var(--line);height:76px;padding:6px 6px 4px;font-size:13px}
+.cal td.out{background:transparent;border-color:transparent}
+.cal td b{display:block;font-size:15px;line-height:1.2}
+.cal .cl{display:block;color:var(--muted);font-size:12px;line-height:1.3}
+.cal .cl.m1{color:var(--ink);font-weight:700}
+.cal td.son{background:var(--sunk)}
+.cal .sn{display:block;font-size:11px;color:var(--ink2);line-height:1.3}
+.cal td.today{box-shadow:inset 0 0 0 2px var(--ink)}
+.cal .mk{display:block;margin-top:3px;font-size:11px;font-weight:700;line-height:1.5;background:var(--pine);color:var(--pine-ink);border-radius:3px;padding:0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cal-foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:10px;font-size:13px;color:var(--muted)}
+.cal-foot span{display:inline-flex;align-items:center;gap:6px}
+.cal-foot .btn{margin-left:auto;min-height:44px}
+.cal-key{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--line)}
+.cal-key.son{background:var(--sunk)}
+.cal-key.mk{background:var(--pine);border-color:var(--pine)}
+@media (max-width:560px){.cal td{height:66px;padding:4px 3px 3px}.cal td b{font-size:14px}.cal .cl{font-size:11px}.cal .sn{font-size:10px;letter-spacing:-0.02em}.cal .mk{font-size:10px;padding:0 2px}.cal-card{padding:12px 6px}}
+
 /* 출력실 */
 .pr-grid{display:grid;grid-template-columns:400px minmax(0,1fr);gap:20px;align-items:start}
 .pr-grid.solo{grid-template-columns:minmax(0,1fr)}
@@ -426,6 +474,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <a href="#nobinso">무빈소 장례</a>
     <a href="#price">비용 계산</a>
     <a href="#print">출력실</a>
+    <a href="#date">날짜 계산</a>
     <a href="#clan">본관 찾기</a>
     <a href="#chon">촌수와 호칭</a>
     <a href="#manners">조문 예절</a>
@@ -492,11 +541,13 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="sec">
       <h2>누구나 무료로 쓰는 도구</h2>
       <p class="sec-lead">장례지도사도, 처음 장례를 치르는 가족도 쓰실 수 있습니다. 회원가입과 광고가 없습니다.</p>
-      <div class="grid4">
+      <div class="grid3">
+        <a class="card tool" href="#price"><span class="glyph">費用</span><b>비용 계산</b><span>하나씩 고르면 나만의장례 가격표 그대로 견적이 나옵니다</span></a>
         <a class="card tool" href="#print"><span class="glyph">神位</span><b>출력실</b><span>지방, 명정, 혼백, 축문, 상중 안내문, 부의 봉투를 실물 크기 PDF로</span></a>
         <a class="card tool" href="#clan"><span class="glyph">本貫</span><b>본관 찾기</b><span>한글로 찾으면 한자 본관과 성을 알려 드립니다</span></a>
         <a class="card tool" href="#chon"><span class="glyph">寸數</span><b>촌수와 호칭</b><span>친가, 외가, 처가, 시가 누구를 뭐라고 부르는지 지도로</span></a>
         <a class="card tool" href="#manners"><span class="glyph">賻儀</span><b>조문 예절</b><span>조문 순서, 절하는 법, 부의 봉투 쓰는 법</span></a>
+        <a class="card tool" href="#date"><span class="glyph">忌日</span><b>날짜 계산</b><span>삼우제 · 49재 · 첫 기일을 양력 날짜로, 음력 달력과 손 없는 날까지</span></a>
       </div>
     </div>
 
@@ -569,6 +620,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
         <li><b>안심상속 원스톱 서비스</b><span>사망신고 때 함께 신청하면 고인의 금융 · 토지 · 자동차 · 세금 내역을 한 번에 조회할 수 있습니다.</span></li>
         <li><b>장제급여 (수급자)</b><span>기초생활수급자였다면 주민센터에 장제급여를 신청합니다. 청구 서류는 나만의장례가 챙겨 드립니다.</span></li>
       </ol>
+      <a class="btn btn-line" href="#date" style="align-self:flex-start">삼우제 · 49재 · 첫 기일 날짜 계산하기</a>
     </div>
   </div>
 </section>
@@ -787,6 +839,52 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
           <div style="display:flex;flex-direction:column;gap:10px;min-width:0"><div style="display:flex;justify-content:space-between;align-items:center"><h3 style="font-size:18px">감사 문자</h3><button type="button" class="btn btn-line" id="copy-thanks" style="min-height:44px">감사 복사</button></div><div class="msgbox" id="msg-thanks"></div></div>
         </section>
 
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───────── 날짜 계산 ───────── -->
+<section class="page" data-page="date" aria-labelledby="h-date" hidden>
+  <div class="wrap">
+    <div class="page-head">
+      <h1 id="h-date">삼우제 · 49재 · 첫 기일,<br>날짜를 바로 알려 드립니다</h1>
+      <p>돌아가신 날만 넣으시면 발인부터 해마다 돌아오는 기일까지 양력 날짜로 계산합니다. 기일은 음력으로 셈해 양력 날짜를 함께 보여 드립니다.</p>
+    </div>
+    <div class="dt-grid">
+      <section class="card form" aria-labelledby="h-dtin">
+        <h2 id="h-dtin">돌아가신 날</h2>
+        <div class="fld"><label for="dt-die">돌아가신 날 <span>(양력)</span></label><input id="dt-die" class="in" type="date"><p class="note" id="dt-die-l"></p></div>
+        <div class="fld"><span class="lbl" id="l-dtd">장례 기간 <span>(돌아가신 날 포함)</span></span><div class="seg c4" role="group" aria-labelledby="l-dtd"><button type="button" data-dtdays="2">2일장</button><button type="button" data-dtdays="3">3일장</button><button type="button" data-dtdays="4">4일장</button><button type="button" data-dtdays="5">5일장</button></div></div>
+        <div class="fld"><label for="dt-out">발인일 <span>(직접 바꿀 수 있습니다)</span></label><input id="dt-out" class="in" type="date"></div>
+        <p class="warn" id="dt-warn" role="alert" hidden></p>
+        <p class="note">절이나 집안에 따라 날짜를 세는 법이 조금씩 다를 수 있습니다. 정해진 날이 있으면 그 날을 따르세요.</p>
+      </section>
+      <section class="card dt-res" aria-labelledby="h-dtres">
+        <div class="dt-head"><h2 id="h-dtres">날짜 안내</h2><button type="button" class="btn btn-line" id="dt-copy">날짜 복사</button></div>
+        <ol class="dt-list" id="dt-list" aria-live="polite"></ol>
+        <details class="dt-more"><summary>49재까지 7일마다 (초재 ~ 칠재)</summary><ul class="dt-sub" id="dt-7"></ul></details>
+        <div>
+          <h3 class="dt-h3">해마다 돌아오는 기일</h3>
+          <table class="dt-years"><thead><tr><th scope="col">해</th><th scope="col">음력</th><th scope="col">양력</th></tr></thead><tbody id="dt-years"></tbody></table>
+          <p class="note" id="dt-yr-note"></p>
+        </div>
+        <p class="note">기제사는 옛 예법으로는 기일 첫새벽(자정이 지난 뒤)에 지냈고, 요즘은 기일 저녁에 지내는 집이 많습니다.</p>
+        <div class="actions"><a class="btn btn-line" href="#print" data-goto-tab="ck">축문 만들기 (출력실)</a></div>
+      </section>
+    </div>
+
+    <div class="sec">
+      <h2 id="h-cal">음력 달력 · 손 없는 날</h2>
+      <p class="sec-lead">날마다 음력 날짜를 함께 보여 드립니다. <b>손 없는 날</b>은 음력 끝자리가 9 · 0인 날(9 · 10 · 19 · 20 · 29 · 30일)로, 이사나 이장 날을 고를 때 많이 봅니다.</p>
+      <div class="card cal-card">
+        <div class="cal-top">
+          <button type="button" class="icon-btn" id="cal-prev" aria-label="이전 달"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
+          <div class="cal-ttl"><b id="cal-ym"></b><span class="note" id="cal-lunar"></span></div>
+          <button type="button" class="icon-btn" id="cal-next" aria-label="다음 달"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button>
+        </div>
+        <table class="cal" aria-labelledby="cal-ym"><thead><tr><th scope="col">일</th><th scope="col">월</th><th scope="col">화</th><th scope="col">수</th><th scope="col">목</th><th scope="col">금</th><th scope="col">토</th></tr></thead><tbody id="cal-body"></tbody></table>
+        <div class="cal-foot"><span><i class="cal-key son"></i>손 없는 날</span><span><i class="cal-key mk"></i>위에서 계산한 날</span><button type="button" class="btn btn-ghost" id="cal-today">오늘로</button></div>
       </div>
     </div>
   </div>
@@ -1018,7 +1116,7 @@ document.addEventListener('click',e=>{
 });
 
 /* ── 화면 이동 ── */
-const PAGES=['home','urgent','nobinso','price','print','clan','chon','manners'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners'];
 function route(){
   const h=(location.hash||'').replace('#','');
   const p=PAGES.indexOf(h)>=0?h:'home';
@@ -1031,6 +1129,7 @@ function route(){
   if(p==='chon') renderChonAll(true);
   if(p==='price') renderWizard(false);
   if(p==='clan') renderClanPage();
+  if(p==='date') renderDate();
 }
 window.addEventListener('hashchange',route);
 
@@ -1137,7 +1236,7 @@ const CK_INFO={
 const CKN={}; Object.keys(CK_INFO).forEach(k=>{ CKN[k]=CK_INFO[k][0]; });
 const CK_SANG=['jeju','u1','u2','u3','jolgok','sosang','daesang'], CK_JE=['gije','myoje','pamyo','iu'], CK_SAN=['sansin','pyeongto','myosan','isan'], CK_NOHDR=['cheongu','jojeon','balin'];
 const ENV={buui:['賻儀'],geunjo:['謹弔'],chumo:['追慕'],chudo:['追悼'],aedo:['哀悼'],myeongbok:['삼가 고인의','명복을 빕니다'],buuiK:['부의']};
-const LM=[["2025-01-29",2025,1,0],["2025-02-28",2025,2,0],["2025-03-29",2025,3,0],["2025-04-28",2025,4,0],["2025-05-27",2025,5,0],["2025-06-25",2025,6,0],["2025-07-25",2025,6,1],["2025-08-23",2025,7,0],["2025-09-22",2025,8,0],["2025-10-21",2025,9,0],["2025-11-20",2025,10,0],["2025-12-20",2025,11,0],["2026-01-19",2025,12,0],["2026-02-17",2026,1,0],["2026-03-19",2026,2,0],["2026-04-17",2026,3,0],["2026-05-17",2026,4,0],["2026-06-15",2026,5,0],["2026-07-14",2026,6,0],["2026-08-13",2026,7,0],["2026-09-11",2026,8,0],["2026-10-11",2026,9,0],["2026-11-09",2026,10,0],["2026-12-09",2026,11,0],["2027-01-08",2026,12,0],["2027-02-07",2027,1,0],["2027-03-08",2027,2,0],["2027-04-07",2027,3,0],["2027-05-06",2027,4,0],["2027-06-05",2027,5,0],["2027-07-04",2027,6,0],["2027-08-02",2027,7,0],["2027-09-01",2027,8,0],["2027-09-30",2027,9,0],["2027-10-29",2027,10,0],["2027-11-28",2027,11,0],["2027-12-28",2027,12,0],["2028-01-27",2028,1,0],["2028-02-25",2028,2,0],["2028-03-26",2028,3,0],["2028-04-25",2028,4,0],["2028-05-24",2028,5,0],["2028-06-23",2028,5,1],["2028-07-22",2028,6,0],["2028-08-20",2028,7,0],["2028-09-19",2028,8,0],["2028-10-18",2028,9,0],["2028-11-16",2028,10,0],["2028-12-16",2028,11,0]];
+const LM=[["2016-01-10",2015,12,0],["2016-02-08",2016,1,0],["2016-03-09",2016,2,0],["2016-04-07",2016,3,0],["2016-05-07",2016,4,0],["2016-06-05",2016,5,0],["2016-07-04",2016,6,0],["2016-08-03",2016,7,0],["2016-09-01",2016,8,0],["2016-10-01",2016,9,0],["2016-10-31",2016,10,0],["2016-11-29",2016,11,0],["2016-12-29",2016,12,0],["2017-01-28",2017,1,0],["2017-02-26",2017,2,0],["2017-03-28",2017,3,0],["2017-04-26",2017,4,0],["2017-05-26",2017,5,0],["2017-06-24",2017,5,1],["2017-07-23",2017,6,0],["2017-08-22",2017,7,0],["2017-09-20",2017,8,0],["2017-10-20",2017,9,0],["2017-11-18",2017,10,0],["2017-12-18",2017,11,0],["2018-01-17",2017,12,0],["2018-02-16",2018,1,0],["2018-03-17",2018,2,0],["2018-04-16",2018,3,0],["2018-05-15",2018,4,0],["2018-06-14",2018,5,0],["2018-07-13",2018,6,0],["2018-08-11",2018,7,0],["2018-09-10",2018,8,0],["2018-10-09",2018,9,0],["2018-11-08",2018,10,0],["2018-12-07",2018,11,0],["2019-01-06",2018,12,0],["2019-02-05",2019,1,0],["2019-03-07",2019,2,0],["2019-04-05",2019,3,0],["2019-05-05",2019,4,0],["2019-06-03",2019,5,0],["2019-07-03",2019,6,0],["2019-08-01",2019,7,0],["2019-08-30",2019,8,0],["2019-09-29",2019,9,0],["2019-10-28",2019,10,0],["2019-11-27",2019,11,0],["2019-12-26",2019,12,0],["2020-01-25",2020,1,0],["2020-02-24",2020,2,0],["2020-03-24",2020,3,0],["2020-04-23",2020,4,0],["2020-05-23",2020,4,1],["2020-06-21",2020,5,0],["2020-07-21",2020,6,0],["2020-08-19",2020,7,0],["2020-09-17",2020,8,0],["2020-10-17",2020,9,0],["2020-11-15",2020,10,0],["2020-12-15",2020,11,0],["2021-01-13",2020,12,0],["2021-02-12",2021,1,0],["2021-03-13",2021,2,0],["2021-04-12",2021,3,0],["2021-05-12",2021,4,0],["2021-06-10",2021,5,0],["2021-07-10",2021,6,0],["2021-08-08",2021,7,0],["2021-09-07",2021,8,0],["2021-10-06",2021,9,0],["2021-11-05",2021,10,0],["2021-12-04",2021,11,0],["2022-01-03",2021,12,0],["2022-02-01",2022,1,0],["2022-03-03",2022,2,0],["2022-04-01",2022,3,0],["2022-05-01",2022,4,0],["2022-05-30",2022,5,0],["2022-06-29",2022,6,0],["2022-07-29",2022,7,0],["2022-08-27",2022,8,0],["2022-09-26",2022,9,0],["2022-10-25",2022,10,0],["2022-11-24",2022,11,0],["2022-12-23",2022,12,0],["2023-01-22",2023,1,0],["2023-02-20",2023,2,0],["2023-03-22",2023,2,1],["2023-04-20",2023,3,0],["2023-05-20",2023,4,0],["2023-06-18",2023,5,0],["2023-07-18",2023,6,0],["2023-08-16",2023,7,0],["2023-09-15",2023,8,0],["2023-10-15",2023,9,0],["2023-11-13",2023,10,0],["2023-12-13",2023,11,0],["2024-01-11",2023,12,0],["2024-02-10",2024,1,0],["2024-03-10",2024,2,0],["2024-04-09",2024,3,0],["2024-05-08",2024,4,0],["2024-06-06",2024,5,0],["2024-07-06",2024,6,0],["2024-08-04",2024,7,0],["2024-09-03",2024,8,0],["2024-10-03",2024,9,0],["2024-11-01",2024,10,0],["2024-12-01",2024,11,0],["2024-12-31",2024,12,0],["2025-01-29",2025,1,0],["2025-02-28",2025,2,0],["2025-03-29",2025,3,0],["2025-04-28",2025,4,0],["2025-05-27",2025,5,0],["2025-06-25",2025,6,0],["2025-07-25",2025,6,1],["2025-08-23",2025,7,0],["2025-09-22",2025,8,0],["2025-10-21",2025,9,0],["2025-11-20",2025,10,0],["2025-12-20",2025,11,0],["2026-01-19",2025,12,0],["2026-02-17",2026,1,0],["2026-03-19",2026,2,0],["2026-04-17",2026,3,0],["2026-05-17",2026,4,0],["2026-06-15",2026,5,0],["2026-07-14",2026,6,0],["2026-08-13",2026,7,0],["2026-09-11",2026,8,0],["2026-10-11",2026,9,0],["2026-11-09",2026,10,0],["2026-12-09",2026,11,0],["2027-01-08",2026,12,0],["2027-02-07",2027,1,0],["2027-03-08",2027,2,0],["2027-04-07",2027,3,0],["2027-05-06",2027,4,0],["2027-06-05",2027,5,0],["2027-07-04",2027,6,0],["2027-08-02",2027,7,0],["2027-09-01",2027,8,0],["2027-09-30",2027,9,0],["2027-10-29",2027,10,0],["2027-11-28",2027,11,0],["2027-12-28",2027,12,0],["2028-01-27",2028,1,0],["2028-02-25",2028,2,0],["2028-03-26",2028,3,0],["2028-04-25",2028,4,0],["2028-05-24",2028,5,0],["2028-06-23",2028,5,1],["2028-07-22",2028,6,0],["2028-08-20",2028,7,0],["2028-09-19",2028,8,0],["2028-10-18",2028,9,0],["2028-11-16",2028,10,0],["2028-12-16",2028,11,0],["2029-01-15",2028,12,0],["2029-02-13",2029,1,0],["2029-03-15",2029,2,0],["2029-04-14",2029,3,0],["2029-05-13",2029,4,0],["2029-06-12",2029,5,0],["2029-07-12",2029,6,0],["2029-08-10",2029,7,0],["2029-09-08",2029,8,0],["2029-10-08",2029,9,0],["2029-11-06",2029,10,0],["2029-12-05",2029,11,0],["2030-01-04",2029,12,0],["2030-02-03",2030,1,0],["2030-03-04",2030,2,0],["2030-04-03",2030,3,0],["2030-05-02",2030,4,0],["2030-06-01",2030,5,0],["2030-07-01",2030,6,0],["2030-07-30",2030,7,0],["2030-08-29",2030,8,0],["2030-09-27",2030,9,0],["2030-10-27",2030,10,0],["2030-11-25",2030,11,0],["2030-12-25",2030,12,0],["2031-01-23",2031,1,0],["2031-02-22",2031,2,0],["2031-03-23",2031,3,0],["2031-04-22",2031,3,1],["2031-05-21",2031,4,0],["2031-06-20",2031,5,0],["2031-07-19",2031,6,0],["2031-08-18",2031,7,0],["2031-09-17",2031,8,0],["2031-10-16",2031,9,0],["2031-11-15",2031,10,0],["2031-12-14",2031,11,0],["2032-01-13",2031,12,0],["2032-02-11",2032,1,0],["2032-03-12",2032,2,0],["2032-04-10",2032,3,0],["2032-05-09",2032,4,0],["2032-06-08",2032,5,0],["2032-07-07",2032,6,0],["2032-08-06",2032,7,0],["2032-09-05",2032,8,0],["2032-10-04",2032,9,0],["2032-11-03",2032,10,0],["2032-12-03",2032,11,0],["2033-01-01",2032,12,0],["2033-01-31",2033,1,0],["2033-03-01",2033,2,0],["2033-03-31",2033,3,0],["2033-04-29",2033,4,0],["2033-05-28",2033,5,0],["2033-06-27",2033,6,0],["2033-07-26",2033,7,0],["2033-08-25",2033,8,0],["2033-09-23",2033,9,0],["2033-10-23",2033,10,0],["2033-11-22",2033,11,0],["2033-12-22",2033,11,1],["2034-01-20",2033,12,0],["2034-02-19",2034,1,0],["2034-03-20",2034,2,0],["2034-04-19",2034,3,0],["2034-05-18",2034,4,0],["2034-06-16",2034,5,0],["2034-07-16",2034,6,0],["2034-08-14",2034,7,0],["2034-09-13",2034,8,0],["2034-10-12",2034,9,0],["2034-11-11",2034,10,0],["2034-12-11",2034,11,0],["2035-01-10",2034,12,0],["2035-02-08",2035,1,0],["2035-03-10",2035,2,0],["2035-04-08",2035,3,0],["2035-05-08",2035,4,0],["2035-06-06",2035,5,0],["2035-07-05",2035,6,0],["2035-08-04",2035,7,0],["2035-09-02",2035,8,0],["2035-10-01",2035,9,0],["2035-10-31",2035,10,0],["2035-11-30",2035,11,0],["2035-12-29",2035,12,0],["2036-01-28",2036,1,0],["2036-02-27",2036,2,0],["2036-03-28",2036,3,0],["2036-04-26",2036,4,0],["2036-05-26",2036,5,0],["2036-06-24",2036,6,0],["2036-07-23",2036,6,1],["2036-08-22",2036,7,0],["2036-09-20",2036,8,0],["2036-10-19",2036,9,0],["2036-11-18",2036,10,0],["2036-12-18",2036,11,0],["2037-01-16",2036,12,0],["2037-02-15",2037,1,0],["2037-03-17",2037,2,0],["2037-04-16",2037,3,0],["2037-05-15",2037,4,0],["2037-06-14",2037,5,0],["2037-07-13",2037,6,0],["2037-08-11",2037,7,0],["2037-09-10",2037,8,0],["2037-10-09",2037,9,0],["2037-11-07",2037,10,0],["2037-12-07",2037,11,0],["2038-01-05",2037,12,0],["2038-02-04",2038,1,0],["2038-03-06",2038,2,0],["2038-04-05",2038,3,0],["2038-05-04",2038,4,0],["2038-06-03",2038,5,0],["2038-07-02",2038,6,0],["2038-08-01",2038,7,0],["2038-08-30",2038,8,0],["2038-09-29",2038,9,0],["2038-10-28",2038,10,0],["2038-11-26",2038,11,0],["2038-12-26",2038,12,0],["2039-01-24",2039,1,0],["2039-02-23",2039,2,0],["2039-03-25",2039,3,0],["2039-04-23",2039,4,0],["2039-05-23",2039,5,0],["2039-06-22",2039,5,1],["2039-07-21",2039,6,0],["2039-08-20",2039,7,0],["2039-09-18",2039,8,0],["2039-10-18",2039,9,0],["2039-11-16",2039,10,0],["2039-12-16",2039,11,0],["2040-01-14",2039,12,0],["2040-02-12",2040,1,0],["2040-03-13",2040,2,0],["2040-04-11",2040,3,0],["2040-05-11",2040,4,0],["2040-06-10",2040,5,0],["2040-07-09",2040,6,0],["2040-08-08",2040,7,0],["2040-09-07",2040,8,0],["2040-10-06",2040,9,0],["2040-11-05",2040,10,0],["2040-12-04",2040,11,0],["2041-01-03",2040,12,0]];
 const GS='甲乙丙丁戊己庚辛壬癸',GB='子丑寅卯辰巳午未申酉戌亥',KS='갑을병정무기경신임계',KB='자축인묘진사오미신유술해';
 const WD=['일','월','화','수','목','금','토'];
 const NH=['','一','二','三','四','五','六','七','八','九'],NK=['','일','이','삼','사','오','육','칠','팔','구'];
@@ -1237,7 +1336,7 @@ function model(){
   let H=[], HK=[], lunarNote='', ckWarn='', ckL=null;
   const hdr=CK_NOHDR.indexOf(ck)<0;
   if(hdr){ ckL=lunar(PS.ckDate);
-    if(!ckL){ ckWarn='음력 · 간지 자동 계산은 2025년 1월 29일부터 2028년 12월까지 날짜만 됩니다.'; lunarNote='날짜를 다시 골라 주세요.'; }
+    if(!ckL){ ckWarn='음력 · 간지 자동 계산은 2016년부터 2040년까지 날짜만 됩니다.'; lunarNote='날짜를 다시 골라 주세요.'; }
     else { const L=ckL, yi=((L.y-4)%60+60)%60;
       const mH=(L.leap?'閏':'')+(L.m===1?'正':numH(L.m))+'月', mK=(L.leap?'윤':'')+MK[L.m]+'월';
       H=[['維 歲次 '+gzH(yi)+' '+mH+' '+gzH(L.shuo)+'朔','유 세차 '+gzK(yi)+' '+mK+' '+gzK(L.shuo)+'삭'],[numH(L.d)+'日 '+gzH(L.day),numK(L.d)+'일 '+gzK(L.day)]];
@@ -1578,6 +1677,99 @@ function bindPrint(){
   let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(!$('[data-page="print"]').hidden&&PS.tab!=='tx') preview(model()); },150); });
 }
 
+/* ── 날짜 계산 : 삼우제 · 49재 · 100일 · 기일 · 음력 달력 ── */
+const isoAdd=(s,n)=>{ const p=s.split('-').map(Number); return new Date(Date.UTC(p[0],p[1]-1,p[2]+n)).toISOString().slice(0,10); };
+const dayDiff=(a,b)=>utcDays(b)-utcDays(a);
+const fmtY=s=>{ const p=s.split('-').map(Number); return p[0]+'년 '+p[1]+'월 '+p[2]+'일 ('+WD[new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay()]+')'; };
+const lunTxt=L=>(L.leap?'윤':'')+L.m+'월 '+L.d+'일';
+function solarOf(y,m,d){ /* 음력 y년 m월(평달) d일 → 양력. 그해 그달이 짧으면 그믐으로 */
+  const i=LM.findIndex(r=>r[1]===y&&r[2]===m&&!r[3]); if(i<0||!LM[i+1]) return null;
+  const len=utcDays(LM[i+1][0])-utcDays(LM[i][0]); const dd=Math.min(d,len);
+  return {iso:isoAdd(LM[i][0],dd-1),d:dd,short:dd<d,len};
+}
+const DT={die:isoDay(0),days:3,out:'',outSet:false,calY:0,calM:0,items:[],years:[]};
+function dDay(iso){ const n=dayDiff(isoDay(0),iso); return n===0?['오늘',true]:n>0?[n+'일 남음',n<=7]:['지났습니다',false]; }
+function dtModel(){
+  const die=isoOk(DT.die)?DT.die:isoDay(0);
+  const out=DT.outSet&&isoOk(DT.out)?DT.out:isoAdd(die,DT.days-1);
+  const L=lunar(die), items=[], seven=[], years=[]; let yrNote='';
+  items.push({k:'die',t:'돌아가신 날',m:'별세',d:die,s:L?'음력 '+lunTxt(L)+' · '+gzK(L.day)+'일':'음력은 2016년부터 2040년까지만 계산합니다'});
+  items.push({k:'out',t:'발인',m:'발인',d:out,s:'장례 '+(dayDiff(die,out)+1)+'일째'});
+  items.push({k:'samu',t:'삼우제',m:'삼우제',d:isoAdd(out,2),s:'발인 날을 첫날로 세어 사흘째 (초우는 발인 날, 재우는 다음 날)'});
+  items.push({k:'49',t:'49재 (사십구재)',m:'49재',d:isoAdd(die,48),s:'돌아가신 날을 첫날로 세어 49일째'});
+  items.push({k:'100',t:'100일',m:'100일',d:isoAdd(die,99),s:'돌아가신 날을 첫날로 세어 100일째 (백일 탈상)'});
+  ['초재','이재','삼재','사재','오재','육재','칠재 (49재)'].forEach((n,i)=>seven.push([n+' · '+(7*(i+1))+'일째',isoAdd(die,7*(i+1)-1)]));
+  if(L){
+    const today=isoDay(0); let start=0;
+    for(let n=1;n<=40;n++){ const r=solarOf(L.y+n,L.m,L.d); if(!r) break; if(!start&&r.iso>=today) start=n; years.push({n,y:L.y+n,r}); }
+    [1,2].forEach(n=>{ const e=years.find(x=>x.n===n); if(e) items.push({k:'g'+n,t:n===1?'첫 기일 (1주기 · 소상)':'두 번째 기일 (2주기 · 대상)',m:n===1?'첫 기일':'2주기',d:e.r.iso,s:'음력 '+L.m+'월 '+e.r.d+'일'+(e.r.short?' (그해 '+L.m+'월이 '+e.r.len+'일까지라 그믐으로)':'')}); });
+    const from=Math.max(0,(start||years.length)-1); DT.yrAll=years;
+    yrNote=(L.leap?'윤달에 돌아가셔서 기일은 평달 '+L.m+'월 '+L.d+'일로 계산했습니다. ':'')+'양력으로 지내시는 집은 해마다 '+Number(die.slice(5,7))+'월 '+Number(die.slice(8,10))+'일입니다.';
+    return {die,out,L,items,seven,years:years.slice(from,from+6),yrNote,warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
+  }
+  return {die,out,L,items,seven,years:[],yrNote:'음력 기일은 2016년부터 2040년 사이에 돌아가신 경우만 계산합니다.',warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
+}
+function renderDate(){
+  const M=dtModel(); DT.items=M.items; DT.years=M.years;
+  const di=$('#dt-die'), oi=$('#dt-out');
+  if(document.activeElement!==di) di.value=M.die; if(document.activeElement!==oi) oi.value=M.out;
+  $$('[data-dtdays]').forEach(b=>b.setAttribute('aria-pressed',String(!DT.outSet&&+b.getAttribute('data-dtdays')===DT.days)));
+  $('#dt-die-l').textContent=M.L?'음력 '+lunTxt(M.L)+' · '+gzK(((M.L.y-4)%60+60)%60)+'년 '+gzK(M.L.day)+'일':'음력은 2016년부터 2040년까지만 계산합니다.';
+  const w=$('#dt-warn'); w.hidden=!M.warn; w.textContent=M.warn?'주의 · '+M.warn:'';
+  const ul=$('#dt-list'); ul.innerHTML='';
+  M.items.forEach(it=>{ const li=document.createElement('li'); const dd=dDay(it.d);
+    li.innerHTML='<span class="t"></span><span class="d"></span><span class="s"></span><span class="dd"></span>';
+    li.children[0].textContent=it.t; li.children[1].textContent=fmtY(it.d); li.children[2].textContent=it.s; li.children[3].textContent=it.k==='die'?'':dd[0]; if(dd[1]&&it.k!=='die') li.children[3].classList.add('soon');
+    ul.appendChild(li); });
+  const s7=$('#dt-7'); s7.innerHTML=''; M.seven.forEach(x=>{ const li=document.createElement('li'); li.innerHTML='<span></span><b></b>'; li.firstChild.textContent=x[0]; li.lastChild.textContent=fmtY(x[1]); s7.appendChild(li); });
+  const tb=$('#dt-years'); tb.innerHTML=''; const today=isoDay(0);
+  M.years.forEach(e=>{ const tr=document.createElement('tr'); if(e.r.iso<today) tr.className='past'; tr.innerHTML='<td></td><td></td><td></td>';
+    tr.children[0].textContent=e.n+'주기 · '+e.y+'년'; tr.children[1].textContent=M.L.m+'월 '+e.r.d+'일'; tr.children[2].textContent=fmtY(e.r.iso); tb.appendChild(tr); });
+  $('#dt-yr-note').textContent=M.yrNote;
+  if(!DT.calY){ const t=isoDay(0); DT.calY=+t.slice(0,4); DT.calM=+t.slice(5,7); }
+  renderCal();
+}
+function renderCal(){
+  const y=DT.calY, m=DT.calM, pad=n=>String(n).padStart(2,'0');
+  const first=y+'-'+pad(m)+'-01', dow=new Date(Date.UTC(y,m-1,1)).getUTCDay(), n=new Date(Date.UTC(y,m,0)).getUTCDate();
+  $('#cal-ym').textContent=y+'년 '+m+'월';
+  const L1=lunar(first), Ln=lunar(y+'-'+pad(m)+'-'+pad(n));
+  const lm=[]; for(let d=1;d<=n;d++){ const L=lunar(y+'-'+pad(m)+'-'+pad(d)); if(L){ const t=(L.leap?'윤':'')+L.m+'월'; if(lm.indexOf(t)<0) lm.push(t); } }
+  $('#cal-lunar').textContent=L1?'음력 '+gzK(((L1.y-4)%60+60)%60)+'년 '+lm.join(' · '):'이 달은 음력을 계산하지 않습니다';
+  const marks={}; DT.items.forEach(it=>{ (marks[it.d]=marks[it.d]||[]).push(it.m); });
+  (DT.yrAll||[]).forEach(e=>{ if(e.n>2) (marks[e.r.iso]=marks[e.r.iso]||[]).push(e.n+'주기'); });
+  const tb=$('#cal-body'); tb.innerHTML=''; const today=isoDay(0); let tr=document.createElement('tr');
+  for(let i=0;i<dow;i++){ const td=document.createElement('td'); td.className='out'; tr.appendChild(td); }
+  for(let d=1;d<=n;d++){
+    const iso=y+'-'+pad(m)+'-'+pad(d), L=lunar(iso), td=document.createElement('td');
+    const son=L&&[9,10,19,20,29,30].indexOf(L.d)>=0;
+    td.className=(son?'son':'')+(iso===today?' today':'');
+    const b=document.createElement('b'); b.textContent=d; td.appendChild(b);
+    if(L){ const c=document.createElement('span'); c.className='cl'+(L.d===1?' m1':''); c.textContent=L.d===1?(L.leap?'윤':'')+L.m+'.1':String(L.d); td.appendChild(c); }
+    if(son){ const sn=document.createElement('span'); sn.className='sn'; sn.textContent='손 없음'; td.appendChild(sn); }
+    (marks[iso]||[]).forEach(t=>{ const k=document.createElement('span'); k.className='mk'; k.textContent=t; td.appendChild(k); });
+    td.setAttribute('aria-label',m+'월 '+d+'일'+(L?', 음력 '+lunTxt(L):'')+(son?', 손 없는 날':'')+((marks[iso]||[]).length?', '+marks[iso].join(' · '):''));
+    tr.appendChild(td); if((dow+d)%7===0){ tb.appendChild(tr); tr=document.createElement('tr'); } }
+  if(tr.children.length){ while(tr.children.length<7){ const td=document.createElement('td'); td.className='out'; tr.appendChild(td); } tb.appendChild(tr); }
+  const lo=y*12+m<=2016*12+2, hi=y*12+m>=2040*12+12; $('#cal-prev').disabled=lo; $('#cal-next').disabled=hi;
+}
+function dtText(){ const M=dtModel(); const L=['[날짜 안내 · 나만의장례]'];
+  M.items.forEach(it=>L.push(it.t+'  '+fmtY(it.d)+(it.k==='die'&&M.L?' · 음력 '+lunTxt(M.L):'')));
+  if(M.years.length) L.push('','해마다 기일 (음력 '+M.L.m+'월 '+M.L.d+'일)'); M.years.forEach(e=>L.push(e.n+'주기  '+fmtY(e.r.iso)));
+  L.push('','24시간 상담 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
+function bindDate(){
+  const di=$('#dt-die'), oi=$('#dt-out');
+  const onDie=()=>{ if(isoOk(di.value)){ DT.die=di.value; DT.outSet=false; const p=di.value; DT.calY=+p.slice(0,4); DT.calM=+p.slice(5,7); renderDate(); } };
+  di.addEventListener('change',onDie); di.addEventListener('input',onDie);
+  const onOut=()=>{ if(isoOk(oi.value)){ DT.out=oi.value; DT.outSet=true; renderDate(); } };
+  oi.addEventListener('change',onOut); oi.addEventListener('input',onOut);
+  $$('[data-dtdays]').forEach(b=>b.addEventListener('click',()=>{ DT.days=+b.getAttribute('data-dtdays'); DT.outSet=false; renderDate(); }));
+  $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했습니다. 가족 단톡방에 붙여 넣어 보내세요',$('#dt-list')));
+  const go=k=>{ let t=DT.calY*12+DT.calM-1+k; t=Math.max(2016*12+1,Math.min(2040*12+11,t)); DT.calY=Math.floor(t/12); DT.calM=t%12+1; renderCal(); };
+  $('#cal-prev').addEventListener('click',()=>go(-1)); $('#cal-next').addEventListener('click',()=>go(1));
+  $('#cal-today').addEventListener('click',()=>{ const t=isoDay(0); DT.calY=+t.slice(0,4); DT.calM=+t.slice(5,7); renderCal(); });
+}
+
 /* ── 본관 찾기 화면 ── */
 let clanSur='';
 function clanCard(c){ const b=document.createElement('button'); b.type='button'; b.className='clan-card'; b.innerHTML='<b></b><span class="hz"></span>'; b.firstChild.textContent=clanLabel(c); b.lastChild.textContent=c.bh+c.sh; b.setAttribute('aria-label',clanLabel(c)+' '+c.bh+c.sh+', 출력실 고인 본관으로 쓰기');
@@ -1626,7 +1818,8 @@ const PRICE={
 };
 const COFFIN_FOR={cre:['c1','c2'],bur:['c3','c4','c5'],und:['c1','c2','c3','c4','c5']};
 const coffinOpts=()=>PRICE.coffin.filter(o=>(COFFIN_FOR[PR.burial]||COFFIN_FOR.und).indexOf(o[0])>=0);
-const PR_DEF={type:'nob',burial:'cre',coffin:'c1',shroud:'s1',ipgwan:'none',binso:'none',car:'none',disc:'gen',staff1:0,staff2:0,mm:0,mf:0};
+const PR_DEF={type:null,burial:null,coffin:null,shroud:null,ipgwan:'none',binso:'none',car:null,disc:'gen',staff1:0,staff2:0,mm:0,mf:0};
+const WZ_NEED=['type','burial','coffin','shroud','car'];
 const PR=Object.assign({},PR_DEF);
 const won=n=>n.toLocaleString('ko-KR')+'원';
 const lineVal=l=>l[3]||(l[1]<0?'−'+won(-l[1]):l[1]?won(l[1]):'무료');
@@ -1648,11 +1841,11 @@ let WK='type', WDIR='';
 const wzVis=()=>WZ.filter(s=>!(s.skip&&s.skip()));
 function estLines(){
   if(PR.type==='nob'){ PR.staff1=0; PR.staff2=0; PR.binso='none'; }
-  if((COFFIN_FOR[PR.burial]||COFFIN_FOR.und).indexOf(PR.coffin)<0) PR.coffin=(COFFIN_FOR[PR.burial]||COFFIN_FOR.und)[0];
-  const L=[]; const t=pick('type',PR.type); L.push([t[1],t[2]*10000,'type']);
-  const bu=pick('burial',PR.burial); L.push(['모시는 방식 · '+(PR.burial==='und'?'정하지 않음':bu[1]),0,'burial',PR.burial==='cre'?'화장장 사용료 별도':PR.burial==='bur'?'묘지 비용 별도':'상담 때 결정']);
-  const c=pick('coffin',PR.coffin); L.push(['관 · '+c[1],c[2]*10000,'coffin']);
-  const s=pick('shroud',PR.shroud); L.push(['수의 · '+s[1],s[2]*10000,'shroud']);
+  if(PR.coffin&&(COFFIN_FOR[PR.burial]||COFFIN_FOR.und).indexOf(PR.coffin)<0) PR.coffin=null;
+  const L=[]; const t=pick('type',PR.type); if(t) L.push([t[1],t[2]*10000,'type']);
+  const bu=pick('burial',PR.burial); if(bu) L.push(['모시는 방식 · '+(PR.burial==='und'?'정하지 않음':bu[1]),0,'burial',PR.burial==='cre'?'화장장 사용료 별도':PR.burial==='bur'?'묘지 비용 별도':'상담 때 결정']);
+  const c=pick('coffin',PR.coffin); if(c) L.push(['관 · '+c[1],c[2]*10000,'coffin']);
+  const s=pick('shroud',PR.shroud); if(s) L.push(['수의 · '+s[1],s[2]*10000,'shroud']);
   ['ipgwan','binso','car'].forEach(g=>{ const o=pick(g,PR[g]); if(o&&o[2]) L.push([({ipgwan:'입관 · ',binso:'빈소 · ',car:'장의 차량 · '}[g])+o[1],o[2]*10000,g]); });
   if(PR.staff1) L.push(['접객 도우미 · 첫째 날 '+PR.staff1+'명',PR.staff1*120000,'staff']);
   if(PR.staff2) L.push(['접객 도우미 · 둘째 날 '+PR.staff2+'명',PR.staff2*120000,'staff']);
@@ -1669,7 +1862,7 @@ function wzLeave(dir,then){
   WZ_BUSY=true; const a=stage.animate([{opacity:1,transform:'translate3d(0,0,0)'},{opacity:0,transform:'translate3d('+(dir>0?-36:36)+'px,0,0)'}],{duration:170,easing:'cubic-bezier(0.4,0,1,1)',fill:'forwards'});
   a.onfinish=()=>{ then(); a.cancel(); WZ_BUSY=false; };
 }
-function wzGo(dir){ if(WZ_BUSY) return; const v=wzVis(); let i=v.findIndex(x=>x.k===WK); if(i<0) i=0; const j=Math.max(0,Math.min(v.length-1,i+dir)); if(j===i) return; wzLeave(dir,()=>{ WDIR=dir>0?'next':'prev'; WK=v[j].k; renderWizard(true); }); }
+function wzGo(dir){ if(WZ_BUSY) return; const v=wzVis(); let i=v.findIndex(x=>x.k===WK); if(i<0) i=0; if(dir>0&&WZ_NEED.indexOf(v[i].k)>=0&&!PR[v[i].k]) return; const j=Math.max(0,Math.min(v.length-1,i+dir)); if(j===i) return; wzLeave(dir,()=>{ WDIR=dir>0?'next':'prev'; WK=v[j].k; renderWizard(true); }); }
 function wzJump(k){ if(WZ_BUSY) return; wzLeave(-1,()=>{ WDIR='prev'; WK=k; renderWizard(true); }); }
 function wzEnter(stage,dir,oldH){
   if(RM||!stage.animate) return;
@@ -1682,7 +1875,7 @@ function setRun(v){ const el=$('#wz-run'); if(!el) return; const from=el._v==nul
   if(RM||from===v){ el.textContent=won(v); return; } const t0=performance.now(), dur=520;
   const step=t=>{ const p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=won(Math.round((from+(v-from)*e)/1000)*1000); if(p<1) el._raf=requestAnimationFrame(step); else el.textContent=won(v); };
   el._raf=requestAnimationFrame(step); }
-function updNav(){ const v=wzVis(); const i=v.findIndex(x=>x.k===WK); const prev=$('#wz-prev'), next=$('#wz-next'); prev.disabled=i<=0; next.hidden=v[i].k==='done'; next.textContent=(v[i+1]&&v[i+1].k==='done')?'견적 보기':'다음'; setRun(estTotal()); }
+function updNav(){ const v=wzVis(); const i=v.findIndex(x=>x.k===WK); const prev=$('#wz-prev'), next=$('#wz-next'); prev.disabled=i<=0; next.hidden=v[i].k==='done'; const wait=WZ_NEED.indexOf(v[i].k)>=0&&!PR[v[i].k]; next.disabled=wait; next.textContent=wait?'하나를 골라 주세요':(v[i+1]&&v[i+1].k==='done')?'견적 보기':'다음'; setRun(estTotal()); }
 function wzStepper(key,label,sub,min,max,unit){
   const row=document.createElement('div'); row.className='stepper wz-step';
   row.innerHTML='<span><b></b><br><span class="note"></span></span><div class="ctl"><button type="button">−</button><output aria-live="polite"></output><button type="button">+</button></div>';
@@ -1731,7 +1924,7 @@ function renderWizard(focus){
         const pr=document.createElement('span'); pr.className='p'; pr.textContent=st.k==='type'?'기본 '+o[2]+'만원':st.k==='burial'?'':st.k==='disc'?(o[2]<0?'−'+(-o[2])+'만원 할인':''):(o[2]?'+'+o[2]+'만원':'0원');
         lab.appendChild(inp); lab.appendChild(t); lab.appendChild(pr);
         if(o[3]){ const d=document.createElement('span'); d.className='d'; d.textContent=o[3]; lab.appendChild(d); }
-        inp.addEventListener('change',()=>{ PR[st.k]=o[0]; if(st.k==='type'&&o[0]==='nob'){ PR.staff1=0; PR.staff2=0; PR.binso='none'; } if(st.k==='burial'){ const ok=COFFIN_FOR[o[0]]||COFFIN_FOR.und; if(ok.indexOf(PR.coffin)<0) PR.coffin=ok[0]; } updNav(); });
+        inp.addEventListener('change',()=>{ PR[st.k]=o[0]; if(st.k==='type'&&o[0]==='nob'){ PR.staff1=0; PR.staff2=0; PR.binso='none'; } if(st.k==='burial'){ const ok=COFFIN_FOR[o[0]]||COFFIN_FOR.und; if(ok.indexOf(PR.coffin)<0) PR.coffin=null; } updNav(); });
         box.appendChild(lab); });
       stage.appendChild(box);
     }
@@ -2062,7 +2255,7 @@ function bindChon(){
 }
 
 /* ── 시작 ── */
-bindPrint(); bindWizard(); bindChon();
+bindPrint(); bindWizard(); bindChon(); bindDate();
 $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();
 
