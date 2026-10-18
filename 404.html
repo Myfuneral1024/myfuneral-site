@@ -8,8 +8,8 @@
 <script>
 (function(){
   var p=location.pathname.replace(/\/+$/,'').toLowerCase();
-  var m={'/services':'#price','/faq':'','/brand':'','/cemetery':'','/contact':''};
-  location.replace('/'+(m[p]||''));
+  var m={'/services':'/price/','/faq':'/','/brand':'/','/cemetery':'/','/contact':'/'};
+  location.replace(m[p]||'/');
 })();
 </script>
 <noscript><meta http-equiv="refresh" content="0; url=/"></noscript>
