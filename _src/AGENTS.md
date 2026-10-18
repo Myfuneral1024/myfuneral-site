@@ -32,6 +32,11 @@ www.myfuneral.co.kr · 저장소 `Myfuneral1024/myfuneral-site` (공개) · `mai
 - **build.py는 src.html의 특정 코드를 글자 그대로 찾아 바꾼다** (`one()`가 정확히 1번인지 확인). src.html의 `/* ── 화면 이동 ── */` 블록이나 `/* ── 시작 ── */` 블록, `clanCard` · `jibangLink`를 고치면 build.py도 같이 맞춘다.
 - 메인 스크립트는 `<script>` 다음 줄이 `(function(){`로 시작해야 한다. head 안 짧은 인라인 스크립트는 줄바꿈 없이 쓴다.
 
+### 카카오톡 상담 (2026-10-18)
+- 채널 @나만의장례 · 대화창 `https://pf.kakao.com/_BxnMxhX/chat` (채널 홈 `https://pf.kakao.com/_BxnMxhX`).
+- 넣은 곳: 머리(PC, 번호 · 복사 옆 「카톡 상담」), 휴대폰 아래 고정 버튼(「24시간 접수 1661-4214」 + 「카톡 상담」, 번호 복사는 머리에 있음), 처음 · 장례가 발생하면의 전화 버튼 옆, 비용 계산 끝 「견적 보내고 카톡 상담」(견적 글 복사 + 대화창 열기), 회사 정보, JSON-LD sameAs.
+- 말풍선 아이콘은 직접 그린 일반 말풍선(`#ic-talk`). 카카오 로고 · 노란색은 쓰지 않는다(차분한 디자인).
+
 ## 2. 고치는 순서
 1. `_src/src.html`만 고친다. 여러 군데면 Python 치환 + `assert s.count(old)==1`.
 2. `python3 _src/build.py` (확인용 따로: `--out /tmp/x`)

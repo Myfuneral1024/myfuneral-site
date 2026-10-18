@@ -725,8 +725,9 @@ function renderWizard(focus){
     const tot=document.createElement('div'); tot.className='total'; tot.style.marginTop='14px'; tot.innerHTML='<span>합계</span><b></b>'; tot.lastChild.textContent=won(estTotal()); stage.appendChild(tot);
     if(PR.disc==='sup'){ const n=document.createElement('p'); n.className='note'; n.style.marginTop='10px'; n.textContent='수급자 · 국가유공자 할인 20만원이 들어간 금액입니다. 할인 대상인지는 상담 때 확인해 드립니다.'; stage.appendChild(n); }
     const act=document.createElement('div'); act.className='actions'; act.style.margin='20px 0 12px';
-    act.innerHTML='<a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button><button type="button" class="btn btn-line" data-a="img">견적 이미지 저장</button><button type="button" class="btn btn-ghost" data-a="again">처음부터 다시</button>';
+    act.innerHTML='<a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><a class="btn btn-line" data-a="talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>견적 보내고 카톡 상담</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button><button type="button" class="btn btn-line" data-a="img">견적 이미지 저장</button><button type="button" class="btn btn-ghost" data-a="again">처음부터 다시</button>';
     act.querySelector('[data-a="copy"]').addEventListener('click',()=>copyText(estText(),'견적 내용을 복사했습니다',ul));
+    act.querySelector('[data-a="talk"]').addEventListener('click',()=>copyText(estText(),'견적을 복사했습니다. 카카오톡 대화창에 붙여 넣어 보내 주세요',ul));
     act.querySelector('[data-a="img"]').addEventListener('click',saveEstImg);
     act.querySelector('[data-a="again"]').addEventListener('click',()=>{ if(WZ_BUSY) return; wzLeave(-1,()=>{ Object.assign(PR,PR_DEF); WK='type'; WDIR='prev'; renderWizard(true); }); });
     stage.appendChild(act);

@@ -154,7 +154,7 @@ def page(p):
     if p == 'home':
         head.append(naver)
         head.append('<script>(function(){var h=location.hash.slice(1);if(/^(' + '|'.join(ROUTES) + r')$/.test(h))location.replace("/"+h+"/");})();</script>')
-        head.append('<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"나만의장례","url":"' + BASE + '/"},{"@type":"Organization","name":"나만의장례","url":"' + BASE + '/","logo":"' + BASE + '/apple-touch-icon.png","telephone":"+82-1661-4214"}]}</script>')
+        head.append('<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"나만의장례","url":"' + BASE + '/"},{"@type":"Organization","name":"나만의장례","url":"' + BASE + '/","logo":"' + BASE + '/apple-touch-icon.png","telephone":"+82-1661-4214","sameAs":["https://pf.kakao.com/_BxnMxhX"]}]}</script>')
     if p == 'print':
         head_common_p = head_common + '\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Yuji+Syuku&display=swap">\n<style>@font-face{font-family:"ChosunGs";src:url("/assets/fonts/chosungs.woff") format("woff");font-display:swap}</style>'
     else:
