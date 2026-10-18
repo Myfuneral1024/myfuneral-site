@@ -394,7 +394,6 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     </div>
   </div>
   <nav class="nav wrap" aria-label="메뉴">
-    <a href="#home">처음</a>
     <a href="#urgent">장례가 발생하면</a>
     <a href="#nobinso">무빈소 장례</a>
     <a href="#price">비용 계산</a>
@@ -980,7 +979,7 @@ function route(){
   $$('[data-page]').forEach(s=>{ const on=s.getAttribute('data-page')===p; s.hidden=!on; s.classList.remove('enter'); if(on&&route.ready){ void s.offsetWidth; s.classList.add('enter'); } });
   route.ready=true;
   $$('.nav a').forEach(a=>{ if(a.getAttribute('href')==='#'+p) a.setAttribute('aria-current','page'); else a.removeAttribute('aria-current'); });
-  const cur=$('.nav a[aria-current="page"]'); if(cur&&cur.scrollIntoView) try{ cur.scrollIntoView({block:'nearest',inline:'nearest'}); }catch(e){}
+  const cur=$('.nav a[aria-current="page"]'); if(cur&&cur.scrollIntoView) try{ cur.scrollIntoView({block:'nearest',inline:'nearest'}); }catch(e){} else { const nv=$('.nav'); if(nv) nv.scrollLeft=0; }
   window.scrollTo(0,0);
   if(p==='print') renderPrint();
   if(p==='chon') renderChonAll(true);
