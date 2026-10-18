@@ -145,9 +145,9 @@ const or=(x,ph)=> (x&&String(x).trim())?x:ph;
 const findClan=(bk,sk)=>CLANS.find(c=>c.bk===bk&&c.sk===sk)||CLANS[0];
 const PS={
   tab:'jb', rlg:'yu', rel:'f', c1:findClan('남양','홍'), c2:findClan('김해','김'), man:false, mbk:'', msk:'', mbh:'', msh:'',
-  nameK:'길동', nameH:'吉童', ttl:'hak', ttlH:'', role:'집사', bap:'요셉', pair:false, han:'0', bon:true, wt:700,
-  jbSize:'L', copies:3, mjSize:'A4x2', hwi:false, hbItem:'box', hbChar:'前', hbSize:10, hbName:false,
-  ck:'balin', ckDate:'2026-10-20', ckTitle:'auto', sjFrom:'2026-10-18', sjTo:'2026-10-20', sjHall:true,
+  nameK:'길동', ttl:'hak', ttlH:'', role:'집사', bap:'요셉', beop:'', wonHo:'', jbCus:false, jbText:'', pair:false, han:'0', bon:true, wt:700,
+  jbSize:'L', copies:3, mjSize:'A4x2', hbItem:'box', hbChar:'前', hbSize:10, hbName:false,
+  ck:'balin', ckDate:'2026-10-20', ckTitle:'auto', sjFrom:'2026-10-18', sjTo:'2026-10-20', sjHall:true, sjL1:'집안에 상(喪)을 당하여', sjL2:'문을 닫습니다.', sjL3:'너그러운 양해 부탁드립니다.', sjSign:'주인 올림', sjTel:'',
   envWord:'buui', envName:'김민수', envOrg:'',
   sangK:'홍민준', sangH:'', tel:'010-0000-0000', hall:'○○장례식장', room:'3호실', hallTel:'', dDie:'2026-10-18', dOut:'2026-10-20', tOut:'오전 8시', place:'○○추모공원'
 };
@@ -160,21 +160,39 @@ function model(){
   const T=PS.ttl==='cus'?[PS.ttlH||'學生',PS.ttlH||'학생']:(TTL[PS.ttl]||TTL.hak);
   const fullK=(c1.sk||'')+(PS.nameK||'');
   const isYu=PS.rlg==='yu', canPair=isYu&&!!R.gen, pairOn=canPair&&!!PS.pair;
-  const nmH=PS.nameH||PS.nameK||'';
+  const nmH=PS.nameK||'';
   const one=(rk,c)=>{ const r=REL[rk];
     if(r.g==='m'){ if(r.named) return {h:r.h+T[0]+nmH+'神位',k:r.r+T[1]+(PS.nameK||'')+'신위'}; return {h:r.h+T[0]+'府君神位',k:r.r+T[1]+'부군신위'}; }
     return {h:r.h+'孺人'+(PS.bon?c.bh:'')+c.sh+'氏神位',k:r.r+'유인'+(PS.bon?c.bk:'')+c.sk+'씨신위'}; };
   let jcols;
   if(!isYu){
+    const bp=(PS.beop||'').trim(), wh=(PS.wonHo||'').trim();
     if(PS.rlg==='chr') jcols=[{h:'故'+(PS.role||'')+fullK,k:'고'+(PS.role||'')+fullK}];
     else if(PS.rlg==='cat') jcols=[{h:'故'+(PS.bap||'')+fullK,k:'고'+(PS.bap||'')+fullK}];
-    else jcols=[{h:'故'+fullK+'靈駕',k:'고'+fullK+'영가'}];
+    else if(PS.rlg==='bud') jcols=[{h:'故'+bp+fullK+'靈駕',k:'고'+bp+fullK+'영가'}];
+    else if(PS.rlg==='won') jcols=[{h:wh+fullK+'靈駕',k:wh+fullK+'영가'}];
+    else if(PS.rlg==='sgi') jcols=[{h:'故'+fullK+'之靈位',k:'고'+fullK+'영위'}];
+    else jcols=[{h:'故'+fullK+'靈位',k:'고'+fullK+'영위'}];
   } else if(pairOn){ const pr=PAIRS[R.gen]; jcols=[one(pr[0],c1),one(pr[1],R.g==='f'?c1:c2)]; }
   else jcols=[one(PS.rel,c1)];
   const han=PS.han==='1';
-  const jb=jcols.map(t=>han?t.k:t.h);
-  const hw=PS.hwi&&PS.nameH;
-  const mjT=R.g==='m'?{h:T[0]+c1.bh+c1.sh+'公'+(hw?'諱'+PS.nameH:'')+'之柩',k:T[1]+c1.bk+c1.sk+'공'+(hw?'휘'+(PS.nameK||''):'')+'지구'}:{h:'孺人'+c1.bh+c1.sh+'氏之柩',k:'유인'+c1.bk+c1.sk+'씨지구'};
+  const jbAuto=jcols.map(t=>han?t.k:t.h);
+  const cus=PS.jbCus&&String(PS.jbText||'').trim()?String(PS.jbText).split('\n').map(x=>x.trim()).filter(Boolean).slice(0,3):null;
+  const jb=cus||jbAuto;
+  const male=R.g==='m', bon=or((c1.bh||'')+(c1.sh||''),'本貫姓'), bonK=or((c1.bk||'')+(c1.sk||''),'본관성');
+  const gH=male?'公':'氏', gK=male?'공':'씨', nmK=or(fullK,'○○○');
+  const RH={'성도':'聖徒','집사':'執事','권사':'勸士','장로':'長老','목사':'牧師'};
+  const role=PS.role||'성도', bap=(PS.bap||'').trim(), bp2=(PS.beop||'').trim(), wh2=(PS.wonHo||'').trim();
+  const mjAll=[
+    {v:'yu',l:'일반',h:male?T[0]+bon+'公之柩':'孺人'+bon+'氏之柩',k:male?T[1]+' '+bonK+'공 지구':'유인 '+bonK+'씨 지구'},
+    {v:'chr',l:'기독교',h:(RH[role]||'聖徒')+bon+gH+'之柩',k:role+' '+bonK+gK+' 지구'},
+    {v:'cat',l:'천주교',h:'敎友'+bon+gH+(bap||'세례명')+'之柩',k:'교우 '+bonK+gK+' '+(bap||'세례명')+' 지구'},
+    {v:'bud',l:'불교',h:(male?'淸信士':'淸信女')+bon+gH+bp2+'之柩',k:(male?'청신사 ':'청신녀 ')+bonK+gK+' '+(bp2?bp2+' ':'')+'지구'},
+    {v:'won',l:'원불교',h:(wh2?wh2+' ':'')+nmK+' 靈駕之柩',k:(wh2?wh2+' ':'')+nmK+' 영가 지구'},
+    {v:'sgi',l:'SGI',h:'故'+nmK+'之柩',k:'고 '+nmK+' 지구'}
+  ];
+  const mjSel=mjAll.find(x=>x.v===PS.rlg)||mjAll[0];
+  const mjT={h:mjSel.h,k:mjSel.k};
   const dec=R.g==='m'?(R.named?[R.h+T[0]+nmH,R.r+T[1]+(PS.nameK||'')]:[R.h+T[0]+'府君',R.r+T[1]+'부군']):[R.h+'孺人'+(PS.bon?c1.bh:'')+c1.sh+'氏',R.r+'유인'+(PS.bon?c1.bk:'')+c1.sk+'씨'];
   const autoT={f:'孤子',m:'哀子',gf:'孤孫',gm:'哀孫'}[PS.rel]||'孝子';
   const ckt=PS.ckTitle==='auto'?autoT:PS.ckTitle;
@@ -198,7 +216,7 @@ function model(){
     lines.push(who,dec,['日月不居 奄及'+U[0],'일월불거 엄급'+U[1]],['夙興夜處 哀慕不寧','숙흥야처 애모불녕'],['謹以 淸酌庶羞','근이 청작서수'],['哀薦'+U[2]+' 尙饗','애천'+U[3]+' 상향']); }
   const fullName=or(fullK,'[고인 성함]');
   const hbName=jb[0]? (isYu? (dec[0]) : jb[0]) : '';
-  return {R,c1,c2,T,fullK,fullName,isYu,canPair,pairOn,jb,mj:han?mjT.k:mjT.h,dec,lines,lunarNote,ckWarn,hdr,ckWho:['jeju','u1','u2','u3'].indexOf(PS.ck)>=0,hbName};
+  return {R,c1,c2,T,fullK,fullName,isYu,canPair,pairOn,jb,jbAuto,mjAll,mj:mjT.h,dec,lines,lunarNote,ckWarn,hdr,ckWho:['jeju','u1','u2','u3'].indexOf(PS.ck)>=0,hbName};
 }
 
 /* ── 그리기 ── */
@@ -260,10 +278,14 @@ function drawSangjung(ctx,k){
   ctx.fillStyle='#111111'; ctx.textAlign='center'; ctx.textBaseline='middle';
   ctx.font=fnt(900,52*k); ctx.fillText('喪 中',105*k,58*k);
   ctx.fillRect(55*k,86*k,100*k,Math.max(1,0.6*k));
-  const lines=['집안에 상(喪)을 당하여',fmtD(PS.sjFrom)+'부터',fmtD(PS.sjTo)+'까지 문을 닫습니다.','너그러운 양해 부탁드립니다.'];
-  ctx.font=fnt(500,9.5*k); lines.forEach((t,i)=>ctx.fillText(t,105*k,(116+i*17)*k));
-  if(PS.sjHall){ ctx.font=fnt(500,6.6*k,SANS); ctx.fillStyle='#3a413c'; ctx.fillText('빈소 · '+or(PS.hall,'[장례식장]')+' '+(PS.room||''),105*k,214*k); if(PS.hallTel) ctx.fillText(PS.hallTel,105*k,225*k); }
-  ctx.fillStyle='#111111'; ctx.font=fnt(700,8*k); ctx.fillText('주인 올림',105*k,262*k);
+  const tx=v=>String(v||'').trim();
+  const lines=[tx(PS.sjL1),fmtD(PS.sjFrom)+'부터',fmtD(PS.sjTo)+'까지'+(tx(PS.sjL2)?' '+tx(PS.sjL2):''),tx(PS.sjL3)].filter(Boolean);
+  const fit=(t,max,px)=>{ let f=px; ctx.font=fnt(500,f*k); while(f>5&&ctx.measureText(t).width>max*k){ f-=0.25; ctx.font=fnt(500,f*k); } return f; };
+  const y0=116+(4-lines.length)*8.5;
+  lines.forEach((t,i)=>{ fit(t,170,9.5); ctx.fillText(t,105*k,(y0+i*17)*k); });
+  if(PS.sjHall){ ctx.fillStyle='#3a413c'; const hl='빈소 · '+or(tx(PS.hall),'[장례식장]')+(tx(PS.room)?' '+tx(PS.room):''); let f=6.6; ctx.font=fnt(500,f*k,SANS); while(f>4&&ctx.measureText(hl).width>170*k){ f-=0.2; ctx.font=fnt(500,f*k,SANS); } ctx.fillText(hl,105*k,214*k); if(tx(PS.hallTel)){ ctx.font=fnt(500,6.2*k,SANS); ctx.fillText('빈소 전화 '+tx(PS.hallTel),105*k,225*k); } }
+  ctx.fillStyle='#111111'; const sg=or(tx(PS.sjSign),''); if(sg){ let f=8; ctx.font=fnt(700,f*k); while(f>5&&ctx.measureText(sg).width>170*k){ f-=0.25; ctx.font=fnt(700,f*k); } ctx.fillText(sg,105*k,(tx(PS.sjTel)?256:262)*k); }
+  if(tx(PS.sjTel)){ ctx.font=fnt(500,6.6*k,SANS); ctx.fillStyle='#3a413c'; ctx.fillText('연락처 '+tx(PS.sjTel),105*k,(sg?268:262)*k); }
 }
 function drawEnvFront(ctx,k,ox){
   const lines=ENV[PS.envWord]||ENV.buui; ctx.fillStyle='#111111'; ctx.textAlign='center'; ctx.textBaseline='middle';
@@ -279,7 +301,7 @@ function drawEnvBack(ctx,k,ox){
 /* 받을 PDF 쪽들 */
 function pagesFor(m){
   const wt=PS.wt; const t=PS.tab; const nm=(m.fullName||'고인').replace(/[\\/:*?"<>|]/g,'');
-  if(t==='jb'){ const s=JB[PS.jbSize]; const h=s[1]; const pw=m.pairOn?Math.round(s[0]*1.7):s[0]; const gap=6;
+  if(t==='jb'){ const s=JB[PS.jbSize]; const h=s[1]; const pw=m.jb.length>1?Math.round(s[0]*(m.jb.length>2?2.4:1.7)):s[0]; const gap=6;
     const cols=Math.max(1,Math.floor((190+gap)/(pw+gap))), rows=Math.max(1,Math.floor((277+gap)/(h+gap))), per=cols*rows; const pages=[];
     for(let st=0;st<PS.copies;st+=per){ const cnt=Math.min(per,PS.copies-st);
       pages.push({w:210,h:297,draw:(ctx,k)=>{ const used=cnt, rc=Math.ceil(used/cols), uc=Math.min(used,cols); const bw=uc*pw+(uc-1)*gap, bh=rc*h+(rc-1)*gap; const x0=(210-bw)/2, y0=Math.max(10,(297-bh)/2);
@@ -293,7 +315,7 @@ function pagesFor(m){
   if(t==='env') return {pages:[{w:105,h:220,draw:(ctx,k)=>drawEnvFront(ctx,k,0)},{w:105,h:220,draw:(ctx,k)=>drawEnvBack(ctx,k,0)}],name:'부의봉투_'+or(PS.envName,'')};
   return {pages:[],name:''};
 }
-function docText(m){ return [m.jb.join(''),m.mj,m.lines.map(l=>l[0]).join(''),'喪中上前',(ENV[PS.envWord]||[]).join(''),PS.envName,PS.envOrg,m.hbName,'집안에상을당하여부터까지문을닫습니다너그러운양해부탁드립니다주인올림'].join(''); }
+function docText(m){ return [m.jb.join(''),m.mjAll.map(x=>x.h).join(''),PS.sjL1,PS.sjL2,PS.sjL3,PS.sjSign,PS.hall,PS.room,m.lines.map(l=>l[0]).join(''),'喪中上前',(ENV[PS.envWord]||[]).join(''),PS.envName,PS.envOrg,m.hbName,'집안에상을당하여부터까지문을닫습니다너그러운양해부탁드립니다주인올림'].join(''); }
 const fontDone=new Set();
 function ensureFonts(text){
   const key=PS.wt+'|'+text; if(fontDone.has(key)||!document.fonts||!document.fonts.load) return Promise.resolve(false);
@@ -306,12 +328,16 @@ function preview(m){
   const availW=Math.max(260,Math.min((box.clientWidth||600)-24,700)); const tall=window.innerWidth<700?400:470; const dpr=Math.min(2,window.devicePixelRatio||1);
   let cssW, cssH, draw, cap='', sheet='';
   const t=PS.tab;
-  if(t==='jb'){ const s=JB[PS.jbSize]; const pw=m.pairOn?Math.round(s[0]*1.7):s[0]; const kk=tall/s[1]; cssW=pw*kk+12; cssH=tall+12;
+  if(t==='jb'){ const s=JB[PS.jbSize]; const pw=m.jb.length>1?Math.round(s[0]*(m.jb.length>2?2.4:1.7)):s[0]; const kk=tall/s[1]; cssW=pw*kk+12; cssH=tall+12;
     draw=(ctx,k)=>drawJibang(ctx,6/kk,6/kk,pw,s[1],k,m.jb,PS.wt,s[0]);
     draw.k=kk; const P=pagesFor(m); cap=(m.isYu?'지방 ':'위패 ')+s[2]+' · '+(pw/10)+' × '+(s[1]/10)+'cm · 화면은 실제의 '+Math.round(kk/3.78*100)+'%'; sheet='A4 한 장에 '+P.per+'장씩 · '+PS.copies+'장이면 종이 '+P.sheets+'장'; }
-  else if(t==='mj'){ const z=MJ[PS.mjSize]; const H=z.ph*z.n; const kk=tall/H; cssW=z.w*kk; cssH=tall;
-    draw=(ctx,k)=>{ drawMyeong(ctx,0,0,z.w,H,k,m.mj,PS.wt); ctx.save(); ctx.setLineDash([4,4]); ctx.strokeStyle='rgba(244,239,230,0.6)'; ctx.lineWidth=1; for(let i=1;i<z.n;i++){ ctx.beginPath(); ctx.moveTo(0,i*z.ph*k); ctx.lineTo(z.w*k,i*z.ph*k); ctx.stroke(); } ctx.restore(); };
-    draw.k=kk; cap=z.l+' · '+(z.w/10)+' × '+(H/10)+'cm · 점선은 종이 이음선'; sheet='종이 '+(z.n*PS.copies)+'장 ('+z.n+'장 × '+PS.copies+'벌)'; }
+  else if(t==='mj'){ const L=m.mjAll, n=L.length, gap=10, lab=30; const bw=Math.max(40,Math.min(70,(availW-gap*(n-1))/n)); const bh=tall-lab;
+    cssW=n*bw+(n-1)*gap+8; cssH=tall;
+    draw=(ctx,k)=>{ L.forEach((x,i)=>{ const X=4+i*(bw+gap); const on=x.v===PS.rlg;
+      drawMyeong(ctx,X,4,bw,bh-4,k,x.h.replace(/ /g,''),PS.wt);
+      if(on){ ctx.save(); ctx.strokeStyle='#111111'; ctx.lineWidth=2*k; ctx.strokeRect((X-3)*k,1*k,(bw+6)*k,(bh+lab-3)*k); ctx.restore(); }
+      ctx.fillStyle=on?'#111111':'#59615b'; ctx.font=fnt(on?700:500,13*k,SANS); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText(x.l,(X+bw/2)*k,(bh+lab/2)*k); }); };
+    draw.k=1; cap='종교별 명정 쓰는 예 · 출력용이 아닌 참고용입니다'; sheet=''; }
   else if(t==='hb'){ const kk=tall/297; cssW=210*kk; cssH=tall; draw=(ctx,k)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,210*k,297*k); drawHonbaek(ctx,k,m); }; draw.k=kk; cap='A4 세로 · 실제 크기로 인쇄하면 표지 크기가 맞습니다'; sheet='A4 1장'; }
   else if(t==='ck'){ const kk=Math.min(availW,660)/297; cssW=297*kk; cssH=210*kk; draw=(ctx,k)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,297*k,210*k); drawChukmun(ctx,k,m,297,210); }; draw.k=kk; cap=(CKN[PS.ck]||'')+' · A4 가로 · 오른쪽 줄부터 읽습니다'; sheet='A4 가로 1장'; }
   else if(t==='sj'){ const kk=tall/297; cssW=210*kk; cssH=tall; draw=(ctx,k)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,210*k,297*k); drawSangjung(ctx,k); }; draw.k=kk; cap='A4 세로 · 문 앞에 붙이는 안내문'; sheet='A4 세로 1장'; }
@@ -339,9 +365,9 @@ function renderPrint(){
   $$('[data-seg]').forEach(b=>{ const k=b.getAttribute('data-seg'); b.setAttribute('aria-pressed',String(String(PS[k])===b.getAttribute('data-v'))); });
   $$('#ptabs [data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.getAttribute('data-tab')===PS.tab)));
   const cond={
-    c1list:!PS.man, c1man:PS.man, ttl:m.isYu&&(R.g==='m'||m.pairOn), ttlCus:PS.ttl==='cus', chr:PS.rlg==='chr', cat:PS.rlg==='cat',
-    canPair:m.canPair, p2:m.pairOn&&R.g==='m', female:m.isYu&&(m.pairOn||R.g==='f'), hwi:R.g==='m'&&!!PS.nameH,
-    ckHdr:m.hdr, ckWho:m.ckWho, hbBox:PS.hbItem==='box', hbSizeF:PS.hbItem!=='up', copies:PS.tab==='jb'||PS.tab==='mj',
+    c1list:!PS.man, c1man:PS.man, ttl:m.isYu&&(R.g==='m'||m.pairOn), ttlCus:PS.ttl==='cus', chr:PS.rlg==='chr', cat:PS.rlg==='cat', bud:PS.rlg==='bud', won:PS.rlg==='won', jbCus:!!PS.jbCus, out:PS.tab!=='mj', mjInfo:PS.tab==='mj', sjHallOn:!!PS.sjHall,
+    canPair:m.canPair, p2:m.pairOn&&R.g==='m', female:m.isYu&&(m.pairOn||R.g==='f'),
+    ckHdr:m.hdr, ckWho:m.ckWho, hbBox:PS.hbItem==='box', hbSizeF:PS.hbItem!=='up', copies:PS.tab==='jb',
     doc:PS.tab!=='tx', tx:PS.tab==='tx', ckReading:PS.tab==='ck', hbInfo:PS.tab==='hb'
   };
   $$('[data-show]').forEach(el=>setVis(el,!!cond[el.getAttribute('data-show')]));
@@ -359,6 +385,7 @@ function renderPrint(){
   else if(PS.tab==='ck') warn=m.ckWarn;
   else if(PS.tab==='sj'&&isoOk(PS.sjFrom)&&isoOk(PS.sjTo)&&PS.sjTo<PS.sjFrom) warn='마지막 날이 첫날보다 빠릅니다.';
   const w=$('#pv-warn'); w.hidden=!warn; w.textContent=warn?'주의 · '+warn:'';
+  if(PS.tab==='mj'){ const dl=$('#mj-list'); dl.innerHTML=''; m.mjAll.forEach(x=>{ const dt=document.createElement('dt'); dt.textContent=x.l; if(x.v===PS.rlg) dt.className='on'; else dt.style.color='var(--muted)'; const dd=document.createElement('dd'); const a=document.createElement('span'); a.className='hz'; a.textContent=x.h; const b=document.createElement('span'); b.className='rd'; b.textContent=x.k; dd.appendChild(a); dd.appendChild(b); dl.appendChild(dt); dl.appendChild(dd); }); }
   if(PS.tab==='tx'){ $('#msg-bugo').textContent=bugoText(m); $('#msg-thanks').textContent=thanksText(m); }
   else { preview(m); ensureFonts(docText(m)).then(ch=>{ if(ch) preview(model()); }); }
   const dn=({jb:m.isYu?'지방':'위패',mj:'명정',hb:'혼백',ck:'축문',sj:'안내문',env:'봉투'}[PS.tab]||'서식');
@@ -421,6 +448,8 @@ function bindPrint(){
   $('#c1-man-off').addEventListener('click',()=>{ PS.man=false; renderPrint(); });
   $('#cp-minus').addEventListener('click',()=>{ PS.copies=Math.max(1,PS.copies-1); renderPrint(); });
   $('#cp-plus').addEventListener('click',()=>{ PS.copies=Math.min(30,PS.copies+1); renderPrint(); });
+  $('#p-jbcus').addEventListener('change',()=>{ if(PS.jbCus&&!String(PS.jbText||'').trim()){ PS.jbText=model().jbAuto.join('\n'); renderPrint(); } });
+  $('#jb-auto').addEventListener('click',()=>{ PS.jbText=model().jbAuto.join('\n'); renderPrint(); });
   $('#pdf-btn').addEventListener('click',savePdf);
   $('#print-btn').addEventListener('click',directPrint);
   if(FRAMED) $('#print-note').innerHTML='지금 보시는 미리보기 화면에서는 인쇄 창이 막혀 있어 <b>바로 인쇄</b>를 누르면 PDF로 저장됩니다. 홈페이지 주소에 올리면 프린터로 바로 나갑니다. 배율은 <b>실제 크기(100%)</b>로 두세요.';

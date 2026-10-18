@@ -171,6 +171,13 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .fld>label span,.lbl span{font-weight:400;color:var(--muted)}
 .in{width:100%;min-height:48px;padding:0 12px;border:1px solid var(--edge);border-radius:4px;background:var(--surface);font-size:16px}
 .in.hz{font-family:var(--serif)}
+textarea.in{padding:10px 12px;line-height:1.7;resize:vertical}
+.mj-list{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}
+.mj-list dt{font-weight:700;white-space:nowrap}
+.mj-list dt.on{color:var(--ink)}
+.mj-list dd{margin:0}
+.mj-list .hz{font-family:var(--serif);font-size:17px;letter-spacing:0.04em}
+.mj-list .rd{display:block;color:var(--muted);font-size:14px}
 .row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .seg{display:grid;gap:6px}
 .seg.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
