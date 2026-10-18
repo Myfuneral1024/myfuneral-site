@@ -280,6 +280,29 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 }
 #toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(24px + env(safe-area-inset-bottom,0px));z-index:40;max-width:calc(100% - 32px);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:4px;font-weight:500;text-align:center}
 @media (max-width:760px){#toast{bottom:calc(96px + env(safe-area-inset-bottom,0px))}}
+
+/* 스크롤 효과 : 내용이 아래에서 차분하게 떠오름 */
+.rv-on .page-head>*:not(.rv-x),
+.rv-on .hero-main>*:not(.rv-x),
+.rv-on .hero>.trim:not(.rv-x),
+.rv-on .sec>h2:not(.rv-x),
+.rv-on .sec>h3:not(.rv-x),
+.rv-on .sec>.sec-lead:not(.rv-x),
+.rv-on .sec>p:not(.rv-x),
+.rv-on .sec>.btn:not(.rv-x),
+.rv-on .sec>.callout:not(.rv-x),
+.rv-on .sec>.card:not(.rv-x),
+.rv-on .sec>.actions:not(.rv-x),
+.rv-on .sec>.tblwrap:not(.rv-x),
+.rv-on .sec>.dowe:not(.rv-x),
+.rv-on .num-step>li:not(.rv-x),
+.rv-on .promise>div:not(.rv-x),
+.rv-on .svc>a:not(.rv-x),
+.rv-on .sec .grid2>*:not(.rv-x),
+.rv-on .sec .grid3>*:not(.rv-x),
+.rv-on .sec .grid4>*:not(.rv-x),
+.rv-on .faq:not(.rv-x){opacity:0;transform:translateY(14px)}
+.rv-on .rv-in:not(.rv-x){opacity:1;transform:none}
 @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
 /* 단계별 비용 계산 */
 .wiz{max-width:760px;padding:0;overflow:hidden}

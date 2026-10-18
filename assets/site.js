@@ -1002,4 +1002,19 @@ if(PAGE==='chon'){
 }
 if(PAGE==='clan') $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();
+
+/* 스크롤 효과 */
+(function(){
+  const root=document.documentElement; window.__rv=1;
+  if(!root.classList.contains('rv-on')) return;
+  const els=$$('.page-head>*,.hero-main>*,.hero>.trim,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.faq').filter(el=>!el.closest('[hidden]'));
+  const done=el=>{ el.classList.add('rv-x'); el.classList.remove('rv-in'); el.style.transition=''; };
+  const io=new IntersectionObserver(list=>{
+    const vis=list.filter(e=>e.isIntersecting).sort((a,b)=>(a.boundingClientRect.top-b.boundingClientRect.top)||(a.boundingClientRect.left-b.boundingClientRect.left));
+    vis.forEach((e,i)=>{ const el=e.target, d=Math.min(i*70,420);
+      el.style.transition='opacity 650ms cubic-bezier(0.22,1,0.36,1) '+d+'ms, transform 650ms cubic-bezier(0.22,1,0.36,1) '+d+'ms';
+      el.classList.add('rv-in'); io.unobserve(el); setTimeout(()=>done(el),700+d); });
+  },{rootMargin:'0px 0px -8% 0px',threshold:0});
+  els.forEach(el=>io.observe(el));
+})();
 })();
