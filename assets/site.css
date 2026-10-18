@@ -163,6 +163,7 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 
 /* 출력실 */
 .pr-grid{display:grid;grid-template-columns:400px minmax(0,1fr);gap:20px;align-items:start}
+.pr-grid.solo{grid-template-columns:minmax(0,1fr)}
 @media (max-width:1040px){.pr-grid{grid-template-columns:minmax(0,1fr)}}
 .form{padding:18px 16px;display:flex;flex-direction:column;gap:16px}
 .form h2{font-size:20px}
@@ -172,12 +173,6 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .in{width:100%;min-height:48px;padding:0 12px;border:1px solid var(--edge);border-radius:4px;background:var(--surface);font-size:16px}
 .in.hz{font-family:var(--serif)}
 textarea.in{padding:10px 12px;line-height:1.7;resize:vertical}
-.mj-list{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:0}
-.mj-list dt{font-weight:700;white-space:nowrap}
-.mj-list dt.on{color:var(--ink)}
-.mj-list dd{margin:0}
-.mj-list .hz{font-family:var(--serif);font-size:17px;letter-spacing:0.04em}
-.mj-list .rd{display:block;color:var(--muted);font-size:14px}
 .row2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
 .seg{display:grid;gap:6px}
 .seg.c2{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -196,6 +191,7 @@ textarea.in{padding:10px 12px;line-height:1.7;resize:vertical}
 .tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:thin;padding-bottom:4px}
 .tabs button{flex:none;min-height:44px;padding:0 16px;border:1px solid var(--line);border-radius:4px;background:transparent;cursor:pointer;font-size:15px;white-space:nowrap}
 .tabs button[aria-selected="true"]{border:2px solid var(--ink);background:var(--surface);font-weight:700}
+.pr-tabs{margin-bottom:16px}
 .doc{display:grid;grid-template-columns:minmax(0,1fr) 280px;overflow:hidden}
 @media (max-width:760px){.doc{grid-template-columns:minmax(0,1fr)}}
 .pvbox{background:var(--sunk);padding:22px 12px 16px;display:flex;flex-direction:column;align-items:center;gap:12px;min-width:0}
@@ -208,8 +204,6 @@ textarea.in{padding:10px 12px;line-height:1.7;resize:vertical}
 .go{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--line);padding-top:16px;margin-top:auto}
 .msgs{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;padding:18px 16px}
 .msgbox{background:var(--sunk);border:1px solid var(--line);border-radius:4px;padding:14px;white-space:pre-wrap;font-size:15px;line-height:1.75;min-height:220px}
-.hist{list-style:none;margin:0;padding:0}
-.hist li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
 
 /* 본관 찾기 */
 .clan-search{display:flex;gap:8px;flex-wrap:wrap}

@@ -111,37 +111,19 @@ old_start = """/* ── 시작 ── */
 bindPrint(); bindWizard(); bindChon();
 $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();"""
-new_start = r"""/* ── 시작 : 이 주소의 화면만 준비 ── */
-const SS={get:function(k){ try{ return JSON.parse(sessionStorage.getItem(k)||'null'); }catch(e){ return null; } },set:function(k,v){ try{ sessionStorage.setItem(k,JSON.stringify(v)); }catch(e){} }};
-const sameClan=(a,b)=>a&&b&&a.bk===b.bk&&a.sk===b.sk&&a.sh===b.sh;
+new_start = r"""/* ── 시작 : 이 주소의 화면만 준비 (입력한 내용은 어디에도 저장하지 않음) ── */
+try{ localStorage.removeItem('mf-hist'); ['mf-ps','mf-pr','mf-ch'].forEach(k=>sessionStorage.removeItem(k)); }catch(e){}
 if(PAGE==='print'){
-  const s=SS.get('mf-ps');
-  if(s&&typeof s==='object'){
-    Object.keys(s).forEach(k=>{ if(k!=='c1'&&k!=='c2'&&Object.prototype.hasOwnProperty.call(PS,k)) PS[k]=s[k]; });
-    ['c1','c2'].forEach(k=>{ const f=s[k]&&CLANS.find(c=>sameClan(c,s[k])); if(f) PS[k]=f; });
-  }
   const q=new URLSearchParams(location.search); let msg='';
   const t=q.get('tab'); if(t&&['jb','mj','hb','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
   const r=q.get('rel'); if(r&&Object.prototype.hasOwnProperty.call(REL,r)){ PS.rel=r; PS.tab='jb'; if(!REL[r].gen) PS.pair=false; msg='고르신 관계로 지방을 준비했습니다'; }
   const ci=q.get('clan'); if(ci!==null&&/^\d+$/.test(ci)&&CLANS[+ci]){ const c=CLANS[+ci]; PS.c1=c; PS.man=false; msg=clanLabel(c)+' '+c.bh+c.sh+' · 고인 본관에 넣었습니다'; }
   if(location.search) try{ history.replaceState(null,'',location.pathname); }catch(e){}
   bindPrint();
-  window.addEventListener('pagehide',()=>SS.set('mf-ps',PS));
   if(msg) setTimeout(()=>toast(msg),400);
 }
-if(PAGE==='price'){
-  const s=SS.get('mf-pr');
-  if(s&&s.PR) Object.keys(PR_DEF).forEach(k=>{ if(Object.prototype.hasOwnProperty.call(s.PR,k)) PR[k]=s.PR[k]; });
-  if(s&&typeof s.WK==='string') WK=s.WK;
-  bindWizard();
-  window.addEventListener('pagehide',()=>SS.set('mf-pr',{PR:PR,WK:WK}));
-}
-if(PAGE==='chon'){
-  const s=SS.get('mf-ch');
-  if(s){ if(s.CS) Object.assign(CS,s.CS); if(s.CH&&Array.isArray(s.CH.steps)&&s.CH.steps.length) CH.steps=s.CH.steps; if(s.PS2) Object.assign(PS2,s.PS2); }
-  bindChon();
-  window.addEventListener('pagehide',()=>SS.set('mf-ch',{CS:CS,CH:CH,PS2:PS2}));
-}
+if(PAGE==='price') bindWizard();
+if(PAGE==='chon') bindChon();
 if(PAGE==='clan') $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();"""
 js = one(js, old_start, new_start, 'start')
