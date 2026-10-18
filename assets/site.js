@@ -3,6 +3,7 @@
 const $=(s,r)=> (r||document).querySelector(s);
 const $$=(s,r)=> Array.from((r||document).querySelectorAll(s));
 const PHONE='1661-4214';
+const RM=!!(window.matchMedia&&matchMedia('(prefers-reduced-motion: reduce)').matches);
 
 /* ── 알림 · 복사 · 파일 저장 ── */
 function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; clearTimeout(toast._t); toast._t=setTimeout(()=>{t.hidden=true;},2800); }
@@ -589,16 +590,33 @@ function estLines(){
   return L;
 }
 const estTotal=()=>estLines().reduce((a,l)=>a+l[1],0);
-function wzGo(dir){ const v=wzVis(); let i=v.findIndex(x=>x.k===WK); if(i<0) i=0; const j=Math.max(0,Math.min(v.length-1,i+dir)); if(j===i) return; WDIR=dir>0?'next':'prev'; WK=v[j].k; renderWizard(true); }
-function wzJump(k){ WDIR='prev'; WK=k; renderWizard(true); }
-function updNav(){ const v=wzVis(); const i=v.findIndex(x=>x.k===WK); const prev=$('#wz-prev'), next=$('#wz-next'); prev.disabled=i<=0; next.hidden=v[i].k==='done'; next.textContent=(v[i+1]&&v[i+1].k==='done')?'견적 보기':'다음'; $('#wz-run').textContent=won(estTotal()); }
+let WZ_BUSY=false;
+function wzLeave(dir,then){
+  const stage=$('#wz-stage'); if(RM||!stage||!stage.animate||!stage.firstChild){ then(); return; }
+  WZ_BUSY=true; const a=stage.animate([{opacity:1,transform:'translate3d(0,0,0)'},{opacity:0,transform:'translate3d('+(dir>0?-36:36)+'px,0,0)'}],{duration:170,easing:'cubic-bezier(0.4,0,1,1)',fill:'forwards'});
+  a.onfinish=()=>{ then(); a.cancel(); WZ_BUSY=false; };
+}
+function wzGo(dir){ if(WZ_BUSY) return; const v=wzVis(); let i=v.findIndex(x=>x.k===WK); if(i<0) i=0; const j=Math.max(0,Math.min(v.length-1,i+dir)); if(j===i) return; wzLeave(dir,()=>{ WDIR=dir>0?'next':'prev'; WK=v[j].k; renderWizard(true); }); }
+function wzJump(k){ if(WZ_BUSY) return; wzLeave(-1,()=>{ WDIR='prev'; WK=k; renderWizard(true); }); }
+function wzEnter(stage,dir,oldH){
+  if(RM||!stage.animate) return;
+  const newH=stage.offsetHeight;
+  if(oldH&&Math.abs(newH-oldH)>2){ stage.animate([{height:oldH+'px'},{height:newH+'px'}],{duration:420,easing:'cubic-bezier(0.645,0.045,0.355,1)'}); }
+  const kids=[...stage.children]; const items=[]; kids.forEach(k=>{ if(k.matches('.wz-opts,.wz-sum')) items.push(...k.children); else items.push(k); });
+  items.forEach((el,i)=>{ el.animate([{opacity:0,transform:'translate3d('+(dir==='prev'?-40:40)+'px,0,0)'},{opacity:1,transform:'translate3d(0,0,0)'}],{duration:560,delay:Math.min(i*45,315),easing:'cubic-bezier(0.19,1,0.22,1)',fill:'backwards'}); });
+}
+function setRun(v){ const el=$('#wz-run'); if(!el) return; const from=el._v==null?v:el._v; el._v=v; cancelAnimationFrame(el._raf);
+  if(RM||from===v){ el.textContent=won(v); return; } const t0=performance.now(), dur=520;
+  const step=t=>{ const p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=won(Math.round((from+(v-from)*e)/1000)*1000); if(p<1) el._raf=requestAnimationFrame(step); else el.textContent=won(v); };
+  el._raf=requestAnimationFrame(step); }
+function updNav(){ const v=wzVis(); const i=v.findIndex(x=>x.k===WK); const prev=$('#wz-prev'), next=$('#wz-next'); prev.disabled=i<=0; next.hidden=v[i].k==='done'; next.textContent=(v[i+1]&&v[i+1].k==='done')?'견적 보기':'다음'; setRun(estTotal()); }
 function wzStepper(key,label,sub,min,max,unit){
   const row=document.createElement('div'); row.className='stepper wz-step';
   row.innerHTML='<span><b></b><br><span class="note"></span></span><div class="ctl"><button type="button">−</button><output aria-live="polite"></output><button type="button">+</button></div>';
   row.querySelector('b').textContent=label; row.querySelector('.note').textContent=sub;
   const bs=row.querySelectorAll('button'), mi=bs[0], pl=bs[1], out=row.querySelector('output');
   mi.setAttribute('aria-label',label+' 하나 줄이기'); pl.setAttribute('aria-label',label+' 하나 늘리기');
-  const upd=()=>{ out.textContent=PR[key]+unit; mi.disabled=PR[key]<=min; pl.disabled=PR[key]>=max; $('#wz-run').textContent=won(estTotal()); };
+  const upd=()=>{ out.textContent=PR[key]+unit; mi.disabled=PR[key]<=min; pl.disabled=PR[key]>=max; setRun(estTotal()); };
   mi.addEventListener('click',()=>{ PR[key]=Math.max(min,PR[key]-1); upd(); });
   pl.addEventListener('click',()=>{ PR[key]=Math.min(max,PR[key]+1); upd(); });
   upd(); return row;
@@ -606,9 +624,9 @@ function wzStepper(key,label,sub,min,max,unit){
 function renderWizard(focus){
   const v=wzVis(); if(!v.find(x=>x.k===WK)) WK=v[0].k;
   const i=v.findIndex(x=>x.k===WK), st=v[i], total=v.length-1;
-  $('#wz-bar').style.width=(st.k==='done'?100:Math.round(i/total*100))+'%';
+  $('#wz-bar').style.transform='scaleX('+(st.k==='done'?1:i/total).toFixed(4)+')';
   $('#wz-count').textContent=st.k==='done'?'견적이 나왔습니다':(i+1)+' / '+total+' 단계';
-  const stage=$('#wz-stage'); stage.innerHTML='';
+  const stage=$('#wz-stage'); const oldH=WDIR?stage.offsetHeight:0; stage.innerHTML='';
   const h=document.createElement('h2'); h.className='wz-q'; h.tabIndex=-1; stage.appendChild(h);
   const help=document.createElement('p'); help.className='wz-help'; stage.appendChild(help);
   if(st.k==='done'){
@@ -624,7 +642,7 @@ function renderWizard(focus){
     act.innerHTML='<a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button><button type="button" class="btn btn-line" data-a="img">견적 이미지 저장</button><button type="button" class="btn btn-ghost" data-a="again">처음부터 다시</button>';
     act.querySelector('[data-a="copy"]').addEventListener('click',()=>copyText(estText(),'견적 내용을 복사했습니다',ul));
     act.querySelector('[data-a="img"]').addEventListener('click',saveEstImg);
-    act.querySelector('[data-a="again"]').addEventListener('click',()=>{ Object.assign(PR,PR_DEF); WK='type'; WDIR='prev'; renderWizard(true); });
+    act.querySelector('[data-a="again"]').addEventListener('click',()=>{ if(WZ_BUSY) return; wzLeave(-1,()=>{ Object.assign(PR,PR_DEF); WK='type'; WDIR='prev'; renderWizard(true); }); });
     stage.appendChild(act);
   } else {
     h.textContent=st.q; help.textContent=typeof st.h==='function'?st.h():st.h;
@@ -645,7 +663,7 @@ function renderWizard(focus){
     }
   }
   updNav();
-  if(WDIR){ stage.classList.remove('step-in-next','step-in-prev'); void stage.offsetWidth; stage.classList.add('step-in-'+WDIR); WDIR=''; }
+  if(WDIR){ wzEnter(stage,WDIR,oldH); WDIR=''; }
   if(focus){ try{ h.focus({preventScroll:true}); }catch(e){ h.focus(); } const top=$('.wiz').getBoundingClientRect().top; if(top<0) window.scrollBy({top:top-140,behavior:'smooth'}); }
 }
 function bindWizard(){ $('#wz-prev').addEventListener('click',()=>wzGo(-1)); $('#wz-next').addEventListener('click',()=>wzGo(1)); }
@@ -1003,18 +1021,21 @@ if(PAGE==='chon'){
 if(PAGE==='clan') $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();
 
-/* 스크롤 효과 */
+/* 스크롤 효과 : 첫 화면은 그대로 두고, 아래 내용만 들어올 때 부드럽게 */
 (function(){
-  const root=document.documentElement; window.__rv=1;
-  if(!root.classList.contains('rv-on')) return;
-  const els=$$('.page-head>*,.hero-main>*,.hero>.trim,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.faq').filter(el=>!el.closest('[hidden]'));
-  const done=el=>{ el.classList.add('rv-x'); el.classList.remove('rv-in'); el.style.transition=''; };
-  const io=new IntersectionObserver(list=>{
-    const vis=list.filter(e=>e.isIntersecting).sort((a,b)=>(a.boundingClientRect.top-b.boundingClientRect.top)||(a.boundingClientRect.left-b.boundingClientRect.left));
-    vis.forEach((e,i)=>{ const el=e.target, d=Math.min(i*70,420);
-      el.style.transition='opacity 650ms cubic-bezier(0.22,1,0.36,1) '+d+'ms, transform 650ms cubic-bezier(0.22,1,0.36,1) '+d+'ms';
-      el.classList.add('rv-in'); io.unobserve(el); setTimeout(()=>done(el),700+d); });
-  },{rootMargin:'0px 0px -8% 0px',threshold:0});
+  if(RM||!('IntersectionObserver' in window)||!Element.prototype.animate) return;
+  const vh=window.innerHeight||800;
+  const els=$$('.page-head>*,.hero-main>*,.hero>.trim,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
+  if(!els.length) return;
+  els.forEach(el=>el.classList.add('rv'));
+  let queue=[], timer=0;
+  const flush=()=>{ timer=0; queue.sort((a,b)=>(a.getBoundingClientRect().top-b.getBoundingClientRect().top)||(a.getBoundingClientRect().left-b.getBoundingClientRect().left));
+    queue.forEach((el,i)=>{ const d=Math.min(i*85,340);
+      el.style.willChange='opacity, transform'; el.classList.remove('rv');
+      const a=el.animate([{opacity:0,transform:'translate3d(0,28px,0)'},{opacity:1,transform:'translate3d(0,0,0)'}],{duration:900,delay:d,easing:'cubic-bezier(0.19,1,0.22,1)',fill:'backwards'});
+      a.onfinish=a.oncancel=()=>{ el.style.willChange=''; }; });
+    queue=[]; };
+  const io=new IntersectionObserver(list=>{ list.forEach(e=>{ if(e.isIntersecting){ queue.push(e.target); io.unobserve(e.target); } }); if(queue.length&&!timer) timer=requestAnimationFrame(flush); },{rootMargin:'0px 0px -4% 0px',threshold:0});
   els.forEach(el=>io.observe(el));
 })();
 })();
