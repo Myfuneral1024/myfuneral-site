@@ -432,8 +432,23 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 .terms h2{font-size:18px}
 .terms p{color:var(--ink2)}
 .terms ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink2)}
-.wz-sum li{display:grid;grid-template-columns:minmax(0,1fr) auto 64px;align-items:center;gap:10px}
-.wz-sum .fix{min-height:40px;border:0;background:none;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:14px}
+.wz-sum li{display:grid;grid-template-columns:104px minmax(0,1fr) auto 64px;align-items:center;gap:4px 14px}
+.wz-sum .c{font-weight:700;color:var(--ink)}
+.wz-sum .i{color:var(--ink2)}
+.wz-sum .v{white-space:nowrap;font-weight:500;text-align:right;color:var(--ink)}
+.wz-sum li.hd{padding:2px 0 8px;border-bottom:1px solid var(--ink);font-size:13px;color:var(--muted)}
+.wz-sum li.hd span{font-weight:500}
+.wz-sum li.hd span:nth-child(3){text-align:right}
+@media (max-width:560px){
+  .wz-sum li{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:'c v f' 'i v f';gap:2px 12px;padding:10px 0}
+  .wz-sum .fix{padding:0 2px}
+  .wz-sum .c{grid-area:c;font-size:13.5px;color:var(--muted)}
+  .wz-sum .i{grid-area:i;color:var(--ink);font-weight:500}
+  .wz-sum .v{grid-area:v}
+  .wz-sum li>:nth-child(4){grid-area:f}
+  .wz-sum li.hd{display:none}
+}
+.wz-sum .fix{white-space:nowrap;min-height:40px;border:0;background:none;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:14px}
 
 /* 촌수 · 관계 찾기 */
 .find{padding:22px 20px;display:flex;flex-direction:column;gap:18px}
