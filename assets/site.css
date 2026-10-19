@@ -32,13 +32,13 @@ button,input,select,textarea{font:inherit;color:inherit}
 /* 머리 */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--ink)}
 .top-in{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo{display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:var(--ink)}
 .logo svg{display:block;flex:none;color:var(--ink)}
 .logo-txt{display:flex;flex-direction:column;gap:6px}
 .logo-tag{font-size:12px;line-height:1;color:var(--muted);letter-spacing:0.02em}
 .top-call{display:flex;align-items:center;gap:6px}
 .tc-label{font-size:13px;color:var(--muted)}
-.tc-num{font-family:var(--serif);font-weight:900;font-size:22px;text-decoration:none;letter-spacing:0.01em}
+.tc-num{display:inline-flex;align-items:center;min-height:44px;font-family:var(--serif);font-weight:900;font-size:22px;text-decoration:none;letter-spacing:0.01em}
 .tc-talk{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;margin-left:4px;border:1px solid var(--line);border-radius:4px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:700}
 .tc-talk:hover{border-color:var(--ink)}
 .ic-talk{display:block;flex:none}
@@ -64,6 +64,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .page-head{display:flex;flex-direction:column;gap:14px;margin-bottom:44px;max-width:720px}
 .ph{margin:0;border-radius:4px;overflow:hidden;background:var(--sunk);aspect-ratio:3/2}
 .ph img{display:block;width:100%;height:100%;object-fit:cover}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ph img{filter:brightness(.86)}}
 .page-head.has-ph{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:14px 56px;align-items:center}
 .page-head.has-ph>:not(.ph){grid-column:1}
 .page-head.has-ph>.ph{grid-column:2;grid-row:1 / span 3}
@@ -105,6 +106,8 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .hero-main{display:flex;flex-direction:column;gap:20px}
 .hero-q{font-family:var(--serif);font-weight:500;font-size:clamp(18px,2vw,22px);line-height:1.6;color:var(--ink2)}
 .hero h1{font-size:clamp(27px,7.2vw,56px);line-height:1.25;font-weight:900;letter-spacing:-0.015em}
+.hero h1 .ln{white-space:nowrap}
+@media (min-width:961px){.hero h1{font-size:clamp(34px,4.1vw,54px)}}
 .lead{font-size:17px;color:var(--ink2);max-width:33em;line-height:1.75}
 .actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .phone{margin-top:12px;padding-top:20px;border-top:1px solid var(--ink);display:flex;flex-direction:column;gap:12px}
@@ -199,7 +202,10 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .dt-list .s{color:var(--muted);font-size:14px}
 .dt-list .dd{color:var(--muted);font-size:13px;text-align:right;white-space:nowrap}
 .dt-list .dd.soon{color:var(--ink);font-weight:700}
-.dt-more summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+.dt-more summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;border-bottom:1px solid var(--line)}
+.dt-more summary::-webkit-details-marker{display:none}
+.dt-more summary::after{content:"+";font-size:22px;font-weight:400;color:var(--muted)}
+.dt-more[open] summary::after{content:"−"}
 .dt-sub{list-style:none;margin:0;padding:0}
 .dt-sub li{display:flex;justify-content:space-between;gap:10px;padding:8px 2px;border-bottom:1px solid var(--line);font-size:15px}
 .dt-h3{font-size:17px;margin-bottom:8px}
@@ -231,7 +237,7 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .cal-key{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--line)}
 .cal-key.son{background:var(--sunk)}
 .cal-key.mk{background:var(--pine);border-color:var(--pine)}
-@media (max-width:560px){.cal td{height:66px;padding:4px 3px 3px}.cal td b{font-size:14px}.cal .cl{font-size:11px}.cal .sn{font-size:10px;letter-spacing:-0.02em}.cal .mk{font-size:10px;padding:0 2px}.cal-card{padding:12px 6px}}
+@media (max-width:560px){.cal td{height:66px;padding:4px 3px 3px}.cal td b{font-size:14px}.cal .cl{font-size:11px}.cal .sn{font-size:11px;letter-spacing:-0.04em}.cal .mk{font-size:11px;padding:0 2px;letter-spacing:-0.03em}.cal-card{padding:12px 6px}}
 
 /* 출력실 */
 .pr-grid{display:grid;grid-template-columns:400px minmax(0,1fr);gap:20px;align-items:start}
