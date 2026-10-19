@@ -42,7 +42,8 @@
   --warn:#eba387; --warn-soft:#3a2219; color-scheme:dark }
 
 *{box-sizing:border-box}
-body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:break-word;font-variant-numeric:tabular-nums}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.6;word-break:keep-all;overflow-wrap:break-word;text-wrap:pretty;font-variant-numeric:tabular-nums}
+.nw{white-space:nowrap}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--surface)}
 a{color:inherit}
 h1,h2,h3{font-family:var(--serif);font-weight:700;line-height:1.3;text-wrap:balance;margin:0}
@@ -164,6 +165,7 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .dowe b{font-size:16px}
 .dowe span{color:var(--muted);font-size:14px}
 @media (max-width:900px){.dowe{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:380px){.dowe{grid-template-columns:minmax(0,1fr)}}
 
 /* 금액 계산 */
 .calc{display:grid;grid-template-columns:minmax(0,1fr) 380px;gap:24px;align-items:start}
@@ -215,11 +217,11 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .dt-h3{font-size:17px;margin-bottom:8px}
 .dt-years{width:100%;border-collapse:collapse;font-size:15px}
 .dt-years th{text-align:left;font-size:13px;color:var(--muted);font-weight:500;padding:6px 2px;border-bottom:1px solid var(--ink)}
-.dt-years td{padding:9px 2px;border-bottom:1px solid var(--line)}
+.dt-years td{padding:9px 2px;border-bottom:1px solid var(--line);white-space:nowrap}
 .dt-years td:last-child{font-weight:700;white-space:nowrap}
 .dt-years tr.past td{color:var(--muted);font-weight:400}
 #dt-yr-note{margin-top:8px}
-@media (max-width:560px){.dt-list .d{font-size:16px}}
+@media (max-width:560px){.dt-list li{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'t dd' 'd d' 's s'}.dt-list .t{grid-area:t}.dt-list .dd{grid-area:dd;align-self:center}.dt-list .d{grid-area:d;text-align:left;font-size:19px}.dt-list .s{grid-area:s}}
 .cal-card{padding:14px 12px}
 .cal-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px}
 .cal-ttl{display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center}
@@ -236,7 +238,7 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .cal td.today{box-shadow:inset 0 0 0 2px var(--ink)}
 .cal .mk{display:block;margin-top:3px;font-size:11px;font-weight:700;line-height:1.5;background:var(--pine);color:var(--pine-ink);border-radius:3px;padding:0 3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .cal-foot{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin-top:10px;font-size:13px;color:var(--muted)}
-.cal-foot span{display:inline-flex;align-items:center;gap:6px}
+.cal-foot span{display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
 .cal-foot .btn{margin-left:auto;min-height:44px}
 .cal-key{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--line)}
 .cal-key.son{background:var(--sunk)}
@@ -262,6 +264,7 @@ textarea.in{padding:10px 12px;line-height:1.7;resize:vertical}
 .seg.c4{grid-template-columns:repeat(4,minmax(0,1fr))}
 .seg button{min-height:44px;padding:0 6px;border:1px solid var(--line);border-radius:4px;background:var(--surface);cursor:pointer;font-size:15px}
 .seg button[aria-pressed="true"]{border:2px solid var(--pine);background:var(--pine-soft);font-weight:700}
+@media (max-width:400px){.seg button{font-size:14px;padding:0 4px}}
 .chk{display:flex;align-items:center;gap:10px;min-height:44px;cursor:pointer}
 .chk input{width:22px;height:22px;accent-color:var(--pine);margin:0;flex:none}
 .picked{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:48px;padding:0 12px;border:1px solid var(--line);border-radius:4px;background:var(--sunk)}
@@ -339,6 +342,8 @@ textarea.in{padding:10px 12px;line-height:1.7;resize:vertical}
 .wordtbl th,.wordtbl td{text-align:left;padding:10px 8px;border-top:1px solid var(--line);vertical-align:top}
 .wordtbl thead th{border-top:1px solid var(--ink);font-size:14px;color:var(--muted);font-weight:500}
 .wordtbl .hz{font-family:var(--serif);font-weight:700;font-size:20px;white-space:nowrap}
+.wordtbl thead th,.wordtbl td:first-child{white-space:nowrap}
+@media (max-width:560px){.wordtbl{font-size:14px}.wordtbl th,.wordtbl td{padding:9px 6px}}
 .tblwrap{overflow-x:auto}
 
 /* 바닥 */
@@ -711,7 +716,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <div id="pr-left" style="display:flex;flex-direction:column;gap:16px;min-width:0">
         <section class="card form" aria-labelledby="h-dec" data-show="decCard">
           <div style="display:flex;justify-content:space-between;align-items:baseline"><h2 id="h-dec">고인 정보</h2><span class="note" id="dec-note">이 서식에 필요한 것만</span></div>
-          <div class="fld" data-show="rlgF"><span class="lbl" id="l-rlg">종교</span><div class="seg c4" role="group" aria-labelledby="l-rlg"><button type="button" data-seg="rlg" data-v="yu">일반</button><button type="button" data-seg="rlg" data-v="chr">기독교</button><button type="button" data-seg="rlg" data-v="cat">천주교</button><button type="button" data-seg="rlg" data-v="bud">불교</button><button type="button" data-seg="rlg" data-v="won">원불교</button><button type="button" data-seg="rlg" data-v="sgi">SGI</button><button type="button" data-seg="rlg" data-v="etc">기타 종교</button></div></div>
+          <div class="fld" data-show="rlgF"><span class="lbl" id="l-rlg">종교</span><div class="seg c4" role="group" aria-labelledby="l-rlg"><button type="button" data-seg="rlg" data-v="yu">일반</button><button type="button" data-seg="rlg" data-v="chr">기독교</button><button type="button" data-seg="rlg" data-v="cat">천주교</button><button type="button" data-seg="rlg" data-v="bud">불교</button><button type="button" data-seg="rlg" data-v="won">원불교</button><button type="button" data-seg="rlg" data-v="sgi">SGI</button><button type="button" data-seg="rlg" data-v="etc">기타</button></div></div>
           <div class="fld" data-show="relF"><label for="p-rel">고인과의 관계 <span>(제사 모시는 분 기준)</span></label>
             <select id="p-rel" class="in" data-k="rel">
               <option value="f">아버지</option><option value="m">어머니</option><option value="gf">할아버지</option><option value="gm">할머니</option><option value="ggf">증조할아버지</option><option value="ggm">증조할머니</option><option value="gggf">고조할아버지</option><option value="gggm">고조할머니</option><option value="hus">남편</option><option value="wife">아내</option><option value="bro">형</option><option value="sil">형수</option><option value="ybro">남동생</option><option value="son">아들</option>
@@ -877,7 +882,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
         <details class="dt-more"><summary>49재까지 7일마다 (초재 ~ 칠재)</summary><ul class="dt-sub" id="dt-7"></ul></details>
         <div>
           <h3 class="dt-h3">해마다 돌아오는 기일</h3>
-          <table class="dt-years"><thead><tr><th scope="col">해</th><th scope="col">음력</th><th scope="col">양력</th></tr></thead><tbody id="dt-years"></tbody></table>
+          <table class="dt-years"><thead><tr><th scope="col">주기</th><th scope="col">음력</th><th scope="col">양력</th></tr></thead><tbody id="dt-years"></tbody></table>
           <p class="note" id="dt-yr-note"></p>
         </div>
         <p class="note">기제사는 옛 예법으로는 기일 첫새벽(자정이 지난 뒤)에 지냈고, 요즘은 기일 저녁에 지내는 집이 많습니다.</p>
@@ -887,7 +892,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 
     <div class="sec">
       <h2 id="h-cal">음력 달력 · 손 없는 날</h2>
-      <p class="sec-lead">날마다 음력 날짜를 함께 보여 드립니다. <b>손 없는 날</b>은 음력 끝자리가 9 · 0인 날(9 · 10 · 19 · 20 · 29 · 30일)로, 이사나 이장 날을 고를 때 많이 봅니다.</p>
+      <p class="sec-lead">날마다 음력 날짜를 함께 보여 드립니다. <b class="nw">손 없는 날</b>은 음력 끝자리가 9 · 0인 날(9 · 10 · 19 · 20 · 29 · 30일)로, 이사나 이장 날을 고를 때 많이 봅니다.</p>
       <div class="card cal-card">
         <div class="cal-top">
           <button type="button" class="icon-btn" id="cal-prev" aria-label="이전 달"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
@@ -1021,9 +1026,9 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
         <div class="card pad"><b>상주가 답할 때</b><ul class="list" style="margin-top:8px"><li>와 주셔서 고맙습니다.</li><li>먼 길 와 주셔서 감사합니다.</li></ul></div>
       </div>
       <div class="card pad" style="margin-top:4px"><b>남의 부모를 말할 때 · 내 부모를 말할 때</b>
-        <div class="tblwrap" style="margin-top:10px"><table class="wordtbl"><thead><tr><th>누구</th><th>상주에게 고인을 말할 때</th><th>내 돌아가신 부모를 남에게 말할 때</th></tr></thead><tbody>
-          <tr><td>아버지</td><td><span class="hz" style="font-size:17px">先大人</span> 선대인</td><td><span class="hz" style="font-size:17px">先親</span> 선친 · 선고</td></tr>
-          <tr><td>어머니</td><td><span class="hz" style="font-size:17px">先大夫人</span> 선대부인</td><td><span class="hz" style="font-size:17px">先妣</span> 선비 · 선자</td></tr>
+        <div class="tblwrap" style="margin-top:10px"><table class="wordtbl"><thead><tr><th>누구</th><th>상주에게 말할 때</th><th>내 부모를 남에게</th></tr></thead><tbody>
+          <tr><td>아버지</td><td><span class="hz" style="font-size:17px">先大人</span> 선대인</td><td><span class="hz" style="font-size:17px">先親</span> <span class="nw">선친 · 선고</span></td></tr>
+          <tr><td>어머니</td><td><span class="hz" style="font-size:17px">先大夫人</span> 선대부인</td><td><span class="hz" style="font-size:17px">先妣</span> <span class="nw">선비 · 선자</span></td></tr>
         </tbody></table></div></div>
     </div>
 
@@ -1740,7 +1745,7 @@ function renderDate(){
   const s7=$('#dt-7'); s7.innerHTML=''; M.seven.forEach(x=>{ const li=document.createElement('li'); li.innerHTML='<span></span><b></b>'; li.firstChild.textContent=x[0]; li.lastChild.textContent=fmtY(x[1]); s7.appendChild(li); });
   const tb=$('#dt-years'); tb.innerHTML=''; const today=isoDay(0);
   M.years.forEach(e=>{ const tr=document.createElement('tr'); if(e.r.iso<today) tr.className='past'; tr.innerHTML='<td></td><td></td><td></td>';
-    tr.children[0].textContent=e.n+'주기 · '+e.y+'년'; tr.children[1].textContent=M.L.m+'월 '+e.r.d+'일'; tr.children[2].textContent=fmtY(e.r.iso); tb.appendChild(tr); });
+    tr.children[0].textContent=e.n+'주기'; tr.children[1].textContent=M.L.m+'월 '+e.r.d+'일'; tr.children[2].textContent=fmtY(e.r.iso); tb.appendChild(tr); });
   $('#dt-yr-note').textContent=M.yrNote;
   if(!DT.calY){ const t=isoDay(0); DT.calY=+t.slice(0,4); DT.calM=+t.slice(5,7); }
   renderCal(); dtBlob=null; if(CAN_SHARE){ clearTimeout(dtBlobT); dtBlobT=setTimeout(()=>dtMakeBlob().catch(()=>{}),400); }

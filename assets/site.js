@@ -644,7 +644,7 @@ function renderDate(){
   const s7=$('#dt-7'); s7.innerHTML=''; M.seven.forEach(x=>{ const li=document.createElement('li'); li.innerHTML='<span></span><b></b>'; li.firstChild.textContent=x[0]; li.lastChild.textContent=fmtY(x[1]); s7.appendChild(li); });
   const tb=$('#dt-years'); tb.innerHTML=''; const today=isoDay(0);
   M.years.forEach(e=>{ const tr=document.createElement('tr'); if(e.r.iso<today) tr.className='past'; tr.innerHTML='<td></td><td></td><td></td>';
-    tr.children[0].textContent=e.n+'주기 · '+e.y+'년'; tr.children[1].textContent=M.L.m+'월 '+e.r.d+'일'; tr.children[2].textContent=fmtY(e.r.iso); tb.appendChild(tr); });
+    tr.children[0].textContent=e.n+'주기'; tr.children[1].textContent=M.L.m+'월 '+e.r.d+'일'; tr.children[2].textContent=fmtY(e.r.iso); tb.appendChild(tr); });
   $('#dt-yr-note').textContent=M.yrNote;
   if(!DT.calY){ const t=isoDay(0); DT.calY=+t.slice(0,4); DT.calM=+t.slice(5,7); }
   renderCal(); dtBlob=null; if(CAN_SHARE){ clearTimeout(dtBlobT); dtBlobT=setTimeout(()=>dtMakeBlob().catch(()=>{}),400); }

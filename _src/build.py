@@ -83,9 +83,28 @@ def fix_links(s):
     return s
 
 
+# 전화번호 · 시간처럼 중간에서 줄이 바뀌면 읽기 불편한 것은 한 덩어리로 (글자 부분에만, 태그 · 스크립트 안은 건드리지 않음)
+NOBR = re.compile(r'(\d{2,4}-\d{3,4}(?:-\d{4})?|\d{1,2}:\d{2} – \d{1,2}:\d{2})')
+def nobr(h):
+    out = []; skip = False
+    for part in re.split(r'(<[^>]+>)', h):
+        if part.startswith('<'):
+            m = re.match(r'<\s*(/?)([a-zA-Z]+)', part)
+            if m and m.group(2).lower() in ('script', 'style', 'textarea', 'svg') and not part.rstrip().endswith('/>'):
+                skip = not m.group(1)
+            out.append(part)
+        elif re.search(r'<(a|button)\b[^>]*class="[^"]*\bbtn\b', out[-1] if out else ''):
+            out.append(part)  # 버튼 안은 그대로 (버튼은 flex라 덩어리로 나누면 간격이 벌어짐)
+        else:
+            out.append(part if skip else NOBR.sub(r'<span class="nw">\1</span>', part).replace(' · ', '\u00a0· '))  # 가운뎃점이 줄 맨 앞에 오지 않게
+    return ''.join(out)
+
+
 pre_main = fix_links(pre_main)
 post_main = fix_links(post_main)
-SECTIONS = {k: fix_links(v) for k, v in SECTIONS.items()}
+SECTIONS = {k: nobr(fix_links(v)) for k, v in SECTIONS.items()}
+pre_main = nobr(pre_main)
+post_main = nobr(post_main)
 
 # ── 3. 스크립트 고치기 ──
 js = JS
