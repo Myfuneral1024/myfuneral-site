@@ -18,7 +18,7 @@ OUT = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else ROOT
 BASE = 'https://www.myfuneral.co.kr'
 VER = datetime.datetime.now().strftime('%Y%m%d%H%M')
 TODAY = datetime.date.today().isoformat()
-ROUTES = ['urgent', 'nobinso', 'price', 'print', 'date', 'clan', 'chon', 'manners']
+ROUTES = ['urgent', 'nobinso', 'price', 'print', 'date', 'clan', 'chon', 'manners', 'urn']  # urn은 메뉴에 없음
 STATIC = ['CNAME', 'favicon.svg', 'apple-touch-icon.png', 'og.png', 'robots.txt',
           'naverb64ba87306a5179497b82d3c875bb21e.html']
 
@@ -39,6 +39,8 @@ META = {
              '김해 김씨, 밀양 박씨처럼 본관을 한글로 찾으면 한자 본관과 성을 알려 드립니다. 139개 성씨, 423개 본관. 지방 · 명정 · 축문에 바로 넣을 수 있습니다.'),
     'chon': ('촌수 계산 · 가족 호칭 정리 | 나만의장례',
              '아버지의 사촌 동생, 어머니와 고모 사이처럼 헷갈리는 촌수와 호칭을 바로 계산합니다. 친가 · 외가 · 처가 · 시가 호칭을 지도로 볼 수 있습니다.'),
+    'urn': ('유골함 고르는 법 · 일반함과 진공함 차이 | 나만의장례',
+            '봉안당 · 봉안묘 · 수목장, 모실 곳에 따라 맞는 유골함이 다릅니다. 일반함과 진공함의 속 구조와 차이, 진공함 비용(45만원부터), 봉안당 칸 크기 확인까지 정리했습니다. 24시간 상담 1661-4214.'),
     'manners': ('조문 예절 · 부의 봉투 쓰는 법 | 나만의장례',
                 '조문 순서, 절하는 법과 공수, 위로의 말, 삼가야 할 것, 부의 봉투 쓰는 법과 부의금 관례까지 처음 가는 조문에 필요한 예절을 정리했습니다.'),
 }
@@ -112,7 +114,7 @@ js = JS
 start = js.index('/* ── 화면 이동 ── */')
 end = js.index("window.addEventListener('hashchange',route);") + len("window.addEventListener('hashchange',route);")
 js = js[:start] + r"""/* ── 화면 이동 (메뉴마다 주소가 따로 있음) ── */
-const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn'];
 const PAGE=(function(){ const b=document.body.getAttribute('data-route'); return PAGES.indexOf(b)>=0?b:'home'; })();
 function route(){
   const p=PAGE;
@@ -187,7 +189,7 @@ def page(p):
     head_common_p += '\n<script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>'
     head += [head_common_p, f'<link rel="stylesheet" href="/assets/{CSS_FILE}">', '</head>', f'<body data-route="{p}">']
     nav_pre = pre_main
-    if p != 'home':
+    if p != 'home' and f'<a href="/{p}/">' in nav_pre:  # 메뉴에 있는 화면만 표시
         nav_pre = one(nav_pre, f'<a href="/{p}/">', f'<a href="/{p}/" aria-current="page">', 'nav-' + p)
     sec = SECTIONS[p].replace(' hidden>', '>', 1) if p != 'home' else SECTIONS[p]
     first_tag = sec.split('\n', 1)[0]
