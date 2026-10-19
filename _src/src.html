@@ -197,7 +197,11 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .dt-res{padding:18px 16px;display:flex;flex-direction:column;gap:16px;min-width:0}
 .dt-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .dt-head h2{font-size:20px}
-.dt-head .btn{min-height:44px}
+.dt-dirs{display:flex;flex-direction:column;gap:8px}
+.dt-dir{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;gap:6px;align-items:center}
+.dt-dir .icon-btn{width:44px}
+@media (max-width:560px){.dt-dir{grid-template-columns:minmax(0,1fr) 44px;padding-bottom:8px;border-bottom:1px solid var(--line)}.dt-dir input:nth-child(1){grid-row:1;grid-column:1}.dt-dir input:nth-child(2){grid-row:2;grid-column:1}.dt-dir .icon-btn{grid-row:1/3;grid-column:2}}
+.dt-pro{display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:14px}
 .dt-list{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
 .dt-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:12px 2px;border-bottom:1px solid var(--line)}
 .dt-list .t{font-weight:700}
@@ -854,15 +858,22 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="dt-grid">
       <section class="card form" aria-labelledby="h-dtin">
         <h2 id="h-dtin">돌아가신 날</h2>
+        <div class="fld"><span class="lbl" id="l-dtm">누가 쓰시나요</span><div class="seg c2" role="group" aria-labelledby="l-dtm"><button type="button" data-dtmode="fam">가족용</button><button type="button" data-dtmode="pro">장례지도사용</button></div></div>
         <div class="fld"><label for="dt-die">돌아가신 날 <span>(양력)</span></label><input id="dt-die" class="in" type="date"><p class="note" id="dt-die-l"></p></div>
         <div class="fld"><span class="lbl" id="l-dtd">장례 기간 <span>(돌아가신 날 포함)</span></span><div class="seg c4" role="group" aria-labelledby="l-dtd"><button type="button" data-dtdays="2">2일장</button><button type="button" data-dtdays="3">3일장</button><button type="button" data-dtdays="4">4일장</button><button type="button" data-dtdays="5">5일장</button></div></div>
         <div class="fld"><label for="dt-out">발인일 <span>(직접 바꿀 수 있습니다)</span></label><input id="dt-out" class="in" type="date"></div>
+        <div class="dt-pro" id="dt-pro" hidden>
+          <div class="fld"><label for="dt-name">고인 성함</label><input id="dt-name" class="in" placeholder="홍길동" autocomplete="off"></div>
+          <div class="fld"><span class="lbl" id="l-dtdir">담당 장례지도사</span><div class="dt-dirs" id="dt-dirs" role="group" aria-labelledby="l-dtdir"></div><button type="button" class="linkish" id="dt-add">+ 한 명 더</button></div>
+          <p class="note">넣으신 이름과 연락처는 이미지와 복사 글에만 들어가고, 어디에도 저장되지 않습니다.</p>
+        </div>
         <p class="warn" id="dt-warn" role="alert" hidden></p>
         <p class="note">절이나 집안에 따라 날짜를 세는 법이 조금씩 다를 수 있습니다. 정해진 날이 있으면 그 날을 따르세요.</p>
       </section>
       <section class="card dt-res" aria-labelledby="h-dtres">
-        <div class="dt-head"><h2 id="h-dtres">날짜 안내</h2><button type="button" class="btn btn-line" id="dt-copy">날짜 복사</button></div>
+        <div class="dt-head"><h2 id="h-dtres">날짜 안내</h2></div>
         <ol class="dt-list" id="dt-list" aria-live="polite"></ol>
+        <div class="actions dt-act"><button type="button" class="btn btn-primary" id="dt-img">이미지 저장</button><button type="button" class="btn btn-line" id="dt-share" hidden>이미지 공유 (카톡 등)</button><button type="button" class="btn btn-line" id="dt-copy">글로 복사</button></div>
         <details class="dt-more"><summary>49재까지 7일마다 (초재 ~ 칠재)</summary><ul class="dt-sub" id="dt-7"></ul></details>
         <div>
           <h3 class="dt-h3">해마다 돌아오는 기일</h3>
@@ -1687,7 +1698,9 @@ function solarOf(y,m,d){ /* 음력 y년 m월(평달) d일 → 양력. 그해 그
   const len=utcDays(LM[i+1][0])-utcDays(LM[i][0]); const dd=Math.min(d,len);
   return {iso:isoAdd(LM[i][0],dd-1),d:dd,short:dd<d,len};
 }
-const DT={die:isoDay(0),days:3,out:'',outSet:false,calY:0,calM:0,items:[],years:[]};
+const DT={die:isoDay(0),days:3,out:'',outSet:false,calY:0,calM:0,items:[],years:[],mode:'fam',name:'',dirs:[{n:'',t:''}]};
+const dtDirs=()=>DT.dirs.map(d=>({n:String(d.n||'').trim(),t:String(d.t||'').trim()})).filter(d=>d.n||d.t);
+const dtName=()=>DT.mode==='pro'?String(DT.name||'').trim():'';
 function dDay(iso){ const n=dayDiff(isoDay(0),iso); return n===0?['오늘',true]:n>0?[n+'일 남음',n<=7]:['지났습니다',false]; }
 function dtModel(){
   const die=isoOk(DT.die)?DT.die:isoDay(0);
@@ -1714,6 +1727,9 @@ function renderDate(){
   const di=$('#dt-die'), oi=$('#dt-out');
   if(document.activeElement!==di) di.value=M.die; if(document.activeElement!==oi) oi.value=M.out;
   $$('[data-dtdays]').forEach(b=>b.setAttribute('aria-pressed',String(!DT.outSet&&+b.getAttribute('data-dtdays')===DT.days)));
+  $$('[data-dtmode]').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute('data-dtmode')===DT.mode)));
+  $('#dt-pro').hidden=DT.mode!=='pro';
+  $('#h-dtres').textContent=dtName()?'故 '+dtName()+'님 장례 · 제사 일정':'날짜 안내';
   $('#dt-die-l').textContent=M.L?'음력 '+lunTxt(M.L)+' · '+gzK(((M.L.y-4)%60+60)%60)+'년 '+gzK(M.L.day)+'일':'음력은 2016년부터 2040년까지만 계산합니다.';
   const w=$('#dt-warn'); w.hidden=!M.warn; w.textContent=M.warn?'주의 · '+M.warn:'';
   const ul=$('#dt-list'); ul.innerHTML='';
@@ -1727,7 +1743,7 @@ function renderDate(){
     tr.children[0].textContent=e.n+'주기 · '+e.y+'년'; tr.children[1].textContent=M.L.m+'월 '+e.r.d+'일'; tr.children[2].textContent=fmtY(e.r.iso); tb.appendChild(tr); });
   $('#dt-yr-note').textContent=M.yrNote;
   if(!DT.calY){ const t=isoDay(0); DT.calY=+t.slice(0,4); DT.calM=+t.slice(5,7); }
-  renderCal();
+  renderCal(); dtBlob=null; if(CAN_SHARE){ clearTimeout(dtBlobT); dtBlobT=setTimeout(()=>dtMakeBlob().catch(()=>{}),400); }
 }
 function renderCal(){
   const y=DT.calY, m=DT.calM, pad=n=>String(n).padStart(2,'0');
@@ -1753,10 +1769,53 @@ function renderCal(){
   if(tr.children.length){ while(tr.children.length<7){ const td=document.createElement('td'); td.className='out'; tr.appendChild(td); } tb.appendChild(tr); }
   const lo=y*12+m<=2016*12+2, hi=y*12+m>=2040*12+12; $('#cal-prev').disabled=lo; $('#cal-next').disabled=hi;
 }
-function dtText(){ const M=dtModel(); const L=['[날짜 안내 · 나만의장례]'];
+function dtText(){ const M=dtModel(); const nm=dtName(), dirs=DT.mode==='pro'?dtDirs():[]; const L=[nm?'[故 '+nm+'님 장례 · 제사 일정]':'[날짜 안내 · 나만의장례]'];
   M.items.forEach(it=>L.push(it.t+'  '+fmtY(it.d)+(it.k==='die'&&M.L?' · 음력 '+lunTxt(M.L):'')));
   if(M.years.length) L.push('','해마다 기일 (음력 '+M.L.m+'월 '+M.L.d+'일)'); M.years.forEach(e=>L.push(e.n+'주기  '+fmtY(e.r.iso)));
-  L.push('','24시간 상담 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
+  if(dirs.length){ L.push('','담당 장례지도사'); dirs.forEach(d=>L.push((d.n||'')+(d.t?'  '+d.t:''))); }
+  L.push('','나만의장례 24시간 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
+function renderDirs(){ const box=$('#dt-dirs'); box.innerHTML='';
+  DT.dirs.forEach((d,i)=>{ const row=document.createElement('div'); row.className='dt-dir';
+    const a=document.createElement('input'); a.className='in'; a.placeholder='이름 (예: 김민수)'; a.autocomplete='off'; a.value=d.n; a.setAttribute('aria-label',(i+1)+'번째 장례지도사 이름');
+    const b=document.createElement('input'); b.className='in'; b.type='tel'; b.placeholder='010-0000-0000'; b.autocomplete='off'; b.value=d.t; b.setAttribute('aria-label',(i+1)+'번째 장례지도사 연락처');
+    a.addEventListener('input',()=>{ d.n=a.value; dtDirty(); }); b.addEventListener('input',()=>{ d.t=b.value; dtDirty(); });
+    const x=document.createElement('button'); x.type='button'; x.className='icon-btn'; x.setAttribute('aria-label',(i+1)+'번째 장례지도사 지우기'); x.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+    x.addEventListener('click',()=>{ if(DT.dirs.length>1) DT.dirs.splice(i,1); else { d.n=''; d.t=''; } renderDirs(); dtDirty(); });
+    row.appendChild(a); row.appendChild(b); row.appendChild(x); box.appendChild(row); });
+  $('#dt-add').hidden=DT.dirs.length>=4; }
+let dtBlob=null, dtBlobT=0;
+function dtDirty(){ dtBlob=null; $('#h-dtres').textContent=dtName()?'故 '+dtName()+'님 장례 · 제사 일정':'날짜 안내'; clearTimeout(dtBlobT); if(CAN_SHARE) dtBlobT=setTimeout(()=>dtMakeBlob().catch(()=>{}),400); }
+const CAN_SHARE=(function(){ try{ return !!(navigator.share&&navigator.canShare&&navigator.canShare({files:[new File([''],'a.png',{type:'image/png'})]})); }catch(e){ return false; } })();
+function dtDraw(){
+  const M=dtModel(), nm=dtName(), dirs=DT.mode==='pro'?dtDirs():[];
+  const rows=M.items.map(it=>[it.t.replace(/ \(.*\)$/,''),fmtY(it.d),it.k==='die'&&M.L?'음력 '+lunTxt(M.L):(it.k==='g1'?'1주기 · 소상 · ':it.k==='g2'?'2주기 · 대상 · ':'')+(it.k==='g1'||it.k==='g2'?it.s:'')]);
+  const W=1080, row=104, top=330, dirH=dirs.length?96+dirs.length*58:0;
+  const H=top+rows.length*row+40+dirH+250;
+  const c=document.createElement('canvas'); c.width=W; c.height=H; const x=c.getContext('2d');
+  x.fillStyle='#ffffff'; x.fillRect(0,0,W,H); x.fillStyle='#252525'; x.fillRect(0,0,W,14);
+  try{ if(LOGO.mark.naturalWidth) x.drawImage(LOGO.mark,72,56,92,94); if(LOGO.word.naturalWidth) x.drawImage(LOGO.word,184,74,253,48); }catch(e){}
+  x.textBaseline='alphabetic'; x.textAlign='left'; x.font=fnt(500,26,SANS); x.fillStyle='#59615b'; x.fillText('소규모 가족장 · 무빈소장 전문',186,146);
+  x.fillStyle='#1a1e1b'; x.font=fnt(900,nm?60:54); x.fillText(nm?'故 '+nm+'님':'장례 · 제사 날짜 안내',72,250);
+  x.font=fnt(500,28,SANS); x.fillStyle='#59615b'; x.fillText(nm?'장례 · 제사 일정 안내':'돌아가신 날 '+fmtY(M.die)+' 기준',72,296);
+  x.fillStyle='#1a1e1b'; x.fillRect(72,top,W-144,3); let y=top;
+  rows.forEach(r=>{ y+=row; x.textAlign='left'; x.fillStyle='#1a1e1b'; x.font=fnt(700,32,SANS); x.fillText(r[0],72,y-(r[2]?54:38));
+    if(r[2]){ x.font=fnt(500,24,SANS); x.fillStyle='#59615b'; x.fillText(r[2],72,y-20); }
+    x.textAlign='right'; x.fillStyle='#1a1e1b'; x.font=fnt(700,38); x.fillText(r[1],W-72,y-36);
+    x.fillStyle='#d3d7cf'; x.fillRect(72,y,W-144,2); });
+  y+=40;
+  if(dirs.length){ x.fillStyle='#f1f1ee'; x.fillRect(72,y,W-144,dirH-20); x.textAlign='left'; x.fillStyle='#59615b'; x.font=fnt(700,26,SANS); x.fillText('담당 장례지도사',104,y+56);
+    dirs.forEach((d,i)=>{ const yy=y+56+58*(i+1); x.textAlign='left'; x.fillStyle='#1a1e1b'; x.font=fnt(700,34,SANS); x.fillText(d.n||'',104,yy); x.textAlign='right'; x.font=fnt(500,32,SANS); x.fillText(d.t||'',W-104,yy); });
+    y+=dirH; }
+  x.fillStyle='#1a1e1b'; x.fillRect(72,y+10,W-144,3); x.textAlign='left'; x.font=fnt(700,34,SANS); x.fillText('나만의장례 24시간 1661-4214',72,y+76);
+  x.font=fnt(500,24,SANS); x.fillStyle='#59615b'; x.fillText('www.myfuneral.co.kr · 카카오톡 @나만의장례',72,y+118);
+  x.fillText('절이나 집안에 따라 날짜를 세는 법이 조금 다를 수 있습니다.',72,y+160);
+  return c; }
+function dtFileName(){ const nm=dtName(); return (nm?'故'+nm+'_장례일정':'나만의장례_날짜안내')+'.png'; }
+function dtMakeBlob(){ return Promise.all([ensureFonts('故님장례제사일정안내날짜돌아가신날발인삼우제49재100일첫기일두번째음력주기소상대상담당지도사나만의장례24시간0123456789년월일()·월화수목금토일카카오톡절이나집안에따라세는법이조금다를수있습니다기준소규모가족장무빈소장전문'+dtName()+dtDirs().map(d=>d.n+d.t).join('')),logoReady]).then(()=>new Promise(r=>dtDraw().toBlob(b=>{ dtBlob=b; r(b); },'image/png'))); }
+function dtSaveImg(){ dtMakeBlob().then(b=>{ if(b) saveFile(dtFileName(),b,'날짜 안내 이미지를 저장했습니다'); else toast('이미지를 만들지 못했습니다'); }); }
+function dtShare(){
+  const go=b=>{ const f=new File([b],dtFileName(),{type:'image/png'}); navigator.share({files:[f],title:'장례 · 제사 날짜 안내'}).catch(e=>{ if(e&&e.name!=='AbortError') dtSaveImg(); }); };
+  if(dtBlob) go(dtBlob); else dtMakeBlob().then(b=>{ if(b) go(b); }).catch(()=>dtSaveImg()); }
 function bindDate(){
   const di=$('#dt-die'), oi=$('#dt-out');
   const onDie=()=>{ if(isoOk(di.value)){ DT.die=di.value; DT.outSet=false; const p=di.value; DT.calY=+p.slice(0,4); DT.calM=+p.slice(5,7); renderDate(); } };
@@ -1764,7 +1823,13 @@ function bindDate(){
   const onOut=()=>{ if(isoOk(oi.value)){ DT.out=oi.value; DT.outSet=true; renderDate(); } };
   oi.addEventListener('change',onOut); oi.addEventListener('input',onOut);
   $$('[data-dtdays]').forEach(b=>b.addEventListener('click',()=>{ DT.days=+b.getAttribute('data-dtdays'); DT.outSet=false; renderDate(); }));
-  $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했습니다. 가족 단톡방에 붙여 넣어 보내세요',$('#dt-list')));
+  $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했습니다. 단톡방에 붙여 넣어 보내세요',$('#dt-list')));
+  $('#dt-img').addEventListener('click',dtSaveImg);
+  const sh=$('#dt-share'); sh.hidden=!CAN_SHARE; sh.addEventListener('click',dtShare);
+  $$('[data-dtmode]').forEach(b=>b.addEventListener('click',()=>{ DT.mode=b.getAttribute('data-dtmode'); renderDate(); dtDirty(); }));
+  $('#dt-name').addEventListener('input',e=>{ DT.name=e.target.value; dtDirty(); });
+  $('#dt-add').addEventListener('click',()=>{ if(DT.dirs.length<4){ DT.dirs.push({n:'',t:''}); renderDirs(); const ins=$$('#dt-dirs .dt-dir input'); if(ins.length>1) ins[ins.length-2].focus(); } });
+  renderDirs();
   const go=k=>{ let t=DT.calY*12+DT.calM-1+k; t=Math.max(2016*12+1,Math.min(2040*12+11,t)); DT.calY=Math.floor(t/12); DT.calM=t%12+1; renderCal(); };
   $('#cal-prev').addEventListener('click',()=>go(-1)); $('#cal-next').addEventListener('click',()=>go(1));
   $('#cal-today').addEventListener('click',()=>{ const t=isoDay(0); DT.calY=+t.slice(0,4); DT.calM=+t.slice(5,7); renderCal(); });

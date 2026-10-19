@@ -171,7 +171,11 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .dt-res{padding:18px 16px;display:flex;flex-direction:column;gap:16px;min-width:0}
 .dt-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
 .dt-head h2{font-size:20px}
-.dt-head .btn{min-height:44px}
+.dt-dirs{display:flex;flex-direction:column;gap:8px}
+.dt-dir{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 44px;gap:6px;align-items:center}
+.dt-dir .icon-btn{width:44px}
+@media (max-width:560px){.dt-dir{grid-template-columns:minmax(0,1fr) 44px;padding-bottom:8px;border-bottom:1px solid var(--line)}.dt-dir input:nth-child(1){grid-row:1;grid-column:1}.dt-dir input:nth-child(2){grid-row:2;grid-column:1}.dt-dir .icon-btn{grid-row:1/3;grid-column:2}}
+.dt-pro{display:flex;flex-direction:column;gap:16px;border-top:1px solid var(--line);padding-top:14px}
 .dt-list{list-style:none;margin:0;padding:0;border-top:2px solid var(--ink)}
 .dt-list li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 12px;padding:12px 2px;border-bottom:1px solid var(--line)}
 .dt-list .t{font-weight:700}
