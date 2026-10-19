@@ -4,6 +4,7 @@ www.myfuneral.co.kr · 저장소 `Myfuneral1024/myfuneral-site` (공개) · `mai
 
 ## 1. 구성
 - **원본은 `_src/src.html` 한 파일**이다. 안에 CSS · 8개 화면 HTML · 스크립트가 다 들어 있다.
+- **스크립트 · 스타일 파일 이름은 내용 해시** (`assets/site.<해시>.js/.css`, 최근 8판 보관 · `assets/versions.json`). 2026-10-19 휴대폰에 남아 있던 예전 페이지가 새 스크립트를 받아 날짜 계산이 멈춘 일 때문 (GitHub Pages는 `?v=`를 무시함). `site.js` · `site.css`도 최신본으로 같이 쓴다(예전 페이지용). 해시 파일을 손으로 지우지 않는다.
 - 공개 파일은 `python3 _src/build.py`로 만든다. **공개 파일을 직접 고치지 않는다**:
   `index.html`, `urgent/ nobinso/ price/ print/ clan/ chon/ manners/`의 `index.html`, `assets/site.css`, `assets/site.js`, `sitemap.xml`, `404.html`
 - 그대로 두는 파일: `CNAME`(www.myfuneral.co.kr), `favicon.svg`, `apple-touch-icon.png`, `og.png`(카톡 공유 그림), `robots.txt`, `naverb64ba87306a5179497b82d3c875bb21e.html`(네이버 소유확인 — 지우면 안 됨), `assets/fonts/chosungs.woff`(조선궁서체)

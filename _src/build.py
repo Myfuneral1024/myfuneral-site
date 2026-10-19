@@ -6,10 +6,10 @@
   python3 _src/build.py --out DIR  → DIR에 따로 만든다 (확인용, 고정 파일도 함께 복사)
 
 만들어지는 것: index.html, urgent/ nobinso/ price/ print/ clan/ chon/ manners/ 의 index.html,
-assets/site.css, assets/site.js, sitemap.xml, 404.html
+assets/site.<해시>.css · .js(최근 8판 보관, versions.json), assets/site.css · site.js(예전 페이지용), sitemap.xml, 404.html
 그대로 두는 것: CNAME, favicon.svg, apple-touch-icon.png, og.png, robots.txt, naver….html, assets/fonts/
 """
-import os, re, shutil, sys, html, datetime
+import os, re, shutil, sys, html, datetime, hashlib, json
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, 'src.html')
@@ -128,7 +128,7 @@ if(PAGE==='print'){
 }
 if(PAGE==='price') bindWizard();
 if(PAGE==='chon') bindChon();
-if(PAGE==='date') bindDate();
+if(PAGE==='date') try{ bindDate(); }catch(e){}
 if(PAGE==='clan') $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();"""
 js = one(js, old_start, new_start, 'start')
@@ -165,20 +165,39 @@ def page(p):
     else:
         head_common_p = head_common
     head_common_p += '\n<script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>'
-    head += [head_common_p, f'<link rel="stylesheet" href="/assets/site.css?v={VER}">', '</head>', f'<body data-route="{p}">']
+    head += [head_common_p, f'<link rel="stylesheet" href="/assets/{CSS_FILE}">', '</head>', f'<body data-route="{p}">']
     nav_pre = pre_main
     if p != 'home':
         nav_pre = one(nav_pre, f'<a href="/{p}/">', f'<a href="/{p}/" aria-current="page">', 'nav-' + p)
     sec = SECTIONS[p].replace(' hidden>', '>', 1) if p != 'home' else SECTIONS[p]
     first_tag = sec.split('\n', 1)[0]
     assert ' hidden' not in first_tag, first_tag
-    scripts = (JSPDF + '\n' if p == 'print' else '') + f'<script src="/assets/site.js?v={VER}"></script>'
+    scripts = (JSPDF + '\n' if p == 'print' else '') + f'<script src="/assets/{JS_FILE}"></script>'
     return '\n'.join(head) + '\n' + nav_pre + '<main>\n' + sec + '</main>\n' + post_main + scripts + '\n</body>\n</html>\n'
 
 
+# 스크립트 · 스타일은 내용으로 이름을 붙인다 (site.<해시>.js).
+# GitHub Pages는 ?v= 를 무시하므로, 휴대폰에 남아 있던 예전 페이지가 새 스크립트를 받아 멈추는 일이 생겼다.
+# 이름이 내용마다 다르면 예전 페이지는 예전 파일을, 새 페이지는 새 파일을 부른다. 최근 8판은 지우지 않고 남겨 둔다.
 os.makedirs(os.path.join(OUT, 'assets'), exist_ok=True)
-open(os.path.join(OUT, 'assets', 'site.css'), 'w', encoding='utf-8').write(CSS)
-open(os.path.join(OUT, 'assets', 'site.js'), 'w', encoding='utf-8').write(js + '\n')
+JS_TXT = js + '\n'
+CSS_FILE = 'site.' + hashlib.md5(CSS.encode('utf-8')).hexdigest()[:10] + '.css'
+JS_FILE = 'site.' + hashlib.md5(JS_TXT.encode('utf-8')).hexdigest()[:10] + '.js'
+for name, txt in [(CSS_FILE, CSS), (JS_FILE, JS_TXT), ('site.css', CSS), ('site.js', JS_TXT)]:
+    open(os.path.join(OUT, 'assets', name), 'w', encoding='utf-8').write(txt)
+VF = os.path.join(ROOT, 'assets', 'versions.json')
+try:
+    vers = json.load(open(VF, encoding='utf-8'))
+except Exception:
+    vers = []
+vers = [v for v in vers if v != [CSS_FILE, JS_FILE]] + [[CSS_FILE, JS_FILE]]
+vers = vers[-8:]
+keep = {f for v in vers for f in v}
+if os.path.abspath(OUT) == os.path.abspath(ROOT):
+    json.dump(vers, open(VF, 'w', encoding='utf-8'), indent=0)
+    for f in os.listdir(os.path.join(ROOT, 'assets')):
+        if re.fullmatch(r'site\.[0-9a-f]{10}\.(js|css)', f) and f not in keep:
+            os.remove(os.path.join(ROOT, 'assets', f))
 for p in ['home'] + ROUTES:
     path = os.path.join(OUT, 'index.html') if p == 'home' else os.path.join(OUT, p, 'index.html')
     os.makedirs(os.path.dirname(path), exist_ok=True)

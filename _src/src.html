@@ -1728,7 +1728,7 @@ function renderDate(){
   if(document.activeElement!==di) di.value=M.die; if(document.activeElement!==oi) oi.value=M.out;
   $$('[data-dtdays]').forEach(b=>b.setAttribute('aria-pressed',String(!DT.outSet&&+b.getAttribute('data-dtdays')===DT.days)));
   $$('[data-dtmode]').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute('data-dtmode')===DT.mode)));
-  $('#dt-pro').hidden=DT.mode!=='pro';
+  const pro=$('#dt-pro'); if(pro) pro.hidden=DT.mode!=='pro';
   $('#h-dtres').textContent=dtName()?'故 '+dtName()+'님 장례 · 제사 일정':'날짜 안내';
   $('#dt-die-l').textContent=M.L?'음력 '+lunTxt(M.L)+' · '+gzK(((M.L.y-4)%60+60)%60)+'년 '+gzK(M.L.day)+'일':'음력은 2016년부터 2040년까지만 계산합니다.';
   const w=$('#dt-warn'); w.hidden=!M.warn; w.textContent=M.warn?'주의 · '+M.warn:'';
@@ -1774,7 +1774,7 @@ function dtText(){ const M=dtModel(); const nm=dtName(), dirs=DT.mode==='pro'?dt
   if(M.years.length) L.push('','해마다 기일 (음력 '+M.L.m+'월 '+M.L.d+'일)'); M.years.forEach(e=>L.push(e.n+'주기  '+fmtY(e.r.iso)));
   if(dirs.length){ L.push('','담당 장례지도사'); dirs.forEach(d=>L.push((d.n||'')+(d.t?'  '+d.t:''))); }
   L.push('','나만의장례 24시간 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
-function renderDirs(){ const box=$('#dt-dirs'); box.innerHTML='';
+function renderDirs(){ const box=$('#dt-dirs'); if(!box) return; box.innerHTML='';
   DT.dirs.forEach((d,i)=>{ const row=document.createElement('div'); row.className='dt-dir';
     const a=document.createElement('input'); a.className='in'; a.placeholder='이름 (예: 김민수)'; a.autocomplete='off'; a.value=d.n; a.setAttribute('aria-label',(i+1)+'번째 장례지도사 이름');
     const b=document.createElement('input'); b.className='in'; b.type='tel'; b.placeholder='010-0000-0000'; b.autocomplete='off'; b.value=d.t; b.setAttribute('aria-label',(i+1)+'번째 장례지도사 연락처');
@@ -1782,7 +1782,7 @@ function renderDirs(){ const box=$('#dt-dirs'); box.innerHTML='';
     const x=document.createElement('button'); x.type='button'; x.className='icon-btn'; x.setAttribute('aria-label',(i+1)+'번째 장례지도사 지우기'); x.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
     x.addEventListener('click',()=>{ if(DT.dirs.length>1) DT.dirs.splice(i,1); else { d.n=''; d.t=''; } renderDirs(); dtDirty(); });
     row.appendChild(a); row.appendChild(b); row.appendChild(x); box.appendChild(row); });
-  $('#dt-add').hidden=DT.dirs.length>=4; }
+  const ad=$('#dt-add'); if(ad) ad.hidden=DT.dirs.length>=4; }
 let dtBlob=null, dtBlobT=0;
 function dtDirty(){ dtBlob=null; $('#h-dtres').textContent=dtName()?'故 '+dtName()+'님 장례 · 제사 일정':'날짜 안내'; clearTimeout(dtBlobT); if(CAN_SHARE) dtBlobT=setTimeout(()=>dtMakeBlob().catch(()=>{}),400); }
 const CAN_SHARE=(function(){ try{ return !!(navigator.share&&navigator.canShare&&navigator.canShare({files:[new File([''],'a.png',{type:'image/png'})]})); }catch(e){ return false; } })();
@@ -1824,11 +1824,11 @@ function bindDate(){
   oi.addEventListener('change',onOut); oi.addEventListener('input',onOut);
   $$('[data-dtdays]').forEach(b=>b.addEventListener('click',()=>{ DT.days=+b.getAttribute('data-dtdays'); DT.outSet=false; renderDate(); }));
   $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했습니다. 단톡방에 붙여 넣어 보내세요',$('#dt-list')));
-  $('#dt-img').addEventListener('click',dtSaveImg);
-  const sh=$('#dt-share'); sh.hidden=!CAN_SHARE; sh.addEventListener('click',dtShare);
+  const im=$('#dt-img'); if(im) im.addEventListener('click',dtSaveImg);
+  const sh=$('#dt-share'); if(sh){ sh.hidden=!CAN_SHARE; sh.addEventListener('click',dtShare); }
   $$('[data-dtmode]').forEach(b=>b.addEventListener('click',()=>{ DT.mode=b.getAttribute('data-dtmode'); renderDate(); dtDirty(); }));
-  $('#dt-name').addEventListener('input',e=>{ DT.name=e.target.value; dtDirty(); });
-  $('#dt-add').addEventListener('click',()=>{ if(DT.dirs.length<4){ DT.dirs.push({n:'',t:''}); renderDirs(); const ins=$$('#dt-dirs .dt-dir input'); if(ins.length>1) ins[ins.length-2].focus(); } });
+  const nmI=$('#dt-name'); if(nmI) nmI.addEventListener('input',e=>{ DT.name=e.target.value; dtDirty(); });
+  const adB=$('#dt-add'); if(adB) adB.addEventListener('click',()=>{ if(DT.dirs.length<4){ DT.dirs.push({n:'',t:''}); renderDirs(); const ins=$$('#dt-dirs .dt-dir input'); if(ins.length>1) ins[ins.length-2].focus(); } });
   renderDirs();
   const go=k=>{ let t=DT.calY*12+DT.calM-1+k; t=Math.max(2016*12+1,Math.min(2040*12+11,t)); DT.calY=Math.floor(t/12); DT.calM=t%12+1; renderCal(); };
   $('#cal-prev').addEventListener('click',()=>go(-1)); $('#cal-next').addEventListener('click',()=>go(1));
