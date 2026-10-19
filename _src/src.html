@@ -393,6 +393,7 @@ textarea.in{padding:10px 12px;line-height:1.7;resize:vertical}
 .wordtbl thead th{border-top:1px solid var(--ink);font-size:14px;color:var(--muted);font-weight:500}
 .wordtbl .hz{font-family:var(--serif);font-weight:700;font-size:20px;white-space:nowrap}
 .wordtbl thead th,.wordtbl td:first-child{white-space:nowrap}
+@media (max-width:380px){.wordtbl.wrap1 td:first-child{white-space:normal;min-width:6.5em}}
 @media (max-width:560px){.wordtbl{font-size:14px}.wordtbl th,.wordtbl td{padding:9px 6px}}
 .tblwrap{overflow-x:auto}
 
@@ -754,6 +755,38 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
         <li>리무진은 1차 장지 또는 화장장까지 운행합니다.</li>
       </ul>
     </section>
+
+    <div class="sec">
+      <h2>장례 비용은 이렇게 나뉩니다</h2>
+      <p class="sec-lead">장례 비용은 크게 네 가지입니다. 위 계산기는 첫 번째, 나만의장례가 진행하는 비용입니다. 나머지는 쓰신 곳에 따로 냅니다.</p>
+      <div class="grid2">
+        <div class="card case"><h3>장례 진행 비용</h3><ul class="list"><li>장례지도사 · 입관, 관 · 수의, 장의 차량, 접객 도우미, 상복, 유골함</li><li>위 계산기 그대로이고, 장례를 마친 뒤 나만의장례에 정산합니다.</li></ul></div>
+        <div class="card case"><h3>장례식장 비용</h3><ul class="list"><li>빈소(분향실) 사용료, 안치실, 음식 · 접객 비용</li><li>장례식장마다 다르고 쓰신 만큼 장례식장에 냅니다. 무빈소 장례는 빈소 · 접객 비용이 들지 않습니다.</li></ul></div>
+        <div class="card case"><h3>화장 비용</h3><ul class="list"><li>화장장 사용료입니다. 고인의 주소지 화장장(관내)을 쓰면 훨씬 저렴합니다.</li><li>예: 서울시립승화원 성인 기준 관내 12만원, 관외 100만원 (서울 · 고양 · 파주에 6개월 이상 주소를 두셨던 분이 관내).</li></ul></div>
+        <div class="card case"><h3>장지 비용</h3><ul class="list"><li>봉안당 · 수목장 같은 자연장지 · 묘지의 사용료와 관리비입니다.</li><li>지자체가 운영하는 공설과 민간이 운영하는 사설에 따라 크게 다릅니다. 장지 상담은 무료입니다.</li></ul></div>
+      </div>
+      <p class="note">화장장 요금은 지역과 시기에 따라 바뀔 수 있습니다. 예약할 때 정확한 금액을 다시 알려 드립니다.</p>
+    </div>
+
+    <div class="sec">
+      <h2>장례 비용을 줄이는 방법</h2>
+      <ol class="num-step">
+        <li><b>조문객이 많지 않으면 무빈소나 2일장</b><span>빈소 사용료와 접객 비용이 크게 줄어듭니다. 돌아가신 지 24시간이 지나면 화장할 수 있어 2일장도 가능합니다. <a href="#nobinso">무빈소 장례 알아보기</a></span></li>
+        <li><b>고인 주소지의 화장장 예약</b><span>관내 화장장은 관외보다 요금이 몇 배 저렴합니다. 화장 예약은 나만의장례가 무료로 대신해 드립니다.</span></li>
+        <li><b>쓰지 않을 항목은 빼기</b><span>리무진, 고급 수의처럼 꼭 필요하지 않은 항목은 고르지 않으셔도 됩니다. 고정 패키지를 강요하지 않습니다.</span></li>
+        <li><b>공설 장지 알아보기</b><span>지자체가 운영하는 공설 봉안당 · 자연장지는 사설보다 대체로 저렴합니다. 다만 주소지 등 이용 조건이 있어 함께 확인해 드립니다.</span></li>
+        <li><b>수급자 · 국가유공자 혜택</b><span>나만의장례 20만원 할인과 함께, 기초생활수급자였다면 주민센터에 장제급여를 신청하실 수 있습니다. 청구 서류는 챙겨 드립니다.</span></li>
+      </ol>
+    </div>
+
+    <div class="sec">
+      <h2>상조 견적을 받을 때 꼭 물어보세요</h2>
+      <div class="grid2">
+        <div class="card pad"><ul class="list"><li>견적에 들어 있는 것과 빠진 것은 무엇인가요? (장례식장 비용, 화장료, 장지 비용)</li><li>장례 중에 금액이 더 붙는 경우가 있나요?</li></ul></div>
+        <div class="card pad"><ul class="list"><li>계약할 때 미리 내는 돈(선납금 · 가입비)이 있나요?</li><li>장례지도사가 직영인가요, 외주인가요?</li></ul></div>
+      </div>
+      <p class="note">나만의장례는 첫 견적이 끝 견적이고, 장례를 마친 뒤 정산하며, 직영 장례지도사가 진행합니다.</p>
+    </div>
   </div>
 </section>
 
@@ -983,7 +1016,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
   <div class="wrap">
     <div class="page-head">
       <h1 id="h-clan">본관을 한글로 찾으면 한자를 알려 드립니다</h1>
-      <p>여성 지방의 본관, 명정, 축문에 들어가는 한자를 확인하세요. 고르면 출력실 고인 정보에 바로 들어갑니다.</p>
+      <p>어머니 지방, 명정, 축문에 들어가는 본관 한자를 확인하세요. 139개 성씨, 423개 본관을 찾을 수 있고, 고르면 출력실 고인 정보에 바로 들어갑니다.</p>
     </div>
     <div class="clan-search"><label for="clan-q" class="lbl" style="flex-basis:100%">본관이나 성 (예: 김해 김, 밀양, 박, 金海)</label><input id="clan-q" class="in" autocomplete="off" placeholder="본관이나 성을 입력하세요"></div>
     <p class="note" id="clan-count" style="margin-top:10px"></p>
@@ -993,11 +1026,33 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <div class="sur-index" id="sur-index"></div>
     </div>
     <div class="sec">
-      <h2>본관은 이렇게 쓰입니다</h2>
-      <div class="grid3">
-        <div class="card pad"><b>여성 지방</b><p class="serif" style="font-size:22px;margin:6px 0">顯妣孺人<u>金海金</u>氏神位</p><p class="muted small">어머니 지방에 본관과 성을 씁니다.</p></div>
-        <div class="card pad"><b>명정</b><p class="serif" style="font-size:22px;margin:6px 0">學生<u>南陽洪</u>公之柩</p><p class="muted small">남자는 學生 + 본관 + 성 + 公之柩</p></div>
-        <div class="card pad"><b>목록에 없을 때</b><p class="muted small" style="margin-top:6px">출력실 고인 정보에서 ‘목록에 없으면 직접 입력’을 눌러 본관과 성을 한자로 넣을 수 있습니다.</p></div>
+      <h2>본관이란</h2>
+      <p class="sec-lead">본관(本貫)은 성씨의 시조가 나온 곳이나 조상이 오래 살던 고장의 이름입니다. ‘김해 김씨’의 김해, ‘밀양 박씨’의 밀양이 본관입니다. 같은 김씨라도 김해 김씨와 경주 김씨는 서로 다른 집안으로 봅니다. 그래서 지방 · 명정 · 축문에는 성만 쓰지 않고 본관을 함께 씁니다.</p>
+    </div>
+    <div class="sec">
+      <h2>장례 서식에 본관 쓰는 법</h2>
+      <div class="grid2">
+        <div class="card pad"><b>어머니 지방</b><p class="serif" style="font-size:22px;margin:6px 0">顯妣孺人<u>金海金</u>氏神位</p><p class="muted small">현비유인 김해김씨 신위. 어머니가 태어나신 집안의 본관과 성을 씁니다. 본관을 빼고 顯妣孺人金氏神位로 쓰기도 합니다.</p></div>
+        <div class="card pad"><b>아버지 지방</b><p class="serif" style="font-size:22px;margin:6px 0">顯考學生府君神位</p><p class="muted small">현고학생 부군신위. 아버지 지방에는 본관과 성을 넣지 않고 ‘府君’으로 씁니다.</p></div>
+        <div class="card pad"><b>명정 (남자)</b><p class="serif" style="font-size:22px;margin:6px 0">學生<u>南陽洪</u>公之柩</p><p class="muted small">학생 남양홍공지구. 學生 + 본관 + 성 + 公之柩</p></div>
+        <div class="card pad"><b>명정 (여자)</b><p class="serif" style="font-size:22px;margin:6px 0">孺人<u>金海金</u>氏之柩</p><p class="muted small">유인 김해김씨지구. 孺人 + 본관 + 성 + 氏之柩</p></div>
+      </div>
+      <p class="note">종교에 따라 쓰는 법이 다릅니다. 기독교 · 천주교 · 불교 위패와 명정은 <a href="#print">출력실</a>에서 종교를 고르면 맞게 만들어 드립니다. 목록에 없는 본관은 출력실 고인 정보에서 ‘목록에 없으면 직접 입력’을 눌러 한자로 넣을 수 있습니다.</p>
+    </div>
+    <div class="sec">
+      <h2>본관을 모를 때 찾는 법</h2>
+      <ol class="num-step">
+        <li><b>가족관계증명서 · 기본증명서</b><span>증명서의 ‘본’ 칸에 본관이 적혀 있습니다. 자녀분의 가족관계증명서에는 부모님의 본도 함께 나옵니다. 정부24나 대법원 전자가족관계등록시스템에서 바로 뗄 수 있습니다.</span></li>
+        <li><b>족보 · 집안 어른</b><span>족보가 있으면 맨 앞에 본관과 시조가 나옵니다. 집안 어른께 여쭤보셔도 됩니다.</span></li>
+        <li><b>산소 비석 · 예전 지방</b><span>집안 산소의 비석이나 예전에 쓰던 지방 · 축문에 본관이 한자로 적혀 있는 경우가 많습니다.</span></li>
+      </ol>
+    </div>
+    <div class="sec">
+      <h2>본관, 이것이 궁금합니다</h2>
+      <div>
+        <details class="faq"><summary>결혼한 어머니 지방에는 어느 집안 본관을 쓰나요?</summary><div class="faq-a">어머니가 태어나신 집안(친정)의 본관과 성을 씁니다. 우리나라는 결혼해도 성과 본이 바뀌지 않기 때문입니다. 김해 김씨 어머니라면 顯妣孺人金海金氏神位입니다.</div></details>
+        <details class="faq"><summary>소리가 같은 본관인데 한자가 다를 수 있나요?</summary><div class="faq-a">네. 같은 ‘광주’라도 전라도 광주는 光州, 경기도 광주는 廣州로 한자가 다릅니다. 서식에 넣기 전에 증명서나 족보의 한자를 꼭 확인하세요.</div></details>
+        <details class="faq"><summary>본관을 끝내 모르면 어떻게 하나요?</summary><div class="faq-a">어머니 지방은 본관을 빼고 성만 써서 顯妣孺人金氏神位로 쓰셔도 됩니다. 명정도 본관 없이 쓸 수 있으니, 담당 장례지도사와 상의하세요.</div></details>
       </div>
     </div>
   </div>
@@ -1056,6 +1111,48 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
         <div class="card pad"><b>곧바로 위아래</b><p class="muted" style="margin-top:6px">한 세대에 1촌씩 셉니다. 부모는 1촌, 조부모는 2촌, 자녀는 1촌입니다.</p></div>
         <div class="card pad"><b>옆으로 갈라진 가족</b><p class="muted" style="margin-top:6px">함께 거슬러 올라가는 조상까지의 세대 수와 거기서 그 사람까지 내려가는 세대 수를 더합니다. 형제는 1+1=2촌, 큰아버지는 2+1=3촌, 사촌은 2+2=4촌입니다.</p></div>
         <div class="card pad"><b>배우자 쪽 가족</b><p class="muted" style="margin-top:6px">부부는 무촌입니다. 배우자의 가족은 배우자를 기준으로, 내 가족의 배우자는 그 가족을 기준으로 셉니다. 장인은 1촌, 처남은 2촌, 고모부는 3촌입니다.</p></div>
+      </div>
+    </div>
+    <div class="sec">
+      <h2>장례에서 촌수와 호칭이 필요한 때</h2>
+      <div class="grid3">
+        <div class="card pad"><b>부고를 보낼 때</b><p class="muted" style="margin-top:6px">상주를 기준으로 돌아가신 분이 누구인지 씁니다. 아버지면 부친상, 장인이면 빙부상입니다. 아래 표를 보세요.</p></div>
+        <div class="card pad"><b>장례를 결정할 때</b><p class="muted" style="margin-top:6px">화장 · 장지 같은 절차는 법이 정한 연고자 순서를 따릅니다. 배우자 → 자녀 → 부모 → 손자녀 → 조부모 → 형제자매 순이고, 자녀가 여럿이면 나이가 많은 자녀가 앞섭니다.</p></div>
+        <div class="card pad"><b>지방 · 축문을 쓸 때</b><p class="muted" style="margin-top:6px">고인과의 관계에 따라 첫머리가 달라집니다. 아버지 <span class="serif">顯考</span> · 어머니 <span class="serif">顯妣</span> · 할아버지 <span class="serif">顯祖考</span> · 할머니 <span class="serif">顯祖妣</span> · 남편 <span class="serif">顯辟</span> · 아내 <span class="serif">亡室</span>. <a href="#print">출력실</a>에서 관계를 고르면 맞게 써 드립니다.</p></div>
+      </div>
+    </div>
+    <div class="sec">
+      <h2>부고에 쓰는 말</h2>
+      <p class="sec-lead">부고에는 상주 이름 뒤에 돌아가신 분과의 관계를 씁니다. 예: ‘홍길동 부친상’은 홍길동 님의 아버지가 돌아가셨다는 뜻입니다.</p>
+      <div class="tblwrap"><table class="wordtbl wrap1"><thead><tr><th>쓰는 말</th><th>돌아가신 분 (상주 기준)</th></tr></thead><tbody>
+        <tr><td><b>부친상 · 모친상</b></td><td>아버지 · 어머니</td></tr>
+        <tr><td><b>빙부상 · 빙모상</b></td><td>아내의 아버지(장인) · 아내의 어머니(장모)</td></tr>
+        <tr><td><b>시부상 · 시모상</b></td><td>남편의 아버지(시아버지) · 남편의 어머니(시어머니)</td></tr>
+        <tr><td><b>조부상 · 조모상</b></td><td>할아버지 · 할머니</td></tr>
+        <tr><td><b>외조부상 · 외조모상</b></td><td>외할아버지 · 외할머니</td></tr>
+        <tr><td><b>남편상 · 부인상</b></td><td>남편 · 아내</td></tr>
+      </tbody></table></div>
+    </div>
+    <div class="sec">
+      <h2>자주 헷갈리는 호칭</h2>
+      <div class="tblwrap"><table class="wordtbl wrap1"><thead><tr><th>부르는 말</th><th>누구인가요</th><th>촌수</th></tr></thead><tbody>
+        <tr><td><b>큰아버지 (백부)</b></td><td>아버지의 형</td><td>3촌</td></tr>
+        <tr><td><b>작은아버지 (숙부)</b></td><td>아버지의 남동생. 결혼 전이면 흔히 삼촌이라 부릅니다</td><td>3촌</td></tr>
+        <tr><td><b>고모 · 고모부</b></td><td>아버지의 누나 · 여동생과 그 남편</td><td>3촌</td></tr>
+        <tr><td><b>외삼촌 · 외숙모</b></td><td>어머니의 남자 형제와 그 아내</td><td>3촌</td></tr>
+        <tr><td><b>이모 · 이모부</b></td><td>어머니의 여자 형제와 그 남편</td><td>3촌</td></tr>
+        <tr><td><b>종조부</b></td><td>할아버지의 형제. 큰할아버지 · 작은할아버지라고 부릅니다</td><td>4촌</td></tr>
+        <tr><td><b>당숙 (종숙)</b></td><td>아버지의 사촌 형제</td><td>5촌</td></tr>
+        <tr><td><b>재종형제</b></td><td>나와 6촌인 형제 (당숙의 자녀)</td><td>6촌</td></tr>
+      </tbody></table></div>
+      <p class="note">더 먼 관계는 위의 <b>관계 찾기</b>에서 ‘…의’를 이어 고르면 바로 알려 드립니다.</p>
+    </div>
+    <div class="sec">
+      <h2>촌수, 이것이 궁금합니다</h2>
+      <div>
+        <details class="faq"><summary>부부는 몇 촌인가요?</summary><div class="faq-a">부부 사이에는 촌수가 없어 ‘무촌’이라고 합니다. 배우자의 가족은 배우자를 기준으로 촌수를 셉니다.</div></details>
+        <details class="faq"><summary>친척(친족)은 몇 촌까지인가요?</summary><div class="faq-a">민법에서는 8촌 이내의 혈족, 4촌 이내의 인척(배우자 쪽 가족과 가족의 배우자), 배우자를 친족으로 봅니다.</div></details>
+        <details class="faq"><summary>조부상 · 외조부상에도 회사 경조휴가가 나오나요?</summary><div class="faq-a">경조휴가는 법으로 정해진 것이 아니라 회사마다 규정으로 정합니다. 몇 촌까지 며칠인지는 회사 취업규칙이나 인사 담당자에게 확인하세요.</div></details>
       </div>
     </div>
   </div>

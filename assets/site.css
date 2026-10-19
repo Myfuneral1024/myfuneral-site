@@ -367,6 +367,7 @@ textarea.in{padding:10px 12px;line-height:1.7;resize:vertical}
 .wordtbl thead th{border-top:1px solid var(--ink);font-size:14px;color:var(--muted);font-weight:500}
 .wordtbl .hz{font-family:var(--serif);font-weight:700;font-size:20px;white-space:nowrap}
 .wordtbl thead th,.wordtbl td:first-child{white-space:nowrap}
+@media (max-width:380px){.wordtbl.wrap1 td:first-child{white-space:normal;min-width:6.5em}}
 @media (max-width:560px){.wordtbl{font-size:14px}.wordtbl th,.wordtbl td{padding:9px 6px}}
 .tblwrap{overflow-x:auto}
 
