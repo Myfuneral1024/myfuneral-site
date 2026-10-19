@@ -34,7 +34,7 @@ META = {
     'print': ('지방 · 위패 · 축문 · 명정 · 혼백 출력 | 나만의장례 출력실',
               '고인 정보를 한 번 입력하면 지방(위패), 명정, 혼백, 축문, 상중 안내문, 부의 봉투를 실물 크기로 바로 인쇄하거나 PDF로 받습니다. 부고 · 감사 문자도 만들 수 있습니다. 회원가입 없이 무료.'),
     'date': ('삼우제 · 49재 · 기일 날짜 계산 · 음력 달력 | 나만의장례',
-             '돌아가신 날만 넣으면 발인, 삼우제, 49재, 100일, 첫 기일(음력)을 양력 날짜로 바로 계산합니다. 해마다 돌아오는 기일과 음력 달력, 손 없는 날까지 한눈에 봅니다.'),
+             '돌아가신 날만 넣으면 발인, 삼우제, 49재, 100일, 첫 기일(음력)을 양력 날짜로 바로 계산합니다. 사망신고 · 상속 포기 · 상속세 같은 장례 후 서류 기한과 음력 달력, 손 없는 날까지 한눈에 봅니다.'),
     'clan': ('본관 찾기 · 성씨 본관 한자 검색 | 나만의장례',
              '김해 김씨, 밀양 박씨처럼 본관을 한글로 찾으면 한자 본관과 성을 알려 드립니다. 139개 성씨, 423개 본관. 지방 · 명정 · 축문에 바로 넣을 수 있습니다.'),
     'chon': ('촌수 계산 · 가족 호칭 정리 | 나만의장례',
@@ -77,6 +77,7 @@ JSPDF = re.search(r'(<script src="https://cdnjs[^>]*></script>)', src).group(1)
 def fix_links(s):
     s = s.replace('href="#print" data-goto-tab="env"', 'href="/print/?tab=env"')
     s = s.replace('href="#print" data-goto-tab="ck"', 'href="/print/?tab=ck"')
+    s = s.replace('href="#date" data-goto="after"', 'href="/date/#after"')
     s = s.replace('href="#home"', 'href="/"')
     for r in ROUTES:
         s = s.replace(f'href="#{r}"', f'href="/{r}/"')

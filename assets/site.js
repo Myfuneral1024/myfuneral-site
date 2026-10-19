@@ -605,6 +605,24 @@ function solarOf(y,m,d){ /* 음력 y년 m월(평달) d일 → 양력. 그해 그
 const DT={die:isoDay(0),days:3,out:'',outSet:false,calY:0,calM:0,items:[],years:[],mode:'fam',name:'',dirs:[{n:'',t:''}]};
 const dtDirs=()=>DT.dirs.map(d=>({n:String(d.n||'').trim(),t:String(d.t||'').trim()})).filter(d=>d.n||d.t);
 const dtName=()=>DT.mode==='pro'?String(DT.name||'').trim():'';
+const isoMonths=(s,n,end)=>{ const p=s.split('-').map(Number); const t=p[0]*12+p[1]-1+n, y=Math.floor(t/12), m=t%12+1; const len=new Date(Date.UTC(y,m,0)).getUTCDate(); return y+'-'+String(m).padStart(2,'0')+'-'+String(end?len:Math.min(p[2],len)).padStart(2,'0'); };
+/* 장례 후 서류 · 신고 기한 (근거: 가족관계등록법 84조 · 민법 1019조 · 상속세및증여세법 67조 · 지방세법 20조 · 자동차등록령 26조 · 국민연금법 115조, 안심상속은 행정안전부 안내) */
+function dtAfter(die){ return [
+  {t:'사망신고',d:isoMonths(die,1),w:'시 · 구청, 읍 · 면 · 동 주민센터',s:'돌아가신 사실을 안 날부터 1개월 · 늦으면 과태료가 붙습니다'},
+  {t:'상속 포기 · 한정승인',d:isoMonths(die,3),w:'가정법원 · 고인의 빚이 재산보다 많을 수 있을 때',s:'상속이 시작된 것을 안 날부터 3개월 · 지나면 빚도 함께 물려받는 것으로 봅니다'},
+  {t:'상속세 신고 · 납부',d:isoMonths(die,6,1),w:'세무서 · 홈택스',s:'돌아가신 달의 말일부터 6개월 (고인과 상속인 모두 외국에 살면 9개월)'},
+  {t:'부동산 상속 취득세',d:isoMonths(die,6,1),w:'시 · 군 · 구청 (위택스) · 고인 명의 부동산이 있을 때',s:'돌아가신 달의 말일부터 6개월 (외국에 사는 상속인이 있으면 9개월) · 늦으면 가산세'},
+  {t:'자동차 상속 이전',d:isoMonths(die,6,1),w:'차량등록사업소 · 시 · 구청 · 고인 명의 차가 있을 때',s:'돌아가신 달의 말일부터 6개월 · 늦으면 과태료가 붙습니다'},
+  {t:'안심상속 원스톱 서비스',d:isoMonths(die,12,1),w:'사망신고 때 주민센터에서 함께 신청 (정부24도 됩니다)',s:'고인의 금융 · 토지 · 자동차 · 세금 · 연금 내역을 한 번에 조회 · 돌아가신 달의 말일부터 1년'},
+  {t:'국민연금 유족연금 · 사망일시금',d:isoMonths(die,60),w:'국민연금공단 (1355) · 고인이 가입했거나 연금을 받고 계셨을 때',s:'5년이 지나면 받을 수 없습니다 · 빨리 신청하실수록 좋습니다'} ]; }
+function renderAfter(M){ const ol=$('#dt-after'); if(!ol) return; ol.innerHTML='';
+  dtAfter(M.die).forEach(it=>{ const li=document.createElement('li'); const dd=dDay(it.d);
+    li.innerHTML='<span class="t"></span><span class="d"></span><span class="s"><span class="w"></span></span><span class="dd"></span>';
+    li.children[0].textContent=it.t; li.children[1].textContent=fmtY(it.d)+'까지'; li.children[2].firstChild.textContent=it.w; li.children[2].appendChild(document.createTextNode(it.s));
+    li.children[3].textContent=dd[0]; if(dd[1]) li.children[3].classList.add('soon'); ol.appendChild(li); }); }
+function afterText(){ const M=dtModel(), nm=dtName(); const L=[(nm?'[故 '+nm+'님 ':'[')+'장례 후 서류 · 신고 기한]','돌아가신 날 '+fmtY(M.die)+' 기준',''];
+  dtAfter(M.die).forEach(it=>{ L.push('■ '+it.t+'  '+fmtY(it.d)+'까지'); L.push('  '+it.w); L.push('  '+it.s); });
+  L.push('','※ 쉽게 셈한 날짜입니다. 기한이 가까우면 해당 기관에 꼭 확인하세요.','나만의장례 24시간 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
 function dDay(iso){ const n=dayDiff(isoDay(0),iso); return n===0?['오늘',true]:n>0?[n+'일 남음',n<=7]:['지났습니다',false]; }
 function dtModel(){
   const die=isoOk(DT.die)?DT.die:isoDay(0);
@@ -646,6 +664,7 @@ function renderDate(){
   M.years.forEach(e=>{ const tr=document.createElement('tr'); if(e.r.iso<today) tr.className='past'; tr.innerHTML='<td></td><td></td><td></td>';
     tr.children[0].textContent=e.n+'주기'; tr.children[1].textContent=M.L.m+'월 '+e.r.d+'일'; tr.children[2].textContent=fmtY(e.r.iso); tb.appendChild(tr); });
   $('#dt-yr-note').textContent=M.yrNote;
+  renderAfter(M);
   if(!DT.calY){ const t=isoDay(0); DT.calY=+t.slice(0,4); DT.calM=+t.slice(5,7); }
   renderCal(); dtBlob=null; if(CAN_SHARE){ clearTimeout(dtBlobT); dtBlobT=setTimeout(()=>dtMakeBlob().catch(()=>{}),400); }
 }
@@ -728,6 +747,7 @@ function bindDate(){
   oi.addEventListener('change',onOut); oi.addEventListener('input',onOut);
   $$('[data-dtdays]').forEach(b=>b.addEventListener('click',()=>{ DT.days=+b.getAttribute('data-dtdays'); DT.outSet=false; renderDate(); }));
   $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했습니다. 단톡방에 붙여 넣어 보내세요',$('#dt-list')));
+  const ac=$('#dt-after-copy'); if(ac) ac.addEventListener('click',()=>copyText(afterText(),'서류 기한을 복사했습니다',$('#dt-after')));
   const im=$('#dt-img'); if(im) im.addEventListener('click',dtSaveImg);
   const sh=$('#dt-share'); if(sh){ sh.hidden=!CAN_SHARE; sh.addEventListener('click',dtShare); }
   $$('[data-dtmode]').forEach(b=>b.addEventListener('click',()=>{ DT.mode=b.getAttribute('data-dtmode'); renderDate(); dtDirty(); }));
