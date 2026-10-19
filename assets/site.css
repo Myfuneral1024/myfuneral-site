@@ -62,6 +62,16 @@ button,input,select,textarea{font:inherit;color:inherit}
 .card{background:var(--surface);border:1px solid var(--line);border-radius:4px}
 .page{padding-block:44px 96px}
 .page-head{display:flex;flex-direction:column;gap:14px;margin-bottom:44px;max-width:720px}
+.ph{margin:0;border-radius:4px;overflow:hidden;background:var(--sunk);aspect-ratio:3/2}
+.ph img{display:block;width:100%;height:100%;object-fit:cover}
+.page-head.has-ph{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:14px 56px;align-items:center}
+.page-head.has-ph>:not(.ph){grid-column:1}
+.page-head.has-ph>.ph{grid-column:2;grid-row:1 / span 3}
+@media (max-width:900px){.page-head.has-ph{grid-template-columns:minmax(0,1fr)}.page-head.has-ph>.ph{grid-column:1;grid-row:auto;margin-top:6px}.page-head .ph.pc-only{display:none}}
+.hero-side{display:flex;flex-direction:column;gap:16px;min-width:0}
+.promise-wrap{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:20px 48px;align-items:start}
+.promise-wrap .promise{grid-template-columns:minmax(0,1fr)}
+@media (max-width:900px){.promise-wrap{grid-template-columns:minmax(0,1fr)}}
 .page-head h1{font-size:clamp(28px,3.6vw,40px);letter-spacing:-0.01em}
 .page-head p{font-size:17px;line-height:1.75;color:var(--ink2);max-width:36em}
 .sec{display:flex;flex-direction:column;gap:20px;margin-top:72px;padding-top:36px;border-top:1px solid var(--line)}

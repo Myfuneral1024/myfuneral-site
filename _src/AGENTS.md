@@ -45,6 +45,12 @@ www.myfuneral.co.kr · 저장소 `Myfuneral1024/myfuneral-site` (공개) · `mai
 - 표 머리글과 첫 칸은 줄바꿈 없음, 좁은 화면(≤380px)에서 「하는 일」 표는 한 줄씩, 날짜 목록은 제목 / 날짜 / 설명으로 쌓는다.
 - 확인: 320 · 360 · 390px에서 줄 끝이 `-`로 끝나거나 마지막 줄이 1~2글자인 곳을 찾는 검사를 돌린다.
 
+### 사진 (2026-10-19)
+- 사용자가 AI로 만든 사물 사진 5장. 원본은 `_src/img/*.jpg`(공개 안 됨), `python3 _src/img/make.py`가 로고 팻말을 잘라 낸 3:2 사진을 `assets/img/이름-480.webp · -900.webp`로 만든다 (자르기 상자는 make.py의 CROPS).
+- 자리: 처음 화면 오른쪽 위 `flowers`(휴대폰은 전화 버튼 아래) · 처음 「약속」 `shroud` · 무빈소 머리 `candle` · 비용 계산 머리 `note`(PC만) · 날짜 계산 머리 `urn`(PC만). 머리 사진은 `.page-head.has-ph` + `figure.ph`, 휴대폰에서 숨길 것은 `.ph.pc-only`.
+- 모두 `loading="lazy"`, `width/height` 지정(화면 밀림 없음), 한국어 alt.
+- AI 인물 사진(지도사 · 상담 장면)은 아직 넣지 않았다. 사용자에게 「실제 직원처럼 보이면 믿음을 해칠 수 있다, 쓰면 이름 · 직함 없이 장면으로만, 나중엔 실제 사진으로」라고 안내함. 손짓하는 남성 사진은 쓰지 않기로 권함.
+
 ## 2. 고치는 순서
 1. `_src/src.html`만 고친다. 여러 군데면 Python 치환 + `assert s.count(old)==1`.
 2. `python3 _src/build.py` (확인용 따로: `--out /tmp/x`)
