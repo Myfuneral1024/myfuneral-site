@@ -176,6 +176,10 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .sum-lines li span:last-child{white-space:nowrap;font-weight:500}
 .total{border-top:2px solid var(--ink);padding:14px 2px 2px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .total b{font-family:var(--serif);font-weight:900;font-size:32px;line-height:1}
+.keep-box{margin-top:18px;border:2px solid var(--ink);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.keep-box .keep-t{font-family:var(--serif);font-weight:900;font-size:20px;line-height:1.35}
+.keep-box p{color:var(--ink2);line-height:1.7}
+.keep-box .btn{align-self:flex-start;margin-top:4px}
 
 /* 날짜 계산 */
 .dt-grid{display:grid;grid-template-columns:380px minmax(0,1fr);gap:20px;align-items:start}
