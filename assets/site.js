@@ -918,9 +918,9 @@ function wzEnter(stage,dir,oldH){
   const kids=[...stage.children]; const items=[]; kids.forEach(k=>{ if(k.matches('.wz-opts,.wz-sum')) items.push(...k.children); else items.push(k); });
   items.forEach((el,i)=>{ el.animate([{opacity:0,transform:'translate3d('+(dir==='prev'?-40:40)+'px,0,0)'},{opacity:1,transform:'translate3d(0,0,0)'}],{duration:560,delay:Math.min(i*45,315),easing:'cubic-bezier(0.19,1,0.22,1)',fill:'backwards'}); });
 }
-function setRun(v){ const el=$('#wz-run'); if(!el) return; const from=el._v==null?v:el._v; el._v=v; cancelAnimationFrame(el._raf);
-  if(RM||from===v){ el.textContent=won(v); return; } const t0=performance.now(), dur=520;
-  const step=t=>{ const p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=won(Math.round((from+(v-from)*e)/1000)*1000); if(p<1) el._raf=requestAnimationFrame(step); else el.textContent=won(v); };
+function setRun(v){ const el=$('#wz-run'); if(!el) return; const from=el._v==null?v:el._v; el._v=v; cancelAnimationFrame(el._raf); const sf=estFrom()?'부터':'';
+  if(RM||from===v){ el.textContent=won(v)+sf; return; } const t0=performance.now(), dur=520;
+  const step=t=>{ const p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=won(Math.round((from+(v-from)*e)/1000)*1000)+sf; if(p<1) el._raf=requestAnimationFrame(step); else el.textContent=won(v)+sf; };
   el._raf=requestAnimationFrame(step); }
 function updNav(){ const v=wzVis(); const i=v.findIndex(x=>x.k===WK); const prev=$('#wz-prev'), next=$('#wz-next'); prev.disabled=i<=0; next.hidden=v[i].k==='done'; const wait=WZ_NEED.indexOf(v[i].k)>=0&&!PR[v[i].k]; next.disabled=wait; next.textContent=wait?'하나를 골라 주세요':(v[i+1]&&v[i+1].k==='done')?'견적 보기':'다음'; setRun(estTotal()); }
 function wzStepper(key,label,sub,min,max,unit){
@@ -957,16 +957,17 @@ function renderWizard(focus){
     const tot=document.createElement('div'); tot.className='total'; tot.style.marginTop='14px'; tot.innerHTML='<span>합계</span><b></b>'; tot.lastChild.textContent=won(estTotal())+(estFrom()?'부터':''); stage.appendChild(tot);
     if(PR.disc==='sup'){ const n=document.createElement('p'); n.className='note'; n.style.marginTop='10px'; n.textContent='수급자 · 국가유공자 할인 20만원이 들어간 금액입니다. 할인 대상인지는 상담 때 확인해 드립니다.'; stage.appendChild(n); }
     if(PR.urn==='u1'&&PR.burial!=='bur'){ const n=document.createElement('p'); n.className='note'; n.style.marginTop='10px'; n.textContent='유골함은 진공함 가장 낮은 금액(45만원)으로 넣었어요. 고르시는 함에 따라 400만원까지 달라질 수 있어요.'; stage.appendChild(n); }
+    const keep=document.createElement('div'); keep.className='keep-box'; keep.setAttribute('role','note');
+    keep.innerHTML='<p class="keep-t">이 견적, 꼭 저장해 두세요</p><p>저장해 두셨다가 장례 현장에서 담당 장례지도사에게 보여 주시면, 이 견적 그대로 진행해 드려요. 화면을 캡처해 두셔도 괜찮아요.</p>';
     const who=document.createElement('div'); who.className='est-who';
     who.innerHTML='<div class="fld"><label for="est-nm">견적에 넣을 성함 <span>(선택)</span></label><input id="est-nm" class="in" autocomplete="name" enterkeyhint="done"></div><p class="note">넣으시면 견적 이미지와 복사 글 맨 위에 「○○○ 고객님」으로 들어갑니다. 어디에도 저장되지 않습니다.</p>';
     const nm=who.querySelector('#est-nm'); nm.value=PR.nm||'';
     nm.addEventListener('input',()=>{ PR.nm=nm.value; const cw=$('.cp-who'); if(cw){ const w=estWho(); cw.textContent=w; cw.closest('.cp-who-row').hidden=!w; } }); nm.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); nm.blur(); } });
-    stage.appendChild(who);
+    keep.appendChild(who);
+    const sv=document.createElement('button'); sv.type='button'; sv.className='btn btn-primary'; sv.dataset.a='img'; sv.textContent='견적 이미지 저장'; sv.addEventListener('click',saveEstImg); keep.appendChild(sv);
+    stage.appendChild(keep);
     const vs=document.createElement('p'); vs.className='note wz-link'; vs.innerHTML='미리 내는 돈 없이 장례를 마친 뒤 정산합니다. <a href="#prepaid">일반 선불식 상조와 무엇이 다른가요?</a>'; stage.appendChild(vs);
     if(PR.type==='fam'){ const cpb=document.createElement('div'); cpb.className='cp-box'; stage.appendChild(cpb); renderCp(cpb); }
-    const keep=document.createElement('div'); keep.className='keep-box'; keep.setAttribute('role','note');
-    keep.innerHTML='<p class="keep-t">이 견적, 꼭 저장해 두세요</p><p>저장해 두셨다가 장례 현장에서 담당 장례지도사에게 보여 주시면, 이 견적 그대로 진행해 드려요. 화면을 캡처해 두셔도 괜찮아요.</p><button type="button" class="btn btn-primary" data-a="img">견적 이미지 저장</button>';
-    keep.querySelector('[data-a="img"]').addEventListener('click',saveEstImg); stage.appendChild(keep);
     const act=document.createElement('div'); act.className='actions'; act.style.margin='16px 0 12px';
     act.innerHTML='<a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><a class="btn btn-line" data-a="talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>견적 보내고 카톡 상담</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button><button type="button" class="btn btn-ghost" data-a="again">처음부터 다시</button>';
     act.querySelector('[data-a="copy"]').addEventListener('click',()=>copyText(estText(),'견적 내용을 복사했습니다',ul));
