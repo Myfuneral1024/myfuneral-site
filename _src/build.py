@@ -78,6 +78,7 @@ JSPDF = re.search(r'(<script src="https://cdnjs[^>]*></script>)', src).group(1)
 # ── 2. 주소 바꾸기 (#price → /price/) ──
 def fix_links(s):
     s = s.replace('href="#print" data-goto-tab="env"', 'href="/print/?tab=env"')
+    s = s.replace('href="#print" data-goto-tab="tx"', 'href="/print/?tab=tx"')
     s = s.replace('href="#print" data-goto-tab="ck"', 'href="/print/?tab=ck"')
     s = s.replace('href="#date" data-goto="after"', 'href="/date/#after"')
     s = s.replace('href="#home"', 'href="/"')
