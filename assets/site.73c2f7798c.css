@@ -32,13 +32,13 @@ button,input,select,textarea{font:inherit;color:inherit}
 /* 머리 */
 .top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:1px solid var(--ink)}
 .top-in{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
-.logo{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)}
+.logo{display:flex;align-items:center;gap:10px;min-height:44px;text-decoration:none;color:var(--ink)}
 .logo svg{display:block;flex:none;color:var(--ink)}
 .logo-txt{display:flex;flex-direction:column;gap:6px}
 .logo-tag{font-size:12px;line-height:1;color:var(--muted);letter-spacing:0.02em}
 .top-call{display:flex;align-items:center;gap:6px}
 .tc-label{font-size:13px;color:var(--muted)}
-.tc-num{font-family:var(--serif);font-weight:900;font-size:22px;text-decoration:none;letter-spacing:0.01em}
+.tc-num{display:inline-flex;align-items:center;min-height:44px;font-family:var(--serif);font-weight:900;font-size:22px;text-decoration:none;letter-spacing:0.01em}
 .tc-talk{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 12px;margin-left:4px;border:1px solid var(--line);border-radius:4px;color:var(--ink);text-decoration:none;font-size:14px;font-weight:700}
 .tc-talk:hover{border-color:var(--ink)}
 .ic-talk{display:block;flex:none}
@@ -64,6 +64,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .page-head{display:flex;flex-direction:column;gap:14px;margin-bottom:44px;max-width:720px}
 .ph{margin:0;border-radius:4px;overflow:hidden;background:var(--sunk);aspect-ratio:3/2}
 .ph img{display:block;width:100%;height:100%;object-fit:cover}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .ph img{filter:brightness(.86)}}
 .page-head.has-ph{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,440px);gap:14px 56px;align-items:center}
 .page-head.has-ph>:not(.ph){grid-column:1}
 .page-head.has-ph>.ph{grid-column:2;grid-row:1 / span 3}
@@ -99,12 +100,41 @@ details.faq summary::after{content:"+";font-size:22px;font-weight:400;color:var(
 details.faq[open] summary::after{content:"−"}
 details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 
+/* 유골함 */
+.urn-h2{font-size:clamp(22px,2.6vw,28px);margin-bottom:20px}
+.urn-cmp .card{display:flex;flex-direction:column;gap:12px}
+.urn-k h3{font-size:22px;display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px}
+.urn-k h3 small{font-family:inherit;font-size:14px;font-weight:500;color:var(--muted)}
+.urn-fig{display:block;width:100%;max-width:400px;height:auto;margin:0 auto}
+.urn-fig .w{fill:var(--surface);stroke:var(--edge)}
+.urn-fig .gap{fill:var(--sunk);stroke:var(--edge)}
+.urn-fig .inner{fill:var(--surface);stroke:var(--ink)}
+.urn-fig .ash{fill:var(--line)}
+.urn-fig .pk{stroke:var(--ink)}
+.urn-fig .valve,.urn-fig .arh{fill:var(--ink)}
+.urn-fig .arw{stroke:var(--ink);fill:none;stroke-dasharray:4 3}
+.urn-fig .ln{stroke:var(--muted);fill:none}
+.urn-fig .air{fill:var(--muted)}
+.urn-fig .drop{fill:var(--ink2)}
+.urn-fig .t{fill:var(--ink);font-size:13px;font-weight:700}
+.urn-fig .s{fill:var(--muted);font-size:11.5px}
+.urn-dl{margin:0;display:flex;flex-direction:column}
+.urn-dl>div{display:grid;grid-template-columns:84px minmax(0,1fr);gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.urn-dl dt{font-weight:700;white-space:nowrap}
+.urn-dl dd{margin:0;color:var(--ink2)}
+.urn-honest{margin-top:16px;padding:16px 18px;border:1px solid var(--ink);border-radius:4px;color:var(--ink2);line-height:1.75}
+.urn-honest b{color:var(--ink)}
+.wz-link{margin-top:14px}
+.wz-link a{color:var(--ink);font-weight:700;text-underline-offset:3px}
+
 /* 홈 첫 화면 */
 .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:56px;padding-block:24px 8px;align-items:start}
 @media (max-width:960px){.hero{grid-template-columns:minmax(0,1fr);gap:40px;padding-block:8px 0}}
 .hero-main{display:flex;flex-direction:column;gap:20px}
 .hero-q{font-family:var(--serif);font-weight:500;font-size:clamp(18px,2vw,22px);line-height:1.6;color:var(--ink2)}
 .hero h1{font-size:clamp(27px,7.2vw,56px);line-height:1.25;font-weight:900;letter-spacing:-0.015em}
+.hero h1 .ln{white-space:nowrap}
+@media (min-width:961px){.hero h1{font-size:clamp(34px,4.1vw,54px)}}
 .lead{font-size:17px;color:var(--ink2);max-width:33em;line-height:1.75}
 .actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
 .phone{margin-top:12px;padding-top:20px;border-top:1px solid var(--ink);display:flex;flex-direction:column;gap:12px}
@@ -176,6 +206,10 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .sum-lines li span:last-child{white-space:nowrap;font-weight:500}
 .total{border-top:2px solid var(--ink);padding:14px 2px 2px;display:flex;justify-content:space-between;align-items:baseline;gap:8px}
 .total b{font-family:var(--serif);font-weight:900;font-size:32px;line-height:1}
+.keep-box{margin-top:18px;border:2px solid var(--ink);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:8px;background:var(--surface)}
+.keep-box .keep-t{font-family:var(--serif);font-weight:900;font-size:20px;line-height:1.35}
+.keep-box p{color:var(--ink2);line-height:1.7}
+.keep-box .btn{align-self:flex-start;margin-top:4px}
 
 /* 날짜 계산 */
 .dt-grid{display:grid;grid-template-columns:380px minmax(0,1fr);gap:20px;align-items:start}
@@ -195,10 +229,16 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .dt-list .s{color:var(--muted);font-size:14px}
 .dt-list .dd{color:var(--muted);font-size:13px;text-align:right;white-space:nowrap}
 .dt-list .dd.soon{color:var(--ink);font-weight:700}
-.dt-more summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center}
+.dt-more summary{cursor:pointer;font-weight:700;min-height:44px;display:flex;align-items:center;justify-content:space-between;gap:12px;list-style:none;border-bottom:1px solid var(--line)}
+.dt-more summary::-webkit-details-marker{display:none}
+.dt-more summary::after{content:"+";font-size:22px;font-weight:400;color:var(--muted)}
+.dt-more[open] summary::after{content:"−"}
 .dt-sub{list-style:none;margin:0;padding:0}
 .dt-sub li{display:flex;justify-content:space-between;gap:10px;padding:8px 2px;border-bottom:1px solid var(--line);font-size:15px}
 .dt-h3{font-size:17px;margin-bottom:8px}
+#after{scroll-margin-top:124px}
+.dt-after{max-width:820px;padding:18px 16px;display:flex;flex-direction:column;gap:14px}
+.dt-list .w{display:block;color:var(--ink2);font-weight:500}
 .dt-years{width:100%;border-collapse:collapse;font-size:15px}
 .dt-years th{text-align:left;font-size:13px;color:var(--muted);font-weight:500;padding:6px 2px;border-bottom:1px solid var(--ink)}
 .dt-years td{padding:9px 2px;border-bottom:1px solid var(--line);white-space:nowrap}
@@ -227,7 +267,7 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .cal-key{display:inline-block;width:14px;height:14px;border-radius:3px;border:1px solid var(--line)}
 .cal-key.son{background:var(--sunk)}
 .cal-key.mk{background:var(--pine);border-color:var(--pine)}
-@media (max-width:560px){.cal td{height:66px;padding:4px 3px 3px}.cal td b{font-size:14px}.cal .cl{font-size:11px}.cal .sn{font-size:10px;letter-spacing:-0.02em}.cal .mk{font-size:10px;padding:0 2px}.cal-card{padding:12px 6px}}
+@media (max-width:560px){.cal td{height:66px;padding:4px 3px 3px}.cal td b{font-size:14px}.cal .cl{font-size:11px}.cal .sn{font-size:11px;letter-spacing:-0.04em}.cal .mk{font-size:11px;padding:0 2px;letter-spacing:-0.03em}.cal-card{padding:12px 6px}}
 
 /* 출력실 */
 .pr-grid{display:grid;grid-template-columns:400px minmax(0,1fr);gap:20px;align-items:start}
@@ -327,6 +367,7 @@ textarea.in{padding:10px 12px;line-height:1.7;resize:vertical}
 .wordtbl thead th{border-top:1px solid var(--ink);font-size:14px;color:var(--muted);font-weight:500}
 .wordtbl .hz{font-family:var(--serif);font-weight:700;font-size:20px;white-space:nowrap}
 .wordtbl thead th,.wordtbl td:first-child{white-space:nowrap}
+@media (max-width:380px){.wordtbl.wrap1 td:first-child{white-space:normal;min-width:6.5em}}
 @media (max-width:560px){.wordtbl{font-size:14px}.wordtbl th,.wordtbl td{padding:9px 6px}}
 .tblwrap{overflow-x:auto}
 
@@ -391,8 +432,24 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 .terms h2{font-size:18px}
 .terms p{color:var(--ink2)}
 .terms ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink2)}
-.wz-sum li{display:grid;grid-template-columns:minmax(0,1fr) auto 64px;align-items:center;gap:10px}
-.wz-sum .fix{min-height:40px;border:0;background:none;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:14px}
+.wz-sum li{display:grid;grid-template-columns:104px minmax(0,1fr) auto 64px;align-items:center;gap:4px 14px}
+.wz-sum .c{font-weight:700;color:var(--ink)}
+.wz-sum .i{color:var(--ink2)}
+.wz-sum .i small{display:block;margin-top:2px;font-size:13px;font-weight:400;color:var(--muted)}
+.wz-sum .v{white-space:nowrap;font-weight:500;text-align:right;color:var(--ink)}
+.wz-sum li.hd{padding:2px 0 8px;border-bottom:1px solid var(--ink);font-size:13px;color:var(--muted)}
+.wz-sum li.hd span{font-weight:500}
+.wz-sum li.hd span:nth-child(3){text-align:right}
+@media (max-width:560px){
+  .wz-sum li{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:'c v f' 'i v f';gap:2px 12px;padding:10px 0}
+  .wz-sum .fix{padding:0 2px}
+  .wz-sum .c{grid-area:c;font-size:13.5px;color:var(--muted)}
+  .wz-sum .i{grid-area:i;color:var(--ink);font-weight:500}
+  .wz-sum .v{grid-area:v}
+  .wz-sum li>:nth-child(4){grid-area:f}
+  .wz-sum li.hd{display:none}
+}
+.wz-sum .fix{white-space:nowrap;min-height:40px;border:0;background:none;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:14px}
 
 /* 촌수 · 관계 찾기 */
 .find{padding:22px 20px;display:flex;flex-direction:column;gap:18px}

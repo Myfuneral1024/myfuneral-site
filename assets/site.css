@@ -435,6 +435,7 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 .wz-sum li{display:grid;grid-template-columns:104px minmax(0,1fr) auto 64px;align-items:center;gap:4px 14px}
 .wz-sum .c{font-weight:700;color:var(--ink)}
 .wz-sum .i{color:var(--ink2)}
+.wz-sum .i small{display:block;margin-top:2px;font-size:13px;font-weight:400;color:var(--muted)}
 .wz-sum .v{white-space:nowrap;font-weight:500;text-align:right;color:var(--ink)}
 .wz-sum li.hd{padding:2px 0 8px;border-bottom:1px solid var(--ink);font-size:13px;color:var(--muted)}
 .wz-sum li.hd span{font-weight:500}
