@@ -81,6 +81,7 @@ def fix_links(s):
     s = s.replace('href="#print" data-goto-tab="tx"', 'href="/print/?tab=tx"')
     s = s.replace('href="#print" data-goto-tab="ck"', 'href="/print/?tab=ck"')
     s = s.replace('href="#date" data-goto="after"', 'href="/date/#after"')
+    s = s.replace('href="#price" data-goto="prepaid"', 'href="/price/#prepaid"')
     s = s.replace('href="#home"', 'href="/"')
     for r in ROUTES:
         s = s.replace(f'href="#{r}"', f'href="/{r}/"')
