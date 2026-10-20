@@ -442,6 +442,7 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 .wz-help{color:var(--ink2);margin-bottom:20px;max-width:36em;line-height:1.7}
 .wz-box{margin:-6px 0 20px;padding:12px 14px;background:var(--pine-soft);border-left:3px solid var(--pine);border-radius:2px;color:var(--ink2);line-height:1.7}
 .wz-box b{color:var(--ink)}
+.wz-box.end{margin:16px 0 0}
 .wz-sum li.sep .v{font-weight:700}
 .wz-sum li.sep .i small{color:var(--ink2)}
 .wz-opts{display:grid;gap:10px}
