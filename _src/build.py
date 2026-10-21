@@ -18,7 +18,8 @@ OUT = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else ROOT
 BASE = 'https://www.myfuneral.co.kr'
 VER = datetime.datetime.now().strftime('%Y%m%d%H%M')
 TODAY = datetime.date.today().isoformat()
-ROUTES = ['urgent', 'nobinso', 'price', 'print', 'date', 'clan', 'chon', 'manners', 'urn']  # urn은 메뉴에 없음
+ROUTES = ['urgent', 'nobinso', 'price', 'print', 'date', 'clan', 'chon', 'manners', 'urn', 'receipt']  # urn · receipt는 메뉴에 없음
+NOINDEX = ['receipt']  # 장례지도사용 화면: 검색에 안 나오게, 사이트맵에서도 뺀다
 STATIC = ['CNAME', 'favicon.svg', 'apple-touch-icon.png', 'og.png', 'robots.txt',
           'naverb64ba87306a5179497b82d3c875bb21e.html']
 
@@ -41,6 +42,8 @@ META = {
              '아버지의 사촌 동생, 어머니와 고모 사이처럼 헷갈리는 촌수와 호칭을 바로 계산합니다. 친가 · 외가 · 처가 · 시가 호칭을 지도로 볼 수 있습니다.'),
     'urn': ('유골함 고르는 법 · 일반함과 진공함 차이 | 나만의장례',
             '봉안당 · 봉안묘 · 수목장, 모실 곳에 따라 맞는 유골함이 다릅니다. 일반함과 진공함의 속 구조와 차이, 유골함 비용(별도, 40만원부터 400만원까지), 봉안당 칸 크기 확인까지 정리했습니다. 24시간 상담 1661-4214.'),
+    'receipt': ('장례 영수증 만들기 (장례지도사용) | 나만의장례',
+                '장례를 마친 뒤 정산한 내용으로 나만의장례 영수증 이미지를 만듭니다. 장례지도사용 화면입니다.'),
     'manners': ('조문 예절 · 부의 봉투 쓰는 법 | 나만의장례',
                 '조문 순서, 절하는 법과 공수, 위로의 말, 삼가야 할 것, 부의 봉투 쓰는 법과 부의금 관례까지 처음 가는 조문에 필요한 예절을 정리했습니다.'),
 }
@@ -116,7 +119,7 @@ js = JS
 start = js.index('/* ── 화면 이동 ── */')
 end = js.index("window.addEventListener('hashchange',route);") + len("window.addEventListener('hashchange',route);")
 js = js[:start] + r"""/* ── 화면 이동 (메뉴마다 주소가 따로 있음) ── */
-const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn','receipt'];
 const PAGE=(function(){ const b=document.body.getAttribute('data-route'); return PAGES.indexOf(b)>=0?b:'home'; })();
 function route(){
   const p=PAGE;
@@ -129,6 +132,7 @@ function route(){
   if(p==='price') renderWizard(false);
   if(p==='clan') renderClanPage();
   if(p==='date') renderDate();
+  if(p==='receipt') renderRc();
 }""" + js[end:]
 
 js = one(js, "b.addEventListener('click',()=>{ PS.c1=c; PS.man=false; toast(clanLabel(c)+' '+c.bh+c.sh+' · 출력실 고인 본관에 넣었습니다'); location.hash='print'; }); return b; }",
@@ -136,7 +140,7 @@ js = one(js, "b.addEventListener('click',()=>{ PS.c1=c; PS.man=false; toast(clan
 js = one(js, "b.href='#print';", "b.href='/print/?rel='+encodeURIComponent(rel);", 'jibang-link')
 
 old_start = """/* ── 시작 ── */
-bindPrint(); bindWizard(); bindChon(); bindDate();
+bindPrint(); bindWizard(); bindChon(); bindDate(); bindRc();
 $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();"""
 new_start = r"""/* ── 시작 : 이 주소의 화면만 준비 (입력한 내용은 어디에도 저장하지 않음) ── */
@@ -153,6 +157,7 @@ if(PAGE==='print'){
 if(PAGE==='price') bindWizard();
 if(PAGE==='chon') bindChon();
 if(PAGE==='date') try{ bindDate(); }catch(e){}
+if(PAGE==='receipt') bindRc();
 if(PAGE==='clan') $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();"""
 js = one(js, old_start, new_start, 'start')
@@ -180,6 +185,8 @@ def page(p):
         '<meta property="og:image:height" content="630">',
         f'<link rel="canonical" href="{url}">',
     ]
+    if p in NOINDEX:
+        head.append('<meta name="robots" content="noindex, nofollow">')
     if p == 'home':
         head.append(naver)
         head.append('<script>(function(){var h=location.hash.slice(1);if(/^(' + '|'.join(ROUTES) + r')$/.test(h))location.replace("/"+h+"/");})();</script>')
@@ -234,7 +241,7 @@ if os.path.abspath(OUT) != os.path.abspath(ROOT):
             shutil.copy(a, os.path.join(OUT, f))
 
 # 사이트맵
-urls = [BASE + '/'] + [f'{BASE}/{r}/' for r in ROUTES]
+urls = [BASE + '/'] + [f'{BASE}/{r}/' for r in ROUTES if r not in NOINDEX]
 open(os.path.join(OUT, 'sitemap.xml'), 'w', encoding='utf-8').write(
     '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
     + ''.join(f'  <url>\n    <loc>{u}</loc>\n    <lastmod>{TODAY}</lastmod>\n  </url>\n' for u in urls)

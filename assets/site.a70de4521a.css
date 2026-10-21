@@ -155,7 +155,7 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .promise dd{margin:0;color:var(--ink2)}
 @media (max-width:700px){.promise{grid-template-columns:minmax(0,1fr)}}
 .svc{display:flex;flex-direction:column}
-.svc a{display:grid;grid-template-columns:220px minmax(0,1fr) 160px;gap:6px 24px;align-items:baseline;padding:20px 0;border-top:1px solid var(--line);text-decoration:none}
+.svc a{display:grid;grid-template-columns:240px minmax(0,1fr) 160px;gap:6px 24px;align-items:baseline;padding:20px 0;border-top:1px solid var(--line);text-decoration:none}
 .svc a:last-child{border-bottom:1px solid var(--line)}
 .svc b{font-family:var(--serif);font-size:20px}
 .svc span{color:var(--ink2)}
@@ -227,6 +227,28 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .keep-box p{color:var(--ink2);line-height:1.7}
 .keep-box .btn{align-self:flex-start;margin-top:4px}
 .keep-box .est-who{margin-top:2px;padding:12px 0 0;border:0;border-top:1px solid var(--line);border-radius:0}
+
+/* 영수증 (장례지도사용) */
+.rc-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+@media (min-width:901px){.rc-res{position:sticky;top:128px}}
+@media (max-width:900px){.rc-grid{grid-template-columns:minmax(0,1fr)}}
+.rc-h{font-size:17px;margin-top:6px;padding-top:16px;border-top:1px solid var(--line)}
+.rc-h span{font-size:13px;font-weight:400;color:var(--muted)}
+.rc-res{padding:18px 16px;display:flex;flex-direction:column;gap:14px;min-width:0}
+.rc-exs{display:flex;flex-direction:column;gap:8px}
+.rc-ex{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 44px;gap:6px;align-items:center}
+.rc-sum{list-style:none;margin:0;padding:0}
+.rc-sum li{display:grid;grid-template-columns:96px minmax(0,1fr) auto;gap:2px 12px;align-items:baseline;padding:10px 0;border-bottom:1px solid var(--line);font-size:15px}
+.rc-sum .c{font-weight:700;color:var(--ink)}
+.rc-sum .i{color:var(--ink2);min-width:0}
+.rc-sum .i small{display:block;margin-top:2px;font-size:13px;color:var(--muted)}
+.rc-sum .v{white-space:nowrap;text-align:right;font-weight:500;color:var(--ink)}
+.rc-sum li.hd{padding:2px 0 8px;border-bottom:1px solid var(--ink);font-size:13px;color:var(--muted)}
+.rc-sum li.hd span{font-weight:500;color:var(--muted)}
+.rc-sum li.empty{display:block;color:var(--muted)}
+@media (max-width:560px){.rc-sum li{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'c v' 'i v'}.rc-sum .c{grid-area:c;font-size:13.5px;color:var(--muted)}.rc-sum .i{grid-area:i;color:var(--ink);font-weight:500}.rc-sum .v{grid-area:v;align-self:center}.rc-sum li.hd{display:none}}
+.total small{font-size:13px;font-weight:400;color:var(--muted)}
+.rc-ok{padding:12px 14px;background:var(--pine-soft);border-radius:2px;font-weight:700;color:var(--ink)}
 
 /* 날짜 계산 */
 .dt-grid{display:grid;grid-template-columns:380px minmax(0,1fr);gap:20px;align-items:start}
@@ -434,11 +456,17 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 .wz-top{padding:18px 20px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
 .wz-bar{height:3px;background:var(--line);border-radius:2px;overflow:hidden}
 .wz-bar i{display:block;height:100%;width:0;background:var(--pine)}
-.wz-meta{display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:14px;color:var(--muted)}
+.wz-meta{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px;font-size:14px;color:var(--muted)}
+.wz-meta>span{white-space:nowrap}
 .wz-meta b{color:var(--ink);font-family:var(--serif);font-size:20px}
 .wz-stage{padding:28px 20px 8px;min-height:380px}
 .wz-q{font-size:clamp(22px,3vw,28px);margin-bottom:8px;outline:none}
 .wz-help{color:var(--ink2);margin-bottom:20px;max-width:36em;line-height:1.7}
+.wz-box{margin:-6px 0 20px;padding:12px 14px;background:var(--pine-soft);border-left:3px solid var(--pine);border-radius:2px;color:var(--ink2);line-height:1.7}
+.wz-box b{color:var(--ink)}
+.wz-box.end{margin:16px 0 0}
+.wz-sum li.sep .v{font-weight:700}
+.wz-sum li.sep .i small{color:var(--ink2)}
 .wz-opts{display:grid;gap:10px}
 .wz-opt{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:16px 18px;border:1px solid var(--line);border-radius:4px;background:var(--surface);cursor:pointer}
 .wz-opt input{position:absolute;opacity:0;pointer-events:none}

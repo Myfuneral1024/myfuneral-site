@@ -33,7 +33,7 @@ document.addEventListener('click',e=>{
 });
 
 /* ── 화면 이동 (메뉴마다 주소가 따로 있음) ── */
-const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn','receipt'];
 const PAGE=(function(){ const b=document.body.getAttribute('data-route'); return PAGES.indexOf(b)>=0?b:'home'; })();
 function route(){
   const p=PAGE;
@@ -46,6 +46,7 @@ function route(){
   if(p==='price') renderWizard(false);
   if(p==='clan') renderClanPage();
   if(p==='date') renderDate();
+  if(p==='receipt') renderRc();
 }
 
 /* ── 본관 자료 ── */
@@ -1335,6 +1336,156 @@ function bindChon(){
   const ex=$('#ch-ex'); EX.forEach(x=>{ const b=document.createElement('button'); b.type='button'; b.textContent=x[0]; b.addEventListener('click',()=>{ CH.steps=JSON.parse(JSON.stringify(x[1])); if(x[2]) CS.me=x[2]; renderChonAll(false); }); ex.appendChild(b); });
 }
 
+/* ── 영수증 (장례를 마친 뒤 · 장례지도사용 · 입력한 내용은 저장하지 않음) ── */
+const RC_CO={ceo:'',addr:''};  /* 대표자 · 사업장 주소: 사용자에게 받으면 채운다. 비어 있으면 영수증에 넣지 않음 */
+const rcToday=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const RC_DEF=()=>({type:null,coffin:'',shroud:'',ipgwan:'none',binso:'none',car:'none',urnN:'',urnA:'',s1:0,s2:0,mm:0,mf:0,sup:false,cp:false,cpNo:'',ex:[{n:'',a:''}],pay:[],to:'',dec:'',d1:'',d2:'',hall:'',dir:'',dirT:'',pd:rcToday(),no:''});
+let RC=RC_DEF(), rcBlob=null;
+const rcD=iso=>{ if(!iso||!/^\d{4}-\d{2}-\d{2}$/.test(iso)) return ''; const p=iso.split('-'); return +p[0]+'. '+(+p[1])+'. '+(+p[2])+'.'; };
+const rcAmt=v=>{ v=String(v||'').replace(/[\s,원]/g,''); if(!v) return 0; const neg=/^[-−]/.test(v); v=v.replace(/^[-−]/,''); let n; const m=v.match(/^(\d+(?:\.\d+)?)만$/); if(m) n=Math.round(parseFloat(m[1])*10000); else n=/^\d+$/.test(v)?parseInt(v,10):NaN; if(isNaN(n)) return NaN; return neg?-n:n; };
+const rcVal=n=>n<0?'−'+won(-n):won(n);
+function rcNo(){ if(!RC.no){ const d=new Date(), A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', r=new Uint32Array(4);
+    try{ crypto.getRandomValues(r); }catch(e){ for(let i=0;i<4;i++) r[i]=Math.floor(Math.random()*4294967295); }
+    RC.no='MF-R-'+String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'-'+Array.from(r,v=>A[v%A.length]).join(''); }
+  return RC.no; }
+/* 한 줄 = [구분, 내용, 금액(원), 덧붙임] */
+function rcLines(){
+  const L=[], P=(g,id)=>id?pick(g,id):null, fam=RC.type==='fam';
+  const t=P('type',RC.type); if(t) L.push(['장례 형태',t[1],t[2]*10000,'장례지도사 · 입관지도사 · 입관용품 포함']);
+  const c=P('coffin',RC.coffin); if(c) L.push(['관',c[1],c[2]*10000]);
+  const s=P('shroud',RC.shroud); if(s) L.push(['수의',s[1],s[2]*10000]);
+  ['ipgwan','binso','car'].forEach(g=>{ if(g==='binso'&&!fam) return; const o=P(g,RC[g]); if(o&&o[2]) L.push([{ipgwan:'입관',binso:'빈소 헌화',car:'장의 차량'}[g],o[1],o[2]*10000]); });
+  const ua=rcAmt(RC.urnA); if(RC.urnN.trim()||ua) L.push(['유골함',RC.urnN.trim()||'유골함',isNaN(ua)?0:ua]);
+  if(fam&&(RC.s1||RC.s2)) L.push(['접객 도우미',[RC.s1?'첫째 날 '+RC.s1+'명':'',RC.s2?'둘째 날 '+RC.s2+'명':''].filter(Boolean).join(' · '),(RC.s1+RC.s2)*120000,'1인 12만원']);
+  if(RC.mm||RC.mf) L.push(['상복',[RC.mm?'남성용 '+RC.mm+'벌':'',RC.mf?'여성용 '+RC.mf+'벌':''].filter(Boolean).join(' · '),RC.mm*50000+RC.mf*30000]);
+  RC.ex.forEach(e=>{ const a=rcAmt(e.a); if(e.n.trim()&&a&&!isNaN(a)) L.push(['기타',e.n.trim(),a]); });
+  if(RC.sup) L.push(['할인','수급자 · 국가유공자',-200000]);
+  if(fam&&RC.cp) L.push(['할인','사전 상담 감사 할인권',-100000,RC.cpNo.trim()?'번호 '+RC.cpNo.trim():null]);
+  return L; }
+const rcTotal=()=>rcLines().reduce((a,l)=>a+l[2],0);
+const rcPeriod=()=>{ const a=rcD(RC.d1), b=rcD(RC.d2); return a&&b?(a===b?a:a+' ~ '+b):(a||b); };
+const rcInfo=()=>[RC.dec.trim()?'故 '+RC.dec.trim():'',rcPeriod()?'장례 '+rcPeriod():'',RC.hall.trim()].filter(Boolean);
+function rcProblems(){ const w=[];
+  if(!RC.type) w.push('장례 형태를 골라 주세요.');
+  if(!RC.to.trim()) w.push('받는 분 성함을 넣어 주세요.');
+  if(isNaN(rcAmt(RC.urnA))) w.push('유골함 금액은 숫자로 넣어 주세요 (예: 45만, 450000).');
+  RC.ex.forEach(e=>{ const a=rcAmt(e.a); if(e.n.trim()&&(isNaN(a)||!a)) w.push('기타 「'+e.n.trim()+'」의 금액을 숫자로 넣어 주세요.'); if(!e.n.trim()&&a) w.push('기타 금액에 내용(무엇인지)을 함께 적어 주세요.'); });
+  if(RC.d1&&RC.d2&&RC.d1>RC.d2) w.push('발인일이 장례 시작일보다 앞입니다.');
+  return w; }
+function rcStepper(box,key,label,sub,max,unit){
+  const row=document.createElement('div'); row.className='stepper';
+  row.innerHTML='<span><b></b><br><span class="note"></span></span><div class="ctl"><button type="button">−</button><output aria-live="polite"></output><button type="button">+</button></div>';
+  row.querySelector('b').textContent=label; row.querySelector('.note').textContent=sub;
+  const bs=row.querySelectorAll('button'), mi=bs[0], pl=bs[1], out=row.querySelector('output');
+  mi.setAttribute('aria-label',label+' 하나 줄이기'); pl.setAttribute('aria-label',label+' 하나 늘리기');
+  const upd=()=>{ out.textContent=RC[key]+unit; mi.disabled=RC[key]<=0; pl.disabled=RC[key]>=max; };
+  mi.addEventListener('click',()=>{ RC[key]=Math.max(0,RC[key]-1); upd(); renderRc(); });
+  pl.addEventListener('click',()=>{ RC[key]=Math.min(max,RC[key]+1); upd(); renderRc(); });
+  row._upd=upd; upd(); box.appendChild(row); return row; }
+function rcRenderEx(){ const box=$('#rc-exs'); if(!box) return; box.innerHTML='';
+  RC.ex.forEach((e,i)=>{ const row=document.createElement('div'); row.className='rc-ex';
+    const a=document.createElement('input'); a.className='in'; a.placeholder='내용 (예: 200km 넘는 거리)'; a.autocomplete='off'; a.value=e.n; a.setAttribute('aria-label',(i+1)+'번째 기타 내용');
+    const b=document.createElement('input'); b.className='in'; b.inputMode='numeric'; b.placeholder='금액'; b.autocomplete='off'; b.value=e.a; b.setAttribute('aria-label',(i+1)+'번째 기타 금액');
+    a.addEventListener('input',()=>{ e.n=a.value; renderRc(); }); b.addEventListener('input',()=>{ e.a=b.value; renderRc(); });
+    const x=document.createElement('button'); x.type='button'; x.className='icon-btn'; x.setAttribute('aria-label',(i+1)+'번째 기타 지우기'); x.innerHTML='<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+    x.addEventListener('click',()=>{ if(RC.ex.length>1) RC.ex.splice(i,1); else { e.n=''; e.a=''; } rcRenderEx(); renderRc(); });
+    row.appendChild(a); row.appendChild(b); row.appendChild(x); box.appendChild(row); });
+  const ad=$('#rc-exadd'); if(ad) ad.hidden=RC.ex.length>=6; }
+function renderRc(){
+  if(!$('#rc-sum')) return; rcBlob=null; rcNo();
+  const fam=RC.type==='fam';
+  $$('[data-rctype]').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute('data-rctype')===RC.type)));
+  $$('[data-rcpay]').forEach(b=>b.setAttribute('aria-pressed',String(RC.pay.indexOf(b.getAttribute('data-rcpay'))>=0)));
+  $$('[data-rcfam]').forEach(el=>{ el.hidden=!fam; });
+  $('#rc-cpno').hidden=!(fam&&RC.cp);
+  const L=rcLines(), ul=$('#rc-sum'); ul.innerHTML='';
+  const hd=document.createElement('li'); hd.className='hd'; hd.setAttribute('aria-hidden','true'); hd.innerHTML='<span>구분</span><span>내용</span><span style="text-align:right">금액</span>'; ul.appendChild(hd);
+  if(!L.length){ const e=document.createElement('li'); e.className='empty'; e.textContent='왼쪽에서 장례 형태부터 골라 주세요.'; ul.appendChild(e); }
+  L.forEach(l=>{ const li=document.createElement('li');
+    const a=document.createElement('span'); a.className='c'; a.textContent=l[0];
+    const it=document.createElement('span'); it.className='i'; it.textContent=l[1].replace(/ · /g,' · '); if(l[3]){ const sm=document.createElement('small'); sm.textContent=l[3].replace(/ · /g,' · '); it.appendChild(sm); }
+    const v=document.createElement('span'); v.className='v'; v.textContent=rcVal(l[2]);
+    li.appendChild(a); li.appendChild(it); li.appendChild(v); ul.appendChild(li); });
+  $('#rc-total').textContent=rcVal(L.reduce((a,l)=>a+l[2],0));
+  const meta=['영수증 번호 '+RC.no,'발행일 '+rcD(rcToday())]; if(RC.to.trim()) meta.unshift(RC.to.trim()+' 님');
+  $('#rc-meta').textContent=meta.join(' · ');
+  const w=rcProblems(), wb=$('#rc-warn'); wb.hidden=!w.length; wb.textContent=w.join(' ');
+  const sh=$('#rc-share'); if(sh) sh.hidden=!CAN_SHARE;
+}
+function rcText(){ const L=rcLines(), info=rcInfo(), pay=RC.pay.join(' · ');
+  return '[나만의장례 영수증]\n영수증 번호 '+rcNo()+' · 발행일 '+rcD(rcToday())+'\n받는 분: '+RC.to.trim()+' 님'+(info.length?'\n'+info.join(' · '):'')+'\n\n'
+    +L.map(l=>'['+l[0]+'] '+l[1]+' — '+rcVal(l[2])+(l[3]?'\n     '+l[3]:'')).join('\n')
+    +'\n\n합계(받은 금액): '+rcVal(L.reduce((a,l)=>a+l[2],0))+'\n위 금액을 정히 영수합니다.\n'+[RC.pd?'결제일 '+rcD(RC.pd):'',pay?'결제 방법 '+pay:''].filter(Boolean).join(' · ')
+    +'\n\n나만의장례 · 사업자등록번호 180-92-00747'+(RC_CO.ceo?' · 대표 '+RC_CO.ceo:'')+(RC_CO.addr?'\n'+RC_CO.addr:'')+'\n대표번호 1661-4214 (24시간) · www.myfuneral.co.kr'
+    +(RC.dir.trim()?'\n담당 장례지도사 '+RC.dir.trim()+(RC.dirT.trim()?' '+RC.dirT.trim():''):'')
+    +'\n\n* 장례식장 · 화장장 · 장지 비용은 각 시설 영수증으로 따로 증빙합니다.'; }
+function rcFileName(){ const n=RC.to.trim().replace(/[\\/:*?"<>|\s]/g,''); return '나만의장례_영수증'+(n?'_'+n:'')+'.png'; }
+function rcDraw(){
+  const L=rcLines(), W=1080, CX=72, IX=300, VX=W-72, LH=40, info=rcInfo(), pay=RC.pay.join(' · ');
+  const c=document.createElement('canvas'); c.width=W; c.height=4200; const x=c.getContext('2d');
+  const wrap=(t,maxW,f)=>{ x.font=f; if(x.measureText(t).width<=maxW) return [t]; const parts=t.split(' · '); const out=[]; let cur='';
+    parts.forEach(p=>{ const nx=cur?cur+' · '+p:p; if(cur&&x.measureText(nx).width>maxW){ out.push(cur+' ·'); cur=p; } else cur=nx; }); if(cur) out.push(cur); return out; };
+  x.fillStyle='#ffffff'; x.fillRect(0,0,W,c.height); x.fillStyle='#252525'; x.fillRect(0,0,W,14);
+  x.textBaseline='alphabetic'; x.textAlign='left'; try{ if(LOGO.mark.naturalWidth) x.drawImage(LOGO.mark,72,56,92,94); if(LOGO.word.naturalWidth) x.drawImage(LOGO.word,184,74,253,48); }catch(e){}
+  x.font=fnt(500,26,SANS); x.fillStyle='#59615b'; x.fillText('소규모 가족장 · 무빈소장 전문',186,146);
+  x.textAlign='right'; x.fillStyle='#1a1e1b'; x.font=fnt(900,64); x.fillText('영 수 증',W-72,118);
+  x.font=fnt(500,22,SANS); x.fillStyle='#59615b'; x.fillText('No. '+rcNo(),W-72,154); x.fillText('발행일 '+rcD(rcToday()),W-72,184);
+  let y=262; x.textAlign='left'; x.fillStyle='#1a1e1b'; x.font=fnt(700,40); x.fillText((RC.to.trim()||'○○○')+' 님',72,y);
+  if(info.length){ const ls=wrap(info.join(' · '),W-144,fnt(500,26,SANS)); x.font=fnt(500,26,SANS); x.fillStyle='#59615b'; ls.forEach((t,i)=>x.fillText(t,72,y+46+i*36)); y+=46+(ls.length-1)*36; }
+  y+=58; x.font=fnt(500,24,SANS); x.fillStyle='#59615b'; x.textAlign='left'; x.fillText('구분',CX,y); x.fillText('내용',IX,y); x.textAlign='right'; x.fillText('금액',VX,y);
+  y+=14; x.fillStyle='#1a1e1b'; x.fillRect(72,y,W-144,3);
+  L.forEach(l=>{ const vf=fnt(500,30,SANS); x.font=vf; const vw=x.measureText(rcVal(l[2])).width; const lines=wrap(l[1],VX-vw-28-IX,vf); const h=64+(lines.length-1)*LH+(l[3]?34:0); const base=y+44;
+    x.textAlign='left'; x.font=fnt(700,28,SANS); x.fillStyle='#1a1e1b'; x.fillText(l[0],CX,base);
+    x.font=vf; x.fillStyle='#3b3f3c'; lines.forEach((t,i)=>x.fillText(t,IX,base+i*LH));
+    if(l[3]){ x.font=fnt(500,23,SANS); x.fillStyle='#6b706c'; x.fillText(l[3],IX,base+(lines.length-1)*LH+36); }
+    x.textAlign='right'; x.font=vf; x.fillStyle='#1a1e1b'; x.fillText(rcVal(l[2]),VX,base);
+    y+=h; x.fillStyle='#d3d7cf'; x.fillRect(72,y,W-144,2); });
+  y+=40; x.fillStyle='#1a1e1b'; x.fillRect(72,y,W-144,3);
+  x.textAlign='left'; x.font=fnt(700,32,SANS); x.fillText('합계',80,y+64); x.font=fnt(500,22,SANS); x.fillStyle='#59615b'; x.fillText('(받은 금액)',152,y+64);
+  x.textAlign='right'; x.fillStyle='#1a1e1b'; x.font=fnt(900,52); x.fillText(rcVal(L.reduce((a,l)=>a+l[2],0)),W-80,y+72);
+  y+=106; x.fillStyle='#f1f1ee'; x.fillRect(72,y,W-144,72); x.textAlign='center'; x.fillStyle='#1a1e1b'; x.font=fnt(700,32); x.fillText('위 금액을 정히 영수합니다.',W/2,y+48);
+  y+=72; const pl=[RC.pd?'결제일 '+rcD(RC.pd):'',pay?'결제 방법 '+pay:''].filter(Boolean).join('   ·   ');
+  if(pl){ x.textAlign='center'; x.font=fnt(500,26,SANS); x.fillStyle='#3b3f3c'; x.fillText(pl,W/2,y+48); y+=64; }
+  y+=34; const rows=[['상호','나만의장례'],['사업자등록번호','180-92-00747']]; if(RC_CO.ceo) rows.push(['대표자',RC_CO.ceo]); if(RC_CO.addr) rows.push(['주소',RC_CO.addr]); rows.push(['대표번호','1661-4214 (24시간) · www.myfuneral.co.kr']);
+  if(RC.dir.trim()) rows.push(['담당 장례지도사',RC.dir.trim()+(RC.dirT.trim()?'   '+RC.dirT.trim():'')]);
+  const bh=70+rows.length*52; x.strokeStyle='#1a1e1b'; x.lineWidth=2; x.strokeRect(72,y,W-144,bh);
+  x.textAlign='left'; x.font=fnt(700,24,SANS); x.fillStyle='#59615b'; x.fillText('공급자',100,y+46);
+  rows.forEach((r,i)=>{ const yy=y+46+52*(i+1); x.font=fnt(500,24,SANS); x.fillStyle='#59615b'; x.fillText(r[0],100,yy); x.font=fnt(700,28,SANS); x.fillStyle='#1a1e1b'; x.fillText(r[1],330,yy); });
+  y+=bh+50; x.textAlign='left'; x.font=fnt(500,22,SANS); x.fillStyle='#6b706c';
+  ['장례식장 · 화장장 · 장지 비용은 각 시설에서 받으신 영수증으로 따로 증빙합니다.','상속세 신고 등에는 현금영수증 · 카드 전표 · 계좌이체 내역도 함께 보관해 주세요.'].forEach((t,i)=>x.fillText(t,72,y+i*34));
+  y+=34+40;
+  const o=document.createElement('canvas'); o.width=W; o.height=Math.ceil(y); o.getContext('2d').drawImage(c,0,0); return o; }
+function rcMakeBlob(){ const L=rcLines();
+  return Promise.all([ensureFonts('영수증No.발행일님구분내용금액합계받은금액위금액을정히영수합니다결제일방법공급자상호사업자등록번호대표자주소대표번호담당장례지도사나만의장례소규모가족장무빈소장전문0123456789,.−()~원장례식장화장장지비용은각시설에서받으신영수증으로따로증빙합니다상속세신고등에는현금카드전표계좌이체내역도함께보관해주세요故'+L.map(l=>l[0]+l[1]+(l[3]||'')).join('')+RC.to+RC.dec+RC.hall+RC.dir+RC.dirT+RC.pay.join('')+RC_CO.ceo+RC_CO.addr+rcNo()),logoReady]).then(()=>new Promise(r=>rcDraw().toBlob(b=>{ rcBlob=b; r(b); },'image/png'))); }
+function rcReady(){ const w=rcProblems(); if(w.length){ toast(w[0]); const wb=$('#rc-warn'); if(wb){ wb.hidden=false; wb.scrollIntoView({block:'nearest'}); } return false; } return true; }
+function rcSaveImg(){ if(!rcReady()) return; rcMakeBlob().then(b=>{ if(b) saveFile(rcFileName(),b,'영수증 이미지를 저장했습니다'); else toast('이미지를 만들지 못했습니다'); }); }
+function rcShare(){ if(!rcReady()) return;
+  const go=b=>{ const f=new File([b],rcFileName(),{type:'image/png'}); navigator.share({files:[f],title:'나만의장례 영수증'}).catch(e=>{ if(e&&e.name!=='AbortError') rcSaveImg(); }); };
+  if(rcBlob) go(rcBlob); else rcMakeBlob().then(b=>{ if(b) go(b); }).catch(()=>rcSaveImg()); }
+function bindRc(){
+  if(!$('#rc-sum')) return;
+  const fill=(id,g,empty)=>{ const sel=$('#'+id); sel.innerHTML=''; if(empty){ const o=document.createElement('option'); o.value=''; o.textContent=empty; sel.appendChild(o); }
+    PRICE[g].forEach(p=>{ const o=document.createElement('option'); o.value=p[0]; o.textContent=p[1]+(p[2]?' · '+p[2]+'만원':''); sel.appendChild(o); }); sel.value=RC[g]; };
+  fill('rc-coffin','coffin','관 없음 · 고르지 않음'); fill('rc-shroud','shroud','수의 없음 · 고르지 않음'); fill('rc-ipgwan','ipgwan'); fill('rc-binso','binso'); fill('rc-car','car');
+  $$('[data-rck]').forEach(sel=>sel.addEventListener('change',()=>{ RC[sel.getAttribute('data-rck')]=sel.value; renderRc(); }));
+  $$('[data-rctype]').forEach(b=>b.addEventListener('click',()=>{ RC.type=b.getAttribute('data-rctype'); renderRc(); }));
+  $$('[data-rcpay]').forEach(b=>b.addEventListener('click',()=>{ const v=b.getAttribute('data-rcpay'), i=RC.pay.indexOf(v); if(i>=0) RC.pay.splice(i,1); else RC.pay.push(v); renderRc(); }));
+  [['rc-to','to'],['rc-dec','dec'],['rc-d1','d1'],['rc-d2','d2'],['rc-hall','hall'],['rc-urnn','urnN'],['rc-urna','urnA'],['rc-cpno','cpNo'],['rc-pd','pd'],['rc-dir','dir'],['rc-dirt','dirT']].forEach(([id,k])=>{ const el=$('#'+id); el.value=RC[k]; const on=()=>{ RC[k]=el.value; renderRc(); }; el.addEventListener('input',on); el.addEventListener('change',on); });
+  $('#rc-d1').addEventListener('change',()=>{ const d2=$('#rc-d2'); if(RC.d1&&!RC.d2){ const t=new Date(RC.d1+'T00:00:00'); t.setDate(t.getDate()+2); const v=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0'); d2.value=v; RC.d2=v; renderRc(); } });
+  [['rc-sup','sup'],['rc-cp','cp']].forEach(([id,k])=>{ const el=$('#'+id); el.checked=RC[k]; el.addEventListener('change',()=>{ RC[k]=el.checked; renderRc(); }); });
+  const st=$('#rc-staff'), mo=$('#rc-mourn'); st.innerHTML=''; mo.innerHTML='';
+  const steps=[rcStepper(st,'s1','첫째 날','1인당 12만원',10,'명'),rcStepper(st,'s2','둘째 날','1인당 12만원',10,'명'),rcStepper(mo,'mm','남성용','1벌 5만원',20,'벌'),rcStepper(mo,'mf','여성용','1벌 3만원',20,'벌')];
+  rcRenderEx();
+  $('#rc-exadd').addEventListener('click',()=>{ if(RC.ex.length<6){ RC.ex.push({n:'',a:''}); rcRenderEx(); const ins=$$('#rc-exs .rc-ex input'); if(ins.length>1) ins[ins.length-2].focus(); } });
+  $('#rc-img').addEventListener('click',rcSaveImg);
+  const sh=$('#rc-share'); if(sh) sh.addEventListener('click',rcShare);
+  $('#rc-copy').addEventListener('click',()=>{ if(!rcReady()) return; copyText(rcText(),'영수증 내용을 복사했습니다',$('#rc-sum')); });
+  $('#rc-reset').addEventListener('click',()=>{ RC=RC_DEF(); $$('[data-rck]').forEach(sel=>{ sel.value=RC[sel.getAttribute('data-rck')]; });
+    [['rc-to','to'],['rc-dec','dec'],['rc-d1','d1'],['rc-d2','d2'],['rc-hall','hall'],['rc-urnn','urnN'],['rc-urna','urnA'],['rc-cpno','cpNo'],['rc-pd','pd'],['rc-dir','dir'],['rc-dirt','dirT']].forEach(([id,k])=>{ $('#'+id).value=RC[k]; });
+    $('#rc-sup').checked=false; $('#rc-cp').checked=false; steps.forEach(r=>r._upd()); rcRenderEx(); renderRc(); toast('새 영수증을 시작합니다'); window.scrollTo(0,0); });
+  renderRc();
+}
+
 /* ── 시작 : 이 주소의 화면만 준비 (입력한 내용은 어디에도 저장하지 않음) ── */
 try{ localStorage.removeItem('mf-hist'); ['mf-ps','mf-pr','mf-ch'].forEach(k=>sessionStorage.removeItem(k)); }catch(e){}
 if(PAGE==='print'){
@@ -1349,6 +1500,7 @@ if(PAGE==='print'){
 if(PAGE==='price') bindWizard();
 if(PAGE==='chon') bindChon();
 if(PAGE==='date') try{ bindDate(); }catch(e){}
+if(PAGE==='receipt') bindRc();
 if(PAGE==='clan') $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();
 
