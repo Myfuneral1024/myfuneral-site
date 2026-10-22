@@ -190,6 +190,20 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .promise>div{padding:20px 0;border-top:1px solid var(--line)}
 .promise dt{font-family:var(--serif);font-weight:700;font-size:19px;margin-bottom:6px}
 .promise dd{margin:0;color:var(--ink2)}
+/* 그림 (2026-10-22 사용자가 준 그림에서 글씨를 빼고 그림만 잘라 씀) */
+.ill{margin:0;border-radius:4px;overflow:hidden;background:#f8f6f2;aspect-ratio:3/2;border:1px solid var(--line)}
+.ill img{display:block;width:100%;height:100%;object-fit:cover}
+.promise.ill4{grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 24px}
+.promise.ill4>div{border-top:0;padding:0}
+.promise.ill4 .ill{margin-bottom:14px;font-family:var(--sans,inherit)}
+@media (max-width:900px){.promise.ill4{grid-template-columns:repeat(2,minmax(0,1fr));gap:24px 12px}.promise.ill4 dt{font-size:16px}.promise.ill4 dd{font-size:14px;line-height:1.6}}
+.num-step.ill3{flex-direction:row;gap:24px}
+.num-step.ill3>li{flex:1;border-top:0;padding:0;grid-template-columns:32px minmax(0,1fr);grid-template-rows:auto auto 1fr;align-content:start}
+.num-step.ill3>li .ill{grid-column:1 / -1;grid-row:1;margin-bottom:12px}
+.num-step.ill3>li::before{grid-column:1;grid-row:2 / span 2}
+.num-step.ill3>li b{grid-column:2;grid-row:2}
+.num-step.ill3>li span{grid-column:2;grid-row:3}
+@media (max-width:700px){.num-step.ill3{flex-direction:column;gap:0}.num-step.ill3>li{grid-template-columns:116px 28px minmax(0,1fr);grid-template-rows:auto 1fr;padding:14px 0;border-top:1px solid var(--line)}.num-step.ill3>li .ill{grid-column:1;grid-row:1 / span 2;margin:0 4px 0 0;align-self:start}.num-step.ill3>li::before{grid-column:2;grid-row:1 / span 2}.num-step.ill3>li b{grid-column:3;grid-row:1}.num-step.ill3>li span{grid-column:3;grid-row:2}}
 @media (max-width:700px){.promise{grid-template-columns:minmax(0,1fr)}}
 .svc{display:flex;flex-direction:column}
 .svc a{display:grid;grid-template-columns:240px minmax(0,1fr) 160px;gap:6px 24px;align-items:baseline;padding:20px 0;border-top:1px solid var(--line);text-decoration:none}
@@ -632,25 +646,22 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="sec">
       <h2>장례가 발생하셨다면</h2>
       <p class="sec-lead">무엇부터 해야 할지 몰라도 괜찮습니다. 아래 세 가지만 하시면 나머지는 나만의장례가 맡습니다.</p>
-      <ol class="num-step">
-        <li><b>1661-4214로 전화합니다</b><span>어디에서 돌아가셨는지만 알려 주세요.</span></li>
-        <li><b>사망 확인을 받습니다</b><span>병원이면 의사에게 사망진단서를 요청하고, 자택이면 119에 먼저 알립니다.</span></li>
-        <li><b>고인 곁을 지킵니다</b><span>도착한 장례지도사가 다음 일을 하나씩 안내하고 진행합니다.</span></li>
+      <ol class="num-step ill3">
+        <li><figure class="ill"><img src="/assets/img/ill-step-1.webp" width="540" height="360" alt="가족이 전화로 연락하는 모습" loading="lazy" decoding="async"></figure><b>1661-4214로 전화합니다</b><span>어디에서 돌아가셨는지만 알려 주세요.</span></li>
+        <li><figure class="ill"><img src="/assets/img/ill-step-2.webp" width="540" height="360" alt="장례지도사가 가족과 함께 확인하는 모습" loading="lazy" decoding="async"></figure><b>사망 확인을 받습니다</b><span>병원이면 의사에게 사망진단서를 요청하고, 자택이면 119에 먼저 알립니다.</span></li>
+        <li><figure class="ill"><img src="/assets/img/ill-step-3.webp" width="540" height="360" alt="장례지도사가 가족을 안내하는 모습" loading="lazy" decoding="async"></figure><b>고인 곁을 지킵니다</b><span>도착한 장례지도사가 다음 일을 하나씩 안내하고 진행합니다.</span></li>
       </ol>
       <a class="btn btn-line" href="#urgent" style="align-self:flex-start">돌아가신 곳에 따라 할 일 보기</a>
     </div>
 
     <div class="sec">
       <h2>나만의장례의 약속</h2>
-      <div class="promise-wrap">
-        <figure class="ph"><img src="/assets/img/shroud-900.webp" srcset="/assets/img/shroud-480.webp 480w, /assets/img/shroud-900.webp 900w" sizes="(max-width: 900px) 100vw, 440px" width="900" height="600" alt="곱게 개어 놓은 수의 위에 놓인 흰 국화 한 송이" loading="lazy" decoding="async"></figure>
-      <dl class="promise">
-        <div><dt>장례를 마친 뒤 정산합니다</dt><dd>계약할 때 미리 내는 돈이 없습니다.</dd></div>
-        <div><dt>직영 장례지도사가 끝까지 맡습니다</dt><dd>자체 교육을 마친 지도사가 상담부터 장지까지 진행합니다. 촌지나 추가 상품을 요구하지 않습니다.</dd></div>
-        <div><dt>필요한 것만 고릅니다</dt><dd>고정 패키지를 강요하지 않습니다. 쓰지 않을 것은 빼고 견적을 냅니다.</dd></div>
-        <div><dt>첫 견적이 끝 견적입니다</dt><dd>계약 전에 모든 비용을 알려 드리고, 부당한 추가 요금은 200%를 돌려 드립니다.</dd></div>
+      <dl class="promise ill4">
+        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-1.webp" width="540" height="360" alt="서류 위에 놓인 흰 국화와 확인 표시" loading="lazy" decoding="async"></figure>장례를 마친 뒤 정산합니다</dt><dd>계약할 때 미리 내는 돈이 없습니다.</dd></div>
+        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-2.webp" width="540" height="360" alt="장례지도사가 유가족에게 차분히 설명하는 모습" loading="lazy" decoding="async"></figure>직영 장례지도사가 끝까지 맡습니다</dt><dd>자체 교육을 마친 지도사가 상담부터 장지까지 진행합니다. 촌지나 추가 상품을 요구하지 않습니다.</dd></div>
+        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-3.webp" width="540" height="360" alt="국화 · 수의 · 차량 가운데 필요한 것만 고르는 모습" loading="lazy" decoding="async"></figure>필요한 것만 고릅니다</dt><dd>고정 패키지를 강요하지 않습니다. 쓰지 않을 것은 빼고 견적을 냅니다.</dd></div>
+        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-4.webp" width="540" height="360" alt="처음 견적서와 마지막 정산서가 같다는 그림" loading="lazy" decoding="async"></figure>첫 견적이 끝 견적입니다</dt><dd>계약 전에 모든 비용을 알려 드리고, 부당한 추가 요금은 200%를 돌려 드립니다.</dd></div>
       </dl>
-      </div>
     </div>
 
     <div class="sec">
