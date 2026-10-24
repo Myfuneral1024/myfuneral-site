@@ -518,6 +518,7 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 .pkg-price{font-family:var(--serif);font-weight:700;font-size:18px;line-height:1.1}
 .pkg-price b{font-weight:900;font-size:34px;letter-spacing:-0.01em;margin-right:2px}
 .pkg-for{color:var(--ink2);line-height:1.65}
+@media (min-width:901px){.pkg-for{min-height:4.95em}}@media (min-width:901px) and (max-width:1019px){.pkg-for{min-height:6.6em}}  /* PC에서 세 카드의 목록 줄을 나란히 (소개 글 3줄 높이) */
 .pkg-list{list-style:none;margin:6px 0 12px;padding:0;border-top:1px solid var(--ink);display:flex;flex-direction:column}
 .pkg-list li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px;line-height:1.5}
 .pkg-list li>span:first-child{color:var(--ink2);min-width:0}
@@ -866,7 +867,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
           <p class="pkg-tag">빈소 없이 가족끼리</p>
           <h3 id="h-pk-nob" class="pkg-name">무빈소장</h3>
           <p class="pkg-price"><b>1,550,000</b>원</p>
-          <p class="pkg-for">조문을 받지 않고 가족끼리 입관과 발인 · 화장을 조용히 모십니다. 전국 어디서나 진행합니다.</p>
+          <p class="pkg-for">빈소 없이 가족끼리 조용히 마지막 인사를 나누는 장례예요. 전국 어디서나 정성껏 모셔 드려요.</p>
           <ul class="pkg-list">
             <li><span>무빈소 장례 기본<small>장례지도사 · 입관지도사 · 입관용품</small></span><span>60만원</span></li>
             <li><span>화장용 오동나무관</span><span>20만원</span></li>
@@ -880,7 +881,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
           <p class="pkg-tag">가족 · 가까운 친지와 함께</p>
           <h3 id="h-pk-fam" class="pkg-name">가족장</h3>
           <p class="pkg-price"><b>2,100,000</b>원</p>
-          <p class="pkg-for">빈소를 차리고 가족과 가까운 친지의 조문을 받는 3일장입니다.</p>
+          <p class="pkg-for">가족과 가까운 친지분들이 모여, 사흘 동안 고인 곁에서 함께 배웅하는 장례예요.</p>
           <ul class="pkg-list">
             <li><span>가족장 (3일장) 기본<small>장례지도사 · 입관지도사 · 입관용품</small></span><span>70만원</span></li>
             <li><span>화장용 오동나무관</span><span>20만원</span></li>
@@ -897,7 +898,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
           <p class="pkg-tag">조문객이 많은 장례</p>
           <h3 id="h-pk-gen" class="pkg-name">일반장</h3>
           <p class="pkg-price"><b>2,920,000</b>원</p>
-          <p class="pkg-for">직장 동료 · 지인 조문객까지 맞는 3일장입니다. 헌화 · 도우미 · 차량을 넉넉히 넣었습니다.</p>
+          <p class="pkg-for">직장 동료와 지인분들까지 함께 배웅하는 장례예요. 조문객이 많아도 가족분들이 고인 곁을 지키실 수 있게 넉넉히 준비해 드려요.</p>
           <ul class="pkg-list">
             <li><span>일반장 (3일장) 기본<small>장례지도사 · 입관지도사 · 입관용품</small></span><span>70만원</span></li>
             <li><span>화장용 오동나무관</span><span>20만원</span></li>
@@ -2354,9 +2355,9 @@ function renderClanPage(){
 
 /* ── 금액 계산 : 한 번에 한 가지씩 ── */
 const PRICE={
-  type:[['nob','무빈소 장례',60,'빈소를 차리지 않고 가족끼리 조용히 모십니다. 조문객을 맞지 않으니 빈소 사용료와 접객 비용이 들지 않습니다.'],
-        ['fam','가족장 (3일장)',70,'빈소를 차리고 가족과 가까운 친지의 조문을 받는 3일장입니다. 전담 장례지도사가 사흘 동안 함께합니다.'],
-        ['gen','일반장 (3일장)',70,'직장 동료와 지인 조문객까지 많이 맞는 3일장입니다. 기본 금액은 가족장과 같고, 헌화와 도우미, 장의 차량을 조문객 수에 맞춰 고르시면 됩니다.']],
+  type:[['nob','무빈소 장례',60,'빈소 없이 가족끼리 조용히 마지막 인사를 나누는 장례예요. 조문객을 맞지 않으니 빈소 사용료와 접객 비용이 들지 않아요.'],
+        ['fam','가족장 (3일장)',70,'가족과 가까운 친지분들이 모여, 사흘 동안 고인 곁에서 함께 배웅하는 장례예요. 전담 장례지도사가 사흘 내내 곁에서 도와 드려요.'],
+        ['gen','일반장 (3일장)',70,'직장 동료와 지인분들까지 함께 배웅하는 장례예요. 기본 금액은 가족장과 같고, 헌화와 도우미, 장의 차량은 조문객 수에 맞춰 고르시면 돼요.']],
   burial:[['cre','화장',0,'화장장에서 화장한 뒤 봉안당 · 수목장 · 해양장 같은 곳에 모십니다. 요즘 가장 많이 하는 방식입니다.'],
           ['bur','매장',0,'관을 그대로 묘지에 모십니다. 선산이나 공원묘지가 있을 때 합니다.'],
           ['und','아직 정하지 못했어요',0,'관을 고를 때 화장용과 매장용을 모두 보여 드립니다. 상담하면서 정하셔도 됩니다.']],
