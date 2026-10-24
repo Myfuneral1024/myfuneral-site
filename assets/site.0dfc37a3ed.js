@@ -777,7 +777,8 @@ function renderClanPage(){
 /* ── 금액 계산 : 한 번에 한 가지씩 ── */
 const PRICE={
   type:[['nob','무빈소 장례',60,'빈소를 차리지 않고 가족끼리 조용히 모십니다. 조문객을 맞지 않으니 빈소 사용료와 접객 비용이 들지 않습니다.'],
-        ['fam','가족장 (3일장)',70,'조문객을 맞는 빈소를 차리는 3일장입니다. 전담 장례지도사가 사흘 동안 함께합니다.']],
+        ['fam','가족장 (3일장)',70,'빈소를 차리고 가족과 가까운 친지의 조문을 받는 3일장입니다. 전담 장례지도사가 사흘 동안 함께합니다.'],
+        ['gen','일반장 (3일장)',70,'직장 동료 · 지인 조문객까지 많이 맞는 3일장입니다. 기본 금액은 가족장과 같고, 헌화 · 도우미 · 장의 차량을 조문객 수에 맞춰 고르시면 됩니다.']],
   burial:[['cre','화장',0,'화장장에서 화장한 뒤 봉안당 · 수목장 · 해양장 같은 곳에 모십니다. 요즘 가장 많이 하는 방식입니다.'],
           ['bur','매장',0,'관을 그대로 묘지에 모십니다. 선산이나 공원묘지가 있을 때 합니다.'],
           ['und','아직 정하지 못했어요',0,'관을 고를 때 화장용과 매장용을 모두 보여 드립니다. 상담하면서 정하셔도 됩니다.']],
@@ -803,20 +804,38 @@ const PRICE={
        ['v2','리무진 (편도)',40,'고인을 모시고 1차 장지 또는 화장장까지 가는 편도입니다. 기준 거리 200km.'],
        ['v3','장의버스 (왕복)',45,'가족과 조문객이 함께 타고 다녀오는 왕복입니다. 기준 거리 200km.'],
        ['v4','리무진 (편도) + 장의버스 (왕복)',80,'리무진은 1차 장지 또는 화장장까지 편도, 장의버스는 왕복입니다.']],
-  urn:[['u1','나만의장례에서 준비할게요',0,'유골함은 40만원부터 400만원까지 종류가 많아요. 모실 곳(봉안당 · 묘 · 자연장)에 맞는 함을 상담 때 실물 사진을 보며 함께 골라요. 고르신 함 금액은 견적 합계와 따로 정산해요.'],
+  urn:[['u1','나만의장례에서 준비할게요',0,'모실 곳(봉안당 · 묘 · 자연장)에 맞는 함을 상담 때 실물 사진을 보며 함께 골라요. 아직 정하지 못하셨어도 괜찮아요.'],
        ['own','따로 준비했어요',0,'이미 마련해 두신 유골함이 있으면 그 함으로 모셔 드려요.'],
-       ['none','필요 없어요',0,'해양장처럼 뿌려 모시거나, 장지에서 정해 준 용기를 쓰실 때예요.'],
-       ['und','상담 때 정할게요',0,'모실 곳(봉안당 · 수목장 등)이 정해지면 거기에 맞는 함을 함께 골라 드려요.']],
+       ['none','필요 없어요',0,'해양장처럼 뿌려 모시거나, 장지에서 정해 준 용기를 쓰실 때예요.']],
   disc:[['gen','일반',0,'가격표 금액 그대로입니다.'],['sup','수급자 · 국가유공자',-20,'기초생활수급자나 국가유공자 가족이시면 20만원을 할인해 드립니다. 장제급여 등 지원금 범위 안에서 장례를 설계하고, 청구 서류도 챙겨 드립니다.']]
 };
 const COFFIN_FOR={cre:['c1','c2'],bur:['c3','c4','c5'],und:['c1','c2','c3','c4','c5']};
 const coffinOpts=()=>PRICE.coffin.filter(o=>(COFFIN_FOR[PR.burial]||COFFIN_FOR.und).indexOf(o[0])>=0);
+/* ── 상품 (2026-10-24) : 관 · 수의 · 입관은 가운데 등급, 차량 · 도우미 · 상복은 규모에 맞춤 · 모두 화장 기준 · 유골함 별도 ──
+   화면의 상품 카드(.pkg) 금액 · 목록과 반드시 같게 고친다. */
+const PKG={
+  nob:{name:'무빈소장',set:{type:'nob',burial:'cre',coffin:'c1',shroud:'s3',ipgwan:'i1',binso:'none',car:'v1',urn:'u1',staff1:0,staff2:0,mm:0,mf:0}},
+  fam:{name:'가족장',set:{type:'fam',burial:'cre',coffin:'c1',shroud:'s3',ipgwan:'i1',binso:'b1',car:'v2',urn:'u1',staff1:1,staff2:1,mm:2,mf:2}},
+  gen:{name:'일반장',set:{type:'gen',burial:'cre',coffin:'c1',shroud:'s3',ipgwan:'i1',binso:'b2',car:'v4',urn:'u1',staff1:2,staff2:2,mm:4,mf:4}}
+};
+const PKG_KEYS=['type','burial','coffin','shroud','ipgwan','binso','car','staff1','staff2','mm','mf'];
+/* 지금 고른 것이 상품 구성 그대로면 그 상품 이름 (할인 · 유골함은 상관없음) */
+function pkgOf(){ for(const k in PKG){ const st=PKG[k].set; if(PKG_KEYS.every(f=>PR[f]===st[f])) return k; } return ''; }
+function toWiz(){ const el=$('#calc')||$('.wiz'); if(!el) return; const tp=$('.top'); const off=(tp?Math.max(0,tp.getBoundingClientRect().bottom):0)+12;
+  window.scrollTo({top:Math.max(0,el.getBoundingClientRect().top+window.scrollY-off),behavior:RM?'auto':'smooth'}); }
+function wzFocusQ(){ const h=$('#wz-stage .wz-q'); if(h) try{ h.focus({preventScroll:true}); }catch(e){} }
+function pkgGo(k){ const P=PKG[k]; if(!P||WZ_BUSY) return; toWiz();
+  wzLeave(1,()=>{ Object.assign(PR,PR_DEF,P.set,{nm:PR.nm,ch:PR.ch,cp:PR.cp,cpd:PR.cpd}); WK='done'; WDIR='next'; renderWizard(false); wzFocusQ(); }); }
+function pkgOwn(e){ if(e) e.preventDefault(); if(WZ_BUSY) return; toWiz();
+  if(WK==='done'&&pkgOf()) wzLeave(-1,()=>{ Object.assign(PR,PR_DEF,{nm:PR.nm,ch:PR.ch,cp:PR.cp,cpd:PR.cpd}); WK='type'; WDIR='prev'; renderWizard(false); wzFocusQ(); });
+  else wzFocusQ(); }
 const PR_DEF={type:null,burial:null,coffin:null,shroud:null,ipgwan:'none',binso:'none',car:null,urn:null,disc:'gen',staff1:0,staff2:0,mm:0,mf:0,nm:'',ch:false,cp:'',cpd:''};
 /* 견적에 넣을 이름 (선택 · 화면에만 기억, 저장하지 않음) */
-/* ── 사전 상담 감사 할인권 (가족장 견적 + 카톡 채널 추가 · 기한 없음 · 수급자 할인과 함께 사용 · 저장하지 않음) ── */
+/* ── 사전 상담 감사 할인권 (가족장 · 일반장 견적 + 카톡 채널 추가 · 기한 없음 · 수급자 할인과 함께 사용 · 저장하지 않음) ── */
 const CP_AMT=100000, CP_CH_URL='https://pf.kakao.com/_BxnMxhX/friend';
-const CP_RULES=['나만의장례 가족장(3일장)으로 장례를 진행할 때 정산 금액에서 10만원을 할인해 드립니다.','카카오톡 채널 @나만의장례 친구에게 드리는 할인권이며, 현장에서 채널 친구를 확인합니다.','기한 없이 쓰실 수 있고, 수급자 · 국가유공자 할인과 함께 쓰실 수 있습니다.','장례 한 번에 한 장만 쓸 수 있고, 현금으로 바꿀 수 없습니다.'];
-const cpOK=()=>PR.type==='fam'&&PR.ch;
+const CP_RULES=['나만의장례 가족장 · 일반장(3일장)으로 장례를 진행할 때 정산 금액에서 10만원을 할인해 드립니다.','카카오톡 채널 @나만의장례 친구에게 드리는 할인권이며, 현장에서 채널 친구를 확인합니다.','기한 없이 쓰실 수 있고, 수급자 · 국가유공자 할인과 함께 쓰실 수 있습니다.','장례 한 번에 한 장만 쓸 수 있고, 현금으로 바꿀 수 없습니다.'];
+const cpType=()=>PR.type==='fam'||PR.type==='gen';
+const cpOK=()=>cpType()&&PR.ch;
 function cpNo(){ if(!PR.cp){ const d=new Date(), A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', r=new Uint32Array(4);
     try{ crypto.getRandomValues(r); }catch(e){ for(let i=0;i<4;i++) r[i]=Math.floor(Math.random()*4294967295); }
     PR.cp='MF-'+String(d.getFullYear()).slice(2)+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'-'+Array.from(r,v=>A[v%A.length]).join('');
@@ -825,7 +844,7 @@ function cpNo(){ if(!PR.cp){ const d=new Date(), A='ABCDEFGHJKLMNPQRSTUVWXYZ2345
 const cpAfter=()=>won(Math.max(0,estTotal()-CP_AMT))+(urnSep()?' (유골함 별도)':'');
 function renderCp(box){
   if(!PR.ch){
-    box.innerHTML='<p class="cp-t">사전 상담 감사 할인권 <b>100,000원</b></p><p>가족장 견적을 받아 주셔서 고맙습니다. 카카오톡 채널 <b>@나만의장례</b>를 추가하시면, 나중에 장례 때 쓰실 수 있는 10만원 할인권을 드려요.</p><a class="btn btn-primary" data-a="ch" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>채널 추가하고 할인권 받기</a><p class="note">이미 채널 친구이시면 눌러도 그대로 받으실 수 있어요.</p>';
+    box.innerHTML='<p class="cp-t">사전 상담 감사 할인권 <b>100,000원</b></p><p>'+(PR.type==='gen'?'일반장':'가족장')+' 견적을 받아 주셔서 고맙습니다. 카카오톡 채널 <b>@나만의장례</b>를 추가하시면, 나중에 장례 때 쓰실 수 있는 10만원 할인권을 드려요.</p><a class="btn btn-primary" data-a="ch" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>채널 추가하고 할인권 받기</a><p class="note">이미 채널 친구이시면 눌러도 그대로 받으실 수 있어요.</p>';
     const a=box.querySelector('[data-a="ch"]'); a.href=CP_CH_URL;
     a.addEventListener('click',()=>{ PR.ch=true; cpNo(); setTimeout(()=>{ renderCp(box); toast('할인권이 나왔어요. 꼭 저장해 두세요'); },300); });
     return; }
@@ -852,7 +871,7 @@ function cpDrawCard(x,X,Y,Wd,opt){
 function cpCardH(x,Wd){ x.font=fnt(500,23,SANS); let n=0; CP_RULES.forEach(t=>{ n+=cpWrap(x,'· '+t,Wd-72).length; }); return 36+82+18+(estWho()?38:0)+20+n*34+40; }
 function saveCpImg(){
   cpNo(); const W=1080, c=document.createElement('canvas'), x=c.getContext('2d'); c.width=W;
-  const txt='사전상담감사할인권100,000원할인번호발급일받으신분고객님가족장일정금액에서드립니다24시간상담1661-4214카카오톡@나만의장례'+PR.cp+PR.cpd+estWho()+CP_RULES.join('');
+  const txt='사전상담감사할인권100,000원할인번호발급일받으신분고객님가족장일반장일정금액에서드립니다24시간상담1661-4214카카오톡@나만의장례'+PR.cp+PR.cpd+estWho()+CP_RULES.join('');
   Promise.all([ensureFonts(txt),logoReady]).then(()=>{
     const ch=cpCardH(x,W-144); c.height=230+ch+150; const H=c.height;
     x.fillStyle='#ffffff'; x.fillRect(0,0,W,H); x.fillStyle='#252525'; x.fillRect(0,0,W,14);
@@ -870,7 +889,7 @@ const won=n=>n.toLocaleString('ko-KR')+'원';
 const lineVal=l=>l[3]||(l[1]<0?'−'+won(-l[1]):l[1]?won(l[1]):'무료');
 const pick=(g,id)=>PRICE[g].find(o=>o[0]===id);
 const WZ=[
-  {k:'type',q:'어떤 장례로 모실까요?',h:'빈소를 차리지 않으면 무빈소 장례, 조문객을 맞으시려면 가족장입니다. 두 가지 모두 장례지도사와 입관지도사, 입관용품이 들어 있고 고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료입니다.'},
+  {k:'type',q:'어떤 장례로 모실까요?',h:'빈소를 차리지 않으면 무빈소 장례, 가족과 가까운 친지의 조문을 받으시면 가족장, 조문객이 많으시면 일반장입니다. 모두 장례지도사와 입관지도사, 입관용품이 들어 있고 고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료입니다.'},
   {k:'burial',q:'화장으로 모실까요, 매장으로 모실까요?',h:'모시는 방식에 따라 관이 달라집니다. 화장장 사용료나 묘지 비용은 이 견적과 따로 냅니다.'},
   {k:'coffin',q:'관은 어떤 것으로 할까요?',h:()=>PR.burial==='cre'?'화장할 때 쓰는 관입니다. 화장용 관은 얇고 가볍게 만들어 잘 탑니다.':PR.burial==='bur'?'매장할 때 쓰는 관입니다. 땅속에서 습기와 벌레로부터 고인을 지키도록 화장용보다 튼튼하게 만듭니다.':'화장하시면 화장용, 매장하시면 매장용을 고르시면 됩니다. 관은 예부터 나무로 만들고 쇠붙이는 쓰지 않습니다.'},
   {k:'shroud',q:'수의는 어떤 것으로 할까요?',h:'옷감에 따라 금액이 다릅니다. 화장하실 때는 잘 타는 자연 소재가, 매장하실 때는 흙에서 자연스럽게 삭는 소재가 좋습니다.'},
@@ -894,7 +913,7 @@ function estLines(){
   const c=pick('coffin',PR.coffin); if(c) L.push(['관',c[2]*10000,'coffin',null,c[1]]);
   const s=pick('shroud',PR.shroud); if(s) L.push(['수의',s[2]*10000,'shroud',null,s[1]]);
   ['ipgwan','binso','car'].forEach(g=>{ const o=pick(g,PR[g]); if(o&&o[2]) L.push([{ipgwan:'입관',binso:'빈소 헌화',car:'장의 차량'}[g],o[2]*10000,g,null,o[1]]); });
-  if(PR.burial!=='bur'){ const u=pick('urn',PR.urn); if(u) L.push(['유골함',0,'urn',{u1:'별도',own:'0원',none:'0원',und:'별도'}[u[0]],{u1:'나만의장례에서 준비',own:'따로 준비하심',none:'필요 없음',und:'상담 때 결정'}[u[0]],urnSep()?'40만원 ~ 400만원 · 합계에 넣지 않음':null]); }
+  if(PR.burial!=='bur'){ const u=pick('urn',PR.urn); if(u) L.push(['유골함',0,'urn',{u1:'별도',own:'0원',none:'0원'}[u[0]],{u1:'나만의장례에서 준비',own:'따로 준비하심',none:'필요 없음'}[u[0]],urnSep()?'40만원 ~ 400만원 · 합계에 넣지 않음':null]); }
   if(PR.staff1||PR.staff2) L.push(['접객 도우미',(PR.staff1+PR.staff2)*120000,'staff',null,[PR.staff1?'첫째 날 '+PR.staff1+'명':'',PR.staff2?'둘째 날 '+PR.staff2+'명':''].filter(Boolean).join(' · '),'1인 12만원']);
   if(PR.mm||PR.mf) L.push(['상복',PR.mm*50000+PR.mf*30000,'mourn',null,[PR.mm?'남성용 '+PR.mm+'벌':'',PR.mf?'여성용 '+PR.mf+'벌':''].filter(Boolean).join(' · ')]);
   if(PR.disc==='sup') L.push(['할인',-200000,'disc',null,'수급자 · 국가유공자']);
@@ -902,7 +921,7 @@ function estLines(){
   return L;
 }
 const estTotal=()=>estLines().reduce((a,l)=>a+l[1],0);
-const urnSep=()=>PR.burial!=='bur'&&(PR.urn==='u1'||PR.urn==='und');  /* 유골함은 합계에 넣지 않는 별도 항목 (2026-10-21 사용자 지시) */
+const urnSep=()=>PR.burial!=='bur'&&PR.urn==='u1';  /* 유골함은 합계에 넣지 않는 별도 항목 (2026-10-21 사용자 지시) */
 const URN_NOTE='유골함은 합계에 들어 있지 않은 별도 항목입니다 · 40만원 ~ 400만원';
 let WZ_BUSY=false;
 function wzLeave(dir,then){
@@ -944,7 +963,9 @@ function renderWizard(focus){
   const h=document.createElement('h2'); h.className='wz-q'; h.tabIndex=-1; stage.appendChild(h);
   const help=document.createElement('p'); help.className='wz-help'; stage.appendChild(help);
   if(st.k==='done'){
-    h.textContent='나만의장례 예상 견적'; help.innerHTML='고르신 항목입니다. 바꾸고 싶은 항목은 ‘고치기’를 누르세요. <b>아래에서 견적을 꼭 저장해 두세요.</b>';
+    const pk=pkgOf();
+    h.textContent=pk?PKG[pk].name+' 상품 예상 견적':'나만의장례 예상 견적';
+    help.innerHTML=(pk?PKG[pk].name+' 상품에 들어 있는 항목입니다. 바꾸고 싶은 것만 ‘고치기’를 누르세요.':'고르신 항목입니다. 바꾸고 싶은 항목은 ‘고치기’를 누르세요.')+' <b>아래에서 견적을 꼭 저장해 두세요.</b>';
     const ul=document.createElement('ul'); ul.className='sum-lines wz-sum';
     const hd=document.createElement('li'); hd.className='hd'; hd.setAttribute('aria-hidden','true'); hd.innerHTML='<span>구분</span><span>고른 것</span><span>금액</span><span></span>'; ul.appendChild(hd);
     estLines().forEach(l=>{ const li=document.createElement('li');
@@ -955,6 +976,10 @@ function renderWizard(focus){
       if(l[2]){ const f=document.createElement('button'); f.type='button'; f.className='fix'; f.textContent='고치기'; f.setAttribute('aria-label',l[0]+' 고치기'); f.addEventListener('click',()=>wzJump(l[2])); li.appendChild(f); } else li.appendChild(document.createElement('span'));
       ul.appendChild(li); });
     stage.appendChild(ul);
+    if(pk&&PR.disc!=='sup'){ const dp=document.createElement('p'); dp.className='note wz-disc'; dp.appendChild(document.createTextNode('수급자 · 국가유공자 가족이시면'));
+      const db=document.createElement('button'); db.type='button'; db.className='linkish'; db.textContent='20만원 할인 넣기';
+      db.addEventListener('click',()=>{ PR.disc='sup'; renderWizard(false); const t=$('#wz-stage .total'); if(t){ t.tabIndex=-1; try{ t.focus({preventScroll:true}); }catch(e){} } toast('수급자 · 국가유공자 할인 20만원을 넣었습니다'); });
+      dp.appendChild(db); stage.appendChild(dp); }
     const tot=document.createElement('div'); tot.className='total'; tot.style.marginTop='14px'; tot.innerHTML='<span>합계</span><b></b>'; tot.lastChild.textContent=won(estTotal()); stage.appendChild(tot);
     if(PR.disc==='sup'){ const n=document.createElement('p'); n.className='note'; n.style.marginTop='10px'; n.textContent='수급자 · 국가유공자 할인 20만원이 들어간 금액입니다. 할인 대상인지는 상담 때 확인해 드립니다.'; stage.appendChild(n); }
     if(urnSep()){ const n=document.createElement('p'); n.className='wz-box'; n.style.marginTop='12px'; n.innerHTML='<b>유골함은 합계에 들어 있지 않아요.</b> 40만원부터 400만원까지 종류가 많아, 상담 때 고르신 함 금액이 따로 더해집니다.'; stage.appendChild(n); }
@@ -968,7 +993,7 @@ function renderWizard(focus){
     const sv=document.createElement('button'); sv.type='button'; sv.className='btn btn-primary'; sv.dataset.a='img'; sv.textContent='견적 이미지 저장'; sv.addEventListener('click',saveEstImg); keep.appendChild(sv);
     stage.appendChild(keep);
     const vs=document.createElement('p'); vs.className='note wz-link'; vs.innerHTML='미리 내는 돈 없이 장례를 마친 뒤 정산합니다. <a href="#prepaid">일반 선불식 상조와 무엇이 다른가요?</a>'; stage.appendChild(vs);
-    if(PR.type==='fam'){ const cpb=document.createElement('div'); cpb.className='cp-box'; stage.appendChild(cpb); renderCp(cpb); }
+    if(cpType()){ const cpb=document.createElement('div'); cpb.className='cp-box'; stage.appendChild(cpb); renderCp(cpb); }
     const act=document.createElement('div'); act.className='actions'; act.style.margin='16px 0 12px';
     act.innerHTML='<a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><a class="btn btn-line" data-a="talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>견적 보내고 카톡 상담</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button><button type="button" class="btn btn-ghost" data-a="again">처음부터 다시</button>';
     act.querySelector('[data-a="copy"]').addEventListener('click',()=>copyText(estText(),'견적 내용을 복사했습니다',ul));
@@ -977,7 +1002,6 @@ function renderWizard(focus){
     stage.appendChild(act);
   } else {
     h.textContent=st.q; help.textContent=typeof st.h==='function'?st.h():st.h;
-    if(st.box){ const bx=document.createElement('p'); bx.className='wz-box'; bx.innerHTML=st.box; stage.appendChild(bx); }
     if(st.type==='count'){ stage.appendChild(wzStepper('staff1','첫째 날','1인당 12만원',0,10,'명')); stage.appendChild(wzStepper('staff2','둘째 날','1인당 12만원',0,10,'명')); const n=document.createElement('p'); n.className='note'; n.style.marginTop='12px'; n.textContent='4일장 이상으로 진행하시면 도우미 인원과 금액은 현장에서 따로 상담해 드립니다.'; stage.appendChild(n); }
     else if(st.type==='mourn'){ stage.appendChild(wzStepper('mm','남성용 상복','1벌 5만원',0,20,'벌')); stage.appendChild(wzStepper('mf','여성용 상복','1벌 3만원',0,20,'벌')); }
     else {
@@ -986,21 +1010,26 @@ function renderWizard(focus){
         const lab=document.createElement('label'); lab.className='wz-opt';
         const inp=document.createElement('input'); inp.type='radio'; inp.name='wz-'+st.k; inp.value=o[0]; inp.id='wz-'+st.k+'-'+o[0]; inp.checked=PR[st.k]===o[0]; lab.setAttribute('for',inp.id);
         const t=document.createElement('span'); t.className='t'; t.textContent=o[1];
-        const pr=document.createElement('span'); pr.className='p'; pr.textContent=st.k==='type'?'기본 '+o[2]+'만원':st.k==='burial'?'':st.k==='disc'?(o[2]<0?'−'+(-o[2])+'만원 할인':''):st.k==='urn'?({u1:'별도 · 40~400만원',und:'별도'}[o[0]]||''):(o[2]?'+'+o[2]+'만원':'0원');
+        const pr=document.createElement('span'); pr.className='p'; pr.textContent=st.k==='type'?'기본 '+o[2]+'만원':st.k==='burial'?'':st.k==='disc'?(o[2]<0?'−'+(-o[2])+'만원 할인':''):st.k==='urn'?(o[0]==='u1'?'별도 · 40~400만원':''):(o[2]?'+'+o[2]+'만원':'0원');
         lab.appendChild(inp); lab.appendChild(t); lab.appendChild(pr);
         if(o[3]){ const d=document.createElement('span'); d.className='d'; d.textContent=o[3]; lab.appendChild(d); }
         inp.addEventListener('change',()=>{ PR[st.k]=o[0]; if(st.k==='type'&&o[0]==='nob'){ PR.staff1=0; PR.staff2=0; PR.binso='none'; } if(st.k==='burial'){ const ok=COFFIN_FOR[o[0]]||COFFIN_FOR.und; if(ok.indexOf(PR.coffin)<0) PR.coffin=null; } updNav(); });
         box.appendChild(lab); });
       stage.appendChild(box);
       if(st.link){ const lp=document.createElement('p'); lp.className='note wz-link'; const a=document.createElement('a'); a.textContent=st.link[0]; a.href=document.body.getAttribute('data-route')?'/'+st.link[1]+'/':'#'+st.link[1]; lp.appendChild(a); stage.appendChild(lp); }
+      if(st.box){ const bx=document.createElement('p'); bx.className='wz-box end'; bx.innerHTML=st.box; stage.appendChild(bx); }
     }
   }
   updNav();
+  const onPk=st.k==='done'?pkgOf():''; $$('.pkg').forEach(c=>c.classList.toggle('on',c.dataset.pkg===onPk));
   if(WDIR){ wzEnter(stage,WDIR,oldH); WDIR=''; }
   if(focus){ try{ h.focus({preventScroll:true}); }catch(e){ h.focus(); } const top=$('.wiz').getBoundingClientRect().top; if(top<0) window.scrollBy({top:top-140,behavior:'smooth'}); }
 }
-function bindWizard(){ $('#wz-prev').addEventListener('click',()=>wzGo(-1)); $('#wz-next').addEventListener('click',()=>wzGo(1)); }
-function estText(){ const L=estLines(); const w=estWho(); return '[나만의장례 맞춤 견적]\n'+(w?w+'\n\n':'')+L.map(l=>'['+l[0]+'] '+l[4]+' — '+lineVal(l)+(l[5]?'\n     '+l[5]:'')).join('\n')+'\n\n합계: '+won(L.reduce((a,l)=>a+l[1],0))+(urnSep()?'\n(※ '+URN_NOTE+')':'')+(PR.disc==='sup'?'\n(수급자 · 국가유공자 할인 20만원 포함 · 대상 확인은 상담 때)':'')+(cpOK()?'\n\n[사전 상담 감사 할인권] 100,000원 할인\n번호 '+PR.cp+' · 발급일 '+PR.cpd+'\n· 가족장 진행 시 정산 금액에서 할인 · 카카오톡 채널 친구 확인\n· 기한 없음 · 수급자 · 국가유공자 할인과 함께 사용 가능':'')+'\n\n※ 미리 내는 돈 없이 장례를 마친 뒤 정산해요.\n※ 이 견적을 꼭 저장해 두셨다가 현장에서 보여 주시면 그대로 진행해 드려요.\n\n* 장례식장 시설 사용료 · 음식값 별도\n* 리무진은 1차 장지 또는 화장장까지 편도, 장의버스는 왕복\n* 장의 차량 기준 거리 200km 초과 시 1km당 1,800원'++'\n상담 1661-4214 (24시간)'; }
+function bindWizard(){ $('#wz-prev').addEventListener('click',()=>wzGo(-1)); $('#wz-next').addEventListener('click',()=>wzGo(1));
+  $$('[data-pkg-go]').forEach(b=>b.addEventListener('click',()=>pkgGo(b.getAttribute('data-pkg-go'))));
+  $$('[data-pkg-own]').forEach(a=>a.addEventListener('click',pkgOwn)); }
+const estKind=()=>{ const k=pkgOf(); return k?PKG[k].name+' 상품 견적':'맞춤 견적'; };
+function estText(){ const L=estLines(); const w=estWho(); return '[나만의장례 '+estKind()+']\n'+(w?w+'\n\n':'')+L.map(l=>'['+l[0]+'] '+l[4]+' — '+lineVal(l)+(l[5]?'\n     '+l[5]:'')).join('\n')+'\n\n합계: '+won(L.reduce((a,l)=>a+l[1],0))+(urnSep()?'\n(※ '+URN_NOTE+')':'')+(PR.disc==='sup'?'\n(수급자 · 국가유공자 할인 20만원 포함 · 대상 확인은 상담 때)':'')+(cpOK()?'\n\n[사전 상담 감사 할인권] 100,000원 할인\n번호 '+PR.cp+' · 발급일 '+PR.cpd+'\n· 가족장 · 일반장(3일장) 진행 시 정산 금액에서 할인 · 카카오톡 채널 친구 확인\n· 기한 없음 · 수급자 · 국가유공자 할인과 함께 사용 가능':'')+'\n\n※ 미리 내는 돈 없이 장례를 마친 뒤 정산해요.\n※ 이 견적을 꼭 저장해 두셨다가 현장에서 보여 주시면 그대로 진행해 드려요.\n\n* 장례식장 시설 사용료 · 음식값 별도\n* 리무진은 1차 장지 또는 화장장까지 편도, 장의버스는 왕복\n* 장의 차량 기준 거리 200km 초과 시 1km당 1,800원\n상담 1661-4214 (24시간)'; }
 const LOGO={mark:new Image(),word:new Image()};
 const logoReady=Promise.all(['mark','word'].map(k=>new Promise(r=>{ LOGO[k].onload=r; LOGO[k].onerror=r; LOGO[k].src={mark:'data:image/png;base64,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',word:'data:image/png;base64,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'}[k]; })));
 function saveEstImg(){
@@ -1011,7 +1040,7 @@ function saveEstImg(){
   let rows=null, H=0, TOP=0, CPH=0; const c=document.createElement('canvas'); c.width=W; const x=c.getContext('2d');
   const layout=()=>{ rows=L.map(l=>{ ms.font=fnt(500,30,SANS); const vw=ms.measureText(lineVal(l)).width; const lines=wrapItem(l[4]||'',VX-vw-28-IX); return {l,lines,h:ROW+(lines.length-1)*LH+(l[5]?34:0)}; }); TOP=estWho()?56:0; H=300+46+TOP+rows.reduce((a,r)=>a+r.h,0)+330+(urnSep()?62:0); if(cpOK()){ CPH=cpCardH(x,W-144); H+=CPH+90; } c.height=H; };
   const draw=()=>{ x.fillStyle='#ffffff'; x.fillRect(0,0,W,H); x.fillStyle='#252525'; x.fillRect(0,0,W,14);
-    x.textBaseline='alphabetic'; x.textAlign='left'; try{ if(LOGO.mark.naturalWidth) x.drawImage(LOGO.mark,72,56,92,94); if(LOGO.word.naturalWidth) x.drawImage(LOGO.word,184,74,253,48); }catch(e){} x.font=fnt(500,28,SANS); x.fillStyle='#59615b'; x.fillText('소규모 가족장 · 무빈소장 전문  |  맞춤 견적 '+new Date().toLocaleDateString('ko-KR'),184,150);
+    x.textBaseline='alphabetic'; x.textAlign='left'; try{ if(LOGO.mark.naturalWidth) x.drawImage(LOGO.mark,72,56,92,94); if(LOGO.word.naturalWidth) x.drawImage(LOGO.word,184,74,253,48); }catch(e){} const sub='소규모 가족장 · 무빈소장 전문  |  '+estKind()+' '+new Date().toLocaleDateString('ko-KR'); let fs=28; x.font=fnt(500,fs,SANS); while(fs>20&&x.measureText(sub).width>W-184-72){ fs--; x.font=fnt(500,fs,SANS); } x.fillStyle='#59615b'; x.fillText(sub,184,150);
     const who=estWho(); if(who){ x.font=fnt(700,36); x.fillStyle='#1a1e1b'; x.fillText(who,72,236); }
     x.font=fnt(500,24,SANS); x.fillStyle='#59615b'; x.textAlign='left'; x.fillText('구분',CX,262+TOP); x.fillText('고른 것',IX,262+TOP); x.textAlign='right'; x.fillText('금액',VX,262+TOP);
     x.fillStyle='#1a1e1b'; x.fillRect(72,276+TOP,W-144,3); let y=276+TOP;
@@ -1028,7 +1057,7 @@ function saveEstImg(){
     x.font=fnt(500,24,SANS); x.fillStyle='#59615b'; x.fillText('미리 내는 돈 없이 장례를 마친 뒤 정산 · 장례식장 시설 사용료 · 음식값 별도',72,y+222); x.fillStyle='#1a1e1b'; x.font=fnt(700,30,SANS); x.fillText('24시간 상담 1661-4214',72,y+268);
     if(cpOK()){ const cy=y+318; x.strokeStyle='#9b9b97'; x.lineWidth=2; x.setLineDash([12,10]); x.beginPath(); x.moveTo(40,cy); x.lineTo(W-40,cy); x.stroke(); x.setLineDash([]);
       x.font=fnt(500,20,SANS); x.fillStyle='#6b706c'; x.textAlign='right'; x.fillText('할인권 · 잘라서 따로 보관하셔도 됩니다',W-72,cy-10); cpDrawCard(x,72,cy+30,W-144,{h:CPH}); } };
-  Promise.all([ensureFonts('미리내는돈없이마친뒤정산나만의장례맞춤견적합계무료소규모가족장무빈소장전문구분고른것금액0123456789,원현장에서이견적을보여주시면그대로진행해드립니다※'+URN_NOTE+L.map(l=>l[0]+(l[4]||'')+(l[5]||'')+lineVal(l)).join('')+'고객님'+estWho()+(cpOK()?'사전상담감사할인권100,000원할인번호발급일받으신분할인권잘라서따로보관하셔도됩니다'+PR.cp+PR.cpd+CP_RULES.join(''):'')),logoReady]).then(()=>{ layout(); draw(); c.toBlob(b=>{ if(b) saveFile('나만의장례_맞춤견적.png',b,'견적 이미지를 저장했습니다'); else toast('이미지를 만들지 못했습니다'); },'image/png'); });
+  Promise.all([ensureFonts(estKind()+'미리내는돈없이마친뒤정산나만의장례맞춤견적합계무료소규모가족장무빈소장전문구분고른것금액0123456789,원현장에서이견적을보여주시면그대로진행해드립니다※'+URN_NOTE+L.map(l=>l[0]+(l[4]||'')+(l[5]||'')+lineVal(l)).join('')+'고객님'+estWho()+(cpOK()?'사전상담감사할인권100,000원할인번호발급일받으신분할인권잘라서따로보관하셔도됩니다'+PR.cp+PR.cpd+CP_RULES.join(''):'')),logoReady]).then(()=>{ layout(); draw(); c.toBlob(b=>{ if(b) saveFile('나만의장례_'+estKind().replace(/ /g,'')+'.png',b,'견적 이미지를 저장했습니다'); else toast('이미지를 만들지 못했습니다'); },'image/png'); });
 }
 
 /* ── 촌수 · 호칭 지도 ── */
@@ -1357,7 +1386,7 @@ route();
 (function(){
   if(RM||!('IntersectionObserver' in window)||!Element.prototype.animate) return;
   const vh=window.innerHeight||800;
-  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
+  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.pkg-grid>.pkg,.pkg-notes,.pkg-own,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
   if(!els.length) return;
   els.forEach(el=>el.classList.add('rv'));
   let queue=[], timer=0;
