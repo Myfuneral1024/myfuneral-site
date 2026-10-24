@@ -811,12 +811,12 @@ const PRICE={
 };
 const COFFIN_FOR={cre:['c1','c2'],bur:['c3','c4','c5'],und:['c1','c2','c3','c4','c5']};
 const coffinOpts=()=>PRICE.coffin.filter(o=>(COFFIN_FOR[PR.burial]||COFFIN_FOR.und).indexOf(o[0])>=0);
-/* ── 상품 (2026-10-24) : 관 · 입관은 가운데 등급, 수의 · 차량 · 도우미 · 상복은 규모에 맞춤 (무빈소장은 면수의 · 리무진, 사용자 지시) · 모두 화장 기준 · 유골함 별도 ──
+/* ── 상품 (2026-10-24) : 관 · 수의 · 입관은 세 상품 같음(오동나무관 · 면수의 · 꽃장식, 수의는 사용자 지시), 차량 · 도우미 · 상복은 규모에 맞춤 · 모두 화장 기준 · 유골함 별도 ──
    화면의 상품 카드(.pkg) 금액 · 목록과 반드시 같게 고친다. */
 const PKG={
   nob:{name:'무빈소장',set:{type:'nob',burial:'cre',coffin:'c1',shroud:'s1',ipgwan:'i1',binso:'none',car:'v2',urn:'u1',staff1:0,staff2:0,mm:0,mf:0}},
-  fam:{name:'가족장',set:{type:'fam',burial:'cre',coffin:'c1',shroud:'s3',ipgwan:'i1',binso:'b1',car:'v2',urn:'u1',staff1:1,staff2:1,mm:2,mf:2}},
-  gen:{name:'일반장',set:{type:'gen',burial:'cre',coffin:'c1',shroud:'s3',ipgwan:'i1',binso:'b2',car:'v4',urn:'u1',staff1:2,staff2:2,mm:4,mf:4}}
+  fam:{name:'가족장',set:{type:'fam',burial:'cre',coffin:'c1',shroud:'s1',ipgwan:'i1',binso:'b1',car:'v2',urn:'u1',staff1:1,staff2:1,mm:2,mf:2}},
+  gen:{name:'일반장',set:{type:'gen',burial:'cre',coffin:'c1',shroud:'s1',ipgwan:'i1',binso:'b2',car:'v4',urn:'u1',staff1:2,staff2:2,mm:4,mf:4}}
 };
 const PKG_KEYS=['type','burial','coffin','shroud','ipgwan','binso','car','staff1','staff2','mm','mf'];
 /* 지금 고른 것이 상품 구성 그대로면 그 상품 이름 (할인 · 유골함은 상관없음) */
