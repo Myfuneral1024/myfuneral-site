@@ -500,93 +500,18 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 ::view-transition-new(root){animation:vtIn 520ms cubic-bezier(0.19,1,0.22,1) both}
 @keyframes vtOut{to{opacity:0;transform:translate3d(0,-10px,0)}}
 @keyframes vtIn{from{opacity:0;transform:translate3d(0,22px,0)}}
-/* 비용 계산 진행 막대 */
-.wz-bar i{width:100%!important;transform:scaleX(0);transform-origin:left center;will-change:transform}
-.wz-stage{overflow:hidden}
 @media (prefers-reduced-motion: reduce){
   .rv{opacity:1;transform:none}
   ::view-transition-old(root),::view-transition-new(root){animation:none}
-  .wz-bar i{transition:none}
 }
 @media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
-/* 단계별 비용 계산 */
-.wiz{max-width:760px;padding:0;overflow:hidden}
-.wz-top{padding:18px 20px 14px;border-bottom:1px solid var(--line);display:flex;flex-direction:column;gap:10px}
-.wz-bar{height:3px;background:var(--line);border-radius:2px;overflow:hidden}
-.wz-bar i{display:block;height:100%;width:0;background:var(--pine)}
-.wz-meta{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:4px 12px;font-size:14px;color:var(--muted)}
-.wz-meta>span{white-space:nowrap}
-.wz-meta b{color:var(--ink);font-family:var(--serif);font-size:20px}
-.wz-stage{padding:28px 20px 8px;min-height:380px}
-.wz-q{font-size:clamp(22px,3vw,28px);margin-bottom:8px;outline:none}
-.wz-help{color:var(--ink2);margin-bottom:20px;max-width:36em;line-height:1.7}
-.wz-box{margin:-6px 0 20px;padding:12px 14px;background:var(--pine-soft);border-left:3px solid var(--pine);border-radius:2px;color:var(--ink2);line-height:1.7}
-.wz-box b{color:var(--ink)}
-.wz-box.end{margin:16px 0 0}
-.wz-sum li.sep .v{font-weight:700}
-.wz-sum li.sep .i small{color:var(--ink2)}
-.wz-opts{display:grid;gap:10px}
-.wz-opt{position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:baseline;padding:16px 18px;border:1px solid var(--line);border-radius:4px;background:var(--surface);cursor:pointer}
-.wz-opt input{position:absolute;opacity:0;pointer-events:none}
-.wz-opt .t{font-weight:700;font-size:17px}
-.wz-opt .p{font-family:var(--serif);font-weight:700;white-space:nowrap}
-.wz-opt .d{grid-column:1 / -1;color:var(--muted);font-size:15px;line-height:1.6}
-.wz-opt:has(input:checked){border:2px solid var(--pine);padding:15px 17px;background:var(--pine-soft)}
-.wz-opt:has(input:focus-visible){outline:2px solid var(--pine);outline-offset:2px}
-.wz-step{border-top:1px solid var(--line);padding:14px 0}
-.wz-nav{display:flex;justify-content:space-between;gap:10px;padding:16px 20px 20px}
-/* 상품 (2026-10-24 사용자 요청: 계산기가 생소하다 → 무빈소장 · 가족장 · 일반장 완제품) */
-.pkg-sec{display:flex;flex-direction:column;gap:16px;margin-bottom:48px}
-.pkg-h{font-size:clamp(22px,2.6vw,28px)}
-.pkg-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
-@media (max-width:900px){.pkg-grid{grid-template-columns:minmax(0,1fr);max-width:640px}}
-.pkg{padding:22px 20px 20px;display:flex;flex-direction:column;gap:10px;min-width:0}
-.pkg.on{border:2px solid var(--pine);padding:21px 19px 19px}
-.pkg-tag{font-size:14px;font-weight:700;color:var(--muted)}
-.pkg-name{font-family:var(--serif);font-weight:900;font-size:26px;line-height:1.25}
-.pkg-price{font-family:var(--serif);font-weight:700;font-size:18px;line-height:1.1}
-.pkg-price b{font-weight:900;font-size:34px;letter-spacing:-0.01em;margin-right:2px}
-.pkg-for{color:var(--ink2);line-height:1.65}
-@media (min-width:901px){.pkg-for{min-height:4.95em}}@media (min-width:901px) and (max-width:1019px){.pkg-for{min-height:6.6em}}  /* PC에서 세 카드의 목록 줄을 나란히 (소개 글 3줄 높이) */
-.pkg-list{list-style:none;margin:6px 0 12px;padding:0;border-top:1px solid var(--ink);display:flex;flex-direction:column}
-.pkg-list li{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:15px;line-height:1.5}
-.pkg-list li>span:first-child{color:var(--ink2);min-width:0}
-.pkg-list li>span:last-child{white-space:nowrap;font-weight:500;color:var(--ink)}
-.pkg-list small{display:block;font-size:13px;color:var(--muted);margin-top:1px}
-.pkg>.btn{margin-top:auto;width:100%}
-.pkg-notes{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px;color:var(--ink2);font-size:15px;line-height:1.65;max-width:52em}
-.pkg-own{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px 20px;padding:16px 18px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
-.pkg-own p{flex:1 1 280px;color:var(--ink2);line-height:1.65}
-.pkg-own p b{display:block;color:var(--ink)}
-.wiz-head{display:flex;flex-direction:column;gap:6px;margin-bottom:16px;padding-top:28px;border-top:1px solid var(--line);scroll-margin-top:124px}
-.wiz-head h2{font-size:clamp(22px,2.6vw,28px)}
-.wiz-head p{color:var(--ink2);line-height:1.7;max-width:36em}
-.wz-disc{display:flex;flex-wrap:wrap;align-items:center;gap:0 6px;margin-top:4px}
 .terms{max-width:760px;margin-top:20px;padding-top:18px;border-top:1px solid var(--ink);display:flex;flex-direction:column;gap:8px}
 .terms h2{font-size:18px}
 .terms p{color:var(--ink2)}
 .terms ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;color:var(--ink2)}
-.wz-sum li{display:grid;grid-template-columns:104px minmax(0,1fr) auto 64px;align-items:center;gap:4px 14px}
-.wz-sum .c{font-weight:700;color:var(--ink)}
-.wz-sum .i{color:var(--ink2)}
 .est-who{margin-top:18px;padding:14px 16px 12px;border:1px solid var(--line);border-radius:4px;display:flex;flex-direction:column;gap:10px}
 .est-who label span{font-weight:400;color:var(--muted)}
 .est-who .fld{max-width:360px}
-.wz-sum .i small{display:block;margin-top:2px;font-size:13px;font-weight:400;color:var(--muted)}
-.wz-sum .v{white-space:nowrap;font-weight:500;text-align:right;color:var(--ink)}
-.wz-sum li.hd{padding:2px 0 8px;border-bottom:1px solid var(--ink);font-size:13px;color:var(--muted)}
-.wz-sum li.hd span{font-weight:500}
-.wz-sum li.hd span:nth-child(3){text-align:right}
-@media (max-width:560px){
-  .wz-sum li{grid-template-columns:minmax(0,1fr) auto auto;grid-template-areas:'c v f' 'i v f';gap:2px 12px;padding:10px 0}
-  .wz-sum .fix{padding:0 2px}
-  .wz-sum .c{grid-area:c;font-size:13.5px;color:var(--muted)}
-  .wz-sum .i{grid-area:i;color:var(--ink);font-weight:500}
-  .wz-sum .v{grid-area:v}
-  .wz-sum li>:nth-child(4){grid-area:f}
-  .wz-sum li.hd{display:none}
-}
-.wz-sum .fix{white-space:nowrap;min-height:40px;border:0;background:none;color:var(--ink2);text-decoration:underline;text-underline-offset:3px;cursor:pointer;font-size:14px}
 
 /* 촌수 · 관계 찾기 */
 .find{padding:22px 20px;display:flex;flex-direction:column;gap:18px}
@@ -619,8 +544,8 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 
 /* 움직임: 누를 때 살짝, 화면이 바뀔 때 한 번 */
 :root{--ease-out:cubic-bezier(0.23,1,0.32,1);--ease-io:cubic-bezier(0.645,0.045,0.355,1)}
-.btn,.seg button,.tabs button,.opt,.wz-opt,.node,.icon-btn,.sur-index button,.res button,.clan-card,.stepper .ctl button{transition:transform 140ms var(--ease-out),background-color 160ms ease,border-color 160ms ease}
-.btn:active,.seg button:active,.tabs button:active,.wz-opt:active,.node:active,.icon-btn:active,.sur-index button:active,.res button:active,.clan-card:active,.stepper .ctl button:active{transform:scale(0.97)}
+.btn,.seg button,.tabs button,.opt,.node,.icon-btn,.sur-index button,.res button,.clan-card,.stepper .ctl button{transition:transform 140ms var(--ease-out),background-color 160ms ease,border-color 160ms ease}
+.btn:active,.seg button:active,.tabs button:active,.node:active,.icon-btn:active,.sur-index button:active,.res button:active,.clan-card:active,.stepper .ctl button:active{transform:scale(0.97)}
 .page.enter{animation:pageIn 280ms var(--ease-out)}
 @keyframes pageIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .swap{animation:swapIn 220ms var(--ease-out)}
@@ -632,12 +557,191 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 #toast:not([hidden]){animation:toastIn 220ms var(--ease-out)}
 @keyframes toastIn{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
-.wz-bar i{transition:transform 600ms cubic-bezier(0.645,0.045,0.355,1)}
 @media (prefers-reduced-motion: reduce){
-  .btn,.seg button,.tabs button,.opt,.wz-opt,.node,.icon-btn,.sur-index button,.res button,.clan-card,.stepper .ctl button,.wz-bar i{transition:none}
+  .btn,.seg button,.tabs button,.opt,.node,.icon-btn,.sur-index button,.res button,.clan-card,.stepper .ctl button{transition:none}
   .page.enter,.swap,.step-in-next,.step-in-prev,details.faq[open] .faq-a,#toast:not([hidden]){animation:none}
-  .btn:active,.seg button:active,.tabs button:active,.wz-opt:active,.node:active,.icon-btn:active,.sur-index button:active,.res button:active,.clan-card:active,.stepper .ctl button:active{transform:none}
+  .btn:active,.seg button:active,.tabs button:active,.node:active,.icon-btn:active,.sur-index button:active,.res button:active,.clan-card:active,.stepper .ctl button:active{transform:none}
 }
+/* 비용 계산 : 상품에서 빼기 (2026-11-01) */
+/* ───────── 시안 v2 : 상품에서 빼기만 (2026-11-01) ───────── */
+.page[data-page="price"]{padding-block:36px 150px}
+@media (min-width:961px){.page[data-page="price"]{padding-block:44px 96px}}
+.dx-head{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;max-width:760px}
+.dx-head h1{font-size:clamp(26px,3.6vw,40px);letter-spacing:-0.01em}
+.dx-head p{font-size:17px;line-height:1.75;color:var(--ink2);max-width:36em}
+.dx-head p b{color:var(--ink)}
+
+.dx-layout{display:grid;grid-template-columns:minmax(0,1fr);gap:28px;align-items:start}
+@media (min-width:961px){.dx-layout{grid-template-columns:minmax(0,1fr) 340px;gap:40px}}
+
+.dx-sec{display:flex;flex-direction:column;gap:14px}
+.dx-sec+.dx-sec{margin-top:36px}
+.dx-h{display:flex;align-items:center;gap:10px;font-size:clamp(21px,2.6vw,26px)}
+.dx-n{flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--pine);color:var(--pine-ink);font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:0}
+
+/* 1. 상품 고르기 */
+.dx-types{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.dx-type{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:44px;padding:14px 14px 13px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);text-align:left;cursor:pointer;font:inherit;transition:border-color .2s,background-color .2s}
+.dx-type .t{font-weight:700;font-size:17px;line-height:1.35}
+.dx-type .p{font-family:var(--serif);font-weight:900;font-size:24px;line-height:1.25;white-space:nowrap;font-variant-numeric:tabular-nums}
+.dx-type .p small{font-size:14px;font-weight:700;margin-left:1px}
+.dx-type .g{font-size:13.5px;color:var(--muted);line-height:1.45}
+.dx-type[aria-checked="true"]{border:2px solid var(--pine);padding:13px 13px 12px;background:var(--pine-soft)}
+.dx-type:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+@media (max-width:560px){.dx-type{padding:12px 10px 11px}.dx-type[aria-checked="true"]{padding:11px 9px 10px}.dx-type .t{font-size:16px}.dx-type .p{font-size:21px}.dx-type .p small{font-size:13px}.dx-type .g{display:none}}
+@media (max-width:340px){.dx-type .t{font-size:15px}.dx-type .p{font-size:19px}}
+
+.dx-burial{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+.dx-burial>span{font-weight:700}
+.dx-seg{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;border:1px solid var(--ink);border-radius:4px;overflow:hidden}
+.dx-seg button{min-height:44px;min-width:76px;padding:0 16px;border:0;background:var(--surface);color:var(--ink);font:inherit;font-weight:700;cursor:pointer;transition:background-color .2s,color .2s}
+.dx-seg button+button{border-left:1px solid var(--ink)}
+.dx-seg button[aria-pressed="true"]{background:var(--pine);color:var(--pine-ink)}
+.dx-burial small{flex-basis:100%;color:var(--muted);font-size:14px;line-height:1.55}
+
+/* 2. 상품 카드 */
+.dx-prod{background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:22px 20px 16px}
+@media (max-width:560px){.dx-prod{padding:18px 16px 12px}}
+.dx-prod-tag{font-size:14px;font-weight:700;color:var(--muted)}
+.dx-prod-hd{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 16px;margin-top:2px}
+.dx-prod-name{font-family:var(--serif);font-weight:900;font-size:clamp(26px,3vw,32px);line-height:1.25}
+.dx-prod-price{font-family:var(--serif);font-weight:700;font-size:18px;line-height:1.2;white-space:nowrap}
+.dx-prod-price b{font-weight:900;font-size:clamp(28px,3vw,34px);letter-spacing:-0.01em;margin-right:2px;font-variant-numeric:tabular-nums}
+.dx-prod-desc{margin-top:8px;color:var(--ink2);line-height:1.7}
+.pl-h{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:baseline;gap:2px 12px;margin-top:20px;padding-bottom:8px;border-bottom:1px solid var(--ink)}
+.pl-h b{font-size:16px}
+.pl-h small{font-size:14px;color:var(--muted)}
+.pl{list-style:none;margin:0;padding:0}
+/* 휴대폰 : 이름 · 금액이 한 줄, 그 아래 작은 글 · 빼기 버튼 */
+.pl-row{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;align-items:center;min-height:56px;padding:11px 0;border-bottom:1px solid var(--line)}
+.pl-row:last-child{border-bottom:0}
+.pl-t{grid-column:1;grid-row:1;min-width:0;font-size:16px;font-weight:500;line-height:1.45;color:var(--ink);transition:color .35s}
+.pl-tt{position:relative}
+.pl-s{grid-column:1;grid-row:2;align-self:start;margin-top:1px;font-size:13.5px;line-height:1.45;color:var(--muted)}
+.pl-amt{grid-column:2;grid-row:1;justify-self:end;font-family:var(--serif);font-weight:700;font-size:17px;white-space:nowrap;color:var(--ink);font-variant-numeric:tabular-nums}
+.pl-amt.free{font-family:var(--sans);font-size:15px;color:var(--ink2)}
+.pl-act{grid-column:2;grid-row:2;justify-self:end;margin-top:6px}
+.pl-act:empty{display:none}
+@media (max-width:699px){.pl-row:not(:has(.pl-btn)) .pl-s{grid-column:1 / -1}}
+.pl-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;min-width:76px;padding:0 12px;border:1px solid var(--edge);border-radius:4px;background:var(--surface);color:var(--ink);font:inherit;font-weight:700;font-size:15px;white-space:nowrap;cursor:pointer;transition:border-color .2s,background-color .2s}
+.pl-btn:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+@media (hover:hover){.pl-btn:not([disabled]):hover{border-color:var(--ink)}}
+.pl-btn[disabled]{opacity:.4;cursor:not-allowed}
+/* PC : 이름 | 빼기 | 금액 */
+@media (min-width:700px){
+  .pl-row{grid-template-columns:minmax(0,1fr) auto 7.5em;column-gap:18px}
+  .pl-act{grid-column:2;grid-row:1 / span 2;align-self:center;margin-top:0}
+  .pl-amt{grid-column:3;grid-row:1 / span 2;align-self:center}
+  .pl-row:not(:has(.pl-s)) .pl-t,.pl-row.off .pl-t{grid-row:1 / span 2;align-self:center}
+}
+/* 뺀 줄 : 가로줄이 왼쪽부터 그어진다 */
+.pl-tt::after{content:"";position:absolute;left:-2px;right:-2px;top:55%;height:2px;background:var(--ink2);transform:scaleX(0);transform-origin:left center;transition:transform .45s cubic-bezier(0.19,1,0.22,1)}
+.pl-row.off .pl-t{color:var(--muted)}
+.pl-row.off .pl-tt::after{transform:scaleX(1)}
+.pl-row.off .pl-s{display:none}
+/* 인원 · 벌 수 (도우미 · 상복) */
+.pl-cnt{grid-column:1 / -1;grid-row:3;display:grid;grid-template-columns:minmax(0,1fr);gap:6px;margin-top:10px;padding:10px 12px;background:var(--bg);border-radius:4px}
+.pl-row.off .pl-cnt{display:none}
+.pl-st{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pl-st .l{font-weight:700;font-size:15px;line-height:1.3}
+.pl-st .l small{display:block;font-weight:500;font-size:13px;color:var(--muted)}
+.dx-step{display:inline-flex;align-items:center;border:1px solid var(--ink);border-radius:4px;overflow:hidden;background:var(--surface)}
+.dx-step button{width:44px;height:44px;border:0;background:var(--surface);color:var(--ink);font:inherit;font-size:22px;line-height:1;cursor:pointer;transition:background-color .15s}
+.dx-step button:active{background:var(--pine-soft)}
+.dx-step button[disabled]{color:var(--edge);cursor:not-allowed}
+.dx-step button:focus-visible{outline:2px solid var(--pine);outline-offset:-2px}
+.dx-step output{min-width:56px;text-align:center;font-weight:700;font-size:16px;font-variant-numeric:tabular-nums;border-left:1px solid var(--line);border-right:1px solid var(--line);line-height:44px}
+.pl-diff{font-size:14px;color:var(--ink2);line-height:1.5;margin-top:2px}
+.pl-diff b{color:var(--ink)}
+.pl-cnote{font-size:13px;color:var(--muted);line-height:1.5}
+@media (min-width:700px){.pl-cnt{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}.pl-diff,.pl-cnote{grid-column:1 / -1}}
+.pl-row.off .pl-btn{border-color:var(--ink);background:var(--pine-soft)}
+.pl-amt .minus{display:inline-block;padding:1px 7px;border:1px solid var(--ink);border-radius:3px;font-family:var(--sans);font-size:14.5px;font-weight:700}
+/* 정직한 한 줄 : 높이가 부드럽게 열림 */
+.dx-fold{grid-column:1 / -1;grid-row:4;display:grid;grid-template-rows:0fr;transition:grid-template-rows .42s cubic-bezier(0.19,1,0.22,1)}
+.dx-fold>div{min-height:0;overflow:hidden}
+.dx-fold.open{grid-template-rows:1fr}
+.pl-honest{margin-top:8px;padding:9px 12px;background:var(--pine-soft);border-left:3px solid var(--pine);border-radius:2px;color:var(--ink2);line-height:1.6;font-size:14.5px}
+.pl-honest b{color:var(--ink)}
+.pl-note{margin-top:10px;padding-top:10px;border-top:1px solid var(--line);color:var(--muted);font-size:14px;line-height:1.6}
+
+.dx-urn{padding:14px 16px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink2);line-height:1.7}
+.dx-urn b{color:var(--ink)}
+.dx-urn a{color:var(--ink);font-weight:700;text-underline-offset:3px;display:inline-block;padding:8px 0;margin:-8px 0}
+.dx-disc{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:var(--surface);cursor:pointer;min-height:56px}
+.dx-disc input{width:22px;height:22px;accent-color:var(--pine);flex:none;margin:0}
+.dx-disc span{flex:1;line-height:1.5}
+.dx-disc span small{display:block;color:var(--muted);font-size:14px}
+.dx-disc b{font-family:var(--serif);white-space:nowrap}
+.dx-disc:has(input:checked){border:2px solid var(--pine);padding:11px 13px;background:var(--pine-soft)}
+
+/* 합계 (PC : 오른쪽에 붙어 따라옴) */
+.dx-sum{position:sticky;top:132px;display:flex;flex-direction:column;gap:12px;padding:20px;border:2px solid var(--ink);border-radius:4px;background:var(--surface)}
+.dx-sum-k{font-weight:700;color:var(--ink2)}
+.dx-sum-v{font-family:var(--serif);font-weight:700;font-size:18px;line-height:1.1}
+.dx-sum-v b{font-weight:900;font-size:36px;letter-spacing:-0.01em;margin-right:2px;font-variant-numeric:tabular-nums}
+.dx-calc{margin:0;display:flex;flex-direction:column;border-top:1px solid var(--line)}
+.dx-calc>div{display:flex;justify-content:space-between;gap:12px;padding:7px 0;border-bottom:1px solid var(--line);font-size:15px}
+.dx-calc dt{color:var(--ink2)}
+.dx-calc dd{margin:0;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+.dx-saved{font-weight:700;color:var(--ink);line-height:1.55}
+.dx-min{color:var(--muted);font-size:14px;line-height:1.55}
+.dx-sum .btn{width:100%}
+.dx-sum .note{color:var(--muted);font-size:14px;line-height:1.55}
+.dx-sum.idle .dx-calc,.dx-sum.idle .dx-saved,.dx-sum.idle .dx-min{display:none}
+
+/* 휴대폰 : 아래 전화 줄 바로 위에 합계 줄 */
+.dx-bar{display:none}
+@media (max-width:960px){
+  .dx-sum{display:none}
+  .dx-bar{display:flex;align-items:center;gap:12px;position:fixed;left:0;right:0;bottom:var(--cb,75px);z-index:24;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));background:var(--surface);border-top:2px solid var(--ink);box-shadow:0 -6px 16px rgba(0,0,0,.06);transform:translate3d(0,0,0);transition:transform .42s cubic-bezier(0.19,1,0.22,1),opacity .3s}
+  .dx-bar.hide{transform:translate3d(0,110%,0);opacity:0;pointer-events:none}
+  .dx-bar .tx{flex:1;min-width:0;display:flex;flex-direction:column;line-height:1.3}
+  .dx-bar .tx span{font-size:13.5px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .dx-bar .tx b{font-family:var(--serif);font-weight:900;font-size:24px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .dx-bar .tx b small{font-size:15px;font-weight:700;margin-left:1px}
+  .dx-bar .btn{flex:none;min-height:50px;padding:0 18px}
+}
+
+/* 3. 견적 */
+.dx-est{max-width:760px;display:flex;flex-direction:column;gap:14px}
+.dx-back{align-self:flex-start;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0;border:0;background:none;color:var(--ink);font:inherit;font-weight:700;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+.dx-est h2{font-size:clamp(24px,3vw,32px);outline:none}
+.dx-est .keepline{font-weight:700;color:var(--ink)}
+.dx-tbl{width:100%;border-collapse:collapse;border-top:2px solid var(--ink);font-size:16px}
+.dx-tbl th,.dx-tbl td{padding:12px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top;line-height:1.5}
+.dx-tbl thead th{font-size:14px;color:var(--muted);font-weight:700;padding-top:10px;padding-bottom:10px}
+.dx-tbl th[scope="row"]{white-space:nowrap;font-weight:700;color:var(--ink2);width:7.5em}
+.dx-tbl td.v{text-align:right;white-space:nowrap;font-weight:700;font-variant-numeric:tabular-nums}
+.dx-tbl td small{display:block;color:var(--muted);font-size:13.5px}
+.dx-tbl tr.cut th,.dx-tbl tr.cut td{color:var(--muted)}
+.dx-tbl tr.cut td.p s{text-decoration-thickness:1.5px;text-decoration-color:var(--ink2)}
+.dx-tbl tr.cut td.v{color:var(--ink)}
+.dx-tbl tr.sub th{padding-top:22px;font-family:var(--sans);font-size:15px;color:var(--ink);border-bottom:1px solid var(--ink)}
+@media (max-width:600px){
+  .dx-tbl thead{display:none}
+  .dx-tbl,.dx-tbl tbody,.dx-tbl tr{display:block}
+  .dx-tbl tr{display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:12px;padding:10px 0;border-bottom:1px solid var(--line)}
+  .dx-tbl th,.dx-tbl td{padding:0;border:0}
+  .dx-tbl th[scope="row"]{grid-column:1;width:auto;font-size:13.5px;font-weight:500;color:var(--muted)}
+  .dx-tbl td.p{grid-column:1;font-weight:700}
+  .dx-tbl td.v{grid-column:2;grid-row:1 / span 2;align-self:center}
+  .dx-tbl tr.sub{border-bottom:1px solid var(--ink);padding:18px 0 6px}
+  .dx-tbl tr.sub th{padding:0;border:0;font-size:15px;font-weight:700;color:var(--ink)}
+}
+.dx-totbox{display:flex;flex-direction:column;gap:2px;padding:16px;border:2px solid var(--ink);border-radius:4px;background:var(--surface)}
+.dx-totbox .dx-calc{border-top:0}
+.dx-totbox .dx-calc>div:last-child{border-bottom:0}
+.dx-totbox .dx-sumrow{display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-top:12px;border-top:2px solid var(--ink)}
+.dx-totbox .dx-sumrow span{font-weight:700;font-size:17px}
+.dx-totbox .dx-sumrow b{font-family:var(--serif);font-weight:900;font-size:30px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.dx-est .outs{color:var(--ink2);line-height:1.7;font-size:15px}
+.dx-est .acts2{display:flex;flex-wrap:wrap;gap:10px}
+
+@media (prefers-reduced-motion: reduce){
+  .dx-fold,.pl-tt::after,.pl-t,.dx-step button,.dx-bar,.dx-type,.dx-seg button,.pl-btn{transition:none}
+}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 
 </head>
@@ -674,9 +778,9 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 <section class="page" data-page="home" aria-labelledby="h-home">
   <div class="wrap">
     <details class="notice" id="official">
-      <summary><span class="notice-tag">공식 안내</span><span class="notice-t"><span class="nl">공식 홈페이지는 <b>www.myfuneral.co.kr</b>입니다.</span><span class="nl">비슷한 이름의 사칭 업체 · 사이트에 주의해 주세요.</span><span class="nl">나만의장례는 <b>직영 장례지도사만</b> 보내 드립니다.</span></span><span class="notice-more"><span class="o">확인하는 법</span><span class="c">접기</span></span></summary>
+      <summary><span class="notice-tag">공식 안내</span><span class="notice-t"><span class="nl">공식 홈페이지는 <b>www.myfuneral.co.kr</b>이에요.</span><span class="nl">비슷한 이름의 사칭 업체와 사이트를 조심해 주세요.</span><span class="nl">나만의장례는 <b>직영 장례지도사만</b> 보내 드려요.</span></span><span class="notice-more"><span class="o">확인하는 법</span><span class="c">접기</span></span></summary>
       <div class="notice-body">
-        <p>최근 나만의장례와 비슷한 이름을 쓰는 업체와 사이트가 생기고 있습니다. 연락을 받으셨다면 아래 정보가 맞는지 확인해 주세요.</p>
+        <p>요즘 나만의장례와 이름이 비슷한 업체와 사이트가 생기고 있어요. 연락을 받으셨다면 아래 정보와 같은지 한 번만 확인해 주세요.</p>
         <dl class="notice-dl">
           <div><dt>공식 홈페이지</dt><dd>www.myfuneral.co.kr</dd></div>
           <div><dt>대표번호</dt><dd><a href="tel:16614214">1661-4214</a> (365일 24시간)</dd></div>
@@ -684,8 +788,8 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
           <div><dt>사업자등록번호</dt><dd>180-92-00747</dd></div>
         </dl>
         <ul class="notice-ul">
-          <li>나만의장례는 <b>직영 장례지도사만</b> 보내 드립니다. 다른 업체에 장례를 넘기지 않습니다.</li>
-          <li>장례를 모두 마친 뒤 정산합니다. 장례 전에 돈을 먼저 보내 달라고 하지 않습니다.</li>
+          <li>저희 <b>직영 장례지도사만</b> 가요. 다른 업체에 장례를 넘기지 않아요.</li>
+          <li>비용은 장례를 모두 마친 뒤에 정산해요. 장례 전에 돈부터 보내 달라는 일은 없어요.</li>
           <li>조금이라도 이상하시면 1661-4214로 먼저 전화해 확인해 주세요.</li>
         </ul>
       </div>
@@ -693,13 +797,13 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="hero">
       <div class="hero-main">
         <p class="hero-ask">같은 장례인데,<br>왜 비용은 업체마다 다를까요?</p>
-        <p class="lead">대개 <b>쓰지 않는 패키지와 중간 마진</b> 때문입니다.<br>나만의장례는 그것만 덜어냈습니다.</p>
+        <p class="lead">대부분 <b>쓰지도 않는 패키지와 중간 마진</b> 때문이에요.<br>저희는 그 두 가지만 덜어냈어요.</p>
         <h1 id="h-home"><span class="ln">저렴한 장례가 아닙니다.</span><br><span class="ln">합리적 간소화입니다.</span></h1>
         <div class="hero-price"><div><span>무빈소 장례</span><b>60<small>만원부터</small></b></div><div><span>가족장 (3일장)</span><b>70<small>만원부터</small></b></div><p>첫 견적이 끝 견적 · 장례를 마친 뒤 정산</p></div>
         <a class="hero-more" href="#price">내 장례 비용 바로 계산하기 →</a>
         <div class="phone">
           <p class="hero-q">소중한 가족의 마지막,<br>아무 곳에나 맡기시겠습니까.</p>
-          <p class="phone-l">장례가 발생하셨다면 지금 전화 주세요. 365일 24시간, 10분 안에 출동합니다.</p>
+          <p class="phone-l">장례가 발생하셨다면 지금 전화 주세요. 365일 24시간 받고, 10분 안에 출동해요.</p>
           <a class="phone-n" href="tel:16614214">1661-4214</a>
           <div class="actions"><a class="btn btn-primary btn-lg" href="tel:16614214">전화 걸기</a><button class="btn btn-line btn-lg" type="button" data-copy="1661-4214">번호 복사</button><a class="btn btn-line btn-lg" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>카카오톡 상담</a></div>
         </div>
@@ -707,10 +811,10 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <div class="hero-side">
         <figure class="ph"><img src="/assets/img/flowers-900.webp" srcset="/assets/img/flowers-480.webp 480w, /assets/img/flowers-900.webp 900w" sizes="(max-width: 960px) 100vw, 540px" width="900" height="600" alt="흰 국화 꽃송이" fetchpriority="high" decoding="async"></figure>
       <aside class="trim" aria-labelledby="h-trim">
-        <h2 id="h-trim">간소화는 이렇게 합니다</h2>
+        <h2 id="h-trim">이렇게 덜어냈어요</h2>
         <div class="trim-cols">
-          <div><h3>덜어내는 것</h3><ul class="off"><li>쓰지 않을 리무진과 수의를 끼운 고정 패키지</li><li>영업 수당과 마케팅 비용</li><li>장례 중에 붙는 수고비와 추가 마진</li><li>외주 지도사의 상품 권유</li></ul></div>
-          <div><h3>지키는 것</h3><ul class="keep"><li>직영 장례지도사가 처음부터 끝까지</li><li>염습과 입관의 예우</li><li>발인부터 장지까지 동행</li><li>계약 전에 알려 드린 금액 그대로</li></ul></div>
+          <div><h3>덜어낸 것</h3><ul class="off"><li>쓰지도 않을 물품을 끼워 넣은 고정 패키지</li><li>영업 수당과 광고비</li><li>장례 도중에 따로 붙는 수고비</li><li>외주 지도사가 권하는 추가 상품</li></ul></div>
+          <div><h3>그대로 지키는 것</h3><ul class="keep"><li>처음부터 끝까지 직영 장례지도사가 곁에</li><li>고인을 깨끗이 씻겨 드리는 염습과 입관</li><li>발인부터 장지까지 함께 가는 것</li><li>처음 알려 드린 금액 그대로</li></ul></div>
         </div>
       </aside>
       </div>
@@ -718,11 +822,11 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 
     <div class="sec">
       <h2>장례가 발생하셨다면</h2>
-      <p class="sec-lead">무엇부터 해야 할지 몰라도 괜찮습니다. 아래 세 가지만 하시면 나머지는 나만의장례가 맡습니다.</p>
+      <p class="sec-lead">무엇부터 해야 할지 몰라도 괜찮아요. 아래 세 가지만 해 주시면 나머지는 저희가 맡을게요.</p>
       <ol class="num-step ill3">
-        <li><figure class="ill"><img src="/assets/img/ill-step-1.webp" width="540" height="360" alt="가족이 전화로 연락하는 모습" loading="lazy" decoding="async"></figure><b>1661-4214로 전화합니다</b><span>어디에서 돌아가셨는지만 알려 주세요.</span></li>
-        <li><figure class="ill"><img src="/assets/img/ill-step-2.webp" width="540" height="360" alt="장례지도사가 가족과 함께 확인하는 모습" loading="lazy" decoding="async"></figure><b>사망 확인을 받습니다</b><span>병원이면 의사에게 사망진단서를 요청하고, 자택이면 119에 먼저 알립니다.</span></li>
-        <li><figure class="ill"><img src="/assets/img/ill-step-3.webp" width="540" height="360" alt="장례지도사가 가족을 안내하는 모습" loading="lazy" decoding="async"></figure><b>고인 곁을 지킵니다</b><span>도착한 장례지도사가 다음 일을 하나씩 안내하고 진행합니다.</span></li>
+        <li><figure class="ill"><img src="/assets/img/ill-step-1.webp" width="540" height="360" alt="가족이 전화로 연락하는 모습" loading="lazy" decoding="async"></figure><b>1661-4214로 전화 주세요</b><span>어디에서 돌아가셨는지만 알려 주세요.</span></li>
+        <li><figure class="ill"><img src="/assets/img/ill-step-2.webp" width="540" height="360" alt="장례지도사가 가족과 함께 확인하는 모습" loading="lazy" decoding="async"></figure><b>사망 확인을 받아 주세요</b><span>병원이면 의사에게 사망진단서를 부탁하시고, 집이면 119에 먼저 알려 주세요.</span></li>
+        <li><figure class="ill"><img src="/assets/img/ill-step-3.webp" width="540" height="360" alt="장례지도사가 가족을 안내하는 모습" loading="lazy" decoding="async"></figure><b>고인 곁을 지켜 주세요</b><span>도착한 장례지도사가 다음 일을 하나씩 알려 드리고 맡아서 해요.</span></li>
       </ol>
       <a class="btn btn-line" href="#urgent" style="align-self:flex-start">돌아가신 곳에 따라 할 일 보기</a>
     </div>
@@ -730,48 +834,48 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="sec">
       <h2>나만의장례의 약속</h2>
       <dl class="promise ill4">
-        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-1.webp" width="540" height="360" alt="서류 위에 놓인 흰 국화와 확인 표시" loading="lazy" decoding="async"></figure>장례를 마친 뒤 정산합니다</dt><dd>계약할 때 미리 내는 돈이 없습니다.</dd></div>
-        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-2.webp" width="540" height="360" alt="장례지도사가 유가족에게 차분히 설명하는 모습" loading="lazy" decoding="async"></figure>직영 장례지도사가 끝까지 맡습니다</dt><dd>자체 교육을 마친 지도사가 상담부터 장지까지 진행합니다. 촌지나 추가 상품을 요구하지 않습니다.</dd></div>
-        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-3.webp" width="540" height="360" alt="국화 · 수의 · 차량 가운데 필요한 것만 고르는 모습" loading="lazy" decoding="async"></figure>필요한 것만 고릅니다</dt><dd>고정 패키지를 강요하지 않습니다. 쓰지 않을 것은 빼고 견적을 냅니다.</dd></div>
-        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-4.webp" width="540" height="360" alt="처음 견적서와 마지막 정산서가 같다는 그림" loading="lazy" decoding="async"></figure>첫 견적이 끝 견적입니다</dt><dd>계약 전에 모든 비용을 알려 드리고, 부당한 추가 요금은 200%를 돌려 드립니다.</dd></div>
+        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-1.webp" width="540" height="360" alt="서류 위에 놓인 흰 국화와 확인 표시" loading="lazy" decoding="async"></figure>장례를 마친 뒤에 정산해요</dt><dd>계약할 때 미리 내실 돈이 없어요.</dd></div>
+        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-2.webp" width="540" height="360" alt="장례지도사가 유가족에게 차분히 설명하는 모습" loading="lazy" decoding="async"></figure>직영 장례지도사가 끝까지 맡아요</dt><dd>저희가 직접 교육한 지도사가 상담부터 장지까지 함께해요. 수고비나 추가 상품을 따로 요구하지 않아요.</dd></div>
+        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-3.webp" width="540" height="360" alt="국화 · 수의 · 차량 가운데 필요한 것만 고르는 모습" loading="lazy" decoding="async"></figure>필요한 것만 고르시면 돼요</dt><dd>묶음 상품을 억지로 권하지 않아요. 쓰지 않으실 건 빼고 견적을 내 드려요.</dd></div>
+        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-4.webp" width="540" height="360" alt="처음 견적서와 마지막 정산서가 같다는 그림" loading="lazy" decoding="async"></figure>첫 견적이 끝 견적이에요</dt><dd>계약 전에 모든 비용을 알려 드려요. 부당한 추가 요금은 200% 돌려 드립니다.</dd></div>
       </dl>
     </div>
 
     <div class="sec">
       <h2>모시는 장례</h2>
       <div class="svc">
-        <a href="#nobinso"><b>무빈소 장례</b><span>빈소 없이 가족끼리 조용히 모십니다. 전국 어디서나 진행합니다.</span><em>60만원부터</em></a>
-        <a href="#price"><b>가족장</b><span>조문객을 맞는 빈소를 차리는 3일장입니다.</span><em>70만원부터</em></a>
-        <a href="#price"><b>수급자 · 국가유공자 장례</b><span>20만원을 할인해 드리고, 장제급여 범위 안에서 장례를 설계하며 청구 서류를 챙겨 드립니다.</span><em>20만원 할인</em></a>
-        <a href="#urn"><b>유골함</b><span>봉안당 · 묘 · 수목장, 모실 곳에 맞는 함을 정직하게 골라 드립니다. 기본 금액과 별도이며, 종류가 많습니다.</span><em>별도 40~400만원</em></a>
-        <a href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><b>사전 장례 상담</b><span>임종 전에 비용과 절차를 미리 정해 둡니다. 장지 상담도 무료입니다.</span><em>무료</em></a>
+        <a href="#nobinso"><b>무빈소 장례</b><span>빈소 없이 가족끼리 조용히 모셔요. 전국 어디든 가요.</span><em>60만원부터</em></a>
+        <a href="#price" data-goto-type="fam"><b>가족장</b><span>빈소를 차리고 가까운 분들의 조문을 받는 3일장이에요.</span><em>70만원부터</em></a>
+        <a href="#price"><b>수급자 · 국가유공자 장례</b><span>20만원 할인해 드려요. 장제급여 안에서 치르실 수 있게 맞춰 드리고, 청구 서류도 챙겨 드려요.</span><em>20만원 할인</em></a>
+        <a href="#urn"><b>유골함</b><span>봉안당, 묘, 수목장 등 모실 곳에 맞는 함을 골라 드려요. 기본 금액에는 들어 있지 않아요.</span><em>별도 40~400만원</em></a>
+        <a href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><b>사전 장례 상담</b><span>임종 전에 비용과 절차를 미리 정해 두실 수 있어요. 장지 상담도 무료예요.</span><em>무료</em></a>
       </div>
     </div>
 
     <div class="sec">
       <h2>누구나 무료로 쓰는 도구</h2>
-      <p class="sec-lead">장례지도사도, 처음 장례를 치르는 가족도 쓰실 수 있습니다. 회원가입과 광고가 없습니다.</p>
+      <p class="sec-lead">처음 장례를 치르는 가족도, 장례지도사도 쓰실 수 있어요. 회원가입도 광고도 없어요.</p>
       <div class="grid3">
-        <a class="card tool" href="#price"><span class="glyph">費用</span><b>비용 계산</b><span>하나씩 고르면 나만의장례 가격표 그대로 견적이 나옵니다</span></a>
-        <a class="card tool" href="#print"><span class="glyph">神位</span><b>출력실</b><span>지방, 혼백, 축문, 상중 안내문, 부의 봉투를 실물 크기 PDF로 (명정은 예시)</span></a>
-        <a class="card tool" href="#clan"><span class="glyph">本貫</span><b>본관 찾기</b><span>한글로 찾으면 한자 본관과 성을 알려 드립니다</span></a>
-        <a class="card tool" href="#chon"><span class="glyph">寸數</span><b>촌수와 호칭</b><span>친가, 외가, 처가, 시가 누구를 뭐라고 부르는지 지도로</span></a>
+        <a class="card tool" href="#price"><span class="glyph">費用</span><b>비용 계산</b><span>가격표 그대로 견적이 바로 나와요</span></a>
+        <a class="card tool" href="#print"><span class="glyph">神位</span><b>출력실</b><span>지방, 혼백, 축문, 상중 안내문, 부의 봉투를 실제 크기로 뽑을 수 있어요 (명정은 예시)</span></a>
+        <a class="card tool" href="#clan"><span class="glyph">本貫</span><b>본관 찾기</b><span>한글로 찾으시면 본관과 성을 한자로 알려 드려요</span></a>
+        <a class="card tool" href="#chon"><span class="glyph">寸數</span><b>촌수와 호칭</b><span>친가, 외가, 처가, 시가에서 누구를 뭐라고 부르는지 알려 드려요</span></a>
         <a class="card tool" href="#manners"><span class="glyph">賻儀</span><b>조문 예절</b><span>조문 순서, 절하는 법, 부의 봉투 쓰는 법</span></a>
-        <a class="card tool" href="#date"><span class="glyph">忌日</span><b>날짜 계산</b><span>삼우제 · 49재 · 첫 기일과 장례 후 서류 기한을 날짜로, 음력 달력까지</span></a>
+        <a class="card tool" href="#date"><span class="glyph">忌日</span><b>날짜 계산</b><span>삼우제, 49재, 기일, 서류 기한을 날짜로 알려 드려요</span></a>
       </div>
     </div>
 
     <div class="sec">
       <h2>자주 묻는 질문</h2>
       <div>
-        <details class="faq"><summary>비용은 언제 내나요?</summary><div class="faq-a">장례를 모두 마친 뒤 정산합니다. 계약할 때 미리 내는 돈은 없습니다.</div></details>
-        <details class="faq"><summary>선불식 상조와 무엇이 다른가요?</summary><div class="faq-a">선불식 상조는 가입한 뒤 매달 나눠 미리 내고, 가입할 때 정한 상품 구성을 따릅니다. 나만의장례는 미리 내는 돈 없이 필요한 것만 골라 장례를 마친 뒤 정산합니다. <a href="#price" data-goto="prepaid">자세히 비교해 보기</a></div></details>
-        <details class="faq"><summary>싼 만큼 무언가 빠지는 건 아닌가요?</summary><div class="faq-a">빠지는 것은 쓰지 않을 상품과 중간 마진입니다. 직영 장례지도사의 진행, 염습과 입관의 예우, 발인부터 장지까지의 동행은 그대로입니다.</div></details>
-        <details class="faq"><summary>상담 때 들은 금액보다 더 나오지 않나요?</summary><div class="faq-a">첫 견적이 끝 견적입니다. 모든 품목과 비용을 미리 알려 드리고, 부당한 추가 요금을 청구하면 200%를 돌려 드립니다. 장례식장 시설 사용료와 음식값은 쓰신 만큼 따로 정산합니다.</div></details>
-        <details class="faq"><summary>무빈소 장례도 정성껏 진행되나요?</summary><div class="faq-a">네. 빈소만 차리지 않을 뿐, 전담 장례지도사가 안치부터 입관, 발인까지 함께하며 고인에 대한 예우는 생략하지 않습니다.</div></details>
-        <details class="faq"><summary>장지나 납골당이 이미 있는데 장례만 맡겨도 되나요?</summary><div class="faq-a">네. 필요한 항목만 골라서 맡기실 수 있습니다. 장지가 없으시면 전국 약 1,000곳 가운데 형편에 맞는 3곳을 골라 함께 둘러봐 드립니다.</div></details>
-        <details class="faq"><summary>아직 임종 전인데 미리 상담해도 될까요?</summary><div class="faq-a">네. 사전 상담으로 비용과 절차를 미리 정해 두면 그날 훨씬 덜 막막합니다. 상담과 장례 접수 모두 365일 24시간, 주말 · 공휴일에도 쉬지 않고 받습니다.</div></details>
-        <details class="faq"><summary>종교에 맞춰 장례를 치를 수 있나요?</summary><div class="faq-a">기독교, 천주교, 불교 등 종교 예식에 맞춰 진행합니다. 출력실에서 종교별 위패도 만들 수 있습니다.</div></details>
+        <details class="faq"><summary>비용은 언제 내나요?</summary><div class="faq-a">장례를 모두 마치신 뒤에 정산하시면 돼요. 계약할 때 미리 내실 돈은 없어요.</div></details>
+        <details class="faq"><summary>선불식 상조와 무엇이 다른가요?</summary><div class="faq-a">선불식 상조는 가입한 뒤 매달 조금씩 미리 내고, 가입할 때 정한 상품대로 장례를 치러요. 저희는 필요한 것만 골라, 미리 내는 돈 없이 장례를 마친 뒤 정산해요. <a href="#price" data-goto="prepaid">자세히 비교해 보기</a></div></details>
+        <details class="faq"><summary>싼 만큼 무언가 빠지는 건 아닌가요?</summary><div class="faq-a">빠지는 건 쓰지 않으실 상품과 중간 마진뿐이에요. 직영 장례지도사가 처음부터 끝까지 맡고, 염습과 입관, 장지까지 함께 가는 것도 그대로예요.</div></details>
+        <details class="faq"><summary>상담 때 들은 금액보다 더 나오지 않나요?</summary><div class="faq-a">첫 견적이 끝 견적이에요. 모든 품목과 비용을 미리 알려 드리고, 부당한 추가 요금은 200% 돌려 드립니다. 장례식장 시설 사용료와 음식값만 쓰신 만큼 따로 정산해요.</div></details>
+        <details class="faq"><summary>빈소가 없으면 소홀하지 않을까요?</summary><div class="faq-a">아니에요. 빈소를 차리지 않는 것 말고는 똑같아요. 전담 장례지도사가 안치부터 입관, 발인까지 함께하고, 고인을 모시는 과정은 하나도 빼지 않아요.</div></details>
+        <details class="faq"><summary>장지나 납골당이 이미 있는데 장례만 맡겨도 되나요?</summary><div class="faq-a">네, 필요한 것만 골라 맡기셔도 돼요. 장지가 아직 없으시면 전국 약 1,000곳 가운데 형편에 맞는 세 곳을 골라 함께 둘러봐 드려요.</div></details>
+        <details class="faq"><summary>아직 임종 전인데 미리 상담해도 될까요?</summary><div class="faq-a">네, 그럼요. 비용과 절차를 미리 정해 두시면 그날 훨씬 덜 막막하실 거예요. 상담과 장례 접수는 주말, 공휴일 없이 365일 24시간 받아요.</div></details>
+        <details class="faq"><summary>종교에 맞춰 장례를 치를 수 있나요?</summary><div class="faq-a">네. 기독교, 천주교, 불교 등 믿으시는 종교의 예식에 맞춰 모셔요. 출력실에서 종교별 위패도 만드실 수 있어요.</div></details>
       </div>
     </div>
   </div>
@@ -782,11 +886,11 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
   <div class="wrap">
     <div class="page-head">
       <h1 id="h-urgent">장례가 발생하셨다면, 먼저 전화 주세요</h1>
-      <p>무엇부터 해야 할지 몰라도 괜찮습니다. 1661-4214로 전화하시면 이송, 장례식장, 입관, 화장, 장지, 서류까지 나만의장례가 다 해 드립니다.</p>
+      <p>무엇부터 해야 할지 몰라도 괜찮아요. 1661-4214로 전화 한 통만 주시면 이송, 장례식장, 입관, 화장, 장지, 서류까지 저희가 다 맡아 드려요.</p>
     </div>
     <div class="callout">
       <div>
-        <p class="muted small">365일 24시간 받고, 전화 후 10분 안에 출동합니다</p>
+        <p class="muted small">365일 24시간 받고, 전화 주시면 10분 안에 출동해요</p>
         <h2>나만의장례 <span style="font-weight:900">1661-4214</span></h2>
       </div>
       <div class="actions"><a class="btn btn-primary btn-lg" href="tel:16614214">전화 걸기</a><button class="btn btn-line btn-lg" type="button" data-copy="1661-4214">번호 복사</button><a class="btn btn-line btn-lg" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>카카오톡 상담</a></div>
@@ -795,22 +899,22 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="sec">
       <h2>돌아가신 곳에 따라 먼저 할 일</h2>
       <div class="grid2">
-        <div class="card case"><h3>병원에서</h3><ul class="list"><li>담당 의사에게 <b>사망진단서</b>를 요청합니다. 여러 부를 받아 두면 서류 낼 때 편합니다.</li><li>가족분들이 원하시는 장례식장에서 진행하실 수 있습니다. 나만의장례와 <b>협약된 장례식장</b>을 이용하시면 <b>빈소 할인</b>도 받으실 수 있습니다. 1661-4214로 편하게 전화 주세요.</li></ul></div>
-        <div class="card case"><h3>요양병원 · 요양원에서</h3><ul class="list"><li>시설에 사망 확인과 사망진단서 발급을 요청합니다.</li><li>의사가 없는 시설이면 어떻게 확인받을지 전화로 바로 안내해 드립니다.</li></ul></div>
-        <div class="card case"><h3>자택에서 임종하실 경우</h3><ul class="list"><li>고인을 옮기지 말고 <b>119</b>에 먼저 알립니다. 병원에서 사망을 확인받아야 장례를 진행할 수 있습니다.</li><li>지병으로 다니던 병원이 있으면 그 사실을 함께 말씀해 주세요.</li><li>119 신고 뒤 바로 1661-4214로 전화 주세요.</li></ul></div>
-        <div class="card case"><h3>사고 · 갑작스러운 임종</h3><ul class="list"><li><b>112 · 119</b>에 신고합니다. 경찰 확인이 끝나야 고인을 모실 수 있습니다.</li><li>확인이 끝나는 대로 이송할 수 있도록 미리 전화 주시면 기다리고 있겠습니다.</li></ul></div>
+        <div class="card case"><h3>병원에서</h3><ul class="list"><li>담당 의사에게 <b>사망진단서</b>를 부탁해 주세요. 여러 부 받아 두시면 나중에 서류 낼 때 편해요.</li><li>장례식장은 가족분들이 원하시는 곳으로 정하시면 돼요. 저희와 <b>협약된 장례식장</b>이면 <b>빈소 할인</b>도 받으실 수 있어요. 1661-4214로 편하게 전화 주세요.</li></ul></div>
+        <div class="card case"><h3>요양병원 · 요양원에서</h3><ul class="list"><li>시설에 사망 확인과 사망진단서를 부탁해 주세요.</li><li>의사가 없는 시설이면 어떻게 확인받는지 전화로 바로 알려 드려요.</li></ul></div>
+        <div class="card case"><h3>자택에서 임종하실 경우</h3><ul class="list"><li>고인을 옮기지 마시고 <b>119</b>에 먼저 알려 주세요. 병원에서 사망 확인을 받아야 장례를 치를 수 있어요.</li><li>지병으로 다니시던 병원이 있으면 그것도 함께 말씀해 주세요.</li><li>119 신고 뒤 바로 1661-4214로 전화 주세요.</li></ul></div>
+        <div class="card case"><h3>사고 · 갑작스러운 임종</h3><ul class="list"><li><b>112 · 119</b>에 먼저 신고해 주세요. 경찰 확인이 끝나야 고인을 모실 수 있어요.</li><li>미리 전화 주시면 확인이 끝나는 대로 바로 모실 수 있게 기다리고 있을게요.</li></ul></div>
       </div>
     </div>
 
     <div class="sec">
-      <h2>전화하시면 나만의장례가 하는 일</h2>
+      <h2>전화 주시면 저희가 하는 일</h2>
       <div class="dowe">
         <div><b>고인 이송</b><span>이송 차량 무료</span></div>
         <div><b>장례식장 · 안치실 예약</b><span>원하시는 곳으로, 협약 장례식장은 빈소 할인</span></div>
         <div><b>화장 예약</b><span>무료로 대신 예약</span></div>
-        <div><b>모바일 부고</b><span>무료로 만들어 드림</span></div>
-        <div><b>염습 · 입관</b><span>직영 지도사가 진행</span></div>
-        <div><b>발인 · 운구</b><span>장지까지 동행</span></div>
+        <div><b>모바일 부고</b><span>무료로 만들어 드려요</span></div>
+        <div><b>염습 · 입관</b><span>직영 지도사가 직접</span></div>
+        <div><b>발인 · 운구</b><span>장지까지 함께</span></div>
         <div><b>장지 안내</b><span>전국 약 1,000곳 중 추천</span></div>
         <div><b>서류 안내</b><span>사망신고 · 장제급여 등</span></div>
       </div>
@@ -819,18 +923,18 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="sec">
       <h2>가족이 챙겨 두실 것</h2>
       <div class="grid2">
-        <div class="card pad"><ul class="list"><li>고인 신분증과 상주 신분증</li><li>사망진단서 (넉넉히 여러 부)</li><li>영정으로 쓸 사진 (휴대폰 사진도 괜찮습니다)</li><li>고인이 입던 옷 한 벌 (원하시면 수의 대신)</li></ul></div>
-        <div class="card pad"><ul class="list"><li>상주를 누가 맡을지</li><li>빈소를 차릴지, 무빈소로 할지</li><li>종교와 장례 방식 (화장 · 매장)</li><li>화장하시면 모실 곳과 유골함 · <a href="#urn">유골함 고르는 법</a></li><li>부고를 보낼 분들 연락처</li></ul></div>
+        <div class="card pad"><ul class="list"><li>고인 신분증과 상주 신분증</li><li>사망진단서 (넉넉히 여러 부)</li><li>영정으로 쓸 사진 (휴대폰 사진도 괜찮아요)</li><li>고인이 입던 옷 한 벌 (원하시면 수의 대신)</li></ul></div>
+        <div class="card pad"><ul class="list"><li>상주를 누가 맡을지</li><li>빈소를 차릴지, 무빈소로 할지</li><li>종교와 장례 방식 (화장 · 매장)</li><li>화장하시면 모실 곳과 유골함 (<a href="#urn">고르는 법</a>)</li><li>부고를 보낼 분들 연락처</li></ul></div>
       </div>
     </div>
 
     <div class="sec">
       <h2>장례를 마친 뒤</h2>
       <ol class="num-step">
-        <li><b>사망신고</b><span>돌아가신 사실을 안 날부터 1개월 안에 시 · 구청이나 읍 · 면 · 동 주민센터에 합니다.</span></li>
-        <li><b>안심상속 원스톱 서비스</b><span>사망신고 때 함께 신청하면 고인의 금융 · 토지 · 자동차 · 세금 내역을 한 번에 조회할 수 있습니다.</span></li>
-        <li><b>장제급여 (수급자)</b><span>기초생활수급자였다면 주민센터에 장제급여를 신청합니다. 청구 서류는 나만의장례가 챙겨 드립니다.</span></li>
-        <li><b>상속 · 세금 기한</b><span>상속 포기 · 한정승인은 3개월 안에, 상속세 · 부동산 취득세 · 자동차 이전은 돌아가신 달의 말일부터 6개월 안에 합니다.</span></li>
+        <li><b>사망신고</b><span>돌아가신 사실을 안 날부터 1개월 안에 시 · 구청이나 읍 · 면 · 동 주민센터에 신고해요.</span></li>
+        <li><b>안심상속 원스톱 서비스</b><span>사망신고 하실 때 함께 신청하시면 고인의 금융, 토지, 자동차, 세금 내역을 한 번에 볼 수 있어요.</span></li>
+        <li><b>장제급여 (수급자)</b><span>고인이 기초생활수급자셨다면 주민센터에 장제급여를 신청하실 수 있어요. 청구 서류는 저희가 챙겨 드려요.</span></li>
+        <li><b>상속 · 세금 기한</b><span>상속 포기 · 한정승인은 3개월 안에, 상속세 · 부동산 취득세 · 자동차 이전은 돌아가신 달의 말일부터 6개월 안에 하셔야 해요.</span></li>
       </ol>
       <div class="actions"><a class="btn btn-line" href="#date" data-goto="after">서류 기한 날짜로 보기</a><a class="btn btn-line" href="#date">삼우제 · 49재 · 첫 기일 날짜 계산하기</a></div>
     </div>
@@ -841,59 +945,59 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 <section class="page" data-page="nobinso" aria-labelledby="h-nob" hidden>
   <div class="wrap">
     <div class="page-head has-ph">
-      <h1 id="h-nob">무빈소 장례,<br>전국 어디서나 모십니다</h1>
-      <p>조문객을 맞는 빈소를 차리지 않고, 가족끼리 조용히 고인을 보내 드리는 장례입니다. 빈소를 차리지 않을 뿐 예우는 줄이지 않습니다. 서울부터 지방 소도시까지 나만의장례 직영 장례지도사가 직접 갑니다.</p>
+      <h1 id="h-nob">무빈소 장례,<br>전국 어디든 찾아가 모셔요</h1>
+      <p>빈소를 차리지 않고, 가족끼리 조용히 고인을 보내 드리는 장례예요. 조문을 받지 않을 뿐, 염습과 입관은 똑같이 해 드려요. 서울부터 지방의 작은 도시까지 저희 직영 장례지도사가 직접 가요.</p>
       <figure class="ph"><img src="/assets/img/candle-900.webp" srcset="/assets/img/candle-480.webp 480w, /assets/img/candle-900.webp 900w" sizes="(max-width: 900px) 100vw, 440px" width="900" height="600" alt="켜 놓은 초와 흰 국화" fetchpriority="high" decoding="async"></figure>
     </div>
     <div class="grid3">
-      <div class="card pad"><span class="price-from">60<small>만원부터</small></span><p class="muted" style="margin-top:8px">장례지도사 · 입관지도사와 입관용품 포함. 고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료입니다.</p></div>
-      <div class="card pad"><b style="font-size:18px">이런 분께 맞습니다</b><ul class="list" style="margin-top:8px"><li>가족이 적거나 조문객이 많지 않을 때</li><li>고인이 조용한 장례를 원하셨을 때</li><li>장례 비용 부담을 줄이고 싶을 때</li></ul></div>
-      <div class="card pad"><b style="font-size:18px">빈소만 없을 뿐입니다</b><ul class="list" style="margin-top:8px"><li>전담 장례지도사 배정</li><li>염습과 입관 예우 그대로</li><li>발인부터 장지까지 동행</li></ul></div>
+      <div class="card pad"><span class="price-from">60<small>만원부터</small></span><p class="muted" style="margin-top:8px">장례지도사, 입관지도사, 입관용품이 들어 있어요. 고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료예요.</p></div>
+      <div class="card pad"><b style="font-size:18px">이럴 때 많이 하세요</b><ul class="list" style="margin-top:8px"><li>가족이 적거나 조문객이 많지 않을 때</li><li>고인이 조용한 장례를 원하셨을 때</li><li>장례 비용을 줄이고 싶으실 때</li></ul></div>
+      <div class="card pad"><b style="font-size:18px">가족장과 똑같은 것</b><ul class="list" style="margin-top:8px"><li>전담 장례지도사가 처음부터 끝까지</li><li>고인을 씻겨 드리는 염습과 입관</li><li>발인부터 장지까지 함께</li></ul></div>
     </div>
     <div class="sec">
       <h2>무빈소 장례 진행 순서</h2>
       <ol class="num-step">
-        <li><b>임종 · 이송 · 안치</b><span>전화 주시면 출동해 고인을 장례식장 안치실로 모십니다.</span></li>
-        <li><b>입관</b><span>고인을 깨끗이 모시고 수의를 입혀 입관합니다. 가족이 함께 마지막 인사를 나눕니다.</span></li>
-        <li><b>발인 · 화장</b><span>돌아가신 지 24시간이 지나면 화장할 수 있어 2일장으로도 진행할 수 있습니다.</span></li>
-        <li><b>장지</b><span>봉안당 · 수목장 · 해양장 등 미리 정한 곳에 모십니다.</span></li>
+        <li><b>임종 · 이송 · 안치</b><span>전화 주시면 바로 출동해서 고인을 장례식장 안치실로 모셔요.</span></li>
+        <li><b>입관</b><span>고인을 깨끗이 씻겨 드리고 수의를 입혀 입관해요. 이때 가족분들이 마지막 인사를 나누세요.</span></li>
+        <li><b>발인 · 화장</b><span>돌아가신 지 24시간이 지나면 화장할 수 있어서, 2일장으로도 치를 수 있어요.</span></li>
+        <li><b>장지</b><span>봉안당, 수목장, 해양장 등 미리 정해 두신 곳에 모셔요.</span></li>
       </ol>
     </div>
     <div class="sec">
       <h2>무빈소 장례와 가족장, 무엇이 다른가요</h2>
       <div class="tblwrap"><table class="wordtbl wrap1"><thead><tr><th>구분</th><th>무빈소 장례</th><th>가족장</th></tr></thead><tbody>
-        <tr><td><b>빈소</b></td><td>차리지 않습니다</td><td>차리고 조문객을 맞습니다</td></tr>
-        <tr><td><b>조문</b></td><td>받지 않고, 모바일 부고로 소식을 전합니다</td><td>빈소에서 받습니다</td></tr>
-        <tr><td><b>기간</b></td><td>2일장도 할 수 있습니다</td><td>보통 3일장입니다</td></tr>
-        <tr><td><b>들지 않는 비용</b></td><td>빈소 사용료 · 접객 음식 · 도우미</td><td>쓰신 만큼 냅니다</td></tr>
+        <tr><td><b>빈소</b></td><td>차리지 않아요</td><td>차리고 조문객을 맞아요</td></tr>
+        <tr><td><b>조문</b></td><td>받지 않고, 모바일 부고로 소식을 전해요</td><td>빈소에서 받아요</td></tr>
+        <tr><td><b>기간</b></td><td>2일장도 할 수 있어요</td><td>보통 3일장이에요</td></tr>
+        <tr><td><b>들지 않는 비용</b></td><td>빈소 사용료 · 접객 음식 · 도우미</td><td>쓰신 만큼 내요</td></tr>
         <tr><td><b>기본 금액</b></td><td>60만원부터</td><td>70만원부터</td></tr>
       </tbody></table></div>
-      <p class="note">두 장례 모두 염습과 입관, 발인, 장지까지의 동행은 똑같이 갖춥니다.</p>
+      <p class="note">염습과 입관, 발인, 장지까지 함께 가는 것은 두 장례 모두 똑같아요.</p>
     </div>
     <div class="sec">
       <h2>무빈소 장례 비용은 이렇게</h2>
       <div class="grid3">
         <div class="card pad"><b style="font-size:18px">기본 60만원에 들어 있는 것</b><ul class="list" style="margin-top:8px"><li>장례지도사 · 입관지도사</li><li>입관용품</li><li>무료: 고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약</li></ul></div>
-        <div class="card pad"><b style="font-size:18px">고르시는 것</b><ul class="list" style="margin-top:8px"><li>관 · 수의</li><li>장의 차량</li><li>유골함</li></ul><p class="note" style="margin-top:8px"><a href="#price">비용 계산</a>에서 하나씩 골라 보세요.</p></div>
+        <div class="card pad"><b style="font-size:18px">무빈소장 상품 155만원</b><ul class="list" style="margin-top:8px"><li>기본 60만원 + 화장용 오동나무관 20만원</li><li>면수의 15만원 + 입관 생화 꽃장식 20만원</li><li>장의 차량 리무진 (편도) 40만원</li></ul><p class="note" style="margin-top:8px">꽃장식은 빼실 수 있어요. 유골함은 따로예요. <a href="#price" data-goto-type="nob">무빈소장 비용 보기</a></p></div>
         <div class="card pad"><b style="font-size:18px">쓰신 만큼 따로 내는 것</b><ul class="list" style="margin-top:8px"><li>장례식장 안치실 · 입관실 사용료</li><li>화장장 사용료</li><li>봉안당 · 자연장지 같은 장지 비용</li></ul></div>
       </div>
     </div>
     <div class="sec">
       <h2>조문을 받지 않을 때 부고 쓰는 법</h2>
-      <p class="sec-lead">무빈소로 모실 때는 부고에 조문을 받지 않는다는 뜻을 미리 밝혀 두시면, 소식을 들은 분들이 헛걸음하지 않고 마음만 전하실 수 있습니다.</p>
+      <p class="sec-lead">무빈소로 모실 때는 부고에 조문을 받지 않는다고 미리 적어 두세요. 소식을 들은 분들이 헛걸음하지 않고 마음만 전하실 수 있어요.</p>
       <div class="card pad"><b>부고 문구 예시</b><p style="margin-top:8px;line-height:1.8">고인의 뜻에 따라 가족끼리 조용히 장례를 모십니다. 조문과 부의는 정중히 사양하오니 너른 양해 부탁드립니다.</p></div>
-      <p class="note">부고 문자는 <a href="#print" data-goto-tab="tx">출력실 「부고·감사 문자」</a>에서 바로 만들 수 있습니다.</p>
+      <p class="note">부고 문자는 <a href="#print" data-goto-tab="tx">출력실 「부고·감사 문자」</a>에서 바로 만드실 수 있어요.</p>
     </div>
     <div class="sec">
-      <h2>무빈소 장례, 이것이 궁금합니다</h2>
+      <h2>무빈소 장례, 많이 물어보시는 것</h2>
       <div>
-        <details class="faq"><summary>지방이나 먼 곳에서도 되나요?</summary><div class="faq-a">네. 전국 어디서나 진행합니다. 대형 상조가 외주로 넘기는 지방 소도시 장례도 직영 지도사가 직접 갑니다.</div></details>
-        <details class="faq"><summary>빈소가 없으면 고인은 어디에 모시나요?</summary><div class="faq-a">장례식장 안치실에 모시고, 입관실에서 입관합니다. 가족분들은 입관 때 함께 마지막 인사를 나누십니다.</div></details>
-        <details class="faq"><summary>2일장으로도 할 수 있나요?</summary><div class="faq-a">네. 법(장사법)에 따라 돌아가신 지 24시간이 지나면 화장할 수 있어, 2일장으로도 진행할 수 있습니다.</div></details>
-        <details class="faq"><summary>조문은 아예 받지 못하나요?</summary><div class="faq-a">빈소에서 조문객을 맞지는 않습니다. 대신 무료 모바일 부고로 소식을 전할 수 있습니다.</div></details>
-        <details class="faq"><summary>어떤 비용이 따로 드나요?</summary><div class="faq-a">안치실 · 시설 사용료와 화장료는 쓰신 만큼 따로 정산합니다. 관과 수의는 고르신 것으로 견적에 넣고, 유골함은 40만원부터 400만원까지 종류가 많아 별도로 고르십니다. <a href="#urn">유골함 고르는 법</a></div></details>
+        <details class="faq"><summary>지방이나 먼 곳에서도 되나요?</summary><div class="faq-a">네, 전국 어디든 가요. 큰 상조회사들이 외주로 넘기는 지방의 작은 도시도 저희는 직영 지도사가 직접 가요.</div></details>
+        <details class="faq"><summary>빈소가 없으면 고인은 어디에 모시나요?</summary><div class="faq-a">장례식장 안치실에 모셨다가 입관실에서 입관해요. 가족분들은 입관 때 마지막 인사를 나누세요.</div></details>
+        <details class="faq"><summary>2일장으로도 할 수 있나요?</summary><div class="faq-a">네. 법(장사법)에 따라 돌아가신 지 24시간이 지나면 화장할 수 있어서 2일장도 가능해요.</div></details>
+        <details class="faq"><summary>조문은 아예 받지 못하나요?</summary><div class="faq-a">빈소에서 조문객을 맞지는 않아요. 대신 무료 모바일 부고로 소식을 전하실 수 있어요.</div></details>
+        <details class="faq"><summary>어떤 비용이 따로 드나요?</summary><div class="faq-a">안치실 같은 시설 사용료와 화장료는 쓰신 만큼 따로 정산해요. 관과 수의는 고르신 대로 견적에 넣고, 유골함은 40만원부터 400만원까지 종류가 많아 따로 고르시면 돼요. <a href="#urn">유골함 고르는 법</a></div></details>
       </div>
-      <div class="actions"><a class="btn btn-primary" href="#price">무빈소 비용 계산하기</a><a class="btn btn-line" href="tel:16614214">1661-4214 전화</a></div>
+      <div class="actions"><a class="btn btn-primary" href="#price" data-goto-type="nob">무빈소장 비용 보기</a><a class="btn btn-line" href="tel:16614214">1661-4214 전화</a></div>
     </div>
   </div>
 </section>
@@ -901,148 +1005,120 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 <!-- ───────── 비용 계산 ───────── -->
 <section class="page" data-page="price" aria-labelledby="h-price" hidden>
   <div class="wrap">
-    <div class="page-head has-ph">
-      <h1 id="h-price">상품으로 보시거나, 직접 골라 보세요</h1>
-      <p>저렴한 장례가 아니라 합리적 간소화입니다. 많이 하시는 구성으로 세 가지 상품을 만들어 두었고, 필요한 것만 골라 맞춤 견적을 내셔도 됩니다. 장례를 마친 뒤 정산합니다.</p>
-      <figure class="ph pc-only"><img src="/assets/img/note-900.webp" srcset="/assets/img/note-480.webp 480w, /assets/img/note-900.webp 900w" sizes="(max-width: 900px) 100vw, 440px" width="900" height="600" alt="상담 탁자 위의 노트와 펜" loading="lazy" decoding="async"></figure>
-    </div>
-    <section class="pkg-sec" aria-labelledby="h-pkg">
-      <h2 id="h-pkg" class="pkg-h">상품으로 보기</h2>
-      <div class="pkg-grid">
-        <article class="card pkg" data-pkg="nob" aria-labelledby="h-pk-nob">
-          <p class="pkg-tag">빈소 없이 가족끼리</p>
-          <h3 id="h-pk-nob" class="pkg-name">무빈소장</h3>
-          <p class="pkg-price"><b>1,550,000</b>원</p>
-          <p class="pkg-for">빈소 없이 가족끼리 조용히 마지막 인사를 나누는 장례예요. 전국 어디서나 정성껏 모셔 드려요.</p>
-          <ul class="pkg-list">
-            <li><span>무빈소 장례 기본<small>장례지도사 · 입관지도사 · 입관용품</small></span><span>60만원</span></li>
-            <li><span>화장용 오동나무관</span><span>20만원</span></li>
-            <li><span>면수의</span><span>15만원</span></li>
-            <li><span>입관 생화 꽃장식</span><span>20만원</span></li>
-            <li><span>장의 차량 리무진 (편도)</span><span>40만원</span></li>
-          </ul>
-          <button type="button" class="btn btn-primary" data-pkg-go="nob" aria-label="무빈소장 상품으로 견적 보기">이 상품으로 견적 보기</button>
-        </article>
-        <article class="card pkg" data-pkg="fam" aria-labelledby="h-pk-fam">
-          <p class="pkg-tag">가족 · 가까운 친지와 함께</p>
-          <h3 id="h-pk-fam" class="pkg-name">가족장</h3>
-          <p class="pkg-price"><b>2,100,000</b>원</p>
-          <p class="pkg-for">가족과 가까운 친지분들이 모여, 사흘 동안 고인 곁에서 함께 배웅하는 장례예요.</p>
-          <ul class="pkg-list">
-            <li><span>가족장 (3일장) 기본<small>장례지도사 · 입관지도사 · 입관용품</small></span><span>70만원</span></li>
-            <li><span>화장용 오동나무관</span><span>20만원</span></li>
-            <li><span>면수의</span><span>15만원</span></li>
-            <li><span>입관 생화 꽃장식</span><span>20만원</span></li>
-            <li><span>빈소 헌화 30송이</span><span>5만원</span></li>
-            <li><span>장의 차량 리무진 (편도)</span><span>40만원</span></li>
-            <li><span>접객 도우미 하루 1명씩 이틀</span><span>24만원</span></li>
-            <li><span>상복 남성 2벌 · 여성 2벌</span><span>16만원</span></li>
-          </ul>
-          <button type="button" class="btn btn-primary" data-pkg-go="fam" aria-label="가족장 상품으로 견적 보기">이 상품으로 견적 보기</button>
-        </article>
-        <article class="card pkg" data-pkg="gen" aria-labelledby="h-pk-gen">
-          <p class="pkg-tag">조문객이 많은 장례</p>
-          <h3 id="h-pk-gen" class="pkg-name">일반장</h3>
-          <p class="pkg-price"><b>2,920,000</b>원</p>
-          <p class="pkg-for">직장 동료와 지인분들까지 함께 배웅하는 장례예요. 조문객이 많아도 가족분들이 고인 곁을 지키실 수 있게 넉넉히 준비해 드려요.</p>
-          <ul class="pkg-list">
-            <li><span>일반장 (3일장) 기본<small>장례지도사 · 입관지도사 · 입관용품</small></span><span>70만원</span></li>
-            <li><span>화장용 오동나무관</span><span>20만원</span></li>
-            <li><span>면수의</span><span>15만원</span></li>
-            <li><span>입관 생화 꽃장식</span><span>20만원</span></li>
-            <li><span>빈소 헌화 50송이</span><span>7만원</span></li>
-            <li><span>장의 차량 리무진 + 장의버스</span><span>80만원</span></li>
-            <li><span>접객 도우미 하루 2명씩 이틀</span><span>48만원</span></li>
-            <li><span>상복 남성 4벌 · 여성 4벌</span><span>32만원</span></li>
-          </ul>
-          <button type="button" class="btn btn-primary" data-pkg-go="gen" aria-label="일반장 상품으로 견적 보기">이 상품으로 견적 보기</button>
-        </article>
+    <div id="dx-pick-view">
+      <div class="dx-head">
+        <h1 id="h-price">어떻게 모실지 고르시면,<br>비용을 바로 보여 드릴게요</h1>
+        <p>가족분들이 많이 하시는 구성으로 세 가지를 꾸려 두었어요. 그중 필요 없는 게 있으면 빼 주세요. 뺀 만큼 <b>가격표 그대로</b> 줄어요. 비용은 미리 내는 돈 없이 장례를 마친 뒤 정산해요.</p>
       </div>
-      <ul class="pkg-notes">
-        <li>세 상품 모두 화장 기준입니다. 관 · 수의 · 입관은 같고, 장의 차량 · 접객 도우미 · 상복은 장례 규모에 맞췄습니다.</li>
-        <li>고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료입니다.</li>
-        <li>유골함(별도 · 40만원부터 400만원까지)과 장례식장 · 화장장 · 장지 비용은 상품 금액에 들어 있지 않습니다.</li>
-        <li>견적에서 바꾸고 싶은 것만 고치실 수 있고, 수급자 · 국가유공자는 20만원 할인해 드립니다.</li>
-      </ul>
-      <div class="pkg-own"><p><b>원하시는 것만 고르고 싶으시면</b>장례 형태부터 한 가지씩 여쭤보고, 고르신 것만 더해 드립니다.</p><a class="btn btn-line" href="#calc" data-pkg-own>직접 골라 맞춤 견적 내기</a></div>
-    </section>
-    <div class="wiz-head" id="calc">
-      <h2 id="h-wiz">견적 계산</h2>
-      <p>장례 형태부터 한 가지씩 골라 보세요. 위에서 상품을 누르시면 그 상품 견적이 여기에 바로 나옵니다.</p>
-    </div>
-    <div class="card wiz">
-      <div class="wz-top">
-        <div class="wz-bar" aria-hidden="true"><i id="wz-bar"></i></div>
-        <div class="wz-meta"><span id="wz-count"></span><span>지금까지 <b id="wz-run">0원</b></span></div>
+      <div class="dx-layout">
+        <div>
+          <section class="dx-sec" aria-labelledby="h-s1">
+            <h2 class="dx-h" id="h-s1"><span class="dx-n">1</span>어떤 장례로 모실까요?</h2>
+            <div class="dx-types" role="radiogroup" aria-labelledby="h-s1">
+              <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="nob"><span class="t">무빈소장</span><span class="p" data-tp="nob">155<small>만원</small></span><span class="g">빈소 없이 가족끼리</span></button>
+              <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="fam"><span class="t">가족장</span><span class="p" data-tp="fam">210<small>만원</small></span><span class="g">가족 · 가까운 친지와 함께</span></button>
+              <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="gen"><span class="t">일반장</span><span class="p" data-tp="gen">292<small>만원</small></span><span class="g">조문객이 많은 장례</span></button>
+            </div>
+            <div class="dx-burial">
+              <span id="dx-bur-l">모시는 방식</span>
+              <div class="dx-seg" role="group" aria-labelledby="dx-bur-l"><button type="button" data-bur="cre" aria-pressed="true">화장</button><button type="button" data-bur="bur" aria-pressed="false">매장</button></div>
+              <small id="dx-bur-n">세 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.</small>
+            </div>
+          </section>
+
+          <section class="dx-sec" id="dx-s2" aria-labelledby="h-s2" hidden>
+            <h2 class="dx-h" id="h-s2"><span class="dx-n">2</span>이렇게 들어 있어요</h2>
+            <article class="dx-prod" id="dx-prod" aria-labelledby="dx-prod-name"></article>
+            <p class="dx-urn" id="dx-urn"><b>유골함은 상품과 합계에 들어 있지 않아요.</b> 40만원부터 400만원까지 종류가 많아서, 상담 때 실물을 보고 고르시면 그 금액만 따로 더해져요. <a href="#urn">일반함과 진공함, 무엇이 다른가요?</a></p>
+            <label class="dx-disc"><input type="checkbox" id="dx-disc"><span>수급자 · 국가유공자 가족이에요<small>지원금 안에서 치르실 수 있게 맞춰 드리고, 청구 서류도 챙겨 드려요.</small></span><b>−20만원</b></label>
+          </section>
+        </div>
+
+        <aside class="dx-sum idle" id="dx-sum" aria-labelledby="dx-sum-k">
+          <p class="dx-sum-k" id="dx-sum-k">예상 합계</p>
+          <p class="dx-sum-v"><b id="dx-sum-v">0</b>원</p>
+          <dl class="dx-calc" id="dx-calc"></dl>
+          <p class="dx-saved" id="dx-saved"></p>
+          <p class="dx-min" id="dx-min"></p>
+          <button type="button" class="btn btn-primary btn-lg" data-est disabled>견적 보기</button>
+          <p class="note" id="dx-sum-note">상품을 고르시면 합계가 나와요.<br>첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.</p>
+        </aside>
       </div>
-      <div class="wz-stage" id="wz-stage"></div>
-      <div class="wz-nav"><button type="button" class="btn btn-line" id="wz-prev">이전</button><button type="button" class="btn btn-primary" id="wz-next">다음</button></div>
     </div>
+
+    <div id="dx-est-view" hidden></div>
+
     <section class="terms" aria-labelledby="h-terms">
       <h2 id="h-terms">꼭 알아 두실 것</h2>
-      <p>첫 견적이 끝 견적이며, 부당한 추가 요금은 200%를 돌려 드립니다.</p>
+      <p>첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.</p>
       <ul>
-        <li>기본 금액(무빈소 60만원, 가족장 · 일반장 70만원)에 장례지도사 · 입관지도사와 입관용품이 들어 있습니다.</li>
-        <li><b>유골함은 견적 합계에 넣지 않는 별도 항목입니다.</b> 40만원부터 400만원까지 종류가 많아, 상담 때 실물을 보고 고르시면 됩니다. <a href="#urn">일반함과 진공함 차이</a></li>
-        <li>고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료입니다.</li>
-        <li>가족장 · 일반장 견적을 받으신 뒤 카카오톡 채널 @나만의장례를 추가하시면 10만원 사전 상담 감사 할인권을 드립니다. 기한이 없고 수급자 · 국가유공자 할인과 함께 쓰실 수 있습니다.</li>
-        <li>장례식장 시설 임대료와 음식 비용은 쓰신 만큼 따로 냅니다.</li>
-        <li>장의 차량이 기준 거리 200km를 넘어 운행하면 1km당 1,800원이 붙습니다.</li>
-        <li>리무진은 1차 장지 또는 화장장까지 운행합니다.</li>
+        <li>기본 금액(무빈소 60만원, 가족장 · 일반장 70만원)에 장례지도사 · 입관지도사와 입관용품이 들어 있어요.</li>
+        <li>관과 수의는 다른 종류도 있어요. 바꾸고 싶으시면 상담 때 말씀해 주세요.</li>
+        <li><b>유골함은 견적 합계에 넣지 않는 별도 항목이에요.</b> 40만원부터 400만원까지 종류가 많아서, 상담 때 실물을 보고 고르시면 돼요. <a href="#urn">일반함과 진공함 차이</a></li>
+        <li>고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료예요.</li>
+        <li>가족장이나 일반장 견적을 받으신 뒤 카카오톡 채널 @나만의장례를 추가하시면 10만원 사전 상담 감사 할인권을 드려요. 기한이 없고, 수급자 · 국가유공자 할인과 함께 쓰셔도 돼요.</li>
+        <li>장례식장 시설 사용료와 음식 비용은 쓰신 만큼 따로 내시면 돼요.</li>
+        <li>장의 차량은 200km까지가 기본이고, 넘으면 1km당 1,800원이 더해져요.</li>
+        <li>리무진은 1차 장지나 화장장까지 운행해요.</li>
       </ul>
     </section>
 
     <div class="sec">
-      <h2>장례 비용은 이렇게 나뉩니다</h2>
-      <p class="sec-lead">장례 비용은 크게 네 가지입니다. 위 계산기는 첫 번째, 나만의장례가 진행하는 비용입니다. 나머지는 쓰신 곳에 따로 냅니다.</p>
+      <h2>장례 비용은 이렇게 나뉘어요</h2>
+      <p class="sec-lead">장례 비용은 크게 네 가지로 나뉘어요. 위 견적은 그중 첫 번째, 저희에게 내시는 비용이에요. 나머지 셋은 쓰신 곳에 따로 내시면 돼요.</p>
       <div class="grid2">
-        <div class="card case"><h3>장례 진행 비용</h3><ul class="list"><li>장례지도사 · 입관, 관 · 수의, 장의 차량, 접객 도우미, 상복, 유골함</li><li>위 계산기 그대로이고, 장례를 마친 뒤 나만의장례에 정산합니다.</li></ul></div>
-        <div class="card case"><h3>장례식장 비용</h3><ul class="list"><li>빈소(분향실) 사용료, 안치실, 음식 · 접객 비용</li><li>장례식장마다 다르고 쓰신 만큼 장례식장에 냅니다. 무빈소 장례는 빈소 · 접객 비용이 들지 않습니다.</li></ul></div>
-        <div class="card case"><h3>화장 비용</h3><ul class="list"><li>화장장 사용료입니다. 화장장마다 요금이 다르고, 고인의 주소지에 따라 관내 · 관외 요금이 나뉩니다.</li><li>화장 예약을 대신해 드리면서 그 화장장의 요금을 미리 알려 드립니다.</li></ul></div>
-        <div class="card case"><h3>장지 비용</h3><ul class="list"><li>봉안당 · 수목장 같은 자연장지 · 묘지의 사용료와 관리비입니다.</li><li>지자체가 운영하는 공설과 민간이 운영하는 사설에 따라 크게 다릅니다. 장지 상담은 무료입니다.</li></ul></div>
+        <div class="card case"><h3>장례 진행 비용</h3><ul class="list"><li>장례지도사 · 입관, 관 · 수의, 장의 차량, 접객 도우미, 상복, 유골함</li><li>위 견적 금액 그대로, 장례를 마친 뒤 저희에게 정산하시면 돼요.</li></ul></div>
+        <div class="card case"><h3>장례식장 비용</h3><ul class="list"><li>빈소(분향실) 사용료, 안치실, 음식 · 접객 비용</li><li>장례식장마다 달라요. 쓰신 만큼 장례식장에 내시고, 무빈소 장례는 빈소와 접객 비용이 들지 않아요.</li></ul></div>
+        <div class="card case"><h3>화장 비용</h3><ul class="list"><li>화장장 사용료예요. 화장장마다 요금이 다르고, 고인의 주소지에 따라 관내 · 관외 요금이 나뉘어요.</li><li>화장 예약을 대신해 드리면서 그 화장장 요금도 미리 알려 드려요.</li></ul></div>
+        <div class="card case"><h3>장지 비용</h3><ul class="list"><li>봉안당, 수목장 같은 자연장지, 묘지의 사용료와 관리비예요.</li><li>지역에서 운영하는 공설인지, 민간이 운영하는 사설인지에 따라 많이 달라요. 장지 상담은 무료예요.</li></ul></div>
       </div>
     </div>
 
     <div class="sec">
       <h2>장례 비용을 줄이는 방법</h2>
       <ol class="num-step">
-        <li><b>조문객이 많지 않으면 무빈소나 2일장</b><span>빈소 사용료와 접객 비용이 크게 줄어듭니다. 돌아가신 지 24시간이 지나면 화장할 수 있어 2일장도 가능합니다. <a href="#nobinso">무빈소 장례 알아보기</a></span></li>
-        <li><b>고인 주소지의 화장장 예약</b><span>고인의 주소지 화장장(관내)은 다른 지역 화장장(관외)보다 요금이 저렴한 경우가 많습니다. 화장 예약은 나만의장례가 무료로 대신해 드립니다.</span></li>
-        <li><b>쓰지 않을 항목은 빼기</b><span>리무진, 고급 수의처럼 꼭 필요하지 않은 항목은 고르지 않으셔도 됩니다. 고정 패키지를 강요하지 않습니다.</span></li>
-        <li><b>공설 장지 알아보기</b><span>지자체가 운영하는 공설 봉안당 · 자연장지는 사설보다 대체로 저렴합니다. 다만 주소지 등 이용 조건이 있어 함께 확인해 드립니다.</span></li>
-        <li><b>수급자 · 국가유공자 혜택</b><span>나만의장례 20만원 할인과 함께, 기초생활수급자였다면 주민센터에 장제급여를 신청하실 수 있습니다. 청구 서류는 챙겨 드립니다.</span></li>
+        <li><b>조문객이 많지 않으면 무빈소나 2일장</b><span>빈소 사용료와 접객 비용이 크게 줄어요. 돌아가신 지 24시간이 지나면 화장할 수 있어서 2일장도 돼요. <a href="#nobinso">무빈소 장례 알아보기</a></span></li>
+        <li><b>고인 주소지의 화장장 예약</b><span>고인 주소지의 화장장(관내)이 다른 지역 화장장(관외)보다 저렴한 경우가 많아요. 화장 예약은 저희가 무료로 대신해 드려요.</span></li>
+        <li><b>쓰지 않으실 것은 상품에서 빼기</b><span>꽃장식, 헌화, 도우미, 상복처럼 꼭 필요하지 않은 건 위 상품 구성에서 빼시면 돼요. 뺀 만큼 가격표 그대로 줄어요.</span></li>
+        <li><b>공설 장지 알아보기</b><span>지역에서 운영하는 공설 봉안당이나 자연장지는 사설보다 대체로 저렴해요. 다만 주소지 같은 이용 조건이 있어서 함께 확인해 드려요.</span></li>
+        <li><b>수급자 · 국가유공자 혜택</b><span>저희 20만원 할인과 함께, 고인이 기초생활수급자셨다면 주민센터에 장제급여도 신청하실 수 있어요. 청구 서류는 저희가 챙겨 드려요.</span></li>
       </ol>
     </div>
 
 
     <div class="sec" id="prepaid">
       <h2>일반 선불식 상조와 무엇이 다른가요</h2>
-      <p class="sec-lead">나만의장례는 미리 내는 돈이 없는 후불제입니다. 매달 나눠 미리 내는 선불식 상조와는 돈을 내는 때와 방식이 다릅니다.</p>
+      <p class="sec-lead">저희는 미리 내는 돈이 없는 후불제예요. 매달 나눠 미리 내는 선불식 상조와는 돈을 내는 때와 방식이 달라요.</p>
       <div class="tblwrap"><table class="wordtbl wrap1 vs"><thead><tr><th>구분</th><th>나만의장례 (후불제)</th><th>일반 선불식 상조</th></tr></thead><tbody>
-        <tr><td><b>돈을 내는 때</b></td><td>장례를 마친 뒤 한 번에 정산합니다</td><td>가입한 뒤 매달 나눠 미리 냅니다</td></tr>
-        <tr><td><b>장례 내용</b></td><td>필요한 것만 골라 견적을 냅니다</td><td>가입할 때 정한 상품 구성을 따르고, 구성에 없는 것은 따로 냅니다</td></tr>
-        <tr><td><b>그만두고 싶을 때</b></td><td>미리 낸 돈이 없어 돌려받을 것도, 손해 볼 것도 없습니다</td><td>해약하면 정해진 기준으로 계산한 해약환급금을 받으며, 낸 돈보다 적을 수 있습니다</td></tr>
-        <tr><td><b>회사가 문을 닫으면</b></td><td>미리 낸 돈이 없어 피해가 없습니다</td><td>회사는 받은 돈의 50%를 공제조합 · 은행 등에 맡겨 두고, 문을 닫으면 그 돈으로 보상합니다</td></tr>
+        <tr><td><b>돈을 내는 때</b></td><td>장례를 마친 뒤 한 번에 정산해요</td><td>가입한 뒤 매달 나눠 미리 내요</td></tr>
+        <tr><td><b>장례 내용</b></td><td>상품에서 필요 없는 건 빼고 견적을 내요</td><td>가입할 때 정한 상품 구성을 따르고, 구성에 없는 건 따로 내요</td></tr>
+        <tr><td><b>그만두고 싶을 때</b></td><td>미리 낸 돈이 없으니 돌려받을 것도, 손해 볼 것도 없어요</td><td>해약하면 정해진 기준으로 계산한 해약환급금을 받아요. 낸 돈보다 적을 수 있어요</td></tr>
+        <tr><td><b>회사가 문을 닫으면</b></td><td>미리 낸 돈이 없으니 피해도 없어요</td><td>회사가 받은 돈의 50%를 공제조합이나 은행 등에 맡겨 두고, 문을 닫으면 그 돈으로 보상해요</td></tr>
       </tbody></table></div>
-      <p class="note">선불식 상조는 장례 비용을 오랫동안 나눠 낼 수 있는 장점이 있습니다. 후불제는 장례를 마친 뒤 한 번에 정산하므로 그때 비용을 준비하셔야 합니다. 형편과 생각에 맞는 방식을 고르시면 됩니다. 선불식 상조의 선수금 보전은 「할부거래에 관한 법률」 제27조에 따릅니다.</p>
+      <p class="note">선불식 상조는 장례 비용을 오랫동안 나눠 낼 수 있다는 좋은 점이 있어요. 후불제는 장례를 마친 뒤 한 번에 정산하니, 그때 비용을 준비해 두셔야 해요. 형편과 생각에 맞는 쪽을 고르시면 돼요. 선불식 상조의 선수금 보전은 「할부거래에 관한 법률」 제27조에 정해져 있어요.</p>
     </div>
     <div class="sec">
-      <h2>상조 견적을 받을 때 꼭 물어보세요</h2>
+      <h2>상조 견적 받으실 때 물어보시면 좋은 것</h2>
       <div class="grid2">
         <div class="card pad"><ul class="list"><li>견적에 들어 있는 것과 빠진 것은 무엇인가요? (장례식장 비용, 화장료, 장지 비용)</li><li>장례 중에 금액이 더 붙는 경우가 있나요?</li></ul></div>
         <div class="card pad"><ul class="list"><li>계약할 때 미리 내는 돈(선납금 · 가입비)이 있나요?</li><li>장례지도사가 직영인가요, 외주인가요?</li></ul></div>
       </div>
-      <p class="note">나만의장례는 첫 견적이 끝 견적이고, 장례를 마친 뒤 정산하며, 직영 장례지도사가 진행합니다.</p>
+      <p class="note">저희 답은 이래요. 첫 견적이 끝 견적이고, 미리 내는 돈이 없고, 장례지도사는 모두 직영이에요.</p>
     </div>
   </div>
+<div class="dx-bar hide" id="dx-bar" inert>
+  <div class="tx"><span id="dx-bar-s">예상 합계</span><b id="dx-bar-v">0<small>만원</small></b></div>
+  <button type="button" class="btn btn-primary" data-est>견적 보기</button>
+</div>
+<span id="dx-live" class="sr-only" aria-live="polite"></span>
 </section>
 
 <!-- ───────── 출력실 ───────── -->
 <section class="page" data-page="print" aria-labelledby="h-print" hidden>
   <div class="wrap">
     <div class="page-head">
-      <h1 id="h-print">지방부터 부의 봉투까지,<br>골라서 바로 뽑으세요</h1>
-      <p>서식을 고르면 그 서식에 필요한 칸만 나옵니다. 입력하신 내용은 저장되지 않고, 실물 크기 PDF로 받아 <b>실제 크기(100%)</b>로 인쇄하시면 됩니다.</p>
+      <h1 id="h-print">지방부터 부의 봉투까지,<br>바로 뽑아 쓰실 수 있어요</h1>
+      <p>서식을 고르시면 그 서식에 필요한 칸만 나와요. 적으신 내용은 어디에도 저장되지 않아요. PDF로 받아서 <b>실제 크기(100%)</b>로 인쇄하시면 돼요.</p>
     </div>
     <div class="tabs pr-tabs" role="tablist" aria-label="서식 고르기" id="ptabs">
       <button type="button" role="tab" data-tab="jb">지방·위패</button>
@@ -1067,7 +1143,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
             <div class="picked" data-show="c1picked"><span><b id="c1-label"></b> <span class="serif" id="c1-hz" style="margin-left:4px;font-size:17px"></span></span><span class="note">선택됨</span></div>
             <div data-show="c1list"><input id="p-c1q" class="in" autocomplete="off" placeholder="본관이나 성으로 찾기 (예: 김해, 박)"></div>
             <div class="res" id="c1-res"></div>
-            <p class="note" id="c1-none" hidden>목록에 없는 본관입니다. 아래에서 직접 입력하세요.</p>
+            <p class="note" id="c1-none" hidden>목록에 없는 본관이에요. 아래에 직접 넣어 주세요.</p>
             <button type="button" class="linkish" id="c1-man-on" data-show="c1list">목록에 없으면 직접 입력</button>
             <div data-show="c1man" class="row2">
               <div class="fld"><label for="p-mbk">본관 (한글)</label><input id="p-mbk" class="in" data-k="mbk" placeholder="김해"></div>
@@ -1116,7 +1192,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
             <p class="warn" id="pv-warn" role="alert" hidden></p>
             <div class="reading" data-show="ckReading"><p class="note" style="font-weight:700;margin-bottom:4px">한문축 읽는 법 · 축관용</p><p id="ck-reading"></p></div>
             <div class="reading" data-show="mjInfo"><p class="note" style="font-weight:700;margin-bottom:4px">명정 문구 · 읽는 법</p><p class="serif" id="mj-hz" style="font-size:19px;letter-spacing:0.04em"></p><p class="muted" id="mj-rd"></p></div>
-            <div class="reading" data-show="hbInfo"><p class="note" style="font-weight:700;margin-bottom:4px">혼백 모시는 법</p><p>흰 한지나 명주를 사방으로 접어 혼백을 만들고, 위에 흰 종이 띠를 두른 뒤 윗부분에 上 자를 씁니다. 혼백은 흰 혼백상자에 모시고 뚜껑 앞면에 前 자를 붙입니다. 혼백 안에는 지방을 넣지 않습니다.</p></div>
+            <div class="reading" data-show="hbInfo"><p class="note" style="font-weight:700;margin-bottom:4px">혼백 모시는 법</p><p>흰 한지나 명주를 사방으로 접어 혼백을 만들고, 위에 흰 종이 띠를 두른 뒤 윗부분에 上 자를 써요. 혼백은 흰 혼백상자에 모시고 뚜껑 앞면에 前 자를 붙여요. 혼백 안에는 지방을 넣지 않아요.</p></div>
           </div>
           <div class="settings">
             <div class="fld" data-show="doc"><span class="lbl" id="l-font">글씨체</span><div class="seg c2" role="group" aria-labelledby="l-font"><button type="button" data-seg="font" data-v="my">고급 명조</button><button type="button" data-seg="font" data-v="brush">붓글씨</button></div></div>
@@ -1126,10 +1202,10 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
               <div class="fld" data-show="jbHanF"><span class="lbl" id="l-han">글자</span><div class="seg c2" role="group" aria-labelledby="l-han"><button type="button" data-seg="han" data-v="0">한자</button><button type="button" data-seg="han" data-v="1">한글</button></div></div>
               <label class="chk" for="p-bon" data-show="female"><input id="p-bon" type="checkbox" data-k="bon"><span>여성 지방에 본관 넣기</span></label>
               <label class="chk" for="p-jbcus"><input id="p-jbcus" type="checkbox" data-k="jbCus"><span>문구 직접 고치기</span></label>
-              <div class="fld" data-show="jbCus"><label for="p-jbtx">지방 · 위패 문구 <span>(한 줄이 한 칸, 두 분이면 두 줄)</span></label><textarea id="p-jbtx" class="in hz" rows="2" data-k="jbText" spellcheck="false"></textarea><p class="note">종교나 집안 양식에 맞게 고쳐 쓰세요. 띄어 쓴 곳은 한 글자만큼 비워 둡니다.</p><button type="button" class="linkish" id="jb-auto">자동 문구 다시 넣기</button></div>
+              <div class="fld" data-show="jbCus"><label for="p-jbtx">지방 · 위패 문구 <span>(한 줄이 한 칸, 두 분이면 두 줄)</span></label><textarea id="p-jbtx" class="in hz" rows="2" data-k="jbText" spellcheck="false"></textarea><p class="note">종교나 집안 양식에 맞게 고쳐 쓰셔도 돼요. 띄어 쓴 곳은 한 글자만큼 비워 둬요.</p><button type="button" class="linkish" id="jb-auto">자동 문구 다시 넣기</button></div>
             </div>
             <div data-panel="mj" style="display:flex;flex-direction:column;gap:16px">
-              <p style="line-height:1.7">명정은 붉은 천에 흰 글씨로 장례식장에서 준비합니다. 여기서는 <b>쓰는 예</b>만 봅니다.</p>
+              <p style="line-height:1.7">명정은 장례식장에서 붉은 천에 흰 글씨로 준비해요. 여기서는 <b>쓰는 예</b>만 보여 드려요.</p>
               <p class="note">교회 · 성당 · 사찰에 정해진 양식이 있으면 그 양식을 따르세요.</p>
             </div>
             <div data-panel="hb" style="display:flex;flex-direction:column;gap:16px">
@@ -1156,12 +1232,12 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
                 <div class="fld"><label for="p-ckk">한글축 <span>(한 줄이 한 칸)</span></label><textarea id="p-ckk" class="in" rows="6" data-k="ckTextK" spellcheck="false"></textarea></div>
                 <button type="button" class="linkish" id="ck-auto">자동 문구 다시 넣기</button>
               </div>
-              <p class="note">설 · 추석 차례는 축문을 읽지 않습니다.</p>
+              <p class="note">설 · 추석 차례에는 축문을 읽지 않아요.</p>
             </div>
             <div data-panel="sj" style="display:flex;flex-direction:column;gap:16px">
               <div class="row2"><div class="fld"><label for="p-sf">쉬는 첫날</label><input id="p-sf" class="in" type="date" data-k="sjFrom"></div><div class="fld"><label for="p-st">마지막 날</label><input id="p-st" class="in" type="date" data-k="sjTo"></div></div>
               <div class="fld"><label for="p-sj1">첫 문장</label><input id="p-sj1" class="in" data-k="sjL1" placeholder="집안에 상(喪)을 당하여"></div>
-              <div class="fld"><label for="p-sj2">날짜 뒤 문구</label><input id="p-sj2" class="in" data-k="sjL2" placeholder="문을 닫습니다."><p class="note">‘○월 ○일까지’ 뒤에 붙습니다. 예: 쉽니다. · 휴업합니다.</p></div>
+              <div class="fld"><label for="p-sj2">날짜 뒤 문구</label><input id="p-sj2" class="in" data-k="sjL2" placeholder="문을 닫습니다."><p class="note">‘○월 ○일까지’ 뒤에 붙어요. 예: 쉽니다. · 휴업합니다.</p></div>
               <div class="fld"><label for="p-sj3">끝 문장</label><input id="p-sj3" class="in" data-k="sjL3" placeholder="너그러운 양해 부탁드립니다."></div>
               <label class="chk" for="p-sjh"><input id="p-sjh" type="checkbox" data-k="sjHall"><span>빈소 정보 넣기</span></label>
               <div class="row2" data-show="sjHallOn"><div class="fld"><label for="p-sjhall">장례식장</label><input id="p-sjhall" class="in" data-k="hall" placeholder="장례식장 이름"></div><div class="fld"><label for="p-sjroom">호실</label><input id="p-sjroom" class="in" data-k="room" placeholder="3호실"></div><div class="fld"><label for="p-sjht">빈소 전화 <span>(선택)</span></label><input id="p-sjht" class="in" type="tel" data-k="hallTel" placeholder="051-000-0000"></div></div>
@@ -1172,7 +1248,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
               <div class="fld"><label for="p-ew">앞면 문구</label><select id="p-ew" class="in" data-k="envWord"><option value="buui">賻儀 부의</option><option value="geunjo">謹弔 근조</option><option value="chumo">追慕 추모</option><option value="chudo">追悼 추도</option><option value="aedo">哀悼 애도</option><option value="myeongbok">삼가 고인의 명복을 빕니다</option><option value="buuiK">부의 (한글)</option></select></div>
               <div class="fld"><label for="p-en">보내는 사람 이름</label><input id="p-en" class="in" data-k="envName" placeholder="김민수"></div>
               <div class="fld"><label for="p-eo">소속 <span>(선택)</span></label><input id="p-eo" class="in" data-k="envOrg" placeholder="○○주식회사"></div>
-              <p class="note">규격 봉투(220×105mm) 앞면 · 뒷면 2쪽입니다. 봉투를 넣는 방향은 프린터마다 다르니 종이에 한 번 시험해 보세요.</p>
+              <p class="note">규격 봉투(220×105mm) 앞면 · 뒷면 2쪽이에요. 봉투를 넣는 방향은 프린터마다 다르니 종이에 한 번 시험해 보세요.</p>
             </div>
             <div class="go" data-show="out">
               <div class="stepper" data-show="copies" style="padding:0"><span class="lbl">매수</span><div class="ctl"><button type="button" id="cp-minus" aria-label="한 장 줄이기">−</button><output id="cp-val">1</output><button type="button" id="cp-plus" aria-label="한 장 늘리기">+</button></div></div>
@@ -1198,8 +1274,8 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 <section class="page" data-page="date" aria-labelledby="h-date" hidden>
   <div class="wrap">
     <div class="page-head has-ph">
-      <h1 id="h-date">삼우제 · 49재 · 첫 기일,<br>날짜를 바로 알려 드립니다</h1>
-      <p>돌아가신 날만 넣으시면 발인부터 해마다 돌아오는 기일, 사망신고 · 상속 같은 서류 기한까지 양력 날짜로 계산합니다. 기일은 음력으로 셈해 양력 날짜를 함께 보여 드립니다.</p>
+      <h1 id="h-date">삼우제 · 49재 · 첫 기일,<br>날짜를 바로 알려 드려요</h1>
+      <p>돌아가신 날만 넣으시면 발인부터 해마다 돌아오는 기일, 사망신고와 상속 같은 서류 기한까지 날짜로 셈해 드려요. 기일은 음력으로 세고, 양력 날짜도 함께 보여 드려요.</p>
       <figure class="ph pc-only"><img src="/assets/img/urn-900.webp" srcset="/assets/img/urn-480.webp 480w, /assets/img/urn-900.webp 900w" sizes="(max-width: 900px) 100vw, 440px" width="900" height="600" alt="흰 도자기 유골함과 국화 한 송이" loading="lazy" decoding="async"></figure>
     </div>
     <div class="dt-grid">
@@ -1208,14 +1284,14 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
         <div class="fld"><span class="lbl" id="l-dtm">누가 쓰시나요</span><div class="seg c2" role="group" aria-labelledby="l-dtm"><button type="button" data-dtmode="fam">가족용</button><button type="button" data-dtmode="pro">장례지도사용</button></div></div>
         <div class="fld"><label for="dt-die">돌아가신 날 <span>(양력)</span></label><input id="dt-die" class="in" type="date"><p class="note" id="dt-die-l"></p></div>
         <div class="fld"><span class="lbl" id="l-dtd">장례 기간 <span>(돌아가신 날 포함)</span></span><div class="seg c4" role="group" aria-labelledby="l-dtd"><button type="button" data-dtdays="2">2일장</button><button type="button" data-dtdays="3">3일장</button><button type="button" data-dtdays="4">4일장</button><button type="button" data-dtdays="5">5일장</button></div></div>
-        <div class="fld"><label for="dt-out">발인일 <span>(직접 바꿀 수 있습니다)</span></label><input id="dt-out" class="in" type="date"></div>
+        <div class="fld"><label for="dt-out">발인일 <span>(직접 바꾸실 수 있어요)</span></label><input id="dt-out" class="in" type="date"></div>
         <div class="dt-pro" id="dt-pro" hidden>
           <div class="fld"><label for="dt-name">고인 성함</label><input id="dt-name" class="in" placeholder="홍길동" autocomplete="off"></div>
           <div class="fld"><span class="lbl" id="l-dtdir">담당 장례지도사</span><div class="dt-dirs" id="dt-dirs" role="group" aria-labelledby="l-dtdir"></div><button type="button" class="linkish" id="dt-add">+ 한 명 더</button></div>
-          <p class="note">넣으신 이름과 연락처는 이미지와 복사 글에만 들어가고, 어디에도 저장되지 않습니다.</p>
+          <p class="note">넣으신 이름과 연락처는 이미지와 복사 글에만 들어가고, 어디에도 저장되지 않아요.</p>
         </div>
         <p class="warn" id="dt-warn" role="alert" hidden></p>
-        <p class="note">절이나 집안에 따라 날짜를 세는 법이 조금씩 다를 수 있습니다. 정해진 날이 있으면 그 날을 따르세요.</p>
+        <p class="note">절이나 집안에 따라 날짜를 세는 법이 조금씩 다를 수 있어요. 정해진 날이 있으면 그날을 따라 주세요.</p>
       </section>
       <section class="card dt-res" aria-labelledby="h-dtres">
         <div class="dt-head"><h2 id="h-dtres">날짜 안내</h2></div>
@@ -1227,24 +1303,24 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
           <table class="dt-years"><thead><tr><th scope="col">주기</th><th scope="col">음력</th><th scope="col">양력</th></tr></thead><tbody id="dt-years"></tbody></table>
           <p class="note" id="dt-yr-note"></p>
         </div>
-        <p class="note">기제사는 옛 예법으로는 기일 첫새벽(자정이 지난 뒤)에 지냈고, 요즘은 기일 저녁에 지내는 집이 많습니다.</p>
+        <p class="note">기제사는 옛 예법으로는 기일 첫새벽(자정이 지난 뒤)에 지냈고, 요즘은 기일 저녁에 지내는 집이 많아요.</p>
         <div class="actions"><a class="btn btn-line" href="#print" data-goto-tab="ck">축문 만들기 (출력실)</a></div>
       </section>
     </div>
 
     <div class="sec" id="after">
       <h2 id="h-after">장례 후 서류 · 신고 기한</h2>
-      <p class="sec-lead">위에 넣으신 돌아가신 날을 기준으로, 꼭 챙기셔야 할 신고와 신청의 마감 날짜를 셈해 드립니다.</p>
+      <p class="sec-lead">위에 넣으신 날을 기준으로, 꼭 챙기셔야 할 신고 · 신청 마감 날짜를 셈해 드려요.</p>
       <div class="card dt-after">
         <ol class="dt-list" id="dt-after" aria-live="polite"></ol>
-        <p class="note">쉽게 셈한 날짜입니다. 마지막 날이 주말 · 공휴일이면 그다음 날까지이고, 사정에 따라 셈하는 날이 달라질 수 있으니 기한이 가까우면 해당 기관에 꼭 확인하세요. 상속 포기 · 한정승인과 상속세는 법무사 · 세무사 같은 전문가와 미리 상담하시길 권합니다.</p>
+        <p class="note">쉽게 셈한 날짜예요. 마지막 날이 주말이나 공휴일이면 그다음 날까지이고, 사정에 따라 달라질 수 있으니 기한이 가까우면 해당 기관에 꼭 확인해 주세요. 상속 포기 · 한정승인과 상속세는 법무사나 세무사와 미리 상담해 보시길 권해요.</p>
         <div class="actions"><button type="button" class="btn btn-line" id="dt-after-copy">서류 기한 글로 복사</button></div>
       </div>
     </div>
 
     <div class="sec">
       <h2 id="h-cal">음력 달력 · 손 없는 날</h2>
-      <p class="sec-lead">날마다 음력 날짜를 함께 보여 드립니다. <b class="nw">손 없는 날</b>은 음력 끝자리가 9 · 0인 날(9 · 10 · 19 · 20 · 29 · 30일)로, 이사나 이장 날을 고를 때 많이 봅니다.</p>
+      <p class="sec-lead">날마다 음력 날짜도 함께 보여 드려요. <b class="nw">손 없는 날</b>은 음력 날짜 끝자리가 9나 0인 날(9 · 10 · 19 · 20 · 29 · 30일)이에요. 이사나 이장 날을 고를 때 많이 봐요.</p>
       <div class="card cal-card">
         <div class="cal-top">
           <button type="button" class="icon-btn" id="cal-prev" aria-label="이전 달"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg></button>
@@ -1258,22 +1334,22 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="sec">
       <h2>날짜마다 무엇을 하나요</h2>
       <div class="tblwrap"><table class="wordtbl stack"><thead><tr><th>날</th><th>언제</th><th>무엇을 하나요</th></tr></thead><tbody>
-        <tr><td><b>발인</b></td><td>장례 마지막 날</td><td>고인을 모시고 장례식장을 떠나 화장장이나 장지로 갑니다.</td></tr>
-        <tr><td><b>삼우제</b></td><td>발인 날을 첫날로 세어 사흘째</td><td>장례 뒤 세 번째로 지내는 우제입니다. 가족이 함께 장지를 찾아 인사드리는 집이 많습니다.</td></tr>
-        <tr><td><b>49재</b></td><td>돌아가신 날을 1일로 세어 49일째</td><td>불교에서 돌아가신 날부터 7일마다 일곱 번 지내는 재의 마지막 날입니다. 절에서 지내는 경우가 많습니다.</td></tr>
-        <tr><td><b>100일</b></td><td>돌아가신 날을 1일로 세어 100일째</td><td>집안이나 종교에 따라 추모하는 날로 지내기도 합니다.</td></tr>
-        <tr><td><b>첫 기일 (소상)</b></td><td>1년 뒤 음력 같은 날</td><td>처음 맞는 기제사입니다. 예법으로는 소상(小祥)이라고 합니다.</td></tr>
-        <tr><td><b>두 번째 기일 (대상)</b></td><td>2년 뒤 음력 같은 날</td><td>대상(大祥)입니다. 그 뒤로 해마다 기일에 기제사를 지냅니다.</td></tr>
+        <tr><td><b>발인</b></td><td>장례 마지막 날</td><td>고인을 모시고 장례식장을 떠나 화장장이나 장지로 가요.</td></tr>
+        <tr><td><b>삼우제</b></td><td>발인 날을 첫날로 세어 사흘째</td><td>장례 뒤 세 번째로 지내는 우제예요. 가족이 함께 장지를 찾아 인사드리는 집이 많아요.</td></tr>
+        <tr><td><b>49재</b></td><td>돌아가신 날을 1일로 세어 49일째</td><td>불교에서 돌아가신 날부터 7일마다 일곱 번 지내는 재의 마지막 날이에요. 절에서 많이 지내요.</td></tr>
+        <tr><td><b>100일</b></td><td>돌아가신 날을 1일로 세어 100일째</td><td>집안이나 종교에 따라 추모하는 날로 지내기도 해요.</td></tr>
+        <tr><td><b>첫 기일 (소상)</b></td><td>1년 뒤 음력 같은 날</td><td>처음 맞는 기제사예요. 예법으로는 소상(小祥)이라고 해요.</td></tr>
+        <tr><td><b>두 번째 기일 (대상)</b></td><td>2년 뒤 음력 같은 날</td><td>대상(大祥)이에요. 그 뒤로는 해마다 기일에 기제사를 지내요.</td></tr>
       </tbody></table></div>
-      <p class="note">우제(虞祭)는 장례를 마친 뒤 고인의 혼을 편안하게 모시려고 지내는 제사입니다. 옛 예법은 날의 간지에 따라 재우 · 삼우 날을 정했지만, 요즘은 발인 날부터 세어 사흘째에 삼우제를 지내는 집이 많습니다.</p>
+      <p class="note">우제(虞祭)는 장례를 마친 뒤 고인의 혼을 편안하게 모시려고 지내는 제사예요. 옛 예법은 날의 간지에 따라 재우 · 삼우 날을 정했지만, 요즘은 발인 날부터 세어 사흘째에 삼우제를 지내는 집이 많아요.</p>
     </div>
     <div class="sec">
-      <h2>날짜, 이것이 궁금합니다</h2>
+      <h2>날짜, 많이 물어보시는 것</h2>
       <div>
-        <details class="faq"><summary>삼우제는 돌아가신 날부터 세나요, 발인 날부터 세나요?</summary><div class="faq-a">발인 날(장례를 마친 날)을 첫날로 셉니다. 발인 날 초우, 다음 날 재우, 그다음 날이 삼우입니다. 10월 3일에 발인하셨다면 삼우제는 10월 5일입니다.</div></details>
-        <details class="faq"><summary>49재는 정확히 언제인가요?</summary><div class="faq-a">돌아가신 날을 1일로 세어 49일째 되는 날입니다. 10월 1일에 돌아가셨다면 11월 18일입니다. 절마다 세는 법이 조금 다를 수 있으니, 재를 지낼 절에 한 번 확인하세요.</div></details>
-        <details class="faq"><summary>기일은 왜 해마다 양력 날짜가 바뀌나요?</summary><div class="faq-a">기일을 음력으로 지내는 집이 많기 때문입니다. 음력 날짜는 같아도 해마다 양력 날짜가 달라집니다. 위 계산기의 「해마다 돌아오는 기일」 표에서 올해부터 양력 날짜를 확인하세요.</div></details>
-        <details class="faq"><summary>기일을 양력으로 지내도 되나요?</summary><div class="faq-a">네. 요즘은 날짜를 기억하기 쉽게 양력으로 지내는 집도 있습니다. 가족이 의논해 정하시면 됩니다.</div></details>
+        <details class="faq"><summary>삼우제는 돌아가신 날부터 세나요, 발인 날부터 세나요?</summary><div class="faq-a">발인 날(장례를 마친 날)을 첫날로 세어요. 발인 날이 초우, 다음 날이 재우, 그다음 날이 삼우예요. 10월 3일에 발인하셨다면 삼우제는 10월 5일이에요.</div></details>
+        <details class="faq"><summary>49재는 정확히 언제인가요?</summary><div class="faq-a">돌아가신 날을 1일로 세어 49일째 되는 날이에요. 10월 1일에 돌아가셨다면 11월 18일이에요. 절마다 세는 법이 조금 다를 수 있으니, 재를 지낼 절에 한 번 여쭤보세요.</div></details>
+        <details class="faq"><summary>기일은 왜 해마다 양력 날짜가 바뀌나요?</summary><div class="faq-a">기일을 음력으로 지내는 집이 많아서 그래요. 음력 날짜는 같아도 양력 날짜는 해마다 달라져요. 위 「해마다 돌아오는 기일」 표에서 올해부터 양력 날짜를 보실 수 있어요.</div></details>
+        <details class="faq"><summary>기일을 양력으로 지내도 되나요?</summary><div class="faq-a">네. 요즘은 기억하기 쉽게 양력으로 지내는 집도 있어요. 가족끼리 의논해서 정하시면 돼요.</div></details>
       </div>
     </div>
   </div>
@@ -1283,8 +1359,8 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 <section class="page" data-page="clan" aria-labelledby="h-clan" hidden>
   <div class="wrap">
     <div class="page-head">
-      <h1 id="h-clan">본관을 한글로 찾으면 한자를 알려 드립니다</h1>
-      <p>어머니 지방, 명정, 축문에 들어가는 본관 한자를 확인하세요. 139개 성씨, 423개 본관을 찾을 수 있고, 고르면 출력실 고인 정보에 바로 들어갑니다.</p>
+      <h1 id="h-clan">본관을 한글로 찾으시면 한자로 알려 드려요</h1>
+      <p>어머니 지방이나 명정, 축문에 들어가는 본관 한자를 찾아보세요. 성씨 139개, 본관 423곳이 들어 있고, 고르시면 출력실 고인 정보에 바로 들어가요.</p>
     </div>
     <div class="clan-search"><label for="clan-q" class="lbl" style="flex-basis:100%">본관이나 성 (예: 김해 김, 밀양, 박, 金海)</label><input id="clan-q" class="in" autocomplete="off" placeholder="본관이나 성을 입력하세요"></div>
     <p class="note" id="clan-count" style="margin-top:10px"></p>
@@ -1295,32 +1371,32 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     </div>
     <div class="sec">
       <h2>본관이란</h2>
-      <p class="sec-lead">본관(本貫)은 성씨의 시조가 나온 곳이나 조상이 오래 살던 고장의 이름입니다. ‘김해 김씨’의 김해, ‘밀양 박씨’의 밀양이 본관입니다. 같은 김씨라도 김해 김씨와 경주 김씨는 서로 다른 집안으로 봅니다. 그래서 지방 · 명정 · 축문에는 성만 쓰지 않고 본관을 함께 씁니다.</p>
+      <p class="sec-lead">본관(本貫)은 성씨의 시조가 나온 곳이나 조상이 오래 살던 고장의 이름이에요. ‘김해 김씨’의 김해, ‘밀양 박씨’의 밀양이 본관이에요. 같은 김씨라도 김해 김씨와 경주 김씨는 서로 다른 집안으로 봐요. 그래서 지방, 명정, 축문에는 성만 쓰지 않고 본관을 함께 써요.</p>
     </div>
     <div class="sec">
       <h2>장례 서식에 본관 쓰는 법</h2>
       <div class="grid2">
-        <div class="card pad"><b>어머니 지방</b><p class="serif" style="font-size:22px;margin:6px 0">顯妣孺人<u>金海金</u>氏神位</p><p class="muted small">현비유인 김해김씨 신위. 어머니가 태어나신 집안의 본관과 성을 씁니다. 본관을 빼고 顯妣孺人金氏神位로 쓰기도 합니다.</p></div>
-        <div class="card pad"><b>아버지 지방</b><p class="serif" style="font-size:22px;margin:6px 0">顯考學生府君神位</p><p class="muted small">현고학생 부군신위. 아버지 지방에는 본관과 성을 넣지 않고 ‘府君’으로 씁니다.</p></div>
+        <div class="card pad"><b>어머니 지방</b><p class="serif" style="font-size:22px;margin:6px 0">顯妣孺人<u>金海金</u>氏神位</p><p class="muted small">현비유인 김해김씨 신위. 어머니가 태어나신 집안의 본관과 성을 써요. 본관을 빼고 顯妣孺人金氏神位로 쓰기도 해요.</p></div>
+        <div class="card pad"><b>아버지 지방</b><p class="serif" style="font-size:22px;margin:6px 0">顯考學生府君神位</p><p class="muted small">현고학생 부군신위. 아버지 지방에는 본관과 성을 넣지 않고 ‘府君’으로 써요.</p></div>
         <div class="card pad"><b>명정 (남자)</b><p class="serif" style="font-size:22px;margin:6px 0">學生<u>南陽洪</u>公之柩</p><p class="muted small">학생 남양홍공지구. 學生 + 본관 + 성 + 公之柩</p></div>
         <div class="card pad"><b>명정 (여자)</b><p class="serif" style="font-size:22px;margin:6px 0">孺人<u>金海金</u>氏之柩</p><p class="muted small">유인 김해김씨지구. 孺人 + 본관 + 성 + 氏之柩</p></div>
       </div>
-      <p class="note">종교에 따라 쓰는 법이 다릅니다. 기독교 · 천주교 · 불교 위패와 명정은 <a href="#print">출력실</a>에서 종교를 고르면 맞게 만들어 드립니다. 목록에 없는 본관은 출력실 고인 정보에서 ‘목록에 없으면 직접 입력’을 눌러 한자로 넣을 수 있습니다.</p>
+      <p class="note">종교에 따라 쓰는 법이 달라요. 기독교, 천주교, 불교 위패와 명정은 <a href="#print">출력실</a>에서 종교를 고르시면 맞게 만들어 드려요. 목록에 없는 본관은 출력실 고인 정보에서 ‘목록에 없으면 직접 입력’을 눌러 한자로 넣으시면 돼요.</p>
     </div>
     <div class="sec">
       <h2>본관을 모를 때 찾는 법</h2>
       <ol class="num-step">
-        <li><b>가족관계증명서 · 기본증명서</b><span>증명서의 ‘본’ 칸에 본관이 적혀 있습니다. 자녀분의 가족관계증명서에는 부모님의 본도 함께 나옵니다. 정부24나 대법원 전자가족관계등록시스템에서 바로 뗄 수 있습니다.</span></li>
-        <li><b>족보 · 집안 어른</b><span>족보가 있으면 맨 앞에 본관과 시조가 나옵니다. 집안 어른께 여쭤보셔도 됩니다.</span></li>
-        <li><b>산소 비석 · 예전 지방</b><span>집안 산소의 비석이나 예전에 쓰던 지방 · 축문에 본관이 한자로 적혀 있는 경우가 많습니다.</span></li>
+        <li><b>가족관계증명서 · 기본증명서</b><span>증명서의 ‘본’ 칸에 본관이 적혀 있어요. 자녀분의 가족관계증명서에는 부모님의 본도 함께 나와요. 정부24나 대법원 전자가족관계등록시스템에서 바로 떼실 수 있어요.</span></li>
+        <li><b>족보 · 집안 어른</b><span>족보가 있으면 맨 앞에 본관과 시조가 나와요. 집안 어른께 여쭤보셔도 돼요.</span></li>
+        <li><b>산소 비석 · 예전 지방</b><span>집안 산소의 비석이나 예전에 쓰던 지방 · 축문에 본관이 한자로 적혀 있는 경우가 많아요.</span></li>
       </ol>
     </div>
     <div class="sec">
-      <h2>본관, 이것이 궁금합니다</h2>
+      <h2>본관, 많이 물어보시는 것</h2>
       <div>
-        <details class="faq"><summary>결혼한 어머니 지방에는 어느 집안 본관을 쓰나요?</summary><div class="faq-a">어머니가 태어나신 집안(친정)의 본관과 성을 씁니다. 우리나라는 결혼해도 성과 본이 바뀌지 않기 때문입니다. 김해 김씨 어머니라면 顯妣孺人金海金氏神位입니다.</div></details>
-        <details class="faq"><summary>소리가 같은 본관인데 한자가 다를 수 있나요?</summary><div class="faq-a">네. 같은 ‘광주’라도 전라도 광주는 光州, 경기도 광주는 廣州로 한자가 다릅니다. 서식에 넣기 전에 증명서나 족보의 한자를 꼭 확인하세요.</div></details>
-        <details class="faq"><summary>본관을 끝내 모르면 어떻게 하나요?</summary><div class="faq-a">어머니 지방은 본관을 빼고 성만 써서 顯妣孺人金氏神位로 쓰셔도 됩니다. 명정도 본관 없이 쓸 수 있으니, 담당 장례지도사와 상의하세요.</div></details>
+        <details class="faq"><summary>결혼한 어머니 지방에는 어느 집안 본관을 쓰나요?</summary><div class="faq-a">어머니가 태어나신 집안(친정)의 본관과 성을 써요. 우리나라는 결혼해도 성과 본이 바뀌지 않거든요. 김해 김씨 어머니라면 顯妣孺人金海金氏神位예요.</div></details>
+        <details class="faq"><summary>소리가 같은 본관인데 한자가 다를 수 있나요?</summary><div class="faq-a">네. 같은 ‘광주’라도 전라도 광주는 光州, 경기도 광주는 廣州로 한자가 달라요. 서식에 넣기 전에 증명서나 족보의 한자를 꼭 확인해 주세요.</div></details>
+        <details class="faq"><summary>본관을 끝내 모르면 어떻게 하나요?</summary><div class="faq-a">어머니 지방은 본관을 빼고 성만 써서 顯妣孺人金氏神位로 쓰셔도 돼요. 명정도 본관 없이 쓸 수 있으니 담당 장례지도사와 상의해 보세요.</div></details>
       </div>
     </div>
   </div>
@@ -1331,7 +1407,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
   <div class="wrap">
     <div class="page-head">
       <h1 id="h-chon">누가 누구인지, 뭐라고 부르는지</h1>
-      <p>‘아버지의 사촌 동생’처럼 관계를 차례로 고르면 호칭과 촌수를 알려 드립니다. 어머니와 고모처럼 두 사람이 서로 어떤 사이인지도 찾을 수 있습니다.</p>
+      <p>‘아버지의 사촌 동생’처럼 관계를 차례로 고르시면 호칭과 촌수를 알려 드려요. 어머니와 고모처럼 두 사람이 서로 어떤 사이인지도 찾아보실 수 있어요.</p>
     </div>
     <div class="chon-top">
       <div class="tabs" role="tablist" aria-label="찾는 방법" id="cmodes">
@@ -1343,7 +1419,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     </div>
 
     <section class="card find" data-cmode="find" aria-labelledby="h-find" style="margin-top:16px">
-      <h2 id="h-find">관계를 차례로 고르세요</h2>
+      <h2 id="h-find">관계를 차례로 골라 주세요</h2>
       <ol class="chain" id="chain"></ol>
       <div class="actions"><button type="button" class="btn btn-line" id="ch-add">‘…의’ 한 단계 더하기</button><button type="button" class="btn btn-ghost" id="ch-reset">처음부터</button></div>
       <div class="ans" id="ch-ans" aria-live="polite"></div>
@@ -1351,14 +1427,14 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     </section>
 
     <section class="card find" data-cmode="pair" aria-labelledby="h-pair" style="margin-top:16px" hidden>
-      <h2 id="h-pair">두 사람을 고르세요</h2>
+      <h2 id="h-pair">두 사람을 골라 주세요</h2>
       <div class="pair-sel">
         <div class="fld"><label for="pa">이 사람에게</label><select id="pa" class="in"></select></div>
         <button type="button" class="btn btn-line" id="pswap">서로 바꾸기</button>
         <div class="fld"><label for="pb">이 사람은</label><select id="pb" class="in"></select></div>
       </div>
       <div class="grid2" id="pair-ans" aria-live="polite"></div>
-      <p class="note">나를 기준으로 한 가족입니다. 위에서 남자 · 여자를 바꾸면 배우자 쪽 가족도 바뀝니다.</p>
+      <p class="note">나를 기준으로 한 가족이에요. 위에서 남자 · 여자를 바꾸시면 배우자 쪽 가족도 바뀌어요.</p>
     </section>
 
     <div data-cmode="map" hidden style="margin-top:16px">
@@ -1374,24 +1450,24 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     </div>
     </div>
     <div class="sec">
-      <h2>촌수는 이렇게 셉니다</h2>
+      <h2>촌수는 이렇게 세어요</h2>
       <div class="grid3">
-        <div class="card pad"><b>곧바로 위아래</b><p class="muted" style="margin-top:6px">한 세대에 1촌씩 셉니다. 부모는 1촌, 조부모는 2촌, 자녀는 1촌입니다.</p></div>
-        <div class="card pad"><b>옆으로 갈라진 가족</b><p class="muted" style="margin-top:6px">함께 거슬러 올라가는 조상까지의 세대 수와 거기서 그 사람까지 내려가는 세대 수를 더합니다. 형제는 1+1=2촌, 큰아버지는 2+1=3촌, 사촌은 2+2=4촌입니다.</p></div>
-        <div class="card pad"><b>배우자 쪽 가족</b><p class="muted" style="margin-top:6px">부부는 무촌입니다. 배우자의 가족은 배우자를 기준으로, 내 가족의 배우자는 그 가족을 기준으로 셉니다. 장인은 1촌, 처남은 2촌, 고모부는 3촌입니다.</p></div>
+        <div class="card pad"><b>곧바로 위아래</b><p class="muted" style="margin-top:6px">한 세대에 1촌씩 세어요. 부모는 1촌, 조부모는 2촌, 자녀는 1촌이에요.</p></div>
+        <div class="card pad"><b>옆으로 갈라진 가족</b><p class="muted" style="margin-top:6px">같은 조상까지 올라가는 세대 수와, 거기서 그 사람까지 내려가는 세대 수를 더해요. 형제는 1+1=2촌, 큰아버지는 2+1=3촌, 사촌은 2+2=4촌이에요.</p></div>
+        <div class="card pad"><b>배우자 쪽 가족</b><p class="muted" style="margin-top:6px">부부는 무촌이에요. 배우자의 가족은 배우자를 기준으로, 내 가족의 배우자는 그 가족을 기준으로 세어요. 장인은 1촌, 처남은 2촌, 고모부는 3촌이에요.</p></div>
       </div>
     </div>
     <div class="sec">
       <h2>장례에서 촌수와 호칭이 필요한 때</h2>
       <div class="grid3">
-        <div class="card pad"><b>부고를 보낼 때</b><p class="muted" style="margin-top:6px">상주를 기준으로 돌아가신 분이 누구인지 씁니다. 아버지면 부친상, 장인이면 빙부상입니다. 아래 표를 보세요.</p></div>
-        <div class="card pad"><b>장례를 결정할 때</b><p class="muted" style="margin-top:6px">화장 · 장지 같은 절차는 법이 정한 연고자 순서를 따릅니다. 배우자 → 자녀 → 부모 → 손자녀 → 조부모 → 형제자매 순이고, 자녀가 여럿이면 나이가 많은 자녀가 앞섭니다.</p></div>
-        <div class="card pad"><b>지방 · 축문을 쓸 때</b><p class="muted" style="margin-top:6px">고인과의 관계에 따라 첫머리가 달라집니다. 아버지 <span class="serif">顯考</span> · 어머니 <span class="serif">顯妣</span> · 할아버지 <span class="serif">顯祖考</span> · 할머니 <span class="serif">顯祖妣</span> · 남편 <span class="serif">顯辟</span> · 아내 <span class="serif">亡室</span>. <a href="#print">출력실</a>에서 관계를 고르면 맞게 써 드립니다.</p></div>
+        <div class="card pad"><b>부고를 보낼 때</b><p class="muted" style="margin-top:6px">상주를 기준으로 돌아가신 분이 누구인지 써요. 아버지면 부친상, 장인이면 빙부상이에요. 아래 표를 참고하세요.</p></div>
+        <div class="card pad"><b>장례를 결정할 때</b><p class="muted" style="margin-top:6px">화장이나 장지 같은 일은 법에서 정한 연고자 순서를 따라요. 배우자 → 자녀 → 부모 → 손자녀 → 조부모 → 형제자매 순이고, 자녀가 여럿이면 나이가 많은 자녀가 먼저예요.</p></div>
+        <div class="card pad"><b>지방 · 축문을 쓸 때</b><p class="muted" style="margin-top:6px">고인과의 관계에 따라 첫머리가 달라져요. 아버지 <span class="serif">顯考</span> · 어머니 <span class="serif">顯妣</span> · 할아버지 <span class="serif">顯祖考</span> · 할머니 <span class="serif">顯祖妣</span> · 남편 <span class="serif">顯辟</span> · 아내 <span class="serif">亡室</span>. <a href="#print">출력실</a>에서 관계를 고르시면 맞게 써 드려요.</p></div>
       </div>
     </div>
     <div class="sec">
       <h2>부고에 쓰는 말</h2>
-      <p class="sec-lead">부고에는 상주 이름 뒤에 돌아가신 분과의 관계를 씁니다. 예: ‘홍길동 부친상’은 홍길동 님의 아버지가 돌아가셨다는 뜻입니다.</p>
+      <p class="sec-lead">부고에는 상주 이름 뒤에 돌아가신 분과의 관계를 써요. ‘홍길동 부친상’이면 홍길동 님의 아버지가 돌아가셨다는 뜻이에요.</p>
       <div class="tblwrap"><table class="wordtbl wrap1"><thead><tr><th>쓰는 말</th><th>돌아가신 분 (상주 기준)</th></tr></thead><tbody>
         <tr><td><b>부친상 · 모친상</b></td><td>아버지 · 어머니</td></tr>
         <tr><td><b>빙부상 · 빙모상</b></td><td>아내의 아버지(장인) · 아내의 어머니(장모)</td></tr>
@@ -1405,22 +1481,22 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <h2>자주 헷갈리는 호칭</h2>
       <div class="tblwrap"><table class="wordtbl wrap1"><thead><tr><th>부르는 말</th><th>누구인가요</th><th>촌수</th></tr></thead><tbody>
         <tr><td><b>큰아버지 (백부)</b></td><td>아버지의 형</td><td>3촌</td></tr>
-        <tr><td><b>작은아버지 (숙부)</b></td><td>아버지의 남동생. 결혼 전이면 흔히 삼촌이라 부릅니다</td><td>3촌</td></tr>
+        <tr><td><b>작은아버지 (숙부)</b></td><td>아버지의 남동생. 결혼 전이면 흔히 삼촌이라고 불러요</td><td>3촌</td></tr>
         <tr><td><b>고모 · 고모부</b></td><td>아버지의 누나 · 여동생과 그 남편</td><td>3촌</td></tr>
         <tr><td><b>외삼촌 · 외숙모</b></td><td>어머니의 남자 형제와 그 아내</td><td>3촌</td></tr>
         <tr><td><b>이모 · 이모부</b></td><td>어머니의 여자 형제와 그 남편</td><td>3촌</td></tr>
-        <tr><td><b>종조부</b></td><td>할아버지의 형제. 큰할아버지 · 작은할아버지라고 부릅니다</td><td>4촌</td></tr>
+        <tr><td><b>종조부</b></td><td>할아버지의 형제. 큰할아버지, 작은할아버지라고 불러요</td><td>4촌</td></tr>
         <tr><td><b>당숙 (종숙)</b></td><td>아버지의 사촌 형제</td><td>5촌</td></tr>
         <tr><td><b>재종형제</b></td><td>나와 6촌인 형제 (당숙의 자녀)</td><td>6촌</td></tr>
       </tbody></table></div>
-      <p class="note">더 먼 관계는 위의 <b>관계 찾기</b>에서 ‘…의’를 이어 고르면 바로 알려 드립니다.</p>
+      <p class="note">더 먼 관계는 위 <b>관계 찾기</b>에서 ‘…의’를 이어 고르시면 바로 알려 드려요.</p>
     </div>
     <div class="sec">
-      <h2>촌수, 이것이 궁금합니다</h2>
+      <h2>촌수, 많이 물어보시는 것</h2>
       <div>
-        <details class="faq"><summary>부부는 몇 촌인가요?</summary><div class="faq-a">부부 사이에는 촌수가 없어 ‘무촌’이라고 합니다. 배우자의 가족은 배우자를 기준으로 촌수를 셉니다.</div></details>
-        <details class="faq"><summary>친척(친족)은 몇 촌까지인가요?</summary><div class="faq-a">민법에서는 8촌 이내의 혈족, 4촌 이내의 인척(배우자 쪽 가족과 가족의 배우자), 배우자를 친족으로 봅니다.</div></details>
-        <details class="faq"><summary>조부상 · 외조부상에도 회사 경조휴가가 나오나요?</summary><div class="faq-a">경조휴가는 법으로 정해진 것이 아니라 회사마다 규정으로 정합니다. 몇 촌까지 며칠인지는 회사 취업규칙이나 인사 담당자에게 확인하세요.</div></details>
+        <details class="faq"><summary>부부는 몇 촌인가요?</summary><div class="faq-a">부부 사이에는 촌수가 없어서 ‘무촌’이라고 해요. 배우자의 가족은 배우자를 기준으로 촌수를 세어요.</div></details>
+        <details class="faq"><summary>친척(친족)은 몇 촌까지인가요?</summary><div class="faq-a">민법에서는 8촌 이내의 혈족, 4촌 이내의 인척(배우자 쪽 가족과 가족의 배우자), 배우자를 친족으로 봐요.</div></details>
+        <details class="faq"><summary>조부상 · 외조부상에도 회사 경조휴가가 나오나요?</summary><div class="faq-a">경조휴가는 법으로 정해진 게 아니라 회사마다 규정으로 정해요. 몇 촌까지 며칠인지는 회사 취업규칙을 보시거나 인사 담당자에게 물어보세요.</div></details>
       </div>
     </div>
   </div>
@@ -1430,30 +1506,30 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 <section class="page" data-page="manners" aria-labelledby="h-man" hidden>
   <div class="wrap">
     <div class="page-head">
-      <h1 id="h-man">처음 가는 조문도 이것만 알면 됩니다</h1>
-      <p>조문 순서, 절하는 법, 위로의 말, 부의 봉투 쓰는 법까지 차례대로 정리했습니다.</p>
+      <h1 id="h-man">처음 가는 조문도 이것만 알면 돼요</h1>
+      <p>조문 순서와 절하는 법, 위로의 말, 부의 봉투 쓰는 법까지 차례대로 알려 드려요.</p>
     </div>
 
     <div class="sec" style="margin-top:0">
       <h2>조문 순서</h2>
       <ol class="num-step">
-        <li><b>도착 · 조객록</b><span>외투와 모자는 미리 벗고, 입구의 조객록(방명록)에 이름을 적습니다.</span></li>
-        <li><b>상주와 가볍게 목례</b><span>빈소에 들어서며 상주에게 고개 숙여 인사합니다.</span></li>
-        <li><b>분향 또는 헌화</b><span>향은 불을 붙인 뒤 입으로 불지 말고 손으로 가볍게 흔들어 끄고 향로에 꽂습니다. 헌화는 꽃송이가 영정 쪽을 향하게 놓습니다.</span></li>
-        <li><b>영정에 두 번 절 또는 묵념</b><span>큰절 두 번을 하거나, 종교가 다르면 잠시 고개 숙여 묵념합니다.</span></li>
-        <li><b>상주와 맞절 한 번</b><span>상주와 마주 보고 한 번 절하거나 정중히 고개 숙입니다.</span></li>
-        <li><b>짧은 위로의 말</b><span>길게 말하지 않습니다. 아무 말 없이 고개 숙이는 것도 예의입니다.</span></li>
-        <li><b>부의금 · 물러나기</b><span>부의함에 넣거나 호상소에 전합니다. 물러날 때는 두세 걸음 뒤로 물러난 뒤 돌아서 나옵니다.</span></li>
+        <li><b>도착 · 조객록</b><span>외투와 모자는 미리 벗고, 입구의 조객록(방명록)에 이름을 적어요.</span></li>
+        <li><b>상주와 가볍게 목례</b><span>빈소에 들어서며 상주에게 고개 숙여 인사해요.</span></li>
+        <li><b>분향 또는 헌화</b><span>향에 불을 붙이면 입으로 불지 말고 손으로 가볍게 흔들어 끈 뒤 향로에 꽂아요. 헌화는 꽃송이가 영정 쪽을 향하게 놓아요.</span></li>
+        <li><b>영정에 두 번 절 또는 묵념</b><span>큰절을 두 번 하거나, 종교가 다르면 잠시 고개 숙여 묵념해요.</span></li>
+        <li><b>상주와 맞절 한 번</b><span>상주와 마주 보고 한 번 절하거나 정중히 고개를 숙여요.</span></li>
+        <li><b>짧은 위로의 말</b><span>길게 말하지 않아도 돼요. 아무 말 없이 고개 숙이는 것도 예의예요.</span></li>
+        <li><b>부의금 · 물러나기</b><span>부의금은 부의함에 넣거나 호상소에 전해요. 나올 때는 두세 걸음 뒤로 물러난 뒤 돌아서 나와요.</span></li>
       </ol>
     </div>
 
     <div class="sec">
       <h2>절할 때 손 모양 (공수)</h2>
       <div class="grid2">
-        <div class="card pad"><b style="font-size:18px">남자</b><p class="muted" style="margin-top:6px">평소와 반대로 <b style="color:var(--ink)">오른손이 위</b>로 가게 두 손을 포갭니다.</p></div>
-        <div class="card pad"><b style="font-size:18px">여자</b><p class="muted" style="margin-top:6px">평소와 반대로 <b style="color:var(--ink)">왼손이 위</b>로 가게 두 손을 포갭니다.</p></div>
+        <div class="card pad"><b style="font-size:18px">남자</b><p class="muted" style="margin-top:6px">평소와 반대로 <b style="color:var(--ink)">오른손이 위</b>로 가게 두 손을 포개요.</p></div>
+        <div class="card pad"><b style="font-size:18px">여자</b><p class="muted" style="margin-top:6px">평소와 반대로 <b style="color:var(--ink)">왼손이 위</b>로 가게 두 손을 포개요.</p></div>
       </div>
-      <p class="note">기쁜 날에는 남자 왼손 · 여자 오른손이 위로 가고, 상(喪)을 당한 자리에서는 반대로 합니다.</p>
+      <p class="note">기쁜 날에는 남자 왼손 · 여자 오른손이 위로 가고, 상(喪)을 당한 자리에서는 반대로 해요.</p>
     </div>
 
     <div class="sec">
@@ -1472,8 +1548,8 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="sec">
       <h2>삼가야 할 것</h2>
       <div class="grid2">
-        <div class="card pad"><b>옷차림</b><ul class="list" style="margin-top:8px"><li>검은색이나 짙은 색 옷을 입습니다.</li><li>화려한 장신구와 진한 화장은 피합니다.</li><li>맨발은 피하고 양말이나 스타킹을 신습니다.</li></ul></div>
-        <div class="card pad"><b>빈소에서</b><ul class="list" style="margin-top:8px"><li>돌아가신 까닭을 꼬치꼬치 묻지 않습니다.</li><li>술잔을 부딪치지 않습니다.</li><li>큰 소리로 이야기하거나 상주를 오래 붙잡지 않습니다.</li></ul></div>
+        <div class="card pad"><b>옷차림</b><ul class="list" style="margin-top:8px"><li>검은색이나 짙은 색 옷을 입어요.</li><li>화려한 장신구와 진한 화장은 피해요.</li><li>맨발은 피하고 양말이나 스타킹을 신어요.</li></ul></div>
+        <div class="card pad"><b>빈소에서</b><ul class="list" style="margin-top:8px"><li>돌아가신 까닭을 꼬치꼬치 묻지 않아요.</li><li>술잔을 부딪치지 않아요.</li><li>큰 소리로 이야기하거나 상주를 오래 붙잡지 않아요.</li></ul></div>
       </div>
     </div>
 
@@ -1488,9 +1564,9 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
         </div>
         <div style="display:flex;flex-direction:column;gap:12px">
           <ol class="num-step">
-            <li><b>앞면</b><span>가운데에 세로로 부의(賻儀)나 근조(謹弔) 같은 문구를 씁니다.</span></li>
-            <li><b>뒷면</b><span>왼쪽 아래에 세로로 이름을 씁니다. 소속은 이름 오른쪽 위에 조금 작게 씁니다.</span></li>
-            <li><b>금액</b><span>3만 · 5만 · 7만원처럼 홀수로 맞추는 것이 관례이고, 10만원도 흔히 냅니다. 빳빳한 새 돈보다 깨끗한 돈이 좋습니다.</span></li>
+            <li><b>앞면</b><span>가운데에 세로로 부의(賻儀)나 근조(謹弔) 같은 문구를 써요.</span></li>
+            <li><b>뒷면</b><span>왼쪽 아래에 세로로 이름을 써요. 소속은 이름 오른쪽 위에 조금 작게 써요.</span></li>
+            <li><b>금액</b><span>3만, 5만, 7만원처럼 홀수로 맞추는 게 관례이고, 10만원도 많이 내요. 빳빳한 새 돈보다는 깨끗한 돈이 좋아요.</span></li>
           </ol>
           <a class="btn btn-line" href="#print" data-goto-tab="env" style="align-self:flex-start">부의 봉투 출력하기</a>
         </div>
@@ -1498,7 +1574,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <div class="card pad" style="margin-top:4px">
         <b>봉투에 쓰는 말과 뜻</b>
         <div class="tblwrap" style="margin-top:10px"><table class="wordtbl"><thead><tr><th>쓰는 말</th><th>읽기</th><th>뜻</th></tr></thead><tbody>
-          <tr><td class="hz">賻儀</td><td>부의</td><td>상가에 부조로 보내는 돈이나 물건. 가장 널리 씁니다.</td></tr>
+          <tr><td class="hz">賻儀</td><td>부의</td><td>상가에 부조로 보내는 돈이나 물건. 가장 널리 써요.</td></tr>
           <tr><td class="hz">謹弔</td><td>근조</td><td>삼가 조상(弔喪)합니다.</td></tr>
           <tr><td class="hz">追慕</td><td>추모</td><td>돌아가신 분을 그리며 생각합니다.</td></tr>
           <tr><td class="hz">追悼</td><td>추도</td><td>돌아가신 분을 생각하며 슬퍼합니다.</td></tr>
@@ -1510,7 +1586,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 
     <div class="sec">
       <h2>종교가 다른 장례에 갔을 때</h2>
-      <p class="sec-lead">그 장례의 방식을 따르는 것이 예의입니다. 잘 모르겠으면 분향이나 헌화를 한 뒤 고개 숙여 묵념하면 어느 장례에서나 무난합니다. 기독교 장례에서는 절 대신 헌화와 묵념을 하는 경우가 많습니다.</p>
+      <p class="sec-lead">그 장례의 방식을 따르는 게 예의예요. 잘 모르겠으면 분향이나 헌화를 한 뒤 고개 숙여 묵념하시면 어디서나 무난해요. 기독교 장례에서는 절 대신 헌화와 묵념을 많이 해요.</p>
     </div>
   </div>
 </section>
@@ -1519,12 +1595,12 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 <section class="page" data-page="urn" aria-labelledby="h-urn" hidden>
   <div class="wrap">
     <div class="page-head has-ph">
-      <h1 id="h-urn">유골함,<br>모실 곳에 맞게 고르세요</h1>
-      <p>유골함은 한 번 모시면 오랜 시간 그 자리에 그대로 둡니다. 그래서 겉모습보다 속 구조와 모실 곳이 더 중요합니다. 일반함과 진공함이 무엇이 다른지, 어디에 어떤 함이 맞는지 정리했습니다.</p>
+      <h1 id="h-urn">유골함은<br>모실 곳에 맞춰 고르시면 돼요</h1>
+      <p>유골함은 한 번 모시면 오랫동안 그 자리에 그대로 둬요. 그래서 겉모습보다 속 구조와 모실 곳이 더 중요해요. 일반함과 진공함이 어떻게 다른지, 어디에 어떤 함이 맞는지 알려 드릴게요.</p>
       <figure class="ph"><img src="/assets/img/urn-900.webp" srcset="/assets/img/urn-480.webp 480w, /assets/img/urn-900.webp 900w" sizes="(max-width: 900px) 100vw, 440px" width="900" height="600" alt="흰 도자기 유골함과 국화 한 송이" fetchpriority="high" decoding="async"></figure>
     </div>
 
-    <h2 class="urn-h2">일반함과 진공함, 속이 다릅니다</h2>
+    <h2 class="urn-h2">일반함과 진공함은 속이 달라요</h2>
     <div class="grid2 urn-cmp">
       <div class="card pad urn-k">
         <svg class="urn-fig" viewBox="34 26 306 178" role="img" aria-label="일반함 단면. 함 하나에 뚜껑을 덮어 밀봉하고, 안에 공기가 남아 온도 차가 크면 물방울이 맺힐 수 있습니다.">
@@ -1541,8 +1617,8 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
           </svg>
         <h3>일반함 <small>한 겹으로 밀봉</small></h3>
         <dl class="urn-dl">
-          <div><dt>속 구조</dt><dd>함 하나에 뚜껑을 덮어 밀봉합니다.</dd></div>
-          <div><dt>습기</dt><dd>안에 공기가 남아, 계절에 따라 온도 차가 크면 안쪽에 물방울이 맺힐 수 있습니다.</dd></div>
+          <div><dt>속 구조</dt><dd>함 하나에 뚜껑을 덮어 밀봉해요.</dd></div>
+          <div><dt>습기</dt><dd>안에 공기가 남아서, 온도 차가 큰 계절에는 안쪽에 물방울이 맺힐 수 있어요.</dd></div>
           <div><dt>잘 맞는 곳</dt><dd>짧게 모시거나, 몇 해 뒤 다른 곳으로 옮길 계획일 때</dd></div>
         </dl>
       </div>
@@ -1563,41 +1639,41 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
           </svg>
         <h3>진공함 <small>속함을 한 번 더 · 공기를 빼고 밀봉</small></h3>
         <dl class="urn-dl">
-          <div><dt>속 구조</dt><dd>겉함 안에 속함을 한 번 더 넣고, 속함의 공기를 빼낸 뒤 밀봉합니다.</dd></div>
-          <div><dt>습기</dt><dd>습기가 머물 공기를 줄여, 오래 모셔도 결로와 곰팡이 걱정을 덜 수 있습니다.</dd></div>
+          <div><dt>속 구조</dt><dd>겉함 안에 속함을 한 번 더 넣고, 속함의 공기를 빼낸 뒤 밀봉해요.</dd></div>
+          <div><dt>습기</dt><dd>습기가 머물 공기를 줄여서, 오래 모셔도 물방울이나 곰팡이 걱정을 덜 수 있어요.</dd></div>
           <div><dt>잘 맞는 곳</dt><dd>봉안당에 오래 모실 때, 땅에 모시는 봉안묘 · 가족묘</dd></div>
         </dl>
       </div>
     </div>
-    <p class="urn-honest"><b>진공함이 꼭 필요한 것은 아닙니다.</b> 모실 곳과 기간을 먼저 정하시면, 거기에 맞는 함을 정직하게 권해 드립니다. 진공 방식은 만드는 곳마다 조금씩 달라, 상담 때 실물 사진과 함께 설명해 드립니다.</p>
+    <p class="urn-honest"><b>진공함이 꼭 필요한 건 아니에요.</b> 모실 곳과 기간을 먼저 정하시면 거기에 맞는 함을 권해 드릴게요. 진공 방식은 만드는 곳마다 조금씩 달라서, 상담 때 실물 사진을 보여 드리며 설명해 드려요.</p>
 
     <div class="sec">
       <h2>어디에 모시나요?</h2>
       <div class="grid2">
-        <div class="card case"><h3>봉안당 (납골당)</h3><ul class="list"><li>오래 모시는 곳이라 <b>진공함</b>을 권해 드립니다.</li><li>봉안당마다 <b>안치단 칸 크기</b>가 다릅니다. 계약하신 봉안당이나 칸 크기를 알려 주시면 들어가는 함인지 미리 확인해 드립니다.</li></ul></div>
-        <div class="card case"><h3>봉안묘 · 가족묘</h3><ul class="list"><li>땅에 모시면 물이 스며들 수 있어 <b>진공함</b>을 권해 드립니다.</li></ul></div>
-        <div class="card case"><h3>수목장 · 잔디장 (자연장)</h3><ul class="list"><li>자연장에 용기를 쓰실 때는 흙에서 분해되는 <b>생분해 용기</b>만 쓸 수 있습니다. 도자기 함은 쓰지 않습니다.</li><li>장지마다 모시는 방식이 달라 상담 때 함께 확인해 드립니다.</li></ul></div>
-        <div class="card case"><h3>해양장 · 아직 못 정하셨다면</h3><ul class="list"><li>해양장처럼 뿌려 모시면 오래 쓸 유골함은 필요 없습니다.</li><li>장지를 아직 못 정하셨다면 무료 장지 상담과 함께 맞는 함을 골라 드립니다.</li></ul></div>
+        <div class="card case"><h3>봉안당 (납골당)</h3><ul class="list"><li>오래 모시는 곳이라 <b>진공함</b>을 권해 드려요.</li><li>봉안당마다 <b>안치단 칸 크기</b>가 달라요. 계약하신 봉안당이나 칸 크기를 알려 주시면 들어가는 함인지 미리 확인해 드려요.</li></ul></div>
+        <div class="card case"><h3>봉안묘 · 가족묘</h3><ul class="list"><li>땅에 모시면 물이 스며들 수 있어서 <b>진공함</b>을 권해 드려요.</li></ul></div>
+        <div class="card case"><h3>수목장 · 잔디장 (자연장)</h3><ul class="list"><li>자연장에 용기를 쓰실 때는 흙에서 분해되는 <b>생분해 용기</b>만 쓸 수 있어요. 도자기 함은 쓰지 않아요.</li><li>장지마다 모시는 방식이 달라서 상담 때 함께 확인해 드려요.</li></ul></div>
+        <div class="card case"><h3>해양장 · 아직 못 정하셨다면</h3><ul class="list"><li>해양장처럼 뿌려 모시면 오래 쓸 유골함은 필요 없어요.</li><li>장지를 아직 못 정하셨다면 무료 장지 상담과 함께 맞는 함을 골라 드려요.</li></ul></div>
       </div>
     </div>
 
     <div class="sec">
       <h2>유골함 비용</h2>
-      <p class="sec-lead">유골함은 무빈소 · 가족장 기본 금액에 들어 있지 않은 <b>별도 항목</b>입니다. 비용 계산 견적에도 합계에 넣지 않고 「별도」로 적어 드립니다. 고르신 함 금액은 다른 비용과 함께 장례를 마친 뒤 정산합니다.</p>
+      <p class="sec-lead">유골함은 장례 기본 금액에 들어 있지 않은 <b>별도 항목</b>이에요. 비용 계산 견적에서도 합계에 넣지 않고 「별도」로 적어 드려요. 고르신 함 금액은 다른 비용과 함께 장례를 마친 뒤 정산해요.</p>
       <div class="grid3">
-        <div class="card pad"><span class="price-from">40~400<small>만원 · 별도</small></span><p class="muted" style="margin-top:8px">종류와 재질에 따라 금액이 다양합니다. 상담 때 실물 사진으로 보여 드리고, 모실 곳에 맞는 함을 함께 고릅니다.</p></div>
-        <div class="card pad"><b style="font-size:18px">미리 정해 두셔도 됩니다</b><p class="muted" style="margin-top:8px">사전 상담 때 골라 두시면 그날 따로 고민하지 않으셔도 됩니다. 미리 내는 돈은 없습니다.</p></div>
-        <div class="card pad"><b style="font-size:18px">준비해 두신 함이 있다면</b><p class="muted" style="margin-top:8px">이미 마련해 두신 유골함이 있으면 그 함으로 모셔 드립니다.</p></div>
+        <div class="card pad"><span class="price-from">40~400<small>만원 · 별도</small></span><p class="muted" style="margin-top:8px">종류와 재질에 따라 금액이 다양해요. 상담 때 실물 사진을 보여 드리고, 모실 곳에 맞는 함을 함께 골라요.</p></div>
+        <div class="card pad"><b style="font-size:18px">미리 정해 두셔도 돼요</b><p class="muted" style="margin-top:8px">사전 상담 때 골라 두시면 그날 따로 고민하지 않으셔도 돼요. 미리 내실 돈은 없어요.</p></div>
+        <div class="card pad"><b style="font-size:18px">준비해 두신 함이 있다면</b><p class="muted" style="margin-top:8px">이미 마련해 두신 유골함이 있으면 그 함으로 모셔 드려요.</p></div>
       </div>
       <div class="actions"><a class="btn btn-primary" href="#price">장례 비용 계산하기</a><a class="btn btn-line" href="tel:16614214">1661-4214 전화</a></div>
     </div>
 
     <div class="sec">
-      <h2>유골함, 이것이 궁금합니다</h2>
+      <h2>유골함, 많이 물어보시는 것</h2>
       <div>
-        <details class="faq"><summary>진공함이면 오래도록 그대로인가요?</summary><div class="faq-a">공기와 습기를 크게 줄여 주지만, 모신 곳의 환경과 세월에 따라 달라질 수 있습니다. 그래서 “영구 보존” 같은 말은 쓰지 않습니다. 오래 모실수록 일반함보다 진공함이 유리합니다.</div></details>
-        <details class="faq"><summary>봉안당 칸에 함이 안 들어가면 어떡하나요?</summary><div class="faq-a">봉안당마다 안치단 크기가 다릅니다. 계약하신 봉안당 이름이나 칸 크기를 알려 주시면, 들어가는 함인지 미리 확인해 드립니다.</div></details>
-        <details class="faq"><summary>부부를 한 함에 모실 수 있나요?</summary><div class="faq-a">부부를 한 함에 모시는 합골을 받는 봉안당이 있습니다. 시설마다 규정이 달라 상담 때 함께 확인해 드립니다.</div></details>
+        <details class="faq"><summary>진공함이면 오래도록 그대로인가요?</summary><div class="faq-a">공기와 습기를 크게 줄여 주지만, 모신 곳의 환경과 세월에 따라 달라질 수 있어요. 그래서 저희는 “영구 보존” 같은 말은 쓰지 않아요. 다만 오래 모실수록 일반함보다 진공함이 나은 건 맞아요.</div></details>
+        <details class="faq"><summary>봉안당 칸에 함이 안 들어가면 어떡하나요?</summary><div class="faq-a">봉안당마다 안치단 크기가 달라요. 계약하신 봉안당 이름이나 칸 크기를 알려 주시면, 들어가는 함인지 미리 확인해 드려요.</div></details>
+        <details class="faq"><summary>부부를 한 함에 모실 수 있나요?</summary><div class="faq-a">부부를 한 함에 모시는 합골을 받아 주는 봉안당이 있어요. 시설마다 규정이 달라서 상담 때 함께 확인해 드려요.</div></details>
       </div>
     </div>
   </div>
@@ -1611,7 +1687,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <p>저렴한 장례가 아닙니다. 합리적 간소화입니다.<br>후불제 상조, 100% 직영 장례지도사<br>사업자등록번호 180-92-00747</p>
     </div>
     <div>대표번호 <b>1661-4214</b><br>장례 접수 · 상담 · 긴급 출동<br>365일 24시간 연중무휴 (주말 · 공휴일 포함)<br>카카오톡 채널 <a class="ft-talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener">@나만의장례</a></div>
-    <div>www.myfuneral.co.kr<br>입력하신 내용은 어디에도 저장되지 않습니다.</div>
+    <div>www.myfuneral.co.kr<br>적으신 내용은 어디에도 저장되지 않아요.</div>
   </div>
 </footer>
 
@@ -1648,10 +1724,10 @@ async function saveFile(filename,data,okMsg){
   const dl=await getDownloads();
   if(!dl){ toast('이 화면에서는 파일 저장을 쓸 수 없어요'); return false; }
   try{ const r=await dl.save({filename,data}); if(r&&r.status==='delivered'){return true;} toast(okMsg); return true; }
-  catch(err){ const c=err&&err.code; toast(c==='declined'?'저장을 취소했습니다':c==='rate_limited'?'저장 창이 이미 열려 있어요':'파일을 저장하지 못했습니다'); return false; }
+  catch(err){ const c=err&&err.code; toast(c==='declined'?'저장을 취소했어요':c==='rate_limited'?'저장 창이 이미 열려 있어요':'파일을 저장하지 못했어요'); return false; }
 }
 document.addEventListener('click',e=>{
-  const c=e.target.closest('[data-copy]'); if(c){ copyText(c.getAttribute('data-copy'),'전화번호를 복사했습니다'); }
+  const c=e.target.closest('[data-copy]'); if(c){ copyText(c.getAttribute('data-copy'),'전화번호를 복사했어요'); }
   const g=e.target.closest('[data-goto-tab]'); if(g){ PS.tab=g.getAttribute('data-goto-tab'); }
 });
 
@@ -1667,7 +1743,7 @@ function route(){
   window.scrollTo(0,0);
   if(p==='print') renderPrint();
   if(p==='chon') renderChonAll(true);
-  if(p==='price') renderWizard(false);
+  if(p==='price') renderPrice();
   if(p==='clan') renderClanPage();
   if(p==='date') renderDate();
 }
@@ -2360,7 +2436,7 @@ function dtDraw(){
   return c; }
 function dtFileName(){ const nm=dtName(); return (nm?'故'+nm+'_장례일정':'나만의장례_날짜안내')+'.png'; }
 function dtMakeBlob(){ return Promise.all([ensureFonts('故님장례제사일정안내날짜돌아가신날발인삼우제49재100일첫기일두번째음력주기소상대상담당지도사나만의장례24시간0123456789년월일()·월화수목금토일카카오톡절이나집안에따라세는법이조금다를수있습니다기준소규모가족장무빈소장전문'+dtName()+dtDirs().map(d=>d.n+d.t).join('')),logoReady]).then(()=>new Promise(r=>dtDraw().toBlob(b=>{ dtBlob=b; r(b); },'image/png'))); }
-function dtSaveImg(){ dtMakeBlob().then(b=>{ if(b) saveFile(dtFileName(),b,'날짜 안내 이미지를 저장했습니다'); else toast('이미지를 만들지 못했습니다'); }); }
+function dtSaveImg(){ dtMakeBlob().then(b=>{ if(b) saveFile(dtFileName(),b,'날짜 안내 이미지를 저장했습니다'); else toast('이미지를 만들지 못했어요'); }); }
 function dtShare(){
   const go=b=>{ const f=new File([b],dtFileName(),{type:'image/png'}); navigator.share({files:[f],title:'장례 · 제사 날짜 안내'}).catch(e=>{ if(e&&e.name!=='AbortError') dtSaveImg(); }); };
   if(dtBlob) go(dtBlob); else dtMakeBlob().then(b=>{ if(b) go(b); }).catch(()=>dtSaveImg()); }
@@ -2399,67 +2475,229 @@ function renderClanPage(){
   $$('#sur-index button').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute('data-sur')===clanSur&&!q)));
 }
 
-/* ── 금액 계산 : 한 번에 한 가지씩 ── */
-const PRICE={
-  type:[['nob','무빈소 장례',60,'빈소 없이 가족끼리 조용히 마지막 인사를 나누는 장례예요. 조문객을 맞지 않으니 빈소 사용료와 접객 비용이 들지 않아요.'],
-        ['fam','가족장 (3일장)',70,'가족과 가까운 친지분들이 모여, 사흘 동안 고인 곁에서 함께 배웅하는 장례예요. 전담 장례지도사가 사흘 내내 곁에서 도와 드려요.'],
-        ['gen','일반장 (3일장)',70,'직장 동료와 지인분들까지 함께 배웅하는 장례예요. 기본 금액은 가족장과 같고, 헌화와 도우미, 장의 차량은 조문객 수에 맞춰 고르시면 돼요.']],
-  burial:[['cre','화장',0,'화장장에서 화장한 뒤 봉안당 · 수목장 · 해양장 같은 곳에 모십니다. 요즘 가장 많이 하는 방식입니다.'],
-          ['bur','매장',0,'관을 그대로 묘지에 모십니다. 선산이나 공원묘지가 있을 때 합니다.'],
-          ['und','아직 정하지 못했어요',0,'관을 고를 때 화장용과 매장용을 모두 보여 드립니다. 상담하면서 정하셔도 됩니다.']],
-  coffin:[['c1','화장용 오동나무',20,'오동나무는 가볍고 습기에 강한 나무입니다. 화장용은 약 1.8cm(6푼) 두께로 얇게 만들어 잘 타기 때문에, 화장할 때 가장 많이 씁니다.'],
-          ['c2','화장용 오동나무 (특수관)',30,'같은 오동나무 화장용 관 가운데 한 단계 높은 관입니다. 기본 관과 무엇이 다른지는 상담 때 실물 사진으로 보여 드립니다.'],
-          ['c3','매장용 오동나무',30,'땅속에서 습기와 벌레로부터 고인을 지키도록 화장용보다 두껍고 튼튼하게 만든 오동나무 관입니다. 가볍고 값이 합리적입니다.'],
-          ['c4','매장용 솔송관',80,'솔송나무는 소나무과에 속하는 바늘잎나무입니다. 단단하고 잘 썩지 않아 주로 매장할 때 쓰는 고급 관이며, 무게가 꽤 나갑니다.'],
-          ['c5','매장용 향나무관',160,'향나무는 아주 단단하고 은은한 향이 나는 나무입니다. 향이 벌레를 막아 준다고 알려져 있어, 매장용 관 가운데 가장 귀하게 여깁니다.']],
-  shroud:[['s1','면수의',15,'무명(면)으로 지은 수의입니다. 부드럽고 부담이 가장 적어 기본 수의로 많이 씁니다.'],
-          ['s2','저마수의',20,'저마는 모시풀에서 얻는 모시입니다. 예부터 여름 옷감으로 쓰였고, 가볍고 시원한 결이 특징입니다. 예전에는 귀한 옷감이었습니다.'],
-          ['s3','황토수의',30,'황토로 물들인 옷감으로 지은 수의입니다. 은은한 흙빛이 나는 자연 소재입니다.'],
-          ['s4','쟈가드수의',50,'자카드 직기로 무늬를 넣어 짠 옷감으로 지은 수의입니다. 은은한 무늬와 광택이 있어 단정하고 품위 있게 보입니다.'],
-          ['s5','대마수의',60,'대마(삼)에서 얻은 삼베로 지은 수의입니다. 바람이 잘 통하고 흙에서 자연으로 돌아가는 소재라, 오늘날 수의를 대표하는 옷감입니다.']],
-  ipgwan:[['none','하지 않음',0,'하지 않으셔도 염습과 입관의 예우는 똑같이 갖춥니다.'],
-          ['i1','생화 꽃장식',20,'관 안쪽을 곱고 화사한 생화로 가득 채워 꽃침대를 만들어 드려요. 고인께서 꽃 속에 편히 누우신 모습으로, 가족분들과 마지막 인사를 나누실 수 있어요.'],
-          ['i2','궁중대렴',20,'대렴은 수의를 입힌 고인을 베로 감싸 묶는 염습 절차입니다. 궁중대렴은 이를 왕실 예법처럼 더 정성껏 갖춰 하는 방식입니다.'],
-          ['i3','생화 꽃장식 + 궁중대렴',30,'두 가지를 함께 하시면 따로 하실 때보다 저렴해요.']],
-  binso:[['none','하지 않음',0,'헌화 없이 분향만 하셔도 됩니다.'],
-         ['b1','헌화 30송이',5,'조문객이 영정 앞에 한 송이씩 올리는 꽃입니다. 조문객이 많지 않을 때 알맞습니다.'],
-         ['b2','헌화 50송이',7,'조문객이 많을 것 같을 때 고르세요.']],
-  car:[['none','필요 없음',0,'화장장 안에 있는 장례식장을 이용하실 때만 장의 차량이 필요 없습니다. 다른 장례식장에서 발인하시면 장의 차량이 꼭 필요합니다.'],
-       ['v1','카니발 · 스타리아',30,'무빈소나 소규모 가족장에 자주 씁니다. 차에 함께 타실 가족이 많지 않을 때 알맞습니다.'],
-       ['v2','리무진 (편도)',40,'고인을 모시고 1차 장지 또는 화장장까지 가는 편도입니다. 기준 거리 200km.'],
-       ['v3','장의버스 (왕복)',40,'가족과 조문객이 함께 타고 다녀오는 왕복입니다. 기준 거리 200km.'],
-       ['v4','리무진 (편도) + 장의버스 (왕복)',80,'리무진은 1차 장지 또는 화장장까지 편도, 장의버스는 왕복입니다.']],
-  urn:[['u1','나만의장례에서 준비할게요',0,'모실 곳(봉안당 · 묘 · 자연장)에 맞는 함을 상담 때 실물 사진을 보며 함께 골라요. 아직 정하지 못하셨어도 괜찮아요.'],
-       ['own','따로 준비했어요',0,'이미 마련해 두신 유골함이 있으면 그 함으로 모셔 드려요.'],
-       ['none','필요 없어요',0,'해양장처럼 뿌려 모시거나, 장지에서 정해 준 용기를 쓰실 때예요.']],
-  disc:[['gen','일반',0,'가격표 금액 그대로입니다.'],['sup','수급자 · 국가유공자',-20,'기초생활수급자나 국가유공자 가족이시면 20만원을 할인해 드립니다. 장제급여 등 지원금 범위 안에서 장례를 설계하고, 청구 서류도 챙겨 드립니다.']]
+/* ── 비용 계산 : 상품을 고르고, 쓰지 않을 것만 빼기 (2026-11-01 사용자 결정 · 예전 단계별 계산기를 바꿈) ──
+   가격 단위는 만원. 세 상품 구성은 이 표 하나에서 나온다 → 바꾸면 build.py META['price'] 검색 설명 · 영수증 파일 PRICE도 같이.
+   줄 = [키, 구분(견적용), 이름, 작은 글, 상품 금액, 뺄 수 있음, 견적에 쓸 이름] · 모두 화장 기준, 매장이면 관만 매장용 오동나무관 30 */
+const DX_TYPES={
+  nob:{name:'무빈소장',tag:'빈소 없이 가족끼리',desc:'빈소 없이 가족끼리 조용히 마지막 인사를 나누는 장례예요. 전국 어디서나 정성껏 모셔 드려요.'},
+  fam:{name:'가족장',tag:'가족 · 가까운 친지와 함께',desc:'가족과 가까운 친지분들이 모여, 사흘 동안 고인 곁에서 함께 배웅하는 장례예요.'},
+  gen:{name:'일반장',tag:'조문객이 많은 장례',desc:'직장 동료와 지인분들까지 함께 배웅하는 장례예요. 조문객이 많아도 가족분들이 고인 곁을 지키실 수 있게 넉넉히 준비해 드려요.'}
 };
-const COFFIN_FOR={cre:['c1','c2'],bur:['c3','c4','c5'],und:['c1','c2','c3','c4','c5']};
-const coffinOpts=()=>PRICE.coffin.filter(o=>(COFFIN_FOR[PR.burial]||COFFIN_FOR.und).indexOf(o[0])>=0);
-/* ── 상품 (2026-10-24) : 관 · 수의 · 입관은 세 상품 같음(오동나무관 · 면수의 · 꽃장식, 수의는 사용자 지시), 차량 · 도우미 · 상복은 규모에 맞춤 · 모두 화장 기준 · 유골함 별도 ──
-   화면의 상품 카드(.pkg) 금액 · 목록과 반드시 같게 고친다. */
-const PKG={
-  nob:{name:'무빈소장',set:{type:'nob',burial:'cre',coffin:'c1',shroud:'s1',ipgwan:'i1',binso:'none',car:'v2',urn:'u1',staff1:0,staff2:0,mm:0,mf:0}},
-  fam:{name:'가족장',set:{type:'fam',burial:'cre',coffin:'c1',shroud:'s1',ipgwan:'i1',binso:'b1',car:'v2',urn:'u1',staff1:1,staff2:1,mm:2,mf:2}},
-  gen:{name:'일반장',set:{type:'gen',burial:'cre',coffin:'c1',shroud:'s1',ipgwan:'i1',binso:'b2',car:'v4',urn:'u1',staff1:2,staff2:2,mm:4,mf:4}}
+const DX_COFFIN={cre:['화장용 오동나무관',20],bur:['매장용 오동나무관',30]};
+const DX_LINES={
+  nob:[['svc','장례 형태','무빈소 장례 기본','장례지도사 · 입관지도사 · 입관용품',60,false,'무빈소 장례'],
+       ['coffin','관'],['shroud','수의','면수의','',15,false],
+       ['ipgwan','입관','입관 생화 꽃장식','관 안쪽을 생화로 채운 꽃침대',20,true,'생화 꽃장식'],
+       ['car','장의 차량','장의 차량 리무진 (편도)','1차 장지 또는 화장장까지',40,false,'리무진 (편도)']],
+  fam:[['svc','장례 형태','가족장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'가족장 (3일장)'],
+       ['coffin','관'],['shroud','수의','면수의','',15,false],
+       ['ipgwan','입관','입관 생화 꽃장식','관 안쪽을 생화로 채운 꽃침대',20,true,'생화 꽃장식'],
+       ['binso','빈소 헌화','빈소 헌화 30송이','조문객이 영정 앞에 올리는 꽃',5,true,'30송이'],
+       ['car','장의 차량','장의 차량 리무진 (편도)','1차 장지 또는 화장장까지',40,false,'리무진 (편도)'],
+       ['staff','접객 도우미','접객 도우미','1인 12만원',24,true],
+       ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',16,true]],
+  gen:[['svc','장례 형태','일반장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'일반장 (3일장)'],
+       ['coffin','관'],['shroud','수의','면수의','',15,false],
+       ['ipgwan','입관','입관 생화 꽃장식','관 안쪽을 생화로 채운 꽃침대',20,true,'생화 꽃장식'],
+       ['binso','빈소 헌화','빈소 헌화 50송이','조문객이 영정 앞에 올리는 꽃',7,true,'50송이'],
+       ['car','장의 차량','장의 차량 리무진 (편도)','1차 장지 또는 화장장까지',40,true,'리무진 (편도)'],
+       ['bus','장의 차량','장의버스 (왕복)','가족 · 조문객이 함께 타고 다녀와요',40,true,'장의버스 (왕복)'],
+       ['staff','접객 도우미','접객 도우미','1인 12만원',48,true],
+       ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',32,true]]
 };
-const PKG_KEYS=['type','burial','coffin','shroud','ipgwan','binso','car','staff1','staff2','mm','mf'];
-/* 지금 고른 것이 상품 구성 그대로면 그 상품 이름 (할인 · 유골함은 상관없음) */
-function pkgOf(){ for(const k in PKG){ const st=PKG[k].set; if(PKG_KEYS.every(f=>PR[f]===st[f])) return k; } return ''; }
-function toWiz(){ const el=$('#calc')||$('.wiz'); if(!el) return; const tp=$('.top'); const off=(tp?Math.max(0,tp.getBoundingClientRect().bottom):0)+12;
-  window.scrollTo({top:Math.max(0,el.getBoundingClientRect().top+window.scrollY-off),behavior:RM?'auto':'smooth'}); }
-function wzFocusQ(){ const h=$('#wz-stage .wz-q'); if(h) try{ h.focus({preventScroll:true}); }catch(e){} }
-function pkgGo(k){ const P=PKG[k]; if(!P||WZ_BUSY) return; toWiz();
-  wzLeave(1,()=>{ Object.assign(PR,PR_DEF,P.set,{nm:PR.nm,ch:PR.ch,cp:PR.cp,cpd:PR.cpd}); WK='done'; WDIR='next'; renderWizard(false); wzFocusQ(); }); }
-function pkgOwn(e){ if(e) e.preventDefault(); if(WZ_BUSY) return; toWiz();
-  if(WK==='done'&&pkgOf()) wzLeave(-1,()=>{ Object.assign(PR,PR_DEF,{nm:PR.nm,ch:PR.ch,cp:PR.cp,cpd:PR.cpd}); WK='type'; WDIR='prev'; renderWizard(false); wzFocusQ(); });
-  else wzFocusQ(); }
-const PR_DEF={type:null,burial:null,coffin:null,shroud:null,ipgwan:'none',binso:'none',car:null,urn:null,disc:'gen',staff1:0,staff2:0,mm:0,mf:0,nm:'',ch:false,cp:'',cpd:''};
-/* 견적에 넣을 이름 (선택 · 화면에만 기억, 저장하지 않음) */
+/* 인원 · 벌 수를 정하는 줄 : 상품에 들어 있는 수가 처음 값, 0이 되면 뺀 것으로 */
+const DX_CNT={
+  staff:{unit:'명',max:6,price:[12,12],rows:['첫째 날','둘째 날'],note:'4일장 이상은 현장에서 상담해 드려요.',base:{fam:[1,1],gen:[2,2]}},
+  mourn:{unit:'벌',max:10,price:[5,3],rows:['남성용','여성용'],note:'남성용에는 셔츠 · 타이가 함께 있어요. 갖고 계신 분은 빼고 세어 주세요.',base:{fam:[2,2],gen:[4,4]}}
+};
+/* 빼면 열리는 정직한 한 줄 */
+const DX_HONEST={
+  ipgwan:'꽃장식을 하지 않으셔도 염습과 입관은 <b>똑같이</b> 해 드려요.',
+  binso:'헌화 없이 분향만 하셔도 괜찮아요.',
+  staff:'조문객이 많지 않으면 가족분들이 직접 맞으셔도 괜찮아요.',
+  mourn:'갖고 계신 검은 옷으로 대신하셔도 괜찮아요.',
+  car:'리무진을 빼셔도 장의버스에 고인을 모시고 함께 가실 수 있어요.',
+  bus:'가족분들은 자가용으로 함께 이동하셔도 괜찮아요.'
+};
+const DX_PAIR={car:'bus',bus:'car'};   /* 일반장 : 리무진 · 장의버스는 하나씩 뺄 수 있지만 차량 하나는 꼭 남는다 */
+const DX={type:null,burial:'cre',off:{},disc:false,cnt:{}};
+const PR={nm:'',ch:false,cp:'',cpd:''};   /* 견적에 넣을 성함 · 할인권 (화면에만 있고 저장하지 않음) */
+const DX_EASE='cubic-bezier(0.19,1,0.22,1)';
+const won=n=>n.toLocaleString('ko-KR')+'원';
+const dWon=v=>(v<0?'−':'')+Math.abs(v*10000).toLocaleString('ko-KR')+'원';   /* v : 만원 */
+const dMan=v=>(v<0?'−':'')+Math.abs(v).toLocaleString('ko-KR')+'만원';
+const dSMan=v=>(v>0?'+':v<0?'−':'')+Math.abs(v).toLocaleString('ko-KR')+'만원';
+const dSWon=v=>(v>0?'+':'')+dWon(v);
+const dEsc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const dNb=t=>dEsc(t).replace(/ · /g,'&nbsp;· ');   /* 가운뎃점이 줄 맨 앞에 오지 않게 */
+const dxLocked=k=>DX.type==='gen'&&!!DX_PAIR[k]&&!DX.off[k]&&!!DX.off[DX_PAIR[k]];
+function dxLines(t,bur){ t=t||DX.type; bur=bur||DX.burial;
+  return DX_LINES[t].map(l=>l[0]==='coffin'?['coffin','관',DX_COFFIN[bur][0],'',DX_COFFIN[bur][1],false]:l); }
+const dxTotal=(t,bur)=>dxLines(t,bur).reduce((a,l)=>a+l[4],0);
+const dxBaseCnt=k=>DX_CNT[k].base[DX.type].slice();
+function dxNow(l){ const k=l[0]; if(!DX_CNT[k]) return l[4]; const v=DX.cnt[k], p=DX_CNT[k].price; return v[0]*p[0]+v[1]*p[1]; }
+function dxCntText(k,v){ const c=DX_CNT[k]; v=v||DX.cnt[k];
+  return c.rows.map((r,i)=>v[i]?r+' '+v[i]+c.unit:'').filter(Boolean).join(' · ')||'0'+c.unit; }
+/* B 상품 금액 · R 빼신 것 · C 인원 · 벌 수로 달라진 금액 · D 할인 · T 합계 · min 다 뺐을 때 */
+function dxCalc(){
+  const L=dxLines(); let B=0,R=0,C=0,cut=0;
+  L.forEach(l=>{ const k=l[0]; B+=l[4];
+    if(DX.off[k]){ R+=l[4]; return; }
+    const n=dxNow(l); C+=n-l[4];
+    if(l[5]&&!dxLocked(k)) cut+=n; });
+  if(DX.type==='gen'&&!DX.off.car&&!DX.off.bus) cut-=40;
+  const D=DX.disc?20:0, T=B-R+C-D; return {B,R,C,D,T,min:T-cut};
+}
+
+/* ── 상품 구성 그리기 ── */
+function dxCntHTML(k){
+  const c=DX_CNT[k];
+  return '<div class="pl-cnt" role="group" aria-label="'+(k==='staff'?'접객 도우미 인원':'상복 벌 수')+'">'+
+    c.rows.map((r,i)=>'<div class="pl-st"><span class="l">'+r+'<small>1'+c.unit+' '+c.price[i]+'만원</small></span>'+
+      '<span class="dx-step"><button type="button" data-cnt="'+k+':'+i+':-1" aria-label="'+r+' 하나 줄이기">−</button>'+
+      '<output id="o-'+k+i+'" aria-live="polite"></output>'+
+      '<button type="button" data-cnt="'+k+':'+i+':1" aria-label="'+r+' 하나 늘리기">+</button></span></div>').join('')+
+    '<p class="pl-diff" id="d-'+k+'"></p><p class="pl-cnote">'+dEsc(c.note)+'</p>'+
+  '</div>';
+}
+function dxRowHTML(l){
+  const k=l[0], nm=l[2], sub=l[3], p=l[4], rm=l[5];
+  return '<li class="pl-row'+(DX_CNT[k]?' has-cnt':'')+'" id="pl-'+k+'">'+
+    '<span class="pl-t"><span class="pl-tt">'+dNb(nm)+'</span></span>'+(sub?'<small class="pl-s">'+dNb(sub)+'</small>':'')+
+    '<span class="pl-amt">'+dMan(p)+'</span>'+
+    '<span class="pl-act">'+(rm?'<button type="button" class="pl-btn" data-off="'+k+'" aria-pressed="false" aria-label="'+dEsc(nm)+' 빼기">빼기</button>':'')+'</span>'+
+    (DX_CNT[k]?dxCntHTML(k):'')+
+    (rm&&DX_HONEST[k]?'<div class="dx-fold"><div><p class="pl-honest">'+DX_HONEST[k]+'</p></div></div>':'')+
+  '</li>';
+}
+function dxBuild(){
+  const t=DX_TYPES[DX.type], L=dxLines();
+  $('#dx-prod').innerHTML=
+    '<p class="dx-prod-tag">'+dEsc(t.tag)+'</p>'+
+    '<div class="dx-prod-hd"><h3 class="dx-prod-name" id="dx-prod-name">'+t.name+'</h3><p class="dx-prod-price"><b>'+(dxTotal()*10000).toLocaleString('ko-KR')+'</b>원</p></div>'+
+    '<p class="dx-prod-desc">'+dEsc(t.desc)+'</p>'+
+    '<div class="pl-h"><b>상품 구성</b><small>필요 없는 건 빼 주세요</small></div>'+
+    '<ul class="pl">'+L.map(dxRowHTML).join('')+
+      '<li class="pl-row free"><span class="pl-t"><span class="pl-tt">무료로 해 드리는 것</span></span><small class="pl-s">고인 이송 차량&nbsp;· 모바일 부고&nbsp;· 장지 안내&nbsp;· 화장 예약</small><span class="pl-amt free">무료</span><span class="pl-act"></span></li>'+
+    '</ul>'+
+    '<p class="pl-note">'+(DX.type==='gen'?'장례 기본, 관, 수의는 꼭 있어야 해서 뺄 수 없어요. 리무진과 장의버스는 둘 중 하나만 빼실 수 있어요.':'장례 기본, 관, 수의, 장의 차량은 꼭 있어야 해서 뺄 수 없어요.')+(DX.type!=='nob'?' 도우미 인원과 상복 벌 수는 + − 로 맞추시면 돼요.':'')+'</p>';
+  L.forEach(l=>dxUpdRow(l[0],true));
+}
+function dxUpdRow(k,init){
+  const r=$('#pl-'+k); if(!r) return;
+  const l=dxLines().find(x=>x[0]===k), off=!!DX.off[k];
+  r.classList.toggle('off',off);
+  const a=$('.pl-amt',r), prev=a.innerHTML;
+  a.innerHTML=off?'<span class="minus">'+dMan(-l[4])+'</span>':dMan(dxNow(l));
+  if(!init&&prev!==a.innerHTML&&!RM&&a.animate) a.animate([{opacity:0,transform:'translate3d(0,-6px,0)'},{opacity:1,transform:'none'}],{duration:380,easing:DX_EASE});
+  const lk=dxLocked(k);
+  const b=$('[data-off]',r); if(b){ b.textContent=off?'다시 넣기':'빼기'; b.setAttribute('aria-pressed',off); b.setAttribute('aria-label',l[2]+(off?' 다시 넣기':' 빼기')); b.disabled=lk; }
+  const sb=$('.pl-s',r); if(sb&&DX_PAIR[k]&&DX.type==='gen') sb.innerHTML=lk?'차량은 하나는 꼭 있어야 해요':dNb(l[3]);
+  if(DX_CNT[k]){ const c=DX_CNT[k], v=DX.cnt[k];
+    v.forEach((n,i)=>{ $('#o-'+k+i).textContent=n+c.unit;
+      $('[data-cnt="'+k+':'+i+':-1"]',r).disabled=n<=0; $('[data-cnt="'+k+':'+i+':1"]',r).disabled=n>=c.max; });
+    const d=dxNow(l)-l[4], bt=dxCntText(k,dxBaseCnt(k)), same=String(v)===String(dxBaseCnt(k));
+    $('#d-'+k).innerHTML=same?'상품 구성 그대로예요':d?'상품 구성('+dNb(bt)+')보다 <b>'+dSMan(d)+'</b>':'상품 구성('+dNb(bt)+')과 금액이 같아요'; }
+  const f=$('.dx-fold',r); if(f) f.classList.toggle('open',off);
+}
+function dxUpdTypePrices(){ Object.keys(DX_TYPES).forEach(t=>{ const el=$('[data-tp="'+t+'"]'); if(el) el.innerHTML=dxTotal(t)+'<small>만원</small>'; }); }
+
+/* ── 합계 : 숫자가 부드럽게 바뀜 ── */
+const DX_TW=new WeakMap();
+function dxTween(el,to,fmt){
+  const from=DX_TW.has(el)?DX_TW.get(el):to; DX_TW.set(el,to);
+  if(RM||from===to||!window.requestAnimationFrame){ el.innerHTML=fmt(to); return; }
+  const t0=performance.now(), dur=560, tok={}; el._tok=tok;
+  const step=now=>{ if(el._tok!==tok) return; const p=Math.min(1,(now-t0)/dur), e=p===1?1:1-Math.pow(2,-10*p); el.innerHTML=fmt(Math.round(from+(to-from)*e)); if(p<1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
+}
+function dxCalcRows(c,name){
+  return '<div><dt>'+name+' 상품</dt><dd>'+dWon(c.B)+'</dd></div>'+
+    (c.R?'<div><dt>빼신 것</dt><dd>'+dWon(-c.R)+'</dd></div>':'')+
+    (c.C?'<div><dt>인원 · 벌 수 바꾸심</dt><dd>'+dSWon(c.C)+'</dd></div>':'')+
+    (c.D?'<div><dt>수급자 · 국가유공자 할인</dt><dd>'+dWon(-c.D)+'</dd></div>':'');
+}
+function dxUpdSum(){
+  if(!DX.type) return;
+  const c=dxCalc(), T=DX_TYPES[DX.type], cut=c.B-c.T;
+  $('#dx-sum').classList.remove('idle');
+  $('#dx-sum-k').textContent=T.name+' 예상 합계';
+  dxTween($('#dx-sum-v'),c.T,v=>(v*10000).toLocaleString('ko-KR'));
+  $('#dx-calc').innerHTML=dxCalcRows(c,T.name);
+  $('#dx-saved').textContent=cut>0?T.name+' 상품에서 '+dMan(cut)+' 덜었어요':cut<0?T.name+' 상품보다 '+dMan(-cut)+' 늘었어요':T.name+' 상품 그대로예요';
+  $('#dx-min').textContent=c.min<c.T?'뺄 수 있는 걸 다 빼시면 '+dMan(c.min)+'이에요.':'';
+  $('#dx-sum-note').innerHTML='첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.<br>장례식장, 화장장, 장지 비용과 유골함은 따로예요.';
+  $$('[data-est]').forEach(b=>b.disabled=false);
+  $('#dx-bar-s').textContent=T.name+(cut>0?' · '+dMan(cut)+' 덜었어요':cut<0?' · 상품보다 '+dMan(-cut)+' 늘었어요':' 상품 그대로');
+  dxTween($('#dx-bar-v'),c.T,v=>v.toLocaleString('ko-KR')+'<small>만원</small>');
+  $('#dx-live').textContent=T.name+' 예상 합계 '+dWon(c.T);
+}
+
+/* ── 움직임 ── */
+function dxReveal(el){ if(RM||!el.animate) return; el.animate([{opacity:0,transform:'translate3d(0,22px,0)'},{opacity:1,transform:'none'}],{duration:620,easing:DX_EASE}); }
+function dxY(el,gap){ const tp=$('.top'); const off=(tp?Math.max(0,tp.getBoundingClientRect().bottom):0)+(gap||12); return Math.max(0,el.getBoundingClientRect().top+window.scrollY-off); }
+/* 휴대폰 합계 줄 : 상품을 고른 뒤, 계산 화면이 보일 때만 (아래 안내 글을 읽을 때는 숨김) */
+let DX_SEEN=true;
+function dxBar(){ const bar=$('#dx-bar'); if(!bar) return; const on=!!DX.type&&DX_SEEN&&$('#dx-est-view').hidden;
+  bar.classList.toggle('hide',!on); if(on) bar.removeAttribute('inert'); else bar.setAttribute('inert',''); }
+
+/* ── 고르기 · 빼기 · 인원 ── */
+function dxResetCnt(){ DX.cnt={}; Object.keys(DX_CNT).forEach(k=>{ if(DX_CNT[k].base[DX.type]) DX.cnt[k]=dxBaseCnt(k); }); }
+function dxSetType(t,quiet){
+  if(!DX_TYPES[t]||DX.type===t) return;
+  const first=!DX.type;
+  const had=Object.keys(DX.off).some(k=>DX.off[k])||Object.keys(DX.cnt).some(k=>String(DX.cnt[k])!==String(DX_CNT[k].base[DX.type]||''));
+  DX.type=t; DX.off={}; dxResetCnt(); PR.cp=''; PR.cpd=''; PR.ch=false;
+  $$('.dx-type').forEach(b=>{ const on=b.dataset.type===t; b.setAttribute('aria-checked',on); b.tabIndex=on?0:-1; });
+  const s2=$('#dx-s2'); s2.hidden=false; dxBuild(); dxUpdSum(); dxUpdUrn(); dxBar();
+  if(quiet) return;
+  if(first){ const y=dxY($('#h-s2'),14); dxReveal(s2); if(window.innerWidth<=960) setTimeout(()=>window.scrollTo({top:y,behavior:RM?'auto':'smooth'}),120); }
+  else { dxReveal($('#dx-prod')); if(had) toast(DX_TYPES[t].name+' 상품으로 바꿨어요. 바꾸신 내용은 처음으로 돌아가요.'); }
+}
+function dxSetBurial(b){
+  if(DX.burial===b) return; DX.burial=b;
+  $$('[data-bur]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.bur===b));
+  dxUpdTypePrices(); dxUpdUrn();
+  if(!DX.type) return;
+  dxBuild(); dxUpdSum();
+  toast(b==='bur'?'매장용 오동나무관(30만원)으로 들어가요':'화장용 오동나무관(20만원)으로 들어가요');
+}
+function dxUpdUrn(){
+  $('#dx-urn').hidden=DX.burial==='bur';
+  $('#dx-bur-n').textContent=DX.burial==='bur'?'매장하시면 관이 매장용 오동나무관(30만원)으로 바뀌고, 유골함은 필요 없어요. 묘지 비용은 따로예요.':'세 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.';
+}
+function dxToggle(k){ if(dxLocked(k)) return; DX.off[k]=!DX.off[k]; if(DX_CNT[k]) DX.cnt[k]=dxBaseCnt(k); dxUpdRow(k); if(DX_PAIR[k]) dxUpdRow(DX_PAIR[k],true); dxUpdSum(); }
+function dxCount(k,i,d){
+  const c=DX_CNT[k], v=DX.cnt[k].slice(); v[i]=Math.max(0,Math.min(c.max,v[i]+d));
+  if(v[0]+v[1]===0){ DX.off[k]=true; DX.cnt[k]=dxBaseCnt(k); toast((k==='staff'?'접객 도우미를':'상복을')+' 뺐어요'); }
+  else DX.cnt[k]=v;
+  dxUpdRow(k); dxUpdSum();
+}
+
+/* ── 견적 이미지 · 글 · 할인권이 쓰는 줄 : [구분, 금액(원), '', 금액 대신 보일 글, 고른 것, 작은 글] ── */
+function estLines(){
+  const L=[];
+  dxLines().filter(l=>!DX.off[l[0]]).forEach(l=>{ const k=l[0];
+    if(DX_CNT[k]) L.push([l[1],dxNow(l)*10000,'',null,dxCntText(k),k==='staff'?'1인 12만원':'남성용 5만원 · 여성용 3만원']);
+    else L.push([l[1],l[4]*10000,'',null,l[6]||l[2],k==='svc'?'장례지도사 · 입관지도사 · 입관용품 포함':null]); });
+  L.push(['모시는 방식',0,'','0원',DX.burial==='cre'?'화장':'매장',DX.burial==='cre'?'화장장 사용료 별도':'묘지 비용 별도']);
+  if(urnSep()) L.push(['유골함',0,'','별도','상담 때 실물을 보고 골라요','40만원 ~ 400만원 · 합계에 넣지 않음']);
+  if(DX.disc) L.push(['할인',-200000,'',null,'수급자 · 국가유공자']);
+  L.push(['무료 제공',0,'','무료','고인 이송 · 모바일 부고 · 장지 안내 · 화장 예약']);
+  return L;
+}
+/* 빼신 것 : [구분, 이름, 금액(원, 음수)] · 합계에는 들어가지 않고 보여 주기만 */
+function estCut(){ return dxLines().filter(l=>DX.off[l[0]]).map(l=>[l[1],DX_CNT[l[0]]?l[2]+' ('+dxCntText(l[0],dxBaseCnt(l[0]))+')':(l[6]||l[2]),-l[4]*10000]); }
+const estTotal=()=>dxCalc().T*10000;
+const urnSep=()=>DX.burial!=='bur';   /* 화장이면 유골함은 합계에 넣지 않는 별도 항목 (2026-10-21 사용자 지시) */
+const URN_NOTE='유골함은 합계에 들어 있지 않은 별도 항목이에요 · 40만원 ~ 400만원';
+const lineVal=l=>l[3]||(l[1]<0?'−'+won(-l[1]):won(l[1]));
+const estKind=()=>DX_TYPES[DX.type].name+' 상품 견적';
+const estWho=()=>{ const n=String(PR.nm||'').trim().replace(/\s*(고객)?\s*님$/,'').trim(); return n?n+' 고객님':''; };
 /* ── 사전 상담 감사 할인권 (가족장 · 일반장 견적 + 카톡 채널 추가 · 기한 없음 · 수급자 할인과 함께 사용 · 저장하지 않음) ── */
 const CP_AMT=100000, CP_CH_URL='https://pf.kakao.com/_BxnMxhX/friend';
 const CP_RULES=['가족장 · 일반장(3일장)으로 장례를 진행할 때 정산 금액에서 10만원을 할인해 드립니다.','카카오톡 채널 @나만의장례 친구에게 드리는 할인권이며, 현장에서 채널 친구를 확인합니다.','기한 없이 쓰실 수 있고, 수급자 · 국가유공자 할인과 함께 쓰실 수 있습니다.','장례 한 번에 한 장만 쓸 수 있고, 현금으로 바꿀 수 없습니다.'];
-const cpType=()=>PR.type==='fam'||PR.type==='gen';
+const cpType=()=>DX.type==='fam'||DX.type==='gen';
 const cpOK=()=>cpType()&&PR.ch;
 function cpNo(){ if(!PR.cp){ const d=new Date(), A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', r=new Uint32Array(4);
     try{ crypto.getRandomValues(r); }catch(e){ for(let i=0;i<4;i++) r[i]=Math.floor(Math.random()*4294967295); }
@@ -2469,7 +2707,7 @@ function cpNo(){ if(!PR.cp){ const d=new Date(), A='ABCDEFGHJKLMNPQRSTUVWXYZ2345
 const cpAfter=()=>won(Math.max(0,estTotal()-CP_AMT))+(urnSep()?' (유골함 별도)':'');
 function renderCp(box){
   if(!PR.ch){
-    box.innerHTML='<p class="cp-t">사전 상담 감사 할인권 <b>100,000원</b></p><p>'+(PR.type==='gen'?'일반장':'가족장')+' 견적을 받아 주셔서 고맙습니다. 카카오톡 채널 <b>@나만의장례</b>를 추가하시면, 나중에 장례 때 쓰실 수 있는 10만원 할인권을 드려요.</p><a class="btn btn-primary" data-a="ch" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>채널 추가하고 할인권 받기</a><p class="note">이미 채널 친구이시면 눌러도 그대로 받으실 수 있어요.</p>';
+    box.innerHTML='<p class="cp-t">사전 상담 감사 할인권 <b>100,000원</b></p><p>'+(DX.type==='gen'?'일반장':'가족장')+' 견적을 받아 주셔서 고맙습니다. 카카오톡 채널 <b>@나만의장례</b>를 추가하시면, 나중에 장례 때 쓰실 수 있는 10만원 할인권을 드려요.</p><a class="btn btn-primary" data-a="ch" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>채널 추가하고 할인권 받기</a><p class="note">이미 채널 친구이시면 눌러도 그대로 받으실 수 있어요.</p>';
     const a=box.querySelector('[data-a="ch"]'); a.href=CP_CH_URL;
     a.addEventListener('click',()=>{ PR.ch=true; cpNo(); setTimeout(()=>{ renderCp(box); toast('할인권이 나왔어요. 꼭 저장해 두세요'); },300); });
     return; }
@@ -2504,166 +2742,26 @@ function saveCpImg(){
     x.font=fnt(500,28,SANS); x.fillStyle='#59615b'; x.fillText('소규모 가족장 · 무빈소장 전문  |  후불제 상조',184,150);
     const end=cpDrawCard(x,72,200,W-144,{h:ch});
     x.font=fnt(700,30,SANS); x.fillStyle='#1a1e1b'; x.textAlign='left'; x.fillText('24시간 상담 1661-4214  ·  카카오톡 @나만의장례',72,200+ch+76);
-    c.toBlob(b=>{ if(b) saveFile('나만의장례_할인권_'+PR.cp+'.png',b,'할인권 이미지를 저장했습니다'); else toast('이미지를 만들지 못했습니다'); },'image/png');
+    c.toBlob(b=>{ if(b) saveFile('나만의장례_할인권_'+PR.cp+'.png',b,'할인권 이미지를 저장했어요'); else toast('이미지를 만들지 못했어요'); },'image/png');
   });
 }
-const estWho=()=>{ const n=String(PR.nm||'').trim().replace(/\s*(고객)?\s*님$/,'').trim(); return n?n+' 고객님':''; };
-const WZ_NEED=['type','burial','coffin','shroud','car','urn'];
-const PR=Object.assign({},PR_DEF);
-const won=n=>n.toLocaleString('ko-KR')+'원';
-const lineVal=l=>l[3]||(l[1]<0?'−'+won(-l[1]):l[1]?won(l[1]):'무료');
-const pick=(g,id)=>PRICE[g].find(o=>o[0]===id);
-const WZ=[
-  {k:'type',q:'어떤 장례로 모실까요?',h:'빈소를 차리지 않으면 무빈소 장례, 가족과 가까운 친지의 조문을 받으시면 가족장, 조문객이 많으시면 일반장입니다. 모두 장례지도사와 입관지도사, 입관용품이 들어 있고 고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료입니다.'},
-  {k:'burial',q:'화장으로 모실까요, 매장으로 모실까요?',h:'모시는 방식에 따라 관이 달라집니다. 화장장 사용료나 묘지 비용은 이 견적과 따로 냅니다.'},
-  {k:'coffin',q:'관은 어떤 것으로 할까요?',h:()=>PR.burial==='cre'?'화장할 때 쓰는 관입니다. 화장용 관은 얇고 가볍게 만들어 잘 탑니다.':PR.burial==='bur'?'매장할 때 쓰는 관입니다. 땅속에서 습기와 벌레로부터 고인을 지키도록 화장용보다 튼튼하게 만듭니다.':'화장하시면 화장용, 매장하시면 매장용을 고르시면 됩니다. 관은 예부터 나무로 만들고 쇠붙이는 쓰지 않습니다.'},
-  {k:'shroud',q:'수의는 어떤 것으로 할까요?',h:'옷감에 따라 금액이 다릅니다. 화장하실 때는 잘 타는 자연 소재가, 매장하실 때는 흙에서 자연스럽게 삭는 소재가 좋습니다.'},
-  {k:'ipgwan',q:'입관하실 때 꽃장식이나 궁중대렴을 하실까요?',h:'입관은 고인을 깨끗이 모시고 수의를 입혀 관에 모시는 자리입니다. 가족이 함께 마지막 인사를 나눕니다.'},
-  {k:'binso',q:'빈소에 헌화를 준비할까요?',h:'헌화는 조문객이 분향 대신, 또는 분향과 함께 영정 앞에 꽃을 올리는 것입니다.',skip:()=>PR.type==='nob'},
-  {k:'car',q:'발인 때 장의 차량이 필요하신가요?',h:'화장장 안의 장례식장이 아니라면 장의 차량이 꼭 필요합니다. 리무진은 1차 장지 또는 화장장까지 가는 편도이고, 장의버스는 다녀오는 왕복입니다. 기준 거리 200km를 넘으면 1km당 1,800원이 붙습니다.'},
-  {k:'urn',q:'화장 후 모실 유골함은 어떻게 할까요?',h:'봉안당이나 땅에 오래 모시면 진공함이 좋고, 수목장 · 잔디장 같은 자연장은 흙에서 분해되는 용기를 써요.',box:'<b>유골함은 견적 합계에 넣지 않는 별도 항목이에요.</b> 40만원부터 400만원까지 종류가 많아서, 상담 때 실물을 보고 고르시면 그 금액만 따로 더해져요.',skip:()=>PR.burial==='bur',link:['일반함과 진공함, 무엇이 다른가요?','urn']},
-  {k:'staff',q:'조문객을 맞을 접객 도우미가 필요하신가요?',h:'빈소에서 음식을 차리고 조문객 맞이를 돕습니다. 첫째 날과 둘째 날 필요한 인원을 각각 골라 주세요. 1인당 12만원이고, 필요 없으시면 0명으로 두세요.',type:'count',skip:()=>PR.type==='nob'},
-  {k:'mourn',q:'가족분들 상복은 몇 벌 준비할까요?',h:'상주와 가족이 장례 기간 동안 입는 옷입니다. 남성용에는 셔츠와 타이가 함께 들어 있습니다. 갖고 계시면 0벌로 두세요.',type:'mourn'},
-  {k:'disc',q:'특별 할인 대상이신가요?',h:'기초생활수급자나 국가유공자 가족이시면 20만원을 할인해 드립니다. 할인 대상인지는 상담 때 확인해 드립니다.'},
-  {k:'done'}
-];
-let WK='type', WDIR='';
-const wzVis=()=>WZ.filter(s=>!(s.skip&&s.skip()));
-function estLines(){
-  if(PR.type==='nob'){ PR.staff1=0; PR.staff2=0; PR.binso='none'; }
-  if(PR.coffin&&(COFFIN_FOR[PR.burial]||COFFIN_FOR.und).indexOf(PR.coffin)<0) PR.coffin=null;
-  /* 한 줄 = [구분, 금액(원), 고칠 단계, 금액 대신 보일 글, 고른 것] */
-  const L=[]; const t=pick('type',PR.type); if(t) L.push(['장례 형태',t[2]*10000,'type',null,t[1],'장례지도사 · 입관지도사 · 입관용품 포함']);
-  const bu=pick('burial',PR.burial); if(bu) L.push(['모시는 방식',0,'burial',PR.burial==='cre'?'화장장 사용료 별도':PR.burial==='bur'?'묘지 비용 별도':'상담 때 결정',PR.burial==='und'?'정하지 않음':bu[1]]);
-  const c=pick('coffin',PR.coffin); if(c) L.push(['관',c[2]*10000,'coffin',null,c[1]]);
-  const s=pick('shroud',PR.shroud); if(s) L.push(['수의',s[2]*10000,'shroud',null,s[1]]);
-  ['ipgwan','binso','car'].forEach(g=>{ const o=pick(g,PR[g]); if(o&&o[2]) L.push([{ipgwan:'입관',binso:'빈소 헌화',car:'장의 차량'}[g],o[2]*10000,g,null,o[1]]); });
-  if(PR.burial!=='bur'){ const u=pick('urn',PR.urn); if(u) L.push(['유골함',0,'urn',{u1:'별도',own:'0원',none:'0원'}[u[0]],{u1:'나만의장례에서 준비',own:'따로 준비하심',none:'필요 없음'}[u[0]],urnSep()?'40만원 ~ 400만원 · 합계에 넣지 않음':null]); }
-  if(PR.staff1||PR.staff2) L.push(['접객 도우미',(PR.staff1+PR.staff2)*120000,'staff',null,[PR.staff1?'첫째 날 '+PR.staff1+'명':'',PR.staff2?'둘째 날 '+PR.staff2+'명':''].filter(Boolean).join(' · '),'1인 12만원']);
-  if(PR.mm||PR.mf) L.push(['상복',PR.mm*50000+PR.mf*30000,'mourn',null,[PR.mm?'남성용 '+PR.mm+'벌':'',PR.mf?'여성용 '+PR.mf+'벌':''].filter(Boolean).join(' · ')]);
-  if(PR.disc==='sup') L.push(['할인',-200000,'disc',null,'수급자 · 국가유공자']);
-  L.push(['무료 제공',0,'',null,'고인 이송 · 모바일 부고 · 장지 안내 · 화장 예약']);
-  return L;
-}
-const estTotal=()=>estLines().reduce((a,l)=>a+l[1],0);
-const urnSep=()=>PR.burial!=='bur'&&PR.urn==='u1';  /* 유골함은 합계에 넣지 않는 별도 항목 (2026-10-21 사용자 지시) */
-const URN_NOTE='유골함은 합계에 들어 있지 않은 별도 항목입니다 · 40만원 ~ 400만원';
-let WZ_BUSY=false;
-function wzLeave(dir,then){
-  const stage=$('#wz-stage'); if(RM||!stage||!stage.animate||!stage.firstChild){ then(); return; }
-  WZ_BUSY=true; const a=stage.animate([{opacity:1,transform:'translate3d(0,0,0)'},{opacity:0,transform:'translate3d('+(dir>0?-36:36)+'px,0,0)'}],{duration:170,easing:'cubic-bezier(0.4,0,1,1)',fill:'forwards'});
-  a.onfinish=()=>{ then(); a.cancel(); WZ_BUSY=false; };
-}
-function wzGo(dir){ if(WZ_BUSY) return; const v=wzVis(); let i=v.findIndex(x=>x.k===WK); if(i<0) i=0; if(dir>0&&WZ_NEED.indexOf(v[i].k)>=0&&!PR[v[i].k]) return; const j=Math.max(0,Math.min(v.length-1,i+dir)); if(j===i) return; wzLeave(dir,()=>{ WDIR=dir>0?'next':'prev'; WK=v[j].k; renderWizard(true); }); }
-function wzJump(k){ if(WZ_BUSY) return; wzLeave(-1,()=>{ WDIR='prev'; WK=k; renderWizard(true); }); }
-function wzEnter(stage,dir,oldH){
-  if(RM||!stage.animate) return;
-  const newH=stage.offsetHeight;
-  if(oldH&&Math.abs(newH-oldH)>2){ stage.animate([{height:oldH+'px'},{height:newH+'px'}],{duration:420,easing:'cubic-bezier(0.645,0.045,0.355,1)'}); }
-  const kids=[...stage.children]; const items=[]; kids.forEach(k=>{ if(k.matches('.wz-opts,.wz-sum')) items.push(...k.children); else items.push(k); });
-  items.forEach((el,i)=>{ el.animate([{opacity:0,transform:'translate3d('+(dir==='prev'?-40:40)+'px,0,0)'},{opacity:1,transform:'translate3d(0,0,0)'}],{duration:560,delay:Math.min(i*45,315),easing:'cubic-bezier(0.19,1,0.22,1)',fill:'backwards'}); });
-}
-function setRun(v){ const el=$('#wz-run'); if(!el) return; const from=el._v==null?v:el._v; el._v=v; cancelAnimationFrame(el._raf); const sf='';
-  if(RM||from===v){ el.textContent=won(v)+sf; return; } const t0=performance.now(), dur=520;
-  const step=t=>{ const p=Math.min(1,(t-t0)/dur), e=1-Math.pow(1-p,3); el.textContent=won(Math.round((from+(v-from)*e)/1000)*1000)+sf; if(p<1) el._raf=requestAnimationFrame(step); else el.textContent=won(v)+sf; };
-  el._raf=requestAnimationFrame(step); }
-function updNav(){ const v=wzVis(); const i=v.findIndex(x=>x.k===WK); const prev=$('#wz-prev'), next=$('#wz-next'); prev.disabled=i<=0; next.hidden=v[i].k==='done'; const wait=WZ_NEED.indexOf(v[i].k)>=0&&!PR[v[i].k]; next.disabled=wait; next.textContent=wait?'하나를 골라 주세요':(v[i+1]&&v[i+1].k==='done')?'견적 보기':'다음'; setRun(estTotal()); }
-function wzStepper(key,label,sub,min,max,unit){
-  const row=document.createElement('div'); row.className='stepper wz-step';
-  row.innerHTML='<span><b></b><br><span class="note"></span></span><div class="ctl"><button type="button">−</button><output aria-live="polite"></output><button type="button">+</button></div>';
-  row.querySelector('b').textContent=label; row.querySelector('.note').textContent=sub;
-  const bs=row.querySelectorAll('button'), mi=bs[0], pl=bs[1], out=row.querySelector('output');
-  mi.setAttribute('aria-label',label+' 하나 줄이기'); pl.setAttribute('aria-label',label+' 하나 늘리기');
-  const upd=()=>{ out.textContent=PR[key]+unit; mi.disabled=PR[key]<=min; pl.disabled=PR[key]>=max; setRun(estTotal()); };
-  mi.addEventListener('click',()=>{ PR[key]=Math.max(min,PR[key]-1); upd(); });
-  pl.addEventListener('click',()=>{ PR[key]=Math.min(max,PR[key]+1); upd(); });
-  upd(); return row;
-}
-function renderWizard(focus){
-  const v=wzVis(); if(!v.find(x=>x.k===WK)) WK=v[0].k;
-  const i=v.findIndex(x=>x.k===WK), st=v[i], total=v.length-1;
-  $('#wz-bar').style.transform='scaleX('+(st.k==='done'?1:i/total).toFixed(4)+')';
-  $('#wz-count').textContent=st.k==='done'?'견적이 나왔습니다':(i+1)+' / '+total+' 단계';
-  const stage=$('#wz-stage'); const oldH=WDIR?stage.offsetHeight:0; stage.innerHTML='';
-  const h=document.createElement('h2'); h.className='wz-q'; h.tabIndex=-1; stage.appendChild(h);
-  const help=document.createElement('p'); help.className='wz-help'; stage.appendChild(help);
-  if(st.k==='done'){
-    const pk=pkgOf();
-    h.textContent=pk?PKG[pk].name+' 상품 예상 견적':'나만의장례 예상 견적';
-    help.innerHTML=(pk?PKG[pk].name+' 상품에 들어 있는 항목입니다. 바꾸고 싶은 것만 ‘고치기’를 누르세요.':'고르신 항목입니다. 바꾸고 싶은 항목은 ‘고치기’를 누르세요.')+' <b>아래에서 견적을 꼭 저장해 두세요.</b>';
-    const ul=document.createElement('ul'); ul.className='sum-lines wz-sum';
-    const hd=document.createElement('li'); hd.className='hd'; hd.setAttribute('aria-hidden','true'); hd.innerHTML='<span>구분</span><span>고른 것</span><span>금액</span><span></span>'; ul.appendChild(hd);
-    estLines().forEach(l=>{ const li=document.createElement('li');
-      const a=document.createElement('span'); a.className='c'; a.textContent=l[0];
-      const it=document.createElement('span'); it.className='i'; it.textContent=(l[4]||'').replace(/ · /g,'\u00a0· '); if(l[5]){ const sm=document.createElement('small'); sm.textContent=l[5].replace(/ · /g,'\u00a0· '); it.appendChild(sm); }
-      const b=document.createElement('span'); b.className='v'; b.textContent=lineVal(l); if(l[3]==='별도') li.classList.add('sep');
-      li.appendChild(a); li.appendChild(it); li.appendChild(b);
-      if(l[2]){ const f=document.createElement('button'); f.type='button'; f.className='fix'; f.textContent='고치기'; f.setAttribute('aria-label',l[0]+' 고치기'); f.addEventListener('click',()=>wzJump(l[2])); li.appendChild(f); } else li.appendChild(document.createElement('span'));
-      ul.appendChild(li); });
-    stage.appendChild(ul);
-    if(pk&&PR.disc!=='sup'){ const dp=document.createElement('p'); dp.className='note wz-disc'; dp.appendChild(document.createTextNode('수급자 · 국가유공자 가족이시면'));
-      const db=document.createElement('button'); db.type='button'; db.className='linkish'; db.textContent='20만원 할인 넣기';
-      db.addEventListener('click',()=>{ PR.disc='sup'; renderWizard(false); const t=$('#wz-stage .total'); if(t){ t.tabIndex=-1; try{ t.focus({preventScroll:true}); }catch(e){} } toast('수급자 · 국가유공자 할인 20만원을 넣었습니다'); });
-      dp.appendChild(db); stage.appendChild(dp); }
-    const tot=document.createElement('div'); tot.className='total'; tot.style.marginTop='14px'; tot.innerHTML='<span>합계</span><b></b>'; tot.lastChild.textContent=won(estTotal()); stage.appendChild(tot);
-    if(PR.disc==='sup'){ const n=document.createElement('p'); n.className='note'; n.style.marginTop='10px'; n.textContent='수급자 · 국가유공자 할인 20만원이 들어간 금액입니다. 할인 대상인지는 상담 때 확인해 드립니다.'; stage.appendChild(n); }
-    if(urnSep()){ const n=document.createElement('p'); n.className='wz-box'; n.style.marginTop='12px'; n.innerHTML='<b>유골함은 합계에 들어 있지 않아요.</b> 40만원부터 400만원까지 종류가 많아, 상담 때 고르신 함 금액이 따로 더해집니다.'; stage.appendChild(n); }
-    const keep=document.createElement('div'); keep.className='keep-box'; keep.setAttribute('role','note');
-    keep.innerHTML='<p class="keep-t">이 견적, 꼭 저장해 두세요</p><p>저장해 두셨다가 장례 현장에서 담당 장례지도사에게 보여 주시면, 이 견적 그대로 진행해 드려요. 화면을 캡처해 두셔도 괜찮아요.</p>';
-    const who=document.createElement('div'); who.className='est-who';
-    who.innerHTML='<div class="fld"><label for="est-nm">견적에 넣을 성함 <span>(선택)</span></label><input id="est-nm" class="in" autocomplete="name" enterkeyhint="done"></div><p class="note">넣으시면 견적 이미지와 복사 글 맨 위에 「○○○ 고객님」으로 들어갑니다. 어디에도 저장되지 않습니다.</p>';
-    const nm=who.querySelector('#est-nm'); nm.value=PR.nm||'';
-    nm.addEventListener('input',()=>{ PR.nm=nm.value; const cw=$('.cp-who'); if(cw){ const w=estWho(); cw.textContent=w; cw.closest('.cp-who-row').hidden=!w; } }); nm.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); nm.blur(); } });
-    keep.appendChild(who);
-    const sv=document.createElement('button'); sv.type='button'; sv.className='btn btn-primary'; sv.dataset.a='img'; sv.textContent='견적 이미지 저장'; sv.addEventListener('click',saveEstImg); keep.appendChild(sv);
-    stage.appendChild(keep);
-    const vs=document.createElement('p'); vs.className='note wz-link'; vs.innerHTML='미리 내는 돈 없이 장례를 마친 뒤 정산합니다. <a href="#prepaid">일반 선불식 상조와 무엇이 다른가요?</a>'; stage.appendChild(vs);
-    if(cpType()){ const cpb=document.createElement('div'); cpb.className='cp-box'; stage.appendChild(cpb); renderCp(cpb); }
-    const act=document.createElement('div'); act.className='actions'; act.style.margin='16px 0 12px';
-    act.innerHTML='<a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><a class="btn btn-line" data-a="talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>견적 보내고 카톡 상담</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button><button type="button" class="btn btn-ghost" data-a="again">처음부터 다시</button>';
-    act.querySelector('[data-a="copy"]').addEventListener('click',()=>copyText(estText(),'견적 내용을 복사했습니다',ul));
-    act.querySelector('[data-a="talk"]').addEventListener('click',()=>copyText(estText(),'견적을 복사했습니다. 카카오톡 대화창에 붙여 넣어 보내 주세요',ul));
-    act.querySelector('[data-a="again"]').addEventListener('click',()=>{ if(WZ_BUSY) return; wzLeave(-1,()=>{ Object.assign(PR,PR_DEF); WK='type'; WDIR='prev'; renderWizard(true); }); });
-    stage.appendChild(act);
-  } else {
-    h.textContent=st.q; help.textContent=typeof st.h==='function'?st.h():st.h;
-    if(st.type==='count'){ stage.appendChild(wzStepper('staff1','첫째 날','1인당 12만원',0,10,'명')); stage.appendChild(wzStepper('staff2','둘째 날','1인당 12만원',0,10,'명')); const n=document.createElement('p'); n.className='note'; n.style.marginTop='12px'; n.textContent='4일장 이상으로 진행하시면 도우미 인원과 금액은 현장에서 따로 상담해 드립니다.'; stage.appendChild(n); }
-    else if(st.type==='mourn'){ stage.appendChild(wzStepper('mm','남성용 상복','1벌 5만원',0,20,'벌')); stage.appendChild(wzStepper('mf','여성용 상복','1벌 3만원',0,20,'벌')); }
-    else {
-      const box=document.createElement('div'); box.className='wz-opts'; box.setAttribute('role','radiogroup'); box.setAttribute('aria-label',st.q);
-      (st.k==='coffin'?coffinOpts():PRICE[st.k]).forEach(o=>{
-        const lab=document.createElement('label'); lab.className='wz-opt';
-        const inp=document.createElement('input'); inp.type='radio'; inp.name='wz-'+st.k; inp.value=o[0]; inp.id='wz-'+st.k+'-'+o[0]; inp.checked=PR[st.k]===o[0]; lab.setAttribute('for',inp.id);
-        const t=document.createElement('span'); t.className='t'; t.textContent=o[1];
-        const pr=document.createElement('span'); pr.className='p'; pr.textContent=st.k==='type'?'기본 '+o[2]+'만원':st.k==='burial'?'':st.k==='disc'?(o[2]<0?'−'+(-o[2])+'만원 할인':''):st.k==='urn'?(o[0]==='u1'?'별도 · 40~400만원':''):(o[2]?'+'+o[2]+'만원':'0원');
-        lab.appendChild(inp); lab.appendChild(t); lab.appendChild(pr);
-        if(o[3]){ const d=document.createElement('span'); d.className='d'; d.textContent=o[3].replace(/ · /g,'\u00a0· '); lab.appendChild(d); }
-        inp.addEventListener('change',()=>{ PR[st.k]=o[0]; if(st.k==='type'&&o[0]==='nob'){ PR.staff1=0; PR.staff2=0; PR.binso='none'; } if(st.k==='burial'){ const ok=COFFIN_FOR[o[0]]||COFFIN_FOR.und; if(ok.indexOf(PR.coffin)<0) PR.coffin=null; } updNav(); });
-        box.appendChild(lab); });
-      stage.appendChild(box);
-      if(st.link){ const lp=document.createElement('p'); lp.className='note wz-link'; const a=document.createElement('a'); a.textContent=st.link[0]; a.href=document.body.getAttribute('data-route')?'/'+st.link[1]+'/':'#'+st.link[1]; lp.appendChild(a); stage.appendChild(lp); }
-      if(st.box){ const bx=document.createElement('p'); bx.className='wz-box end'; bx.innerHTML=st.box; stage.appendChild(bx); }
-    }
-  }
-  updNav();
-  const onPk=st.k==='done'?pkgOf():''; $$('.pkg').forEach(c=>c.classList.toggle('on',c.dataset.pkg===onPk));
-  if(WDIR){ wzEnter(stage,WDIR,oldH); WDIR=''; }
-  if(focus){ try{ h.focus({preventScroll:true}); }catch(e){ h.focus(); } const top=$('.wiz').getBoundingClientRect().top; if(top<0) window.scrollBy({top:top-140,behavior:'smooth'}); }
-}
-function bindWizard(){ $('#wz-prev').addEventListener('click',()=>wzGo(-1)); $('#wz-next').addEventListener('click',()=>wzGo(1));
-  $$('[data-pkg-go]').forEach(b=>b.addEventListener('click',()=>pkgGo(b.getAttribute('data-pkg-go'))));
-  $$('[data-pkg-own]').forEach(a=>a.addEventListener('click',pkgOwn)); }
-const estKind=()=>{ const k=pkgOf(); return k?PKG[k].name+' 상품 견적':'맞춤 견적'; };
-function estText(){ const L=estLines(); const w=estWho(); return '[나만의장례 '+estKind()+']\n'+(w?w+'\n\n':'')+L.map(l=>'['+l[0]+'] '+l[4]+' — '+lineVal(l)+(l[5]?'\n     '+l[5]:'')).join('\n')+'\n\n합계: '+won(L.reduce((a,l)=>a+l[1],0))+(urnSep()?'\n(※ '+URN_NOTE+')':'')+(PR.disc==='sup'?'\n(수급자 · 국가유공자 할인 20만원 포함 · 대상 확인은 상담 때)':'')+(cpOK()?'\n\n[사전 상담 감사 할인권] 100,000원 할인\n번호 '+PR.cp+' · 발급일 '+PR.cpd+'\n· 가족장 · 일반장(3일장) 진행 시 정산 금액에서 할인 · 카카오톡 채널 친구 확인\n· 기한 없음 · 수급자 · 국가유공자 할인과 함께 사용 가능':'')+'\n\n※ 미리 내는 돈 없이 장례를 마친 뒤 정산해요.\n※ 이 견적을 꼭 저장해 두셨다가 현장에서 보여 주시면 그대로 진행해 드려요.\n\n* 장례식장 시설 사용료 · 음식값 별도\n* 리무진은 1차 장지 또는 화장장까지 편도, 장의버스는 왕복\n* 장의 차량 기준 거리 200km 초과 시 1km당 1,800원\n상담 1661-4214 (24시간)'; }
+function estText(){ const L=estLines(), X=estCut(), w=estWho(), c=dxCalc(), T=DX_TYPES[DX.type];
+  return '[나만의장례 '+estKind()+']\n'+(w?w+'\n':'')+'\n'+
+    L.map(l=>'['+l[0]+'] '+l[4]+' — '+lineVal(l)+(l[5]?'\n     '+l[5]:'')).join('\n')+
+    (X.length?'\n\n[빼신 것]\n'+X.map(x=>'· '+x[0]+' '+x[1]+' −'+won(-x[2])).join('\n'):'')+
+    '\n\n'+T.name+' 상품 '+dWon(c.B)+(c.R?' · 빼신 것 '+dWon(-c.R):'')+(c.C?' · 인원 · 벌 수 바꾸심 '+dSWon(c.C):'')+(c.D?' · 할인 '+dWon(-c.D):'')+
+    '\n합계: '+won(estTotal())+(urnSep()?'\n(※ '+URN_NOTE+')':'')+(DX.disc?'\n(수급자 · 국가유공자 할인 20만원 포함 · 대상 확인은 상담 때)':'')+
+    (cpOK()?'\n\n[사전 상담 감사 할인권] 100,000원 할인\n번호 '+PR.cp+' · 발급일 '+PR.cpd+'\n· 가족장 · 일반장(3일장) 진행 시 정산 금액에서 할인 · 카카오톡 채널 친구 확인\n· 기한 없음 · 수급자 · 국가유공자 할인과 함께 사용 가능':'')+
+    '\n\n※ 미리 내는 돈 없이 장례를 마친 뒤 정산해요.\n※ 이 견적을 꼭 저장해 두셨다가 현장에서 보여 주시면 그대로 진행해 드려요.\n\n* 장례식장 시설 사용료 · 음식값 별도\n* 리무진은 1차 장지 또는 화장장까지 편도, 장의버스는 왕복\n* 장의 차량 기준 거리 200km 초과 시 1km당 1,800원\n상담 1661-4214 (24시간)'; }
 const LOGO={mark:new Image(),word:new Image()};
 const logoReady=Promise.all(['mark','word'].map(k=>new Promise(r=>{ LOGO[k].onload=r; LOGO[k].onerror=r; LOGO[k].src={mark:'data:image/png;base64,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',word:'data:image/png;base64,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'}[k]; })));
 function saveEstImg(){
-  const L=estLines(); const W=1080, CX=72, IX=300, VX=W-72, ROW=64, LH=40;
+  const L=estLines(), XC=estCut(); const W=1080, CX=72, IX=300, VX=W-72, ROW=64, LH=40;
   const ms=document.createElement('canvas').getContext('2d');
   const wrapItem=(t,maxW)=>{ ms.font=fnt(500,30,SANS); if(ms.measureText(t).width<=maxW) return [t]; const parts=t.split(' · '); const out=[]; let cur='';
     parts.forEach(p=>{ const nx=cur?cur+' · '+p:p; if(cur&&ms.measureText(nx).width>maxW){ out.push(cur+' ·'); cur=p; } else cur=nx; }); if(cur) out.push(cur); return out; };
   let rows=null, H=0, TOP=0, CPH=0; const c=document.createElement('canvas'); c.width=W; const x=c.getContext('2d');
-  const layout=()=>{ rows=L.map(l=>{ ms.font=fnt(500,30,SANS); const vw=ms.measureText(lineVal(l)).width; const lines=wrapItem(l[4]||'',VX-vw-28-IX); return {l,lines,h:ROW+(lines.length-1)*LH+(l[5]?34:0)}; }); TOP=estWho()?56:0; H=300+46+TOP+rows.reduce((a,r)=>a+r.h,0)+330+(urnSep()?62:0); if(cpOK()){ CPH=cpCardH(x,W-144); H+=CPH+90; } c.height=H; };
+  const layout=()=>{ rows=L.map(l=>{ ms.font=fnt(500,30,SANS); const vw=ms.measureText(lineVal(l)).width; const lines=wrapItem(l[4]||'',VX-vw-28-IX); return {l,lines,h:ROW+(lines.length-1)*LH+(l[5]?34:0)}; }); TOP=estWho()?56:0; H=300+46+TOP+rows.reduce((a,r)=>a+r.h,0)+330+(urnSep()?62:0)+(XC.length?58+XC.length*54:0); if(cpOK()){ CPH=cpCardH(x,W-144); H+=CPH+90; } c.height=H; };
   const draw=()=>{ x.fillStyle='#ffffff'; x.fillRect(0,0,W,H); x.fillStyle='#252525'; x.fillRect(0,0,W,14);
     x.textBaseline='alphabetic'; x.textAlign='left'; try{ if(LOGO.mark.naturalWidth) x.drawImage(LOGO.mark,72,56,92,94); if(LOGO.word.naturalWidth) x.drawImage(LOGO.word,184,74,253,48); }catch(e){} const sub='소규모 가족장 · 무빈소장 전문  |  '+estKind()+' '+new Date().toLocaleDateString('ko-KR'); let fs=28; x.font=fnt(500,fs,SANS); while(fs>20&&x.measureText(sub).width>W-184-72){ fs--; x.font=fnt(500,fs,SANS); } x.fillStyle='#59615b'; x.fillText(sub,184,150);
     const who=estWho(); if(who){ x.font=fnt(700,36); x.fillStyle='#1a1e1b'; x.fillText(who,72,236); }
@@ -2675,14 +2773,93 @@ function saveEstImg(){
       if(l[5]){ x.font=fnt(500,23,SANS); x.fillStyle='#6b706c'; x.fillText(l[5],IX,base+(r.lines.length-1)*LH+36); }
       x.textAlign='right'; x.font=fnt(500,30,SANS); x.fillStyle='#1a1e1b'; x.fillText(lineVal(l),VX,base);
       x.fillStyle='#d3d7cf'; x.fillRect(72,y,W-144,2); });
+    if(XC.length){ y+=48; x.textAlign='left'; x.font=fnt(700,24,SANS); x.fillStyle='#6b706c'; x.fillText('빼신 것',CX,y); y+=4;
+      XC.forEach(r=>{ const base=y+40; x.textAlign='left'; x.font=fnt(500,26,SANS); x.fillStyle='#8a8f8b'; x.fillText(r[0],CX,base); x.fillText(r[1],IX,base); x.fillRect(IX,base-9,Math.min(x.measureText(r[1]).width,VX-IX-190),2); x.textAlign='right'; x.fillText('−'+won(-r[2]),VX,base); y+=54; }); y+=6; }
     y+=40; x.fillStyle='#1a1e1b'; x.fillRect(72,y,W-144,3);
     x.textAlign='left'; x.font=fnt(700,32,SANS); x.fillText('합계',80,y+70); x.textAlign='right'; x.font=fnt(900,52); x.fillText(won(L.reduce((a,l)=>a+l[1],0)),W-80,y+76);
     if(urnSep()){ x.textAlign='left'; x.font=fnt(700,26,SANS); x.fillStyle='#1a1e1b'; x.fillText('※ '+URN_NOTE,80,y+130); y+=62; }
-    x.textAlign='left'; x.fillStyle='#f1f1ee'; x.fillRect(72,y+112,W-144,64); x.fillStyle='#1a1e1b'; x.font=fnt(700,28,SANS); x.fillText('현장에서 이 견적을 보여 주시면 그대로 진행해 드립니다',96,y+154);
+    x.textAlign='left'; x.fillStyle='#f1f1ee'; x.fillRect(72,y+112,W-144,64); x.fillStyle='#1a1e1b'; x.font=fnt(700,28,SANS); x.fillText('현장에서 이 견적을 보여 주시면 그대로 진행해 드려요',96,y+154);
     x.font=fnt(500,24,SANS); x.fillStyle='#59615b'; x.fillText('미리 내는 돈 없이 장례를 마친 뒤 정산 · 장례식장 시설 사용료 · 음식값 별도',72,y+222); x.fillStyle='#1a1e1b'; x.font=fnt(700,30,SANS); x.fillText('24시간 상담 1661-4214',72,y+268);
     if(cpOK()){ const cy=y+318; x.strokeStyle='#9b9b97'; x.lineWidth=2; x.setLineDash([12,10]); x.beginPath(); x.moveTo(40,cy); x.lineTo(W-40,cy); x.stroke(); x.setLineDash([]);
-      x.font=fnt(500,20,SANS); x.fillStyle='#6b706c'; x.textAlign='right'; x.fillText('할인권 · 잘라서 따로 보관하셔도 됩니다',W-72,cy-10); cpDrawCard(x,72,cy+30,W-144,{h:CPH}); } };
-  Promise.all([ensureFonts(estKind()+'미리내는돈없이마친뒤정산나만의장례맞춤견적합계무료소규모가족장무빈소장전문구분고른것금액0123456789,원현장에서이견적을보여주시면그대로진행해드립니다※'+URN_NOTE+L.map(l=>l[0]+(l[4]||'')+(l[5]||'')+lineVal(l)).join('')+'고객님'+estWho()+(cpOK()?'사전상담감사할인권100,000원할인번호발급일받으신분할인권잘라서따로보관하셔도됩니다'+PR.cp+PR.cpd+CP_RULES.join(''):'')),logoReady]).then(()=>{ layout(); draw(); c.toBlob(b=>{ if(b) saveFile('나만의장례_'+estKind().replace(/ /g,'')+'.png',b,'견적 이미지를 저장했습니다'); else toast('이미지를 만들지 못했습니다'); },'image/png'); });
+      x.font=fnt(500,20,SANS); x.fillStyle='#6b706c'; x.textAlign='right'; x.fillText('할인권 · 잘라서 따로 보관하셔도 돼요',W-72,cy-10); cpDrawCard(x,72,cy+30,W-144,{h:CPH}); } };
+  Promise.all([ensureFonts(estKind()+'미리내는돈없이마친뒤정산나만의장례맞춤견적합계무료소규모가족장무빈소장전문구분고른것금액0123456789,원현장에서이견적을보여주시면그대로진행해드립니다※'+URN_NOTE+L.map(l=>l[0]+(l[4]||'')+(l[5]||'')+lineVal(l)).join('')+XC.map(r=>r[0]+r[1]).join('')+'빼신것−드려요돼요'+'고객님'+estWho()+(cpOK()?'사전상담감사할인권100,000원할인번호발급일받으신분할인권잘라서따로보관하셔도됩니다'+PR.cp+PR.cpd+CP_RULES.join(''):'')),logoReady]).then(()=>{ layout(); draw(); c.toBlob(b=>{ if(b) saveFile('나만의장례_'+estKind().replace(/ /g,'')+'.png',b,'견적 이미지를 저장했어요'); else toast('이미지를 만들지 못했어요'); },'image/png'); });
+}
+
+/* ── 견적 화면 ── */
+function dxEstHTML(){
+  const c=dxCalc(), T=DX_TYPES[DX.type], L=dxLines();
+  const keep=L.filter(l=>!DX.off[l[0]]), cut=L.filter(l=>DX.off[l[0]]);
+  const tr=(g,nm,sub,v,cls)=>'<tr'+(cls?' class="'+cls+'"':'')+'><th scope="row">'+g+'</th><td class="p">'+nm+(sub?'<small>'+dNb(sub)+'</small>':'')+'</td><td class="v">'+v+'</td></tr>';
+  let rows=keep.map(l=>{ const k=l[0];
+    if(DX_CNT[k]){ const d=dxNow(l)-l[4]; return tr(l[1],dNb(dxCntText(k)),(k==='staff'?'1인 12만원':'남성용 5만원 · 여성용 3만원')+(d?' · 상품 구성보다 '+dSMan(d):''),dWon(dxNow(l))); }
+    return tr(l[1],dNb(l[6]||l[2]),k==='svc'?'장례지도사 · 입관지도사 · 입관용품 포함':'',dWon(l[4])); }).join('');
+  rows+=tr('모시는 방식',DX.burial==='cre'?'화장':'매장',DX.burial==='cre'?'화장장 사용료 별도':'묘지 비용 별도','0원');
+  if(urnSep()) rows+=tr('유골함','상담 때 실물을 보고 골라요','40만원 ~ 400만원 · 합계에 넣지 않음','별도');
+  if(DX.disc) rows+=tr('할인','수급자 · 국가유공자','',dWon(-20));
+  rows+=tr('무료 제공',dNb('고인 이송 · 모바일 부고 · 장지 안내 · 화장 예약'),'','0원');
+  if(cut.length) rows+='<tr class="sub"><th colspan="3" scope="colgroup">빼신 것</th></tr>'+cut.map(l=>tr(l[1],'<s>'+dNb(DX_CNT[l[0]]?dxCntText(l[0],dxBaseCnt(l[0])):(l[6]||l[2]))+'</s>','',dWon(-l[4]),'cut')).join('');
+  const net=c.B-c.T;   /* 상품 금액보다 얼마나 덜었는지 (합계 줄 · 휴대폰 합계 줄과 같은 셈) */
+  const kind=net>0?T.name+' 상품에서 '+dMan(net)+' 덜어낸 견적이에요.':net<0?T.name+' 상품에 '+dMan(-net)+' 더한 견적이에요.':T.name+' 상품 그대로의 견적이에요.';
+  return '<section class="dx-est" aria-labelledby="h-est">'+
+    '<button type="button" class="dx-back" data-back>← 상품 구성으로 돌아가기</button>'+
+    '<h2 id="h-est" tabindex="-1">'+T.name+' 상품 견적</h2>'+
+    '<p class="keepline">'+kind+' 저장해 두셨다가 현장에서 보여 주시면 그대로 진행해 드려요.</p>'+
+    '<table class="dx-tbl"><thead><tr><th scope="col">구분</th><th scope="col">내용</th><th scope="col" style="text-align:right">금액</th></tr></thead><tbody>'+rows+'</tbody></table>'+
+    '<div class="dx-totbox"><dl class="dx-calc">'+dxCalcRows(c,T.name)+'</dl><div class="dx-sumrow"><span>합계</span><b>'+dWon(c.T)+'</b></div></div>'+
+    '<p class="outs">장례식장 빈소 · 안치실 · 음식, 화장장 사용료, 장지 비용은 쓰신 만큼 따로 내시면 돼요.'+(urnSep()?' 유골함은 합계에 들어 있지 않은 별도 항목이에요.':'')+(DX.disc?' 수급자 · 국가유공자 할인 대상인지는 상담 때 확인해 드려요.':'')+'</p>'+
+    '<div class="keep-box" role="note"><p class="keep-t">이 견적, 꼭 저장해 두세요</p><p>현장에서 보여 주시면 이 금액 그대로 진행해 드려요. 첫 견적이 끝 견적이고, 미리 내는 돈 없이 장례를 마친 뒤 정산해요.</p>'+
+      '<div class="est-who"><div class="fld"><label for="est-nm">견적에 넣을 성함 <span>(선택)</span></label><input id="est-nm" class="in" autocomplete="name" enterkeyhint="done"></div><p class="note">넣으시면 견적 이미지와 복사 글 맨 위에 「○○○ 고객님」으로 들어가요. 어디에도 저장되지 않아요.</p></div>'+
+      '<button type="button" class="btn btn-primary" data-a="img">견적 이미지 저장</button></div>'+
+    '<p class="note wz-link">미리 내는 돈 없이 장례를 마친 뒤 정산해요. <a href="#prepaid" data-a="prepaid">일반 선불식 상조와 무엇이 다른가요?</a></p>'+
+    (DX.type!=='nob'?'<div class="cp-box"></div>':'')+
+    '<div class="acts2"><a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><a class="btn btn-line" data-a="talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>견적 보내고 카톡 상담</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button></div>'+
+  '</section>';
+}
+function dxSwap(from,to,after){
+  const go=()=>{ from.hidden=true; to.hidden=false; if(after) after(); if(!RM&&to.animate) to.animate([{opacity:0,transform:'translate3d(0,18px,0)'},{opacity:1,transform:'none'}],{duration:520,easing:DX_EASE}); };
+  if(RM||!from.animate){ go(); return; }
+  const a=from.animate([{opacity:1},{opacity:0,transform:'translate3d(0,-8px,0)'}],{duration:170,easing:'cubic-bezier(0.4,0,1,1)',fill:'forwards'});
+  a.onfinish=()=>{ go(); a.cancel(); };
+}
+function dxShowEst(){
+  if(!DX.type) return; const v=$('#dx-est-view'); v.innerHTML=dxEstHTML();
+  const nm=$('#est-nm',v); nm.value=PR.nm||'';
+  nm.addEventListener('input',()=>{ PR.nm=nm.value; const cw=$('.cp-who'); if(cw){ const w=estWho(); cw.textContent=w; cw.closest('.cp-who-row').hidden=!w; } });
+  nm.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); nm.blur(); } });
+  const tbl=$('.dx-tbl',v);
+  $('[data-a="img"]',v).addEventListener('click',saveEstImg);
+  $('[data-a="copy"]',v).addEventListener('click',()=>copyText(estText(),'견적 내용을 복사했어요',tbl));
+  $('[data-a="talk"]',v).addEventListener('click',()=>copyText(estText(),'견적을 복사했어요. 카카오톡 대화창에 붙여 넣어 보내 주세요',tbl));
+  $('[data-a="prepaid"]',v).addEventListener('click',e=>{ const p=$('#prepaid'); if(!p) return; e.preventDefault(); window.scrollTo({top:dxY(p,12),behavior:RM?'auto':'smooth'}); });
+  const cpb=$('.cp-box',v); if(cpb) renderCp(cpb);
+  dxSwap($('#dx-pick-view'),v,()=>{ dxBar(); window.scrollTo({top:dxY($('[data-page="price"]'),0),behavior:'auto'}); const h=$('#h-est'); try{ h.focus({preventScroll:true}); }catch(e){} });
+}
+function dxBackEst(){
+  dxSwap($('#dx-est-view'),$('#dx-pick-view'),()=>{ dxBar(); window.scrollTo({top:dxY($('#h-s2'),14),behavior:'auto'}); });
+}
+function renderPrice(){ dxUpdTypePrices(); dxUpdUrn(); }
+function bindPrice(){
+  const sec=$('[data-page="price"]'); if(!sec) return;
+  sec.addEventListener('click',e=>{
+    const b=e.target.closest('button'); if(!b||b.disabled||!sec.contains(b)) return;
+    if(b.dataset.type){ dxSetType(b.dataset.type); return; }
+    if(b.dataset.bur){ dxSetBurial(b.dataset.bur); return; }
+    if(b.dataset.off){ dxToggle(b.dataset.off); return; }
+    if(b.dataset.cnt){ const p=b.dataset.cnt.split(':'); dxCount(p[0],+p[1],+p[2]); return; }
+    if(b.hasAttribute('data-est')){ dxShowEst(); return; }
+    if(b.hasAttribute('data-back')){ dxBackEst(); return; }
+  });
+  $('#dx-disc').addEventListener('change',e=>{ DX.disc=e.target.checked; dxUpdSum(); });
+  $('.dx-types').addEventListener('keydown',e=>{ const ks={ArrowRight:1,ArrowDown:1,ArrowLeft:-1,ArrowUp:-1}; if(!(e.key in ks)) return; e.preventDefault();
+    const bs=$$('.dx-type'), i=Math.max(0,bs.findIndex(x=>x.getAttribute('aria-checked')==='true')), j=(i+ks[e.key]+bs.length)%bs.length; dxSetType(bs[j].dataset.type); bs[j].focus(); });
+  $$('.dx-type').forEach((b,i)=>b.tabIndex=i===0?0:-1);
+  /* 휴대폰 : 합계 줄을 아래 전화 줄 바로 위에 */
+  const cbH=()=>{ const cb=$('.callbar'); const h=cb&&getComputedStyle(cb).display!=='none'?cb.offsetHeight:0; document.documentElement.style.setProperty('--cb',h+'px'); };
+  cbH(); window.addEventListener('resize',cbH);
+  if('IntersectionObserver' in window){ new IntersectionObserver(es=>{ es.forEach(en=>{ DX_SEEN=en.isIntersecting; }); dxBar(); },{rootMargin:'0px 0px -35% 0px'}).observe($('#dx-pick-view')); }
+  /* /price/?type=fam 으로 오면 그 상품이 골라진 채로 */
+  const q=new URLSearchParams(location.search).get('type');
+  if(q&&DX_TYPES[q]){ dxSetType(q,true); try{ history.replaceState(null,'',location.pathname); }catch(e){} }
 }
 
 /* ── 촌수 · 호칭 지도 ── */
@@ -2991,7 +3168,7 @@ function bindChon(){
 }
 
 /* ── 시작 ── */
-bindPrint(); bindWizard(); bindChon(); bindDate();
+bindPrint(); bindPrice(); bindChon(); bindDate();
 $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();
 
@@ -2999,7 +3176,7 @@ route();
 (function(){
   if(RM||!('IntersectionObserver' in window)||!Element.prototype.animate) return;
   const vh=window.innerHeight||800;
-  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.pkg-grid>.pkg,.pkg-notes,.pkg-own,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
+  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
   if(!els.length) return;
   els.forEach(el=>el.classList.add('rv'));
   let queue=[], timer=0;

@@ -30,7 +30,7 @@ META = {
     'nobinso': ('무빈소 장례 · 전국 어디서나 60만원부터 | 나만의장례',
                 '빈소 없이 가족끼리 조용히 모시는 무빈소 장례를 전국 어디서나 진행합니다. 진행 순서와 비용, 자주 묻는 질문을 정리했습니다. 24시간 상담 1661-4214.'),
     'price': ('장례 비용 · 무빈소장 · 가족장 · 일반장 상품 | 나만의장례 후불제 상조',
-              '무빈소장 155만원 · 가족장 210만원 · 일반장 292만원 상품 견적을 바로 보거나, 관 · 수의 · 장의 차량 · 접객 도우미를 하나씩 골라 장례 비용을 계산합니다. 나만의장례 가격표 그대로, 장례를 마친 뒤 정산합니다.'),
+              '무빈소장 155만원 · 가족장 210만원 · 일반장 292만원. 상품을 고르고 쓰지 않으실 것만 빼면 장례 비용이 바로 나옵니다. 나만의장례 가격표 그대로, 미리 내는 돈 없이 장례를 마친 뒤 정산합니다.'),
     'print': ('지방 · 위패 · 축문 · 혼백 출력 · 명정 예시 | 나만의장례 출력실',
               '고인 정보를 한 번 입력하면 지방(위패), 혼백, 축문, 상중 안내문, 부의 봉투를 실물 크기로 바로 인쇄하거나 PDF로 받습니다. 명정 쓰는 예와 부고 · 감사 문자도 볼 수 있습니다. 회원가입 없이 무료.'),
     'date': ('삼우제 · 49재 · 기일 날짜 계산 · 음력 달력 | 나만의장례',
@@ -82,6 +82,8 @@ def fix_links(s):
     s = s.replace('href="#print" data-goto-tab="ck"', 'href="/print/?tab=ck"')
     s = s.replace('href="#date" data-goto="after"', 'href="/date/#after"')
     s = s.replace('href="#price" data-goto="prepaid"', 'href="/price/#prepaid"')
+    for t in ('nob', 'fam', 'gen'):  # 비용 계산에 그 상품이 골라진 채로
+        s = s.replace(f'href="#price" data-goto-type="{t}"', f'href="/price/?type={t}"')
     s = s.replace('href="#home"', 'href="/"')
     for r in ROUTES:
         s = s.replace(f'href="#{r}"', f'href="/{r}/"')
@@ -126,7 +128,7 @@ function route(){
   if(nv) nv.scrollLeft=cur?Math.max(0,cur.offsetLeft-(nv.clientWidth-cur.offsetWidth)/2):0;
   if(p==='print') renderPrint();
   if(p==='chon') renderChonAll(true);
-  if(p==='price') renderWizard(false);
+  if(p==='price') renderPrice();
   if(p==='clan') renderClanPage();
   if(p==='date') renderDate();
 }""" + js[end:]
@@ -136,7 +138,7 @@ js = one(js, "b.addEventListener('click',()=>{ PS.c1=c; PS.man=false; toast(clan
 js = one(js, "b.href='#print';", "b.href='/print/?rel='+encodeURIComponent(rel);", 'jibang-link')
 
 old_start = """/* ── 시작 ── */
-bindPrint(); bindWizard(); bindChon(); bindDate();
+bindPrint(); bindPrice(); bindChon(); bindDate();
 $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
 route();"""
 new_start = r"""/* ── 시작 : 이 주소의 화면만 준비 (입력한 내용은 어디에도 저장하지 않음) ── */
@@ -150,7 +152,7 @@ if(PAGE==='print'){
   bindPrint();
   if(msg) setTimeout(()=>toast(msg),400);
 }
-if(PAGE==='price') bindWizard();
+if(PAGE==='price') bindPrice();
 if(PAGE==='chon') bindChon();
 if(PAGE==='date') try{ bindDate(); }catch(e){}
 if(PAGE==='clan') $('#clan-q').addEventListener('input',()=>{ clanSur=''; renderClanPage(); });
