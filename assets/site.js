@@ -942,7 +942,12 @@ const DX_LINES={
    장의 차량 : 무빈소장 차량 미사용 · 스타리아/카니발 · 리무진 · 장의버스, 가족장 · 일반장 차량 미사용 · 리무진 · 장의버스.
    「차량 미사용」은 혼자만, 스타리아/카니발과 리무진은 둘 중 하나만(둘 다 고인을 모시는 차), 장의버스는 어느 것과도 함께 */
 const DX_OPT={
-  shroud:{lbl:'수의 고르기',all:[['cotton','면수의',15],['jeoma','저마수의',20],['hwangto','황토수의',30],['jac','쟈가드수의',50],['hemp','대마수의',60]],base:['cotton']},
+  shroud:{lbl:'수의 고르기',below:true,base:['cotton'],   /* below : 설명은 고른 것 하나만 칸 아래에 (예전 계산기 설명, 2026-11-01 사용자 지시로 다시) */
+    all:[['cotton','면수의',15,'무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.'],
+         ['jeoma','저마수의',20,'저마는 모시풀에서 얻는 모시예요. 예부터 여름 옷감으로 쓰였고, 가볍고 시원한 결이 특징이에요. 예전에는 귀한 옷감이었어요.'],
+         ['hwangto','황토수의',30,'황토로 물들인 옷감으로 지은 수의예요. 은은한 흙빛이 나는 자연 소재예요.'],
+         ['jac','쟈가드수의',50,'자카드 직기로 무늬를 넣어 짠 옷감으로 지은 수의예요. 은은한 무늬와 광택이 있어 단정하고 품위 있게 보여요.'],
+         ['hemp','대마수의',60,'대마(삼)에서 얻은 삼베로 지은 수의예요. 바람이 잘 통하고 흙에서 자연으로 돌아가는 소재라, 오늘날 수의를 대표하는 옷감이에요.']]},
   car:{lbl:'장의 차량 고르기 · 여러 개 고르실 수 있어요',multi:true,alt:{limo:'van',van:'limo'},
     all:[['none','차량 미사용',0,'화장장 안에 있는 장례식장을 쓰실 때','화장장 안 장례식장 이용','차량 미사용'],
          ['van','스타리아 · 카니발',30,'고인을 모시는 작은 장의 차량이에요','고인을 모시는 작은 장의 차량','스타리아 · 카니발'],
@@ -1018,7 +1023,8 @@ function dxCntHTML(k){
 function dxOptHTML(k){
   const o=dxOpts(k);
   return '<div class="pl-opt'+(k==='car'?' wide':'')+'" role="group" aria-label="'+DX_OPT[k].lbl+'">'+
-    o.map(x=>'<button type="button" data-opt="'+k+':'+x[0]+'" aria-pressed="false"><b>'+dNb(x[1])+'</b><span class="p">'+(x[2]?x[2]+'만원':'0원')+'</span>'+(x[3]?'<small>'+dNb(x[3])+'</small>':'')+'</button>').join('')+
+    o.map(x=>'<button type="button" data-opt="'+k+':'+x[0]+'" aria-pressed="false"><b>'+dNb(x[1])+'</b><span class="p">'+(x[2]?x[2]+'만원':'0원')+'</span>'+(x[3]&&!DX_OPT[k].below?'<small>'+dNb(x[3])+'</small>':'')+'</button>').join('')+
+    (DX_OPT[k].below?'<p class="pl-desc" id="ds-'+k+'" aria-live="polite"></p>':'')+
     '<p class="pl-diff" id="d-'+k+'"></p>'+
     (k==='car'?'<p class="pl-cnote">리무진과 장의버스는 함께 고르실 수 있어요.'+(DX.type==='nob'?' 스타리아&nbsp;·&nbsp;카니발과 리무진은 둘 중 하나만 고르시면 돼요.':'')+'</p>':'')+
   '</div>';
@@ -1060,6 +1066,8 @@ function dxUpdRow(k,init){
   if(sb&&k==='daeryeom') sb.innerHTML=DX.off.ipgwan?'꽃장식 없이 궁중대렴만 하시면 20만원이에요':dNb(l[3]);
   if(dxOpts(k)){ const ids=dxSel(k).map(x=>x[0]), d=dxNow(l)-l[4], b0=dNb(dxBaseLbl(k));
     $$('[data-opt]',r).forEach(b=>b.setAttribute('aria-pressed',String(ids.includes(b.dataset.opt.split(':')[1]))));
+    const ds=$('#ds-'+k); if(ds){ const x=dxSel(k)[0], h='<b>'+dNb(x[1])+'</b> '+dNb(x[3]||'');
+      if(ds.innerHTML!==h){ const was=!!ds.innerHTML; ds.innerHTML=h; if(was&&!init&&!RM&&ds.animate) ds.animate([{opacity:0,transform:'translate3d(0,4px,0)'},{opacity:1,transform:'none'}],{duration:360,easing:DX_EASE}); } }
     $('#d-'+k).innerHTML=dxIsBase(k)?'상품 구성 그대로예요':d?'상품 구성('+b0+')보다 <b>'+dSMan(d)+'</b>':'상품 구성('+b0+')과 금액이 같아요'; }
   if(DX_CNT[k]){ const c=DX_CNT[k], v=DX.cnt[k];
     v.forEach((n,i)=>{ $('#o-'+k+i).textContent=n+c.unit;

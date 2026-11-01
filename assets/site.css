@@ -644,7 +644,9 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 .pl-opt button[aria-pressed="true"]{border:2px solid var(--ink);padding:9px 11px;background:var(--pine-soft)}
 .pl-opt button:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
 @media (hover:hover){.pl-opt button:not([aria-pressed="true"]):hover{border-color:var(--edge)}}
-.pl-opt .pl-diff,.pl-opt .pl-cnote{grid-column:1 / -1}
+.pl-opt .pl-diff,.pl-opt .pl-cnote,.pl-opt .pl-desc{grid-column:1 / -1}
+.pl-desc{margin-top:4px;padding:10px 12px;background:var(--surface);border:1px solid var(--line);border-left:3px solid var(--ink);border-radius:3px;font-size:14.5px;line-height:1.65;color:var(--ink2)}
+.pl-desc b{color:var(--ink);margin-right:2px}
 .pl-opt .pl-cnote b{color:var(--ink2)}
 @media (min-width:700px){.pl-cnt{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}.pl-diff,.pl-cnote{grid-column:1 / -1}}
 .pl-row.off .pl-btn{border-color:var(--ink);background:var(--pine-soft)}
