@@ -92,6 +92,10 @@ def fix_links(s):
 
 # 전화번호 · 시간처럼 중간에서 줄이 바뀌면 읽기 불편한 것은 한 덩어리로 (글자 부분에만, 태그 · 스크립트 안은 건드리지 않음)
 NOBR = re.compile(r'(\d{3}-\d{2}-\d{5}|\d{2,4}-\d{3,4}(?:-\d{4})?|\d{1,2}:\d{2} – \d{1,2}:\d{2}|\d+%[을를은는이가의]|@나만의장례[가-힣]?|[가-힣0-9]+ ~ [가-힣0-9]+)')  # 전화번호 · 시간 · 「200%를」 · 「@나만의장례를」 · 「초재 ~ 칠재」
+# 「빼 주세요 · 골라 주세요 · 보여 드릴게요 · 꾸려 두었어요」가 두 줄로 갈리지 않게 (2026-11-01 사용자 지적)
+AUX = re.compile(r'(?<=[가-힣]) (?=(?:주세요|주시면|주시고|주셔도|주십시오|드려요|드릴게요|드립니다|드리고|드리는|드리며|두었어요|두세요|두시면|두셔도)(?![가-힣]))')
+
+
 def nobr(h):
     out = []; skip = False
     for part in re.split(r'(<[^>]+>)', h):
@@ -103,7 +107,7 @@ def nobr(h):
         elif re.search(r'<(a|button)\b[^>]*class="[^"]*\bbtn\b', out[-1] if out else ''):
             out.append(part)  # 버튼 안은 그대로 (버튼은 flex라 덩어리로 나누면 간격이 벌어짐)
         else:
-            out.append(part if skip else NOBR.sub(r'<span class="nw">\1</span>', part).replace(' · ', '\u00a0· '))  # 가운뎃점이 줄 맨 앞에 오지 않게
+            out.append(part if skip else AUX.sub('\u00a0', NOBR.sub(r'<span class="nw">\1</span>', part).replace(' · ', '\u00a0· ')))  # 가운뎃점이 줄 맨 앞에 오지 않게 · 「빼 / 주세요」처럼 끊기지 않게
     return ''.join(out)
 
 
