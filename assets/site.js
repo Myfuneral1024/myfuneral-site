@@ -475,7 +475,33 @@ function drawChukmun(ctx,k,lines,W,H){
   lines.forEach((l,i)=>flowV(ctx,l,(startX-i*pitch)*k,top*k,fs*k,1.12));
 }
 function ckSheets(m){ const o=m.kOnly?'k':PS.ckOut; if(o==='h') return [{t:'한문축',kind:'h'}]; if(o==='k') return [{t:'한글축 · 뜻풀이',kind:'k'}]; return [{t:'한문 · 읽는 소리 · 한글 뜻풀이',kind:'all'}]; }
-function drawCkSheet(ctx,k,m,kind){ if(kind==='h') drawChukmun(ctx,k,m.ckH,297,210); else if(kind==='k') drawChukmun(ctx,k,m.ckK,297,210); else drawCkAll(ctx,k,m); }
+function drawCkSheet(ctx,k,m,kind){ if(kind==='h') drawChukmun(ctx,k,m.ckH,297,210); else if(kind==='k') drawCkK(ctx,k,m.ckK); else drawCkAll(ctx,k,m); }
+/* 한글 축문은 가로쓰기 (보통 글처럼 왼쪽에서 오른쪽, 위에서 아래로).
+   한 줄이 칸보다 길면 띄어쓰기에서 나누고, 원래 줄 사이는 조금 더 띄운다 (p = 원래 줄의 첫 줄) */
+const CK_LP=1.95, CK_LC=1.5;
+function ckWrapK(ctx,lines,f,maxW){
+  ctx.font=fnt(500,100); const w=t=>ctx.measureText(t).width/100*f; const out=[];
+  lines.forEach(L=>{ const t=String(L).trim(); if(!t){ out.push({t:'',p:true}); return; }
+    let cur='', first=true; const push=x=>{ out.push({t:x,p:first}); first=false; };
+    t.split(/\s+/).forEach(wd=>{ const tr=cur?cur+' '+wd:wd; if(w(tr)<=maxW){ cur=tr; return; }
+      if(cur){ push(cur); cur=''; }
+      if(w(wd)<=maxW){ cur=wd; return; }
+      Array.from(wd).forEach(ch=>{ if(cur&&w(cur+ch)>maxW){ push(cur); cur=ch; } else cur+=ch; }); });
+    if(cur) push(cur); });
+  return out; }
+function ckHgtK(L,f){ return L.reduce((a,o,i)=>a+(i?(o.p?f*CK_LP:f*CK_LC):f),0); }
+function ckWidK(ctx,L,f){ ctx.font=fnt(500,100); return Math.max(1,...L.map(o=>ctx.measureText(o.t).width/100*f)); }
+function ckDrawK(ctx,k,L,f,x,y){ ctx.fillStyle='#111111'; ctx.font=fnt(500,f*k); ctx.textAlign='left'; ctx.textBaseline='middle';
+  let yy=y+f/2; L.forEach((o,i)=>{ if(i) yy+=o.p?f*CK_LP:f*CK_LC; if(o.t) ctx.fillText(o.t,x*k,yy*k); }); }
+/* 한글축만 : A4 가로 한 장, 가운데에 가로쓰기 */
+function drawCkK(ctx,k,lines){
+  const W=297,H=210,mx=26,top=20,bot=22, avW=W-2*mx, avH=H-top-bot, K0=lines.length?lines:[''];
+  const fit=one=>{ for(let ff=9;ff>=2.5;ff-=0.05){ const x=ckWrapK(ctx,K0,ff,avW); if(one&&x.length>K0.length) continue; if(ckHgtK(x,ff)<=avH) return {f:ff,L:x}; } return null; };
+  /* 줄이 나뉘지 않는 쪽을 먼저 (글자가 조금 작아져도 15% 안이면) */
+  let r=fit(false); const r1=fit(true); if(r1&&(!r||r1.f>=r.f*0.85)) r=r1;
+  const f=r?r.f:2.5, L=r?r.L:ckWrapK(ctx,K0,f,avW);
+  const bw=ckWidK(ctx,L,f), bh=ckHgtK(L,f);
+  ckDrawK(ctx,k,L,f,(W-bw)/2,top+Math.max(0,(avH-bh)/2)); }
 /* 한문 글자와 읽는 소리 짝 짓기 : 띄어 쓴 마디끼리, 마디 안에서는 글자 하나에 소리 하나 */
 function ckRuby(h,r){
   const isH=c=>/[\u3400-\u9fff\uf900-\ufaff]/.test(c);
@@ -487,20 +513,21 @@ function ckRuby(h,r){
   else { const hc=Array.from(String(h).replace(/ /g,'')), rc=Array.from(String(r||'').replace(/ /g,'')); let j=0;
     Array.from(String(h)).forEach(c=>{ if(c===' '){ out.push({c,r:''}); return; } out.push({c,r:hc.length===rc.length&&isH(c)?rc[j]:''}); j++; }); }
   return out; }
-/* A4 가로 한 장 : 오른쪽 한문(글자 오른쪽에 작은 한글 소리) · 가운데 가는 줄 · 왼쪽 한글 뜻풀이, 모두 세로쓰기 오른쪽 줄부터 */
+/* A4 가로 한 장 : 오른쪽 한문 세로쓰기(글자 오른쪽에 작은 한글 소리, 오른쪽 줄부터) · 가운데 가는 줄 · 왼쪽 한글 뜻풀이 가로쓰기 */
 function drawCkAll(ctx,k,m){
-  const W=297,H=210,mx=14,top=16,bot=20,mid=14,PH=1.9,PK=1.62,SH=1.1,SK=1.06;
+  const W=297,H=210,mx=14,top=16,bot=20,mid=14,PH=1.9,SH=1.1;
   const rows=m.ckRows.length?m.ckRows:[{h:'',r:''}], K0=m.ckK.length?m.ckK:[''];
   const lenH=Math.max(1,...rows.map(x=>vlen(x.h,1,SH)));
   const avH=H-top-bot, avW=W-2*mx-mid;
-  /* 한글 뜻풀이는 한 줄씩 끊지 않고, 한문 줄 높이에 맞춰 이어 붙여 칸 수를 줄인다 (글자를 더 크게) */
-  const pack=(fk,maxH)=>{ const out=[]; K0.forEach(t=>{ const last=out[out.length-1]; if(last!=null&&vlen(last+'  '+t,fk,SK)<=maxH) out[out.length-1]=last+'  '+t; else out.push(t); }); return out; };
-  let fH=4, fK=3, K=K0;
-  for(let f=9;f>=2.5;f-=0.05){ const fh=Math.min(f*1.35,avH/lenH,12), colH=Math.max(lenH*fh,avH*0.62), kk=pack(f,Math.min(avH,colH*1.02));
-    if(kk.some(t=>vlen(t,f,SK)>avH)) continue;
-    if(rows.length*fh*PH+kk.length*f*PK<=avW){ fH=fh; fK=f; K=kk; break; } }
-  const hH=lenH*fH, hK=Math.max(...K.map(t=>vlen(t,fK,SK))), y0=top+Math.max(0,(avH-Math.max(hH,hK))/2);
-  const wH=rows.length*fH*PH, wK=K.length*fK*PK, spare=avW-wH-wK, right=W-mx-spare/2, divX=right-wH-mid/2;
+  /* 한글 글자를 가장 크게 : 한문은 한글의 1.3배(최대 12mm), 남은 너비에 한글을 가로로 (한 줄에 14자 이상) */
+  const fit=one=>{ for(let f=8;f>=2.5;f-=0.05){ const fh=Math.min(f*1.3,avH/lenH,12), wK=avW-rows.length*fh*PH; if(wK<f*14) continue;
+    const L=ckWrapK(ctx,K0,f,wK); if(one&&L.length>K0.length) continue; if(ckHgtK(L,f)<=avH) return {f,fh,L}; } return null; };
+  /* 한 줄이 둘로 나뉘지 않는 쪽을 먼저 (글자가 조금 작아져도 15% 안이면) */
+  let r=fit(false); const r1=fit(true); if(r1&&(!r||r1.f>=r.f*0.85)) r=r1;
+  let fH=4, fK=2.5, K=null; if(r){ fH=r.fh; fK=r.f; K=r.L; }
+  if(!K){ fH=Math.min(fK*1.3,avH/lenH,12); K=ckWrapK(ctx,K0,fK,Math.max(30,avW-rows.length*fH*PH)); }
+  const hH=lenH*fH, hK=ckHgtK(K,fK), y0=top+Math.max(0,(avH-Math.max(hH,hK))/2);
+  const wH=rows.length*fH*PH, wK=ckWidK(ctx,K,fK), spare=Math.max(0,avW-wH-wK), right=W-mx-spare/2, divX=right-wH-mid/2;
   const rf=fH*0.42;
   rows.forEach((x,i)=>{ const cellR=right-i*fH*PH, cx=cellR-rf*1.15-fH/2, rx=cellR-rf*0.55; let y=y0+fH/2;
     ckRuby(x.h,x.r).forEach(o=>{ if(o.c===' '){ y+=fH*0.55; return; }
@@ -508,8 +535,7 @@ function drawCkAll(ctx,k,m){
       if(o.r){ ctx.fillStyle='#4a4f4b'; ctx.font=fnt(500,rf*k,SANS); ctx.fillText(o.r,rx*k,y*k); }
       y+=fH*SH; }); });
   ctx.fillStyle='#c4c8c3'; ctx.fillRect(divX*k,(y0-2)*k,Math.max(1,0.25*k),(Math.max(hH,hK)+4)*k);
-  ctx.fillStyle='#111111'; ctx.font=fnt(500,fK*k);
-  K.forEach((t,i)=>flowV(ctx,t,(divX-mid/2-i*fK*PK-fK*PK/2)*k,y0*k,fK*k,SK));
+  ckDrawK(ctx,k,K,fK,divX-mid/2-wK,y0);
   ctx.fillStyle='#8f948f'; ctx.font=fnt(500,3.2*k,SANS); ctx.textBaseline='middle';
   ctx.textAlign='right'; ctx.fillText('한문 축문 · 글자 옆 작은 글씨는 읽는 소리',(W-mx)*k,(H-9)*k);
   ctx.textAlign='left'; ctx.fillText('한글 축문 · 뜻풀이',mx*k,(H-9)*k);
