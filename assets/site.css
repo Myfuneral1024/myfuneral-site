@@ -630,6 +630,22 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 .pl-diff{font-size:14px;color:var(--ink2);line-height:1.5;margin-top:2px}
 .pl-diff b{color:var(--ink)}
 .pl-cnote{font-size:13px;color:var(--muted);line-height:1.5}
+/* 고르는 줄 (수의 · 장의 차량) */
+.pl-opt{grid-column:1 / -1;grid-row:3;display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:6px;margin-top:10px;padding:10px 12px;background:var(--bg);border-radius:4px}
+.pl-opt.wide{grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.pl-row.off .pl-opt{display:none}
+.pl-opt button{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:baseline;column-gap:10px;min-height:48px;padding:10px 12px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);font:inherit;text-align:left;cursor:pointer;transition:border-color .15s,background-color .15s}
+.pl-opt button b{font-size:15px;font-weight:700;line-height:1.35}
+.pl-opt:not(.wide) button{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:1px}
+.pl-opt:not(.wide) button b{white-space:nowrap}
+.pl-opt:not(.wide) button .p{font-size:14px;color:var(--ink2)}
+.pl-opt button .p{font-family:var(--serif);font-weight:700;font-size:15px;white-space:nowrap;font-variant-numeric:tabular-nums}
+.pl-opt button small{grid-column:1 / -1;margin-top:3px;font-size:13px;color:var(--muted);line-height:1.45}
+.pl-opt button[aria-pressed="true"]{border:2px solid var(--ink);padding:9px 11px;background:var(--pine-soft)}
+.pl-opt button:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+@media (hover:hover){.pl-opt button:not([aria-pressed="true"]):hover{border-color:var(--edge)}}
+.pl-opt .pl-diff,.pl-opt .pl-cnote{grid-column:1 / -1}
+.pl-opt .pl-cnote b{color:var(--ink2)}
 @media (min-width:700px){.pl-cnt{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px}.pl-diff,.pl-cnote{grid-column:1 / -1}}
 .pl-row.off .pl-btn{border-color:var(--ink);background:var(--pine-soft)}
 .pl-amt .minus{display:inline-block;padding:1px 7px;border:1px solid var(--ink);border-radius:3px;font-family:var(--sans);font-size:14.5px;font-weight:700}
