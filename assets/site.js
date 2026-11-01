@@ -452,17 +452,13 @@ function drawHonbaek(ctx,k,m){
     const big=s*(PS.hbName?0.48:0.58); ctx.fillStyle='#111111'; ctx.font=fnt(900,big*k); ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText(PS.hbChar,(x+s/2)*k,(y+s*(PS.hbName?0.40:0.5))*k);
     if(PS.hbName&&m.hbName){ const t=m.hbName; let fs=Math.min(s*0.11,(s*0.86)/Math.max(1,Array.from(t).length)); ctx.font=fnt(700,fs*k); ctx.fillText(t,(x+s/2)*k,(y+s*0.82)*k); }
-    ctx.font=fnt(500,3.2*k,SANS); ctx.fillStyle='#59615b'; ctx.fillText('혼백상자 표지 · '+(s/10)+'×'+(s/10)+'cm · 점선을 따라 자르세요',105*k,(y+s+12)*k);
   } else if(item==='up'){
     const s=40, cols=3, rows=4, gx=12, gy=12; const bw=cols*s+(cols-1)*gx, bh=rows*s+(rows-1)*gy; const x0=(210-bw)/2, y0=(297-bh)/2;
     for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){ const x=x0+c*(s+gx), y=y0+r*(s+gy); ctx.save(); cutLine(ctx,k); ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.restore(); ctx.fillStyle='#111111'; ctx.font=fnt(900,s*0.62*k); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('上',(x+s/2)*k,(y+s/2)*k); }
-    ctx.font=fnt(500,3.2*k,SANS); ctx.fillStyle='#59615b'; ctx.textAlign='center'; ctx.fillText('혼백 윗부분에 붙이는 上 글자 · 4×4cm',105*k,(y0+bh+10)*k);
   } else {
     const s=Math.max(30,Math.min(190,Number(PS.hbSize)*10||180)); const x=(210-s)/2, y=(297-s)/2;
     ctx.save(); cutLine(ctx,k); ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.setLineDash([0.6*k,1.6*k]); ctx.strokeStyle='#b4bab3';
     ctx.beginPath(); ctx.moveTo((x+s/2)*k,y*k); ctx.lineTo((x+s/2)*k,(y+s)*k); ctx.moveTo(x*k,(y+s/2)*k); ctx.lineTo((x+s)*k,(y+s/2)*k); ctx.stroke(); ctx.restore();
-    ctx.font=fnt(500,3.2*k,SANS); ctx.fillStyle='#59615b'; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText('혼백지 '+(s/10)+'×'+(s/10)+'cm · 굵은 점선은 자르는 선, 가는 점선은 가운데 접는 선',105*k,(y+s+10)*k);
   }
 }
 function drawChukmun(ctx,k,lines,W,H){
@@ -515,7 +511,7 @@ function ckRuby(h,r){
   return out; }
 /* A4 가로 한 장 : 오른쪽 한문 세로쓰기(글자 오른쪽에 작은 한글 소리, 오른쪽 줄부터) · 가운데 가는 줄 · 왼쪽 한글 뜻풀이 가로쓰기 */
 function drawCkAll(ctx,k,m){
-  const W=297,H=210,mx=14,top=16,bot=20,mid=14,PH=1.9,SH=1.1;
+  const W=297,H=210,mx=14,top=16,bot=16,mid=14,PH=1.9,SH=1.1;
   const rows=m.ckRows.length?m.ckRows:[{h:'',r:''}], K0=m.ckK.length?m.ckK:[''];
   const lenH=Math.max(1,...rows.map(x=>vlen(x.h,1,SH)));
   const avH=H-top-bot, avW=W-2*mx-mid;
@@ -536,9 +532,6 @@ function drawCkAll(ctx,k,m){
       y+=fH*SH; }); });
   ctx.fillStyle='#c4c8c3'; ctx.fillRect(divX*k,(y0-2)*k,Math.max(1,0.25*k),(Math.max(hH,hK)+4)*k);
   ckDrawK(ctx,k,K,fK,divX-mid/2-wK,y0);
-  ctx.fillStyle='#8f948f'; ctx.font=fnt(500,3.2*k,SANS); ctx.textBaseline='middle';
-  ctx.textAlign='right'; ctx.fillText('한문 축문 · 글자 옆 작은 글씨는 읽는 소리',(W-mx)*k,(H-9)*k);
-  ctx.textAlign='left'; ctx.fillText('한글 축문 · 뜻풀이',mx*k,(H-9)*k);
 }
 function drawSangjung(ctx,k){
   ctx.fillStyle='#111111'; ctx.textAlign='center'; ctx.textBaseline='middle';
@@ -581,14 +574,14 @@ function pagesFor(m){
   if(t==='env') return {pages:[{w:105,h:220,draw:(ctx,k)=>drawEnvFront(ctx,k,0)},{w:105,h:220,draw:(ctx,k)=>drawEnvBack(ctx,k,0)}],name:'부의봉투_'+or(PS.envName,'')};
   return {pages:[],name:''};
 }
-function docText(m){ return [m.jb.join(''),m.faith?[m.faith.role||'',m.faith.name||'',(m.faith.right||[]).join(''),(m.faith.left||[]).join(''),'妙法之靈'].join(''):'',m.mjSel.h,PS.sjL1,PS.sjL2,PS.sjL3,PS.sjSign,PS.hall,PS.room,m.ckH.join(''),m.ckK.join(''),m.ckRows.map(r=>r.r).join(''),'한문축글자옆작은글씨는읽는소리한글뜻풀이','喪中上前',(ENV[PS.envWord]||[]).join(''),PS.envName,PS.envOrg,m.hbName,'집안에상을당하여부터까지문을닫습니다너그러운양해부탁드립니다주인올림'].join(''); }
+function docText(m){ return [m.jb.join(''),m.faith?[m.faith.role||'',m.faith.name||'',(m.faith.right||[]).join(''),(m.faith.left||[]).join(''),'妙法之靈'].join(''):'',m.mjSel.h,PS.sjL1,PS.sjL2,PS.sjL3,PS.sjSign,PS.hall,PS.room,m.ckH.join(''),m.ckK.join(''),m.ckRows.map(r=>r.r).join(''),'喪中上前',(ENV[PS.envWord]||[]).join(''),PS.envName,PS.envOrg,m.hbName,'집안에상을당하여부터까지문을닫습니다너그러운양해부탁드립니다주인올림'].join(''); }
 const fontDone=new Set();
 function ensureFonts(text){
   const key=PS.font+'|'+PS.wt+'|'+text; if(fontDone.has(key)||!document.fonts||!document.fonts.load) return Promise.resolve(false);
   const L=(f)=>document.fonts.load(f,text).catch(()=>null);
   const list=PS.font==='brush'?[L('400 40px "Yuji Syuku"'),L('400 40px "ChosunGs"'),L('800 40px "Shippori Mincho"')]
     :[L('800 40px "Shippori Mincho"'),L('700 40px "Shippori Mincho"'),L('500 40px "Shippori Mincho"'),L('800 40px "Noto Serif KR"'),L('700 40px "Noto Serif KR"'),L('500 40px "Noto Serif KR"')];
-  list.push(document.fonts.load('500 20px "IBM Plex Sans KR"','혼백상자표지점선을따라자르세요빈소연락처전화'+text).catch(()=>null));
+  list.push(document.fonts.load('500 20px "IBM Plex Sans KR"','빈소연락처전화'+text).catch(()=>null));
   return Promise.all(list).then(()=>{fontDone.add(key);return true;}).catch(()=>false);
 }
 
