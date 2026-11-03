@@ -31,8 +31,8 @@ META = {
                 '빈소 없이 가족끼리 조용히 모시는 무빈소 장례를 전국 어디서나 진행합니다. 진행 순서와 비용, 자주 묻는 질문을 정리했습니다. 24시간 상담 1661-4214.'),
     'price': ('장례 비용 · 무빈소장 · 가족장 · 일반장 상품 | 나만의장례 후불제 상조',
               '무빈소장 155만원 · 가족장 210만원 · 일반장 292만원. 상품을 고르고 수의 · 장의 차량을 고르거나 쓰지 않으실 것을 빼면 장례 비용이 바로 나옵니다. 나만의장례 가격표 그대로, 미리 내는 돈 없이 장례를 마친 뒤 정산합니다.'),
-    'print': ('지방 · 위패 · 축문 · 혼백 출력 · 명정 예시 | 나만의장례 출력실',
-              '고인 정보를 한 번 입력하면 지방(위패), 혼백, 축문, 상중 안내문, 부의 봉투를 실물 크기로 바로 인쇄하거나 PDF로 받습니다. 명정 쓰는 예와 부고 · 감사 문자도 볼 수 있습니다. 회원가입 없이 무료.'),
+    'print': ('지방 · 위패 · 축문 출력 · 명정 예시 | 나만의장례 출력실',
+              '고인 정보를 한 번 입력하면 지방(위패), 축문, 상중 안내문, 부의 봉투를 실물 크기로 바로 인쇄하거나 PDF로 받습니다. 명정 쓰는 예와 부고 · 감사 문자도 볼 수 있습니다. 회원가입 없이 무료.'),
     'date': ('삼우제 · 49재 · 기일 날짜 계산 · 음력 달력 | 나만의장례',
              '돌아가신 날만 넣으면 발인, 삼우제, 49재, 100일, 첫 기일(음력)을 양력 날짜로 바로 계산합니다. 사망신고 · 상속 포기 · 상속세 같은 장례 후 서류 기한과 음력 달력, 손 없는 날까지 한눈에 봅니다.'),
     'clan': ('본관 찾기 · 성씨 본관 한자 검색 | 나만의장례',
@@ -149,7 +149,7 @@ new_start = r"""/* ── 시작 : 이 주소의 화면만 준비 (입력한 내
 try{ localStorage.removeItem('mf-hist'); ['mf-ps','mf-pr','mf-ch'].forEach(k=>sessionStorage.removeItem(k)); }catch(e){}
 if(PAGE==='print'){
   const q=new URLSearchParams(location.search); let msg='';
-  const t=q.get('tab'); if(t&&['jb','mj','hb','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
+  const t=q.get('tab'); if(t&&['jb','mj','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
   const r=q.get('rel'); if(r&&Object.prototype.hasOwnProperty.call(REL,r)){ PS.rel=r; PS.tab='jb'; if(!REL[r].gen) PS.pair=false; msg='고르신 관계로 지방을 준비했습니다'; }
   const ci=q.get('clan'); if(ci!==null&&/^\d+$/.test(ci)&&CLANS[+ci]){ const c=CLANS[+ci]; PS.c1=c; PS.man=false; msg=clanLabel(c)+' '+c.bh+c.sh+' · 고인 본관에 넣었습니다'; }
   if(location.search) try{ history.replaceState(null,'',location.pathname); }catch(e){}

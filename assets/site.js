@@ -188,7 +188,7 @@ const cz=c=>({bk:(c&&c.bk)||'○○',sk:(c&&c.sk)||'○',bh:(c&&c.bh)||'○○',
 const PS={
   tab:'jb', rlg:'yu', rel:'f', c1:NOCLAN, c2:NOCLAN, man:false, mbk:'', msk:'', mbh:'', msh:'',
   nameK:'', ttl:'hak', ttlH:'', role:'성도', bap:'', beop:'', wonHo:'', jbCus:false, jbText:'', pair:false, han:'0', bon:true, wt:800, font:'my',
-  jbSize:'L', copies:3, mjSize:'A4x2', hbItem:'box', hbChar:'前', hbSize:10, hbName:false,
+  jbSize:'L', copies:1, mjSize:'A4x2',
   ck:'balin', ckDate:isoDay(0), ckTitle:'auto', ckOut:'all', ckCus:false, ckTextH:'', ckTextR:'', ckTextK:'', ckStone:'碑石',
   sjFrom:isoDay(0), sjTo:isoDay(2), sjHall:true, sjL1:'집안에 상(喪)을 당하여', sjL2:'문을 닫습니다.', sjL3:'너그러운 양해 부탁드립니다.', sjSign:'주인 올림', sjTel:'',
   envWord:'buui', envName:'', envOrg:'',
@@ -382,8 +382,7 @@ function model(){
   const needClan=(R.g==='f'||(CK_SAN.indexOf(ck)>=0&&ck!=='myosan')||ck==='noje')||(pairCk&&R.g==='m');
   const kOnly=ck==='wiryeong';
   const fullName=or(fullK,'[고인 성함]');
-  const hbName=jb[0]? (isYu? (dec[0]) : jb[0]) : '';
-  return {R,c1:c1raw,c2,T,fullK,fullName,isYu,canPair,pairOn,jb,jbAuto,faith,dims,mjAll,mjSel,mj:mjT.h,dec,lines,linesK,ckH,ckK,ckRows,kOnly,ckCusOn,ckTip,needClan,cG,lunarNote,ckWarn,hdr,ckWho:cG==='sang'||cG==='je',hbName};
+  return {R,c1:c1raw,c2,T,fullK,fullName,isYu,canPair,pairOn,jb,jbAuto,faith,dims,mjAll,mjSel,mj:mjT.h,dec,lines,linesK,ckH,ckK,ckRows,kOnly,ckCusOn,ckTip,needClan,cG,lunarNote,ckWarn,hdr,ckWho:cG==='sang'||cG==='je'};
 }
 
 /* ── 그리기 ── */
@@ -442,24 +441,6 @@ function drawMyeong(ctx,x,y,w,h,k,str,wt){
   const X=x*k,Y=y*k,W=w*k,H=h*k; ctx.save(); ctx.fillStyle='#7a2420'; ctx.fillRect(X,Y,W,H);
   const ch=Array.from(str); const fs=Math.min(W*0.5,(H*0.84)/ch.length*0.88);
   ctx.fillStyle='#f4efe6'; ctx.font=fnt(wt,fs); spread(ctx,ch,X+W/2,Y+H*0.07,Y+H-H*0.06,fs); ctx.restore();
-}
-function drawHonbaek(ctx,k,m){
-  const item=PS.hbItem; ctx.fillStyle='#111111';
-  if(item==='box'){
-    const s=Math.max(30,Math.min(190,Number(PS.hbSize)*10||100)); const x=(210-s)/2, y=30;
-    ctx.save(); ctx.lineWidth=Math.max(1,0.3*k); ctx.strokeStyle='#111111'; ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.restore();
-    ctx.save(); cutLine(ctx,k); ctx.strokeRect((x-4)*k,(y-4)*k,(s+8)*k,(s+8)*k); ctx.restore();
-    const big=s*(PS.hbName?0.48:0.58); ctx.fillStyle='#111111'; ctx.font=fnt(900,big*k); ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText(PS.hbChar,(x+s/2)*k,(y+s*(PS.hbName?0.40:0.5))*k);
-    if(PS.hbName&&m.hbName){ const t=m.hbName; let fs=Math.min(s*0.11,(s*0.86)/Math.max(1,Array.from(t).length)); ctx.font=fnt(700,fs*k); ctx.fillText(t,(x+s/2)*k,(y+s*0.82)*k); }
-  } else if(item==='up'){
-    const s=40, cols=3, rows=4, gx=12, gy=12; const bw=cols*s+(cols-1)*gx, bh=rows*s+(rows-1)*gy; const x0=(210-bw)/2, y0=(297-bh)/2;
-    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){ const x=x0+c*(s+gx), y=y0+r*(s+gy); ctx.save(); cutLine(ctx,k); ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.restore(); ctx.fillStyle='#111111'; ctx.font=fnt(900,s*0.62*k); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('上',(x+s/2)*k,(y+s/2)*k); }
-  } else {
-    const s=Math.max(30,Math.min(190,Number(PS.hbSize)*10||180)); const x=(210-s)/2, y=(297-s)/2;
-    ctx.save(); cutLine(ctx,k); ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.setLineDash([0.6*k,1.6*k]); ctx.strokeStyle='#b4bab3';
-    ctx.beginPath(); ctx.moveTo((x+s/2)*k,y*k); ctx.lineTo((x+s/2)*k,(y+s)*k); ctx.moveTo(x*k,(y+s/2)*k); ctx.lineTo((x+s)*k,(y+s/2)*k); ctx.stroke(); ctx.restore();
-  }
 }
 function drawChukmun(ctx,k,lines,W,H){
   const L=Math.max(lines.length,1); const mx=20, top=22, bot=20;
@@ -562,19 +543,19 @@ function pagesFor(m){
   const wt=PS.wt; const t=PS.tab; const nm=(m.fullName||'고인').replace(/[\\/:*?"<>|]/g,'');
   if(t==='jb'){ const h=m.dims.h; const pw=m.dims.w; const gap=6;
     const cols=Math.max(1,Math.floor((190+gap)/(pw+gap))), rows=Math.max(1,Math.floor((277+gap)/(h+gap))), per=cols*rows; const pages=[];
-    for(let st=0;st<PS.copies;st+=per){ const cnt=Math.min(per,PS.copies-st);
-      pages.push({w:210,h:297,draw:(ctx,k)=>{ const used=cnt, rc=Math.ceil(used/cols), uc=Math.min(used,cols); const bw=uc*pw+(uc-1)*gap, bh=rc*h+(rc-1)*gap; const x0=(210-bw)/2, y0=Math.max(10,(297-bh)/2);
+    for(let st=0;st<PS.copies;st+=per){ const used=Math.min(per,PS.copies-st), rc=Math.ceil(used/cols), uc=Math.min(used,cols); const bw=uc*pw+(uc-1)*gap, bh=rc*h+(rc-1)*gap; const x0=(210-bw)/2, y0=Math.max(10,(297-bh)/2);
+      /* crop : 바로 인쇄할 때는 지방이 있는 부분만 실제 크기로 보낸다 (A4 한 장 크기 그림은 프린터 여백 때문에 넘쳐서 빈 장이 나옴) */
+      pages.push({w:210,h:297,crop:{x:x0-1,y:y0-1,w:bw+2,h:bh+2},draw:(ctx,k)=>{
         for(let i=0;i<used;i++){ const r=Math.floor(i/cols), c=i%cols; drawCard(ctx,x0+c*(pw+gap),y0+r*(h+gap),k,m,wt); } }}); }
     return {pages,name:(m.isYu?'지방_':'위패_')+'故'+nm, per, sheets:pages.length}; }
   if(t==='mj'){ const z=MJ[PS.mjSize]; const pages=[]; for(let c=0;c<PS.copies;c++) for(let i=0;i<z.n;i++){ pages.push({w:z.w,h:z.ph,draw:(ctx,k)=>{ ctx.save(); ctx.translate(0,-i*z.ph*k); drawMyeong(ctx,0,0,z.w,z.ph*z.n,k,m.mj,wt); ctx.restore(); }}); }
     return {pages,name:'명정_故'+nm}; }
-  if(t==='hb') return {pages:[{w:210,h:297,draw:(ctx,k)=>drawHonbaek(ctx,k,m)}],name:'혼백_故'+nm};
   if(t==='ck') return {pages:ckSheets(m).map(sv=>({w:297,h:210,draw:(ctx,k)=>drawCkSheet(ctx,k,m,sv.kind)})),name:(CKN[PS.ck]||'축문')+'_故'+nm};
   if(t==='sj') return {pages:[{w:210,h:297,draw:(ctx,k)=>drawSangjung(ctx,k)}],name:'상중안내문'};
   if(t==='env') return {pages:[{w:105,h:220,draw:(ctx,k)=>drawEnvFront(ctx,k,0)},{w:105,h:220,draw:(ctx,k)=>drawEnvBack(ctx,k,0)}],name:'부의봉투_'+or(PS.envName,'')};
   return {pages:[],name:''};
 }
-function docText(m){ return [m.jb.join(''),m.faith?[m.faith.role||'',m.faith.name||'',(m.faith.right||[]).join(''),(m.faith.left||[]).join(''),'妙法之靈'].join(''):'',m.mjSel.h,PS.sjL1,PS.sjL2,PS.sjL3,PS.sjSign,PS.hall,PS.room,m.ckH.join(''),m.ckK.join(''),m.ckRows.map(r=>r.r).join(''),'喪中上前',(ENV[PS.envWord]||[]).join(''),PS.envName,PS.envOrg,m.hbName,'집안에상을당하여부터까지문을닫습니다너그러운양해부탁드립니다주인올림'].join(''); }
+function docText(m){ return [m.jb.join(''),m.faith?[m.faith.role||'',m.faith.name||'',(m.faith.right||[]).join(''),(m.faith.left||[]).join(''),'妙法之靈'].join(''):'',m.mjSel.h,PS.sjL1,PS.sjL2,PS.sjL3,PS.sjSign,PS.hall,PS.room,m.ckH.join(''),m.ckK.join(''),m.ckRows.map(r=>r.r).join(''),'喪中',(ENV[PS.envWord]||[]).join(''),PS.envName,PS.envOrg,'집안에상을당하여부터까지문을닫습니다너그러운양해부탁드립니다주인올림'].join(''); }
 const fontDone=new Set();
 function ensureFonts(text){
   const key=PS.font+'|'+PS.wt+'|'+text; if(fontDone.has(key)||!document.fonts||!document.fonts.load) return Promise.resolve(false);
@@ -597,7 +578,6 @@ function preview(m){
   else if(t==='mj'){ const bw=Math.max(56,Math.min(84,availW*0.28)); const bh=tall-8; cssW=bw+8; cssH=tall;
     draw=(ctx,k)=>drawMyeong(ctx,4,4,bw,bh,k,m.mj.replace(/ /g,''),PS.wt);
     draw.k=1; cap='명정 쓰는 예 · '+m.mjSel.l+' · 출력용이 아닌 참고용입니다'; sheet=''; }
-  else if(t==='hb'){ const kk=tall/297; cssW=210*kk; cssH=tall; draw=(ctx,k)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,210*k,297*k); drawHonbaek(ctx,k,m); }; draw.k=kk; cap='A4 세로 · 실제 크기로 인쇄하면 표지 크기가 맞습니다'; sheet='A4 1장'; }
   else if(t==='ck'){ const kk=Math.min(availW,660)/297; const sv=ckSheets(m); const lab=28/kk, gap=12/kk;
     cssW=297*kk; cssH=(sv.length*(210+lab)+(sv.length-1)*gap)*kk;
     draw=(ctx,k)=>{ let y=0; sv.forEach(x=>{ ctx.fillStyle='#3a413c'; ctx.font=fnt(700,(14/kk)*k,SANS); ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(x.t,0,(y+lab/2)*k); y+=lab;
@@ -627,17 +607,17 @@ function renderPrint(){
   const m=model(); const R=m.R;
   $$('[data-seg]').forEach(b=>{ const k=b.getAttribute('data-seg'); b.setAttribute('aria-pressed',String(String(PS[k])===b.getAttribute('data-v'))); });
   $$('#ptabs [data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.getAttribute('data-tab')===PS.tab)));
-  const tab=PS.tab, ckT=tab==='ck', T4=['jb','mj','hb','ck'].indexOf(tab)>=0;
-  const needC1=tab==='mj'||tab==='tx'||(tab==='jb'&&(!m.isYu||R.g==='f'))||(tab==='hb'&&R.g==='f'&&!!PS.hbName)||(ckT&&(R.g==='f'||['sansin','pyeongto','isan'].indexOf(PS.ck)>=0));
+  const tab=PS.tab, ckT=tab==='ck', T4=['jb','mj','ck'].indexOf(tab)>=0;
+  const needC1=tab==='mj'||tab==='tx'||(tab==='jb'&&(!m.isYu||R.g==='f'))||(ckT&&(R.g==='f'||['sansin','pyeongto','isan'].indexOf(PS.ck)>=0));
   const pairHere=tab==='jb'||(ckT&&PS.ck==='gije');
   const cond={
-    decCard:['jb','mj','hb','ck','tx'].indexOf(tab)>=0, evCard:tab==='tx',
-    rlgF:tab==='jb'||tab==='mj', relF:T4, clanF:needC1, nameF:tab==='tx'||(tab==='jb'&&!m.isYu)||(['jb','hb','ck'].indexOf(tab)>=0&&!!R.named),
+    decCard:['jb','mj','ck','tx'].indexOf(tab)>=0, evCard:tab==='tx',
+    rlgF:tab==='jb'||tab==='mj', relF:T4, clanF:needC1, nameF:tab==='tx'||(tab==='jb'&&!m.isYu)||(['jb','ck'].indexOf(tab)>=0&&!!R.named),
     c1picked:!!m.c1.sk, c2picked:!!PS.c2.sk,
     c1list:!PS.man, c1man:PS.man, ttl:T4&&m.isYu&&(R.g==='m'||m.pairOn), ttlCus:T4&&PS.ttl==='cus', chr:(tab==='jb'||tab==='mj')&&PS.rlg==='chr', cat:(tab==='jb'||tab==='mj')&&PS.rlg==='cat', jbFixed:!!m.dims.fixed, jbSizeF:!m.dims.fixed, jbHanF:!m.faith&&!PS.jbCus&&PS.rlg!=='won', bud:(tab==='jb'||tab==='mj')&&PS.rlg==='bud', won:(tab==='jb'||tab==='mj')&&PS.rlg==='won', jbCus:!!PS.jbCus, out:tab!=='mj', mjInfo:tab==='mj', sjHallOn:!!PS.sjHall,
     canPair:m.canPair&&pairHere, p2:m.pairOn&&pairHere&&R.g==='m', female:tab==='jb'&&m.isYu&&(m.pairOn||R.g==='f'),
-    ckHdr:m.hdr, ckWho:m.ckWho, ckStone:['seokmul','seokmulsan'].includes(PS.ck), ckOutSeg:!m.kOnly, ckName:!['cheongu','jojeon','balin'].includes(PS.ck)&&!(m.cG==='je'&&['ybro','son'].includes(PS.rel)&&PS.ckTitle==='auto'), ckCus:!!PS.ckCus, hbBox:PS.hbItem==='box', hbSizeF:PS.hbItem!=='up', copies:tab==='jb',
-    doc:tab!=='tx', tx:tab==='tx', ckReading:ckT&&PS.ckOut!=='k'&&!m.ckCusOn&&!m.kOnly, ckAll:PS.ckOut==='all'&&!m.kOnly, hbInfo:tab==='hb'
+    ckHdr:m.hdr, ckWho:m.ckWho, ckStone:['seokmul','seokmulsan'].includes(PS.ck), ckOutSeg:!m.kOnly, ckName:!['cheongu','jojeon','balin'].includes(PS.ck)&&!(m.cG==='je'&&['ybro','son'].includes(PS.rel)&&PS.ckTitle==='auto'), ckCus:!!PS.ckCus, copies:tab==='jb',
+    doc:tab!=='tx', tx:tab==='tx', ckReading:ckT&&PS.ckOut!=='k'&&!m.ckCusOn&&!m.kOnly, ckAll:PS.ckOut==='all'&&!m.kOnly
   };
   $$('[data-show]').forEach(el=>setVis(el,!!cond[el.getAttribute('data-show')]));
   const solo=!cond.decCard&&!cond.evCard; $('#pr-left').hidden=solo; $('#pr-grid').classList.toggle('solo',solo);
@@ -648,7 +628,6 @@ function renderPrint(){
   $('#ck-desc').textContent=(CK_INFO[PS.ck]||['',''])[1]; const tp=$('#ck-tip'); tp.hidden=!m.ckTip; tp.textContent=m.ckTip;
   $('#c2-label').textContent=clanLabel(PS.c2); $('#c2-hz').textContent=PS.c2.bh+PS.c2.sh;
   $('#pair-label').textContent=PAIR_LABEL[R.gen]||''; $('#c2-title').textContent=WIFE_LABEL[R.gen]||'';
-  $('#hbs-label').textContent=PS.hbItem==='paper'?'혼백지 크기 (cm, 정사각형)':'표지 크기 (cm, 정사각형)';
   $$('[data-k]').forEach(el=>{ const k=el.getAttribute('data-k'); if(document.activeElement===el) return; if(el.type==='checkbox') el.checked=!!PS[k]; else if(el.value!==String(PS[k]??'')) el.value=PS[k]??''; });
   $('#cp-val').textContent=PS.copies;
   $('#ck-lunar').textContent=m.lunarNote; $('#ck-reading').textContent=m.lines.map(l=>l[1]).join('\n');
@@ -664,12 +643,12 @@ function renderPrint(){
   if(PS.tab==='mj'){ $('#mj-hz').textContent=m.mjSel.h; $('#mj-rd').textContent=m.mjSel.k; }
   if(PS.tab==='tx'){ $('#msg-bugo').textContent=bugoText(m); $('#msg-thanks').textContent=thanksText(m); }
   else { preview(m); ensureFonts(docText(m)).then(ch=>{ if(ch) preview(model()); }); }
-  const dn=({jb:m.isYu?'지방':'위패',mj:'명정',hb:'혼백',ck:'축문',sj:'안내문',env:'봉투'}[PS.tab]||'서식');
+  const dn=({jb:m.isYu?'지방':'위패',mj:'명정',ck:'축문',sj:'안내문',env:'봉투'}[PS.tab]||'서식');
   $('#print-btn').textContent=dn+' 바로 인쇄'; $('#pdf-btn').textContent=dn+' PDF로 받기';
 }
 function bugoText(m){ return '[부고]\n故 '+m.fullName+'님께서 '+fmtD(PS.dDie)+' 별세하셨기에 삼가 알려 드립니다.\n\n상주  '+or(PS.sangK,'[상주]')+'\n빈소  '+or(PS.hall,'[장례식장]')+' '+(PS.room||'')+'\n발인  '+fmtD(PS.dOut)+' '+(PS.tOut||'')+'\n장지  '+or(PS.place,'[장지]')+(PS.tel?'\n연락처  '+PS.tel:'')+'\n\n마음으로 함께해 주시면 감사하겠습니다.'; }
 function thanksText(m){ return '故 '+m.fullName+'님의 장례에 함께해 주시고 따뜻한 위로를 보내 주셔서 진심으로 감사드립니다.\n\n직접 찾아뵙고 인사드려야 마땅하나 먼저 글로 대신합니다. 보내 주신 마음 오래 기억하겠습니다.\n\n상주 '+or(PS.sangK,'[상주]')+' 올림'; }
-function renderPage(pg,dpi,type){ const k=dpi/25.4; const c=document.createElement('canvas'); c.width=Math.round(pg.w*k); c.height=Math.round(pg.h*k); const x=c.getContext('2d'); x.fillStyle='#ffffff'; x.fillRect(0,0,c.width,c.height); pg.draw(x,k); return type==='png'?c.toDataURL('image/png'):c.toDataURL('image/jpeg',0.92); }
+function renderPage(pg,dpi,type,crop){ const k=dpi/25.4; const c=document.createElement('canvas'); c.width=Math.round((crop?crop.w:pg.w)*k); c.height=Math.round((crop?crop.h:pg.h)*k); const x=c.getContext('2d'); x.fillStyle='#ffffff'; x.fillRect(0,0,c.width,c.height); if(crop) x.translate(-crop.x*k,-crop.y*k); pg.draw(x,k); return type==='png'?c.toDataURL('image/png'):c.toDataURL('image/jpeg',0.92); }
 async function savePdf(){
   const btn=$('#pdf-btn'); const m=model();
   if(!window.jspdf||!window.jspdf.jsPDF){ toast('PDF 도구를 불러오는 중입니다. 잠시 뒤 다시 눌러 주세요'); return; }
@@ -692,8 +671,9 @@ async function directPrint(){
     await ensureFonts(docText(m));
     const P=pagesFor(m); const root=$('#print-root'); root.innerHTML='';
     let css=document.getElementById('page-css'); if(!css){ css=document.createElement('style'); css.id='page-css'; document.head.appendChild(css); }
-    css.textContent='@page{size:'+P.pages[0].w+'mm '+P.pages[0].h+'mm;margin:0}';
-    await Promise.all(P.pages.map(pg=>new Promise(res=>{ const img=new Image(); img.alt=''; img.style.width=pg.w+'mm'; img.style.height=pg.h+'mm'; img.onload=res; img.onerror=res; root.appendChild(img); img.src=renderPage(pg,300,'png'); })));
+    const crop=!!P.pages[0].crop;  /* 지방 · 위패 : 여백 10mm 안에 지방 부분만 → 어떤 프린터 여백에서도 한 장에 들어가 빈 장이 나오지 않음 */
+    css.textContent='@page{size:'+P.pages[0].w+'mm '+P.pages[0].h+'mm;margin:'+(crop?'10mm':'0')+'}';
+    await Promise.all(P.pages.map(pg=>new Promise(res=>{ const c=pg.crop; const img=new Image(); img.alt=''; img.style.width=(c?c.w:pg.w)+'mm'; img.style.height=(c?c.h:pg.h)+'mm'; if(c) img.className='crop'; img.onload=res; img.onerror=res; root.appendChild(img); img.src=renderPage(pg,300,'png',c); })));
     window.print();
   }catch(e){ toast('인쇄를 준비하지 못했습니다. PDF로 받아 인쇄해 주세요'); }
   btn.disabled=false; btn.textContent=old;
@@ -1658,7 +1638,7 @@ function bindChon(){
 try{ localStorage.removeItem('mf-hist'); ['mf-ps','mf-pr','mf-ch'].forEach(k=>sessionStorage.removeItem(k)); }catch(e){}
 if(PAGE==='print'){
   const q=new URLSearchParams(location.search); let msg='';
-  const t=q.get('tab'); if(t&&['jb','mj','hb','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
+  const t=q.get('tab'); if(t&&['jb','mj','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
   const r=q.get('rel'); if(r&&Object.prototype.hasOwnProperty.call(REL,r)){ PS.rel=r; PS.tab='jb'; if(!REL[r].gen) PS.pair=false; msg='고르신 관계로 지방을 준비했습니다'; }
   const ci=q.get('clan'); if(ci!==null&&/^\d+$/.test(ci)&&CLANS[+ci]){ const c=CLANS[+ci]; PS.c1=c; PS.man=false; msg=clanLabel(c)+' '+c.bh+c.sh+' · 고인 본관에 넣었습니다'; }
   if(location.search) try{ history.replaceState(null,'',location.pathname); }catch(e){}

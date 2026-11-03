@@ -516,6 +516,8 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
   #print-root{display:block!important}
   #print-root img{display:block;margin:0;page-break-after:always;break-after:page}
   #print-root img:last-child{page-break-after:auto;break-after:auto}
+  #print-root img.crop{margin:0 auto;break-inside:avoid}
+  html,body{height:auto!important;min-height:0!important}
 }
 
 /* 움직임: 누를 때 살짝, 화면이 바뀔 때 한 번 */

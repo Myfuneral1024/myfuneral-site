@@ -129,27 +129,42 @@ const CKT={'孤子':'고자','哀子':'애자','孤哀子':'고애자','孝子':
 const CKTK={'孤子':'아들','哀子':'아들','孤哀子':'아들','孝子':'아들','孤孫':'손자','哀孫':'손자','孝孫':'손자','孝曾孫':'증손','孝玄孫':'현손','主婦':'아내','夫':'남편','弟':'아우','兄':'형','父':'아버지','幼學':''};
 const ADK={f:'아버님',m:'어머님',gf:'할아버님',gm:'할머님',ggf:'증조할아버님',ggm:'증조할머님',gggf:'고조할아버님',gggm:'고조할머님',hus:'남편',wife:'아내',bro:'형님',sil:'형수님',ybro:'아우',son:'아들'};
 const CK_INFO={
-  cheongu:['천구고사','발인하는 날, 관을 옮기기 전에 고인께 고합니다.'],
-  jojeon:['조전축','발인 전날 저녁, 길 떠나시는 예(조전)를 올릴 때 읽습니다.'],
-  balin:['발인축','발인 때 마지막으로 보내 드리는 예(견전)를 올릴 때 읽습니다.'],
-  sansin:['산신축','묘 자리를 파기 전(개토제) 그 땅의 신령께 올립니다.'],
-  pyeongto:['성분 산신축','하관하고 흙을 덮은 뒤(평토) 그 땅의 신령께 올립니다.'],
-  jeju:['평토제축','평토 뒤 신주(위패)를 쓰고 올리는 제사(평토제 · 제주전)의 축문입니다.'],
-  u1:['초우축','장례 날 돌아와 올리는 첫 우제입니다.'],
-  u2:['재우축','초우 다음 날 올리는 두 번째 우제입니다.'],
-  u3:['삼우축','재우 다음 날 올리는 세 번째 우제입니다.'],
-  jolgok:['졸곡축','삼우 뒤 곡을 그치는 제사(졸곡)의 축문입니다.'],
-  sosang:['소상축','돌아가신 지 1년, 첫 기일에 올리는 제사입니다.'],
-  daesang:['대상축','돌아가신 지 2년, 두 번째 기일에 올리는 제사입니다.'],
-  gije:['기제축','해마다 돌아가신 날 올리는 제사(기제사)의 축문입니다.'],
-  myoje:['묘제축','산소에서 올리는 시제 · 묘사의 축문입니다.'],
-  myosan:['묘제 산신축','묘제 때 그 산의 신령(토지신)께 올리는 축문입니다.'],
-  pamyo:['파묘축','이장하려고 옛 묘를 열기 전 고인께 고합니다.'],
-  isan:['이장 산신축','옮겨 모실 새 묘 자리를 파기 전 그 땅의 신령께 올립니다.'],
-  iu:['이장 우제축','옮겨 모신 뒤 올리는 우제(위안제)의 축문입니다.']
+  seongbok:['성복축','상복을 입는 날(성복) 올리는 전에 읽어요. 예서에는 성복 축문이 따로 없고, 우제 축문 틀을 빌린 요즘 문구예요.'],
+  cheongu:['천구고사','발인하는 날, 관을 옮기기 전에 고인께 고해요.'],
+  jojeon:['조전축','발인 전날 저녁, 길 떠나시는 예(조전)를 올릴 때 읽어요.'],
+  balin:['발인축','발인 때 마지막으로 보내 드리는 예(견전)를 올릴 때 읽어요.'],
+  noje:['노제 축문','발인 뒤 고인과 인연 있는 곳에서 친구 · 친지가 올려요. 정해진 본문이 없어서 고인을 기리는 글을 직접 지어 넣어요.'],
+  sansin:['산신축','묘 자리를 파기 전(개토제) 그 땅의 신령께 올려요.'],
+  donggang:['동강선영 고사','선산에 새 묘를 쓸 때, 먼저 모신 웃대 어른 묘에 알리는 글이에요.'],
+  pyeongto:['성분 산신축','하관하고 흙을 덮은 뒤(평토) 그 땅의 신령께 올려요.'],
+  jeju:['평토제축','평토 뒤 신주(위패)를 쓰고 올리는 제사(평토제 · 제주전)의 축문이에요.'],
+  wiryeong:['위령제 축문 (한글)','매장해 봉분을 마친 뒤, 또는 화장해 봉안 · 자연장을 마친 뒤 올리는 위령제 축문이에요. 한글 축문으로만 전해져요.'],
+  u1:['초우축','장례 날 돌아와 올리는 첫 우제예요.'],
+  u2:['재우축','초우 다음 날 올리는 두 번째 우제예요.'],
+  u3:['삼우축','재우 다음 날 올리는 세 번째 우제예요.'],
+  talsang3:['삼우 탈상축','삼우제 날 상을 마칠(탈상) 때 읽어요. 예서에는 없는 요즘 탈상 축문이에요.'],
+  jolgok:['졸곡축','삼우 뒤 곡을 그치는 제사(졸곡)의 축문이에요.'],
+  talsang49:['49일 탈상축','돌아가신 지 49일째 상을 마칠 때 읽어요. 불교 49재 의식과는 다른, 요즘 유교식 탈상 축문이에요.'],
+  talsang100:['100일 탈상축','돌아가신 지 100일째 상을 마칠 때 읽어요. 예서에는 없는 요즘 탈상 축문이에요.'],
+  sosang:['소상축','돌아가신 지 1년, 첫 기일에 올리는 제사예요.'],
+  daesang:['대상축','돌아가신 지 2년, 두 번째 기일에 올리는 제사예요.'],
+  damje:['담제축','대상 뒤 한 달을 걸러 지내는 담제의 축문이에요. 요즘은 거의 지내지 않아요.'],
+  gije:['기제축','해마다 돌아가신 날 올리는 제사(기제사)의 축문이에요.'],
+  myoje:['묘제축','산소에서 올리는 시제 · 묘사의 축문이에요.'],
+  myosan:['묘제 산신축','묘제 때 그 산의 신령(토지신)께 올리는 축문이에요.'],
+  sacho:['사초 고유','봉분을 고치고 떼를 다시 입히기 전에 고인께 아뢰어요.'],
+  sachosan:['사초 산신축','사초 전에 그 땅의 신령께 올려요.'],
+  sachohu:['사초 위안축','사초를 마친 뒤 고인께 아뢰어요.'],
+  seokmul:['석물 고유','비석 · 상석 같은 석물을 세울 때 고인께 아뢰어요.'],
+  seokmulsan:['석물 산신축','석물을 세울 때 그 땅의 신령께 올려요.'],
+  pamyo:['파묘축','이장하려고 옛 묘를 열기 전 고인께 고해요.'],
+  isan:['이장 산신축','옮겨 모실 새 묘 자리를 파기 전 그 땅의 신령께 올려요.'],
+  igaebong:['이장 성분 고유','옮겨 모신 묘의 봉분을 다 지은 뒤 묘 앞에서 아뢰어요.'],
+  iu:['이장 우제축','옮겨 모신 뒤 올리는 우제(위안제)의 축문이에요.']
 };
 const CKN={}; Object.keys(CK_INFO).forEach(k=>{ CKN[k]=CK_INFO[k][0]; });
-const CK_SANG=['jeju','u1','u2','u3','jolgok','sosang','daesang'], CK_JE=['gije','myoje','pamyo','iu'], CK_SAN=['sansin','pyeongto','myosan','isan'], CK_NOHDR=['cheongu','jojeon','balin'];
+const CK_SANG=['seongbok','jeju','u1','u2','u3','talsang3','jolgok','talsang49','talsang100','sosang','daesang','damje'], CK_JE=['gije','myoje','pamyo','iu','igaebong','sacho','sachohu','seokmul'], CK_SAN=['sansin','pyeongto','myosan','isan','sachosan','seokmulsan'], CK_NOHDR=['cheongu','jojeon','balin'];
+const CK_STONE={'碑石':['碑石','비석','비석'],'床石':['床石','상석','상석'],'望柱石':['望柱石','망주석','망주석'],'石物':['石物','석물','석물']};
 const ENV={buui:['賻儀'],geunjo:['謹弔'],chumo:['追慕'],chudo:['追悼'],aedo:['哀悼'],myeongbok:['삼가 고인의','명복을 빕니다'],buuiK:['부의']};
 const LM=[["2016-01-10",2015,12,0],["2016-02-08",2016,1,0],["2016-03-09",2016,2,0],["2016-04-07",2016,3,0],["2016-05-07",2016,4,0],["2016-06-05",2016,5,0],["2016-07-04",2016,6,0],["2016-08-03",2016,7,0],["2016-09-01",2016,8,0],["2016-10-01",2016,9,0],["2016-10-31",2016,10,0],["2016-11-29",2016,11,0],["2016-12-29",2016,12,0],["2017-01-28",2017,1,0],["2017-02-26",2017,2,0],["2017-03-28",2017,3,0],["2017-04-26",2017,4,0],["2017-05-26",2017,5,0],["2017-06-24",2017,5,1],["2017-07-23",2017,6,0],["2017-08-22",2017,7,0],["2017-09-20",2017,8,0],["2017-10-20",2017,9,0],["2017-11-18",2017,10,0],["2017-12-18",2017,11,0],["2018-01-17",2017,12,0],["2018-02-16",2018,1,0],["2018-03-17",2018,2,0],["2018-04-16",2018,3,0],["2018-05-15",2018,4,0],["2018-06-14",2018,5,0],["2018-07-13",2018,6,0],["2018-08-11",2018,7,0],["2018-09-10",2018,8,0],["2018-10-09",2018,9,0],["2018-11-08",2018,10,0],["2018-12-07",2018,11,0],["2019-01-06",2018,12,0],["2019-02-05",2019,1,0],["2019-03-07",2019,2,0],["2019-04-05",2019,3,0],["2019-05-05",2019,4,0],["2019-06-03",2019,5,0],["2019-07-03",2019,6,0],["2019-08-01",2019,7,0],["2019-08-30",2019,8,0],["2019-09-29",2019,9,0],["2019-10-28",2019,10,0],["2019-11-27",2019,11,0],["2019-12-26",2019,12,0],["2020-01-25",2020,1,0],["2020-02-24",2020,2,0],["2020-03-24",2020,3,0],["2020-04-23",2020,4,0],["2020-05-23",2020,4,1],["2020-06-21",2020,5,0],["2020-07-21",2020,6,0],["2020-08-19",2020,7,0],["2020-09-17",2020,8,0],["2020-10-17",2020,9,0],["2020-11-15",2020,10,0],["2020-12-15",2020,11,0],["2021-01-13",2020,12,0],["2021-02-12",2021,1,0],["2021-03-13",2021,2,0],["2021-04-12",2021,3,0],["2021-05-12",2021,4,0],["2021-06-10",2021,5,0],["2021-07-10",2021,6,0],["2021-08-08",2021,7,0],["2021-09-07",2021,8,0],["2021-10-06",2021,9,0],["2021-11-05",2021,10,0],["2021-12-04",2021,11,0],["2022-01-03",2021,12,0],["2022-02-01",2022,1,0],["2022-03-03",2022,2,0],["2022-04-01",2022,3,0],["2022-05-01",2022,4,0],["2022-05-30",2022,5,0],["2022-06-29",2022,6,0],["2022-07-29",2022,7,0],["2022-08-27",2022,8,0],["2022-09-26",2022,9,0],["2022-10-25",2022,10,0],["2022-11-24",2022,11,0],["2022-12-23",2022,12,0],["2023-01-22",2023,1,0],["2023-02-20",2023,2,0],["2023-03-22",2023,2,1],["2023-04-20",2023,3,0],["2023-05-20",2023,4,0],["2023-06-18",2023,5,0],["2023-07-18",2023,6,0],["2023-08-16",2023,7,0],["2023-09-15",2023,8,0],["2023-10-15",2023,9,0],["2023-11-13",2023,10,0],["2023-12-13",2023,11,0],["2024-01-11",2023,12,0],["2024-02-10",2024,1,0],["2024-03-10",2024,2,0],["2024-04-09",2024,3,0],["2024-05-08",2024,4,0],["2024-06-06",2024,5,0],["2024-07-06",2024,6,0],["2024-08-04",2024,7,0],["2024-09-03",2024,8,0],["2024-10-03",2024,9,0],["2024-11-01",2024,10,0],["2024-12-01",2024,11,0],["2024-12-31",2024,12,0],["2025-01-29",2025,1,0],["2025-02-28",2025,2,0],["2025-03-29",2025,3,0],["2025-04-28",2025,4,0],["2025-05-27",2025,5,0],["2025-06-25",2025,6,0],["2025-07-25",2025,6,1],["2025-08-23",2025,7,0],["2025-09-22",2025,8,0],["2025-10-21",2025,9,0],["2025-11-20",2025,10,0],["2025-12-20",2025,11,0],["2026-01-19",2025,12,0],["2026-02-17",2026,1,0],["2026-03-19",2026,2,0],["2026-04-17",2026,3,0],["2026-05-17",2026,4,0],["2026-06-15",2026,5,0],["2026-07-14",2026,6,0],["2026-08-13",2026,7,0],["2026-09-11",2026,8,0],["2026-10-11",2026,9,0],["2026-11-09",2026,10,0],["2026-12-09",2026,11,0],["2027-01-08",2026,12,0],["2027-02-07",2027,1,0],["2027-03-08",2027,2,0],["2027-04-07",2027,3,0],["2027-05-06",2027,4,0],["2027-06-05",2027,5,0],["2027-07-04",2027,6,0],["2027-08-02",2027,7,0],["2027-09-01",2027,8,0],["2027-09-30",2027,9,0],["2027-10-29",2027,10,0],["2027-11-28",2027,11,0],["2027-12-28",2027,12,0],["2028-01-27",2028,1,0],["2028-02-25",2028,2,0],["2028-03-26",2028,3,0],["2028-04-25",2028,4,0],["2028-05-24",2028,5,0],["2028-06-23",2028,5,1],["2028-07-22",2028,6,0],["2028-08-20",2028,7,0],["2028-09-19",2028,8,0],["2028-10-18",2028,9,0],["2028-11-16",2028,10,0],["2028-12-16",2028,11,0],["2029-01-15",2028,12,0],["2029-02-13",2029,1,0],["2029-03-15",2029,2,0],["2029-04-14",2029,3,0],["2029-05-13",2029,4,0],["2029-06-12",2029,5,0],["2029-07-12",2029,6,0],["2029-08-10",2029,7,0],["2029-09-08",2029,8,0],["2029-10-08",2029,9,0],["2029-11-06",2029,10,0],["2029-12-05",2029,11,0],["2030-01-04",2029,12,0],["2030-02-03",2030,1,0],["2030-03-04",2030,2,0],["2030-04-03",2030,3,0],["2030-05-02",2030,4,0],["2030-06-01",2030,5,0],["2030-07-01",2030,6,0],["2030-07-30",2030,7,0],["2030-08-29",2030,8,0],["2030-09-27",2030,9,0],["2030-10-27",2030,10,0],["2030-11-25",2030,11,0],["2030-12-25",2030,12,0],["2031-01-23",2031,1,0],["2031-02-22",2031,2,0],["2031-03-23",2031,3,0],["2031-04-22",2031,3,1],["2031-05-21",2031,4,0],["2031-06-20",2031,5,0],["2031-07-19",2031,6,0],["2031-08-18",2031,7,0],["2031-09-17",2031,8,0],["2031-10-16",2031,9,0],["2031-11-15",2031,10,0],["2031-12-14",2031,11,0],["2032-01-13",2031,12,0],["2032-02-11",2032,1,0],["2032-03-12",2032,2,0],["2032-04-10",2032,3,0],["2032-05-09",2032,4,0],["2032-06-08",2032,5,0],["2032-07-07",2032,6,0],["2032-08-06",2032,7,0],["2032-09-05",2032,8,0],["2032-10-04",2032,9,0],["2032-11-03",2032,10,0],["2032-12-03",2032,11,0],["2033-01-01",2032,12,0],["2033-01-31",2033,1,0],["2033-03-01",2033,2,0],["2033-03-31",2033,3,0],["2033-04-29",2033,4,0],["2033-05-28",2033,5,0],["2033-06-27",2033,6,0],["2033-07-26",2033,7,0],["2033-08-25",2033,8,0],["2033-09-23",2033,9,0],["2033-10-23",2033,10,0],["2033-11-22",2033,11,0],["2033-12-22",2033,11,1],["2034-01-20",2033,12,0],["2034-02-19",2034,1,0],["2034-03-20",2034,2,0],["2034-04-19",2034,3,0],["2034-05-18",2034,4,0],["2034-06-16",2034,5,0],["2034-07-16",2034,6,0],["2034-08-14",2034,7,0],["2034-09-13",2034,8,0],["2034-10-12",2034,9,0],["2034-11-11",2034,10,0],["2034-12-11",2034,11,0],["2035-01-10",2034,12,0],["2035-02-08",2035,1,0],["2035-03-10",2035,2,0],["2035-04-08",2035,3,0],["2035-05-08",2035,4,0],["2035-06-06",2035,5,0],["2035-07-05",2035,6,0],["2035-08-04",2035,7,0],["2035-09-02",2035,8,0],["2035-10-01",2035,9,0],["2035-10-31",2035,10,0],["2035-11-30",2035,11,0],["2035-12-29",2035,12,0],["2036-01-28",2036,1,0],["2036-02-27",2036,2,0],["2036-03-28",2036,3,0],["2036-04-26",2036,4,0],["2036-05-26",2036,5,0],["2036-06-24",2036,6,0],["2036-07-23",2036,6,1],["2036-08-22",2036,7,0],["2036-09-20",2036,8,0],["2036-10-19",2036,9,0],["2036-11-18",2036,10,0],["2036-12-18",2036,11,0],["2037-01-16",2036,12,0],["2037-02-15",2037,1,0],["2037-03-17",2037,2,0],["2037-04-16",2037,3,0],["2037-05-15",2037,4,0],["2037-06-14",2037,5,0],["2037-07-13",2037,6,0],["2037-08-11",2037,7,0],["2037-09-10",2037,8,0],["2037-10-09",2037,9,0],["2037-11-07",2037,10,0],["2037-12-07",2037,11,0],["2038-01-05",2037,12,0],["2038-02-04",2038,1,0],["2038-03-06",2038,2,0],["2038-04-05",2038,3,0],["2038-05-04",2038,4,0],["2038-06-03",2038,5,0],["2038-07-02",2038,6,0],["2038-08-01",2038,7,0],["2038-08-30",2038,8,0],["2038-09-29",2038,9,0],["2038-10-28",2038,10,0],["2038-11-26",2038,11,0],["2038-12-26",2038,12,0],["2039-01-24",2039,1,0],["2039-02-23",2039,2,0],["2039-03-25",2039,3,0],["2039-04-23",2039,4,0],["2039-05-23",2039,5,0],["2039-06-22",2039,5,1],["2039-07-21",2039,6,0],["2039-08-20",2039,7,0],["2039-09-18",2039,8,0],["2039-10-18",2039,9,0],["2039-11-16",2039,10,0],["2039-12-16",2039,11,0],["2040-01-14",2039,12,0],["2040-02-12",2040,1,0],["2040-03-13",2040,2,0],["2040-04-11",2040,3,0],["2040-05-11",2040,4,0],["2040-06-10",2040,5,0],["2040-07-09",2040,6,0],["2040-08-08",2040,7,0],["2040-09-07",2040,8,0],["2040-10-06",2040,9,0],["2040-11-05",2040,10,0],["2040-12-04",2040,11,0],["2041-01-03",2040,12,0]];
 const GS='甲乙丙丁戊己庚辛壬癸',GB='子丑寅卯辰巳午未申酉戌亥',KS='갑을병정무기경신임계',KB='자축인묘진사오미신유술해';
@@ -173,8 +188,8 @@ const cz=c=>({bk:(c&&c.bk)||'○○',sk:(c&&c.sk)||'○',bh:(c&&c.bh)||'○○',
 const PS={
   tab:'jb', rlg:'yu', rel:'f', c1:NOCLAN, c2:NOCLAN, man:false, mbk:'', msk:'', mbh:'', msh:'',
   nameK:'', ttl:'hak', ttlH:'', role:'성도', bap:'', beop:'', wonHo:'', jbCus:false, jbText:'', pair:false, han:'0', bon:true, wt:800, font:'my',
-  jbSize:'L', copies:3, mjSize:'A4x2', hbItem:'box', hbChar:'前', hbSize:10, hbName:false,
-  ck:'balin', ckDate:isoDay(0), ckTitle:'auto', ckOut:'both', ckCus:false, ckTextH:'', ckTextK:'',
+  jbSize:'L', copies:1, mjSize:'A4x2',
+  ck:'balin', ckDate:isoDay(0), ckTitle:'auto', ckOut:'all', ckCus:false, ckTextH:'', ckTextR:'', ckTextK:'', ckStone:'碑石',
   sjFrom:isoDay(0), sjTo:isoDay(2), sjHall:true, sjL1:'집안에 상(喪)을 당하여', sjL2:'문을 닫습니다.', sjL3:'너그러운 양해 부탁드립니다.', sjSign:'주인 올림', sjTel:'',
   envWord:'buui', envName:'', envOrg:'',
   sangK:'', tel:'', hall:'', room:'', hallTel:'', dDie:isoDay(0), dOut:isoDay(2), tOut:'', place:''
@@ -269,20 +284,23 @@ function model(){
   else if(ck==='isan'){ B=[who,['土地之神','토지지신'],['今爲 '+ref[0]+' 宅兆不利','금위 '+ref[1]+' 택조불리'],['將改葬于此','장개장우차']].concat(SAN_END); K=[whoK].concat(SAN_TOP,['이제 '+refK+'의','묘 자리가 이롭지 못하여','이곳으로 옮겨 모시려 하오니'],SAN_ENDK); }
   else if(ck==='jeju'){ B=[who,dec,['形歸窀穸 神返室堂','형귀둔석 신반실당'],['神主旣成 伏惟尊靈','신주기성 복유존령'],['舍舊從新 是憑是依','사구종신 시빙시의']];
     K=[whoK,toK,'형체는 무덤으로 돌아가셨으나','넋은 집으로 돌아오셨습니다','신주를 이미 이루었사오니','엎드려 바라옵건대 존령께서는','옛것을 버리시고 새것을 따르시어','여기에 의지하소서']; }
-  else if(['u1','u2','u3','jolgok','sosang','daesang'].indexOf(ck)>=0){
-    const U={u1:['初虞','초우','祫事','협사'],u2:['再虞','재우','虞事','우사'],u3:['三虞','삼우','成事','성사'],jolgok:['卒哭','졸곡','成事','성사'],sosang:['小祥','소상','常事','상사'],daesang:['大祥','대상','祥事','상사']}[ck];
+  else if(['seongbok','u1','u2','u3','jolgok','sosang','daesang','damje'].indexOf(ck)>=0){
+    const U={seongbok:['成服','성복','服事','복사'],damje:['禫祭','담제','禫事','담사'],u1:['初虞','초우','祫事','협사'],u2:['再虞','재우','虞事','우사'],u3:['三虞','삼우','成事','성사'],jolgok:['卒哭','졸곡','成事','성사'],sosang:['小祥','소상','常事','상사'],daesang:['大祥','대상','祥事','상사']}[ck];
     B=[who,dec,['日月不居 奄及'+U[0],'일월불거 엄급'+U[1]],['夙興夜處 哀慕不寧','숙흥야처 애모불녕'],['謹以 淸酌庶羞','근이 청작서수'],['哀薦'+U[2]+' 尙饗','애천'+U[3]+' 상향']];
     K=[whoK,toK,'세월이 머물지 않아','어느덧 '+U[1]+josa(U[1],'을','를')+' 맞았습니다','밤낮으로 슬프고 그리워','편할 날이 없습니다','삼가 맑은 술과 여러 음식으로',U[1]+' 제사를 슬피 올리오니','흠향하소서']; }
   else if(ck==='gije'){
     const emo=(rel==='f'||rel==='m')?['昊天罔極','호천망극',['하늘같이 크고 끝없는 은혜를','잊을 길이 없습니다']]
       :anc?['不勝永慕','불승영모',['길이 사모하는 마음을','이길 수 없습니다']]
       :rel==='wife'?['不勝悲苦','불승비고',['슬프고 괴로운 마음을','이길 수 없습니다']]
-      :(rel==='ybro'||rel==='son')?['心毁悲念','심훼비념',['마음이 무너지고','슬픈 생각뿐입니다']]
+      :rel==='son'?['心毁悲念','심훼비념',['마음이 무너지고','슬픈 생각뿐입니다']]
+      :rel==='ybro'?['情何可處','정하가처',['이 슬픈 마음을','어디에 두오리까']]
+      :rel==='bro'?['情何悲痛','정하비통',['형제의 정으로','이 슬픔을 어찌하오리까']]
       :['不勝感愴','불승감창',['슬프고 서러운 마음을','이길 수 없습니다']];
     const day=low?['亡日復至','망일부지']:['諱日復臨','휘일부림'];
     const dp=pairCk?[R.h+' ',R.r+' ']:['',''];
-    B=[who].concat(decs,[['歲序遷易','세서천역'],[dp[0]+day[0],dp[1]+day[1]],['追遠感時 '+emo[0],'추원감시 '+emo[1]],low?['玆以 淸酌庶羞','자이 청작서수']:['謹以 淸酌庶羞','근이 청작서수'],low?['陳此奠儀 尙饗','진차전의 상향']:['恭伸奠獻 尙饗','공신전헌 상향']]);
-    K=[whoK,toK,'해가 바뀌어',(pairCk?ADK[rel]+'께서 ':'')+'돌아가신 날이 다시 돌아오니','지난날을 생각하고 계절을 느끼매'].concat(emo[2],low?['이에 맑은 술과 여러 음식으로','제사를 차려 올리니','흠향하기 바랍니다']:['삼가 맑은 술과 여러 음식으로','공손히 제사를 올리오니','흠향하소서']); }
+    const noTw=rel==='wife';   /* 아내 축문은 追遠感時를 쓰지 않음 (청송심씨대종회 · 한양조씨 자료) */
+    B=[who].concat(decs,[['歲序遷易','세서천역'],[dp[0]+day[0],dp[1]+day[1]],noTw?[emo[0],emo[1]]:['追遠感時 '+emo[0],'추원감시 '+emo[1]],low?['玆以 淸酌庶羞','자이 청작서수']:['謹以 淸酌庶羞','근이 청작서수'],low?['陳此奠儀 尙饗','진차전의 상향']:['恭伸奠獻 尙饗','공신전헌 상향']]);
+    K=[whoK,toK,'해가 바뀌어',(pairCk?ADK[rel]+'께서 ':'')+'돌아가신 날이 다시 돌아오니'].concat(noTw?[]:['지난날을 생각하고 계절을 느끼매'],emo[2],low?['이에 맑은 술과 여러 음식으로','제사를 차려 올리니','흠향하기 바랍니다']:['삼가 맑은 술과 여러 음식으로','공손히 제사를 올리오니','흠향하소서']); }
   else if(ck==='myoje'){
     const ss=(ckL&&ckL.m<=6)?['雨露旣濡','우로기유','비와 이슬이 땅을 적시니']:['霜露旣降','상로기강','서리와 이슬이 내리니'];
     B=[who,[dec[0]+'之墓',dec[1]+'지묘'],['氣序流易 '+ss[0],'기서유역 '+ss[1]],['瞻掃封塋 不勝感慕','첨소봉영 불승감모'],['謹以 淸酌庶羞','근이 청작서수'],['祗薦歲事 尙饗','지천세사 상향']];
@@ -294,20 +312,77 @@ function model(){
     B=[who,dec,['葬于玆地 歲月滋久','장우자지 세월자구'],['體魄不寧 今將改葬','체백불녕 금장개장'],['伏惟尊靈 不震不驚','복유존령 부진불경']];
     K=[whoK,toK,'이곳에 모신 지','세월이 오래되어','체백이 편안하지 못하므로','이제 옮겨 모시려 하오니','엎드려 바라옵건대 존령께서는','놀라지 마시고','두려워하지 마소서']; }
   else if(ck==='iu'){
-    B=[who,dec,['新改幽宅 禮畢終虞','신개유택 예필종우'],['夙夜靡寧 啼號罔極','숙야미녕 제호망극'],['謹以 淸酌庶羞','근이 청작서수'],['祗薦虞事 尙饗','지천우사 상향']];
-    K=[whoK,toK,'새로 유택을 고쳐 모시고','예를 마쳐 우제를 올리오나','밤낮으로 편안하지 못하고','울부짖는 슬픔이 끝이 없습니다','삼가 맑은 술과 여러 음식으로','공경히 우제를 올리오니','흠향하소서']; }
+    B=[who,dec,['新改幽宅 禮畢終虞','신개유택 예필종우'],['謹以 淸酌庶羞','근이 청작서수'],['祗薦虞事 尙饗','지천우사 상향']];
+    K=[whoK,toK,'새로 유택을 고쳐 모시고','모든 예를 마쳐 우제를 지내옵니다','삼가 맑은 술과 여러 음식으로','공경히 우제를 올리오니','흠향하소서']; }
+  else if(ck==='talsang3'||ck==='talsang49'||ck==='talsang100'){
+    /* 이무영 『한국가정의례』 판 (49일은 한국전례원 · 예스폼 「奄及四十九」) */
+    const T={talsang3:['三虞','삼우','삼우를'],talsang49:['四十九','사십구','마흔아흐레 탈상 날을'],talsang100:['百祥','백상','백일 탈상 날을']}[ck];
+    const mid=ck==='talsang100'?[['時代遷易 國制有限','시대천역 국제유한'],['魂歸墳墓','혼귀분묘']]:[['事勢不逮 魂歸墳墓','사세불체 혼귀분묘']];
+    const midK=ck==='talsang100'?['시대가 바뀌고 나라의 법도에 기한이 있어','오늘 넋을 산소로 모시옵니다']:['형편이 미치지 못하여','오늘 넋을 산소로 모시옵니다'];
+    B=[who,dec,['日月不居 奄及'+T[0],'일월불거 엄급'+T[1]],['三年奉喪 於禮至當','삼년봉상 어례지당']].concat(mid,[['夙興夜處 哀慕不寧','숙흥야처 애모불녕'],['謹以 淸酌庶羞','근이 청작서수'],['哀薦祥事 尙饗','애천상사 상향']]);
+    K=[whoK,toK,'세월이 머물지 않아','어느덧 '+T[2]+' 맞았습니다','삼 년 동안 상을 받드는 것이','예에 마땅하오나'].concat(midK,['밤낮으로 슬프고 그리워','편할 날이 없습니다','삼가 맑은 술과 여러 음식으로','탈상 제사를 슬피 올리오니','흠향하소서']); }
+  else if(ck==='noje'){
+    /* 노제 : 정해진 본문 없음 (한국전례원 · 뉴스타운 틀) — 가운데 글은 직접 지어 넣는다 */
+    const nwho=[sH+' 敢昭告于',sK+' 감소고우'];
+    B=[nwho,[ref[0]+'之柩',ref[1]+'지구'],['○○○○ ○○○○',''],['尙饗','상향']];
+    K=[sK+josa(sK,'은','는')+' '+refK+' 영구 앞에','삼가 아룁니다','[여기에 고인을 기리는 글을 적어 주세요]','흠향하소서']; }
+  else if(ck==='donggang'){
+    /* 동강선영 고사 (한국전례원 · 뉴스타운 · 은진송씨 · 벌초닷컴 : 今爲 … 營建宅兆 謹以酒果 用伸虔告 謹告) */
+    const nmD=or(PS.nameK,'○○');
+    B=[['○代孫 '+sH+' 敢昭告于','○대손 '+sK+' 감소고우'],['顯○代祖考學生府君之墓','현○대조고학생부군지묘'],['今爲 ○代孫 '+nmD+' 營建宅兆','금위 ○대손 '+nmD+' 영건택조'],['謹以酒果 用伸虔告','근이주과 용신건고'],['謹告','근고']];
+    K=['○대손 '+sK+josa(sK,'은','는'),'○대 할아버님 묘소에 삼가 아룁니다','이제 ○대손 '+nmD+'의 묘를','이 산에 마련하게 되어','삼가 술과 과일을 올리고','정성껏 아뢰옵니다']; }
+  else if(ck==='wiryeong'){
+    /* 위령제 : 건전가정의례준칙 제11조 (성분 뒤 · 화장 뒤), 문구는 이무영 『한국가정의례』의 한글 축문 */
+    const who2={f:'아들',m:'아들',gf:'손자',gm:'손자',ggf:'증손',ggm:'증손',gggf:'현손',gggm:'현손',hus:'아내',wife:'남편',bro:'동생',sil:'시동생',ybro:'형',son:'아버지'}[rel]||'';
+    const wn=(who2?who2+' ':'')+sK;
+    if(HK.length) HK=['유세차 '+HK[0]];
+    K=(rel==='hus'||rel==='wife')?[wn+josa(wn,'은','는')+' 당신의 영 앞에 고하나이다','이곳에 유택을 마련하였사오니','고이 잠드시고','길이 명복을 누리옵소서']
+      :[wn+josa(wn,'은','는'),adK+' 영전에 삼가 고하옵나이다','오늘 이곳에 유택을 마련하였사오니','고이 잠드시고','길이 명복을 누리옵소서'];
+    H=[]; }
+  else if(ck==='igaebong'){
+    /* 개장 후 전묘축 (은진송씨 · doil) */
+    B=[who,[dec[0]+'之墓',dec[1]+'지묘'],['新改幽宅 事畢封塋','신개유택 사필봉영'],['伏惟尊靈 永安體魄','복유존령 영안체백'],['謹以酒果 用伸虔告','근이주과 용신건고'],['謹告','근고']];
+    K=[whoK,adK+' 묘소에 '+sayK,'새 유택을 마련하여','봉분을 다 지었사오니','엎드려 바라옵건대 존령께서는','이곳에서 길이 편안하소서','삼가 술과 과일을 올리고','정성껏 아뢰옵니다']; }
+  else if(ck==='sacho'){
+    /* 묘 개사초 축 (doil · 벌초닷컴 한글 풀이와 같은 뜻) */
+    B=[who,[dec[0]+'之墓',dec[1]+'지묘'],['歲月玆久 草衰土圮','세월자구 초쇠토비'],['今以吉辰 益封改莎','금이길신 익봉개사'],['伏惟尊靈 不震不驚','복유존령 부진불경'],['謹以酒果 用伸虔告','근이주과 용신건고'],['謹告','근고']];
+    K=[whoK,adK+' 묘소에 '+sayK,'세월이 오래되어','떼는 시들고 흙은 무너졌기에','오늘 좋은 날을 맞아','봉분을 돋우고 떼를 새로 입히려 하오니','엎드려 바라옵건대 존령께서는','놀라지 마시고 두려워하지 마소서','삼가 술과 과일을 올리고','정성껏 아뢰옵니다']; }
+  else if(ck==='sachohu'){
+    /* 개사초 후 위안축 (은진송씨 · doil · 벌초닷컴) */
+    B=[who,[dec[0]+'之墓',dec[1]+'지묘'],['旣封旣莎 舊宅維新','기봉기사 구택유신'],['伏惟尊靈 永世是寧','복유존령 영세시녕'],['謹以酒果 用伸虔告','근이주과 용신건고'],['謹告','근고']];
+    K=[whoK,adK+' 묘소에 '+sayK,'봉분을 다시 짓고 떼를 입혀','옛 유택이 새로워졌사오니','엎드려 바라옵건대 존령께서는','길이 편안하소서','삼가 술과 과일을 올리고','정성껏 아뢰옵니다']; }
+  else if(ck==='sachosan'){
+    /* 개사초 전 산신축 (doil · 벌초닷컴) */
+    B=[who,['土地之神','토지지신'],['今爲 '+ref[0]+' 塚宅崩頹','금위 '+ref[1]+' 총택붕퇴'],['將加修治','장가수치'],['神其保佑 俾無後艱','신기보우 비무후간'],['謹以酒果 用伸虔告','근이주과 용신건고'],['謹告','근고']];
+    K=[whoK].concat(SAN_TOP,['이제 '+refK+'의','묘가 무너져','고쳐 쌓으려 하오니','신령께서 보살펴 주시어','뒷날 어려움이 없게 하소서','삼가 술과 과일을 올리고','정성껏 아뢰옵니다']); }
+  else if(ck==='seokmul'||ck==='seokmulsan'){
+    const st=CK_STONE[PS.ckStone]||CK_STONE['碑石'];
+    if(ck==='seokmul'){
+      /* 구석물 축 (doil · 은진송씨 · 벌초닷컴) */
+      B=[who,[dec[0]+'之墓',dec[1]+'지묘'],['伏以 昔行襄奉 儀物多闕','복이 석행양봉 의물다궐'],['今至有年 謹具'+st[0],'금지유년 근구'+st[1]],['用衛墓道','용위묘도'],['伏惟尊靈 是憑是安','복유존령 시빙시안'],['謹以酒果 用伸虔告','근이주과 용신건고'],['謹告','근고']];
+      K=[whoK,adK+' 묘소에 '+sayK,'지난날 장례를 모실 때','갖추지 못한 석물이 많았습니다','이제 여러 해가 지나','삼가 '+st[2]+josa(st[2],'을','를')+' 갖추어','묘를 지키려 하오니','엎드려 바라옵건대 존령께서는','여기에 의지해 편안하소서','삼가 술과 과일을 올리고','정성껏 아뢰옵니다']; }
+    else {
+      /* 구석물시 산신축 (은진송씨 · doil · 벌초닷컴 · 「未具」는 벌초닷컴 「儀物未具」를 따름) */
+      B=[who,['土地之神','토지지신'],['今爲 '+ref[0]+' 墓儀未具','금위 '+ref[1]+' 묘의미구'],['玆將'+st[0]+' 用衛神道','자장'+st[1]+' 용위신도'],['神其保佑 俾無後艱','신기보우 비무후간'],['謹以酒果 用伸虔告','근이주과 용신건고'],['謹告','근고']];
+      K=[whoK].concat(SAN_TOP,['이제 '+refK+'의','묘에 석물을 갖추지 못하여','이제 '+st[2]+josa(st[2],'을','를')+' 세워','묘 길을 지키려 하오니','신령께서 보살펴 주시어','뒷날 어려움이 없게 하소서','삼가 술과 과일을 올리고','정성껏 아뢰옵니다']); } }
   const lines=H.concat(B), linesK=HK.concat(K);
   const cusL=t=>String(t||'').split('\n').map(x=>x.trim()).filter(Boolean).slice(0,24);
   const ckCusOn=!!PS.ckCus&&(String(PS.ckTextH||'').trim()||String(PS.ckTextK||'').trim());
   const ckH=ckCusOn&&String(PS.ckTextH||'').trim()?cusL(PS.ckTextH):lines.map(l=>l[0]);
   const ckK=ckCusOn&&String(PS.ckTextK||'').trim()?cusL(PS.ckTextK):linesK;
+  const cusR=String(PS.ckTextR||'').split('\n').map(x=>x.trim());
+  const ckRows=ckH.map((h,i)=>{ if(!ckCusOn) return {h,r:lines[i]?lines[i][1]:''}; const same=lines.find(l=>l[0]===h); return {h,r:cusR[i]||(same?same[1]:'')}; });
   let ckTip='';
-  if((cG==='je'||cG==='sang')&&!anc) ckTip='남편 · 아내 · 형제 · 자녀께 올리는 축문은 집안마다 쓰는 말이 조금씩 다릅니다. 집안 양식이 있으면 아래 「축문 직접 고치기」로 고쳐 쓰세요.';
+  if(ck==='gije'&&rel==='sil') ckTip='형수께 올리는 기제축 문구는 근거를 찾지 못해 방계 친척에게 쓰는 「不勝感愴」으로 두었어요. 집안 양식이 있으면 아래 「축문 직접 고치기」로 고쳐 주세요.';
+  else if((cG==='je'||cG==='sang')&&!anc&&['sacho','sachohu','seokmul','igaebong'].indexOf(ck)<0) ckTip='남편 · 아내 · 형제 · 자녀께 올리는 축문은 집안마다 쓰는 말이 조금씩 달라요. 집안 양식이 있으면 아래 「축문 직접 고치기」로 고쳐 주세요.';
+  else if(ck==='noje') ckTip='노제는 정해진 본문이 없어요. 아래 「축문 직접 고치기」를 눌러 가운데 줄에 고인을 기리는 글을 써 넣어 주세요.';
+  else if(ck==='donggang') ckTip='「○代」는 몇 대 어른 묘인지에 맞게 「축문 직접 고치기」로 고쳐 주세요. 할머니 묘면 祖考 → 祖妣, 學生府君 → 孺人○○○氏로 바꿔요.';
+  else if(ck==='seongbok'||ck==='talsang3'||ck==='talsang49'||ck==='talsang100') ckTip='『가례』 · 『사례편람』 같은 예서에는 없는, 요즘 예절 책과 문중 자료에서 쓰는 문구예요. 집안 양식이 있으면 그것을 따르세요.';
   else if(ck==='jolgok') ckTip='요즘은 부제(祔祭)를 지내지 않아, 옛 축문 끝의 「來日隮祔…」(내일 조상 곁에 모신다) 구절은 넣지 않았습니다.';
-  const needClan=(R.g==='f'||CK_SAN.indexOf(ck)>=0&&ck!=='myosan')||(pairCk&&R.g==='m');
+  const needClan=(R.g==='f'||(CK_SAN.indexOf(ck)>=0&&ck!=='myosan')||ck==='noje')||(pairCk&&R.g==='m');
+  const kOnly=ck==='wiryeong';
   const fullName=or(fullK,'[고인 성함]');
-  const hbName=jb[0]? (isYu? (dec[0]) : jb[0]) : '';
-  return {R,c1:c1raw,c2,T,fullK,fullName,isYu,canPair,pairOn,jb,jbAuto,faith,dims,mjAll,mjSel,mj:mjT.h,dec,lines,linesK,ckH,ckK,ckCusOn,ckTip,needClan,cG,lunarNote,ckWarn,hdr,ckWho:cG==='sang'||cG==='je',hbName};
+  return {R,c1:c1raw,c2,T,fullK,fullName,isYu,canPair,pairOn,jb,jbAuto,faith,dims,mjAll,mjSel,mj:mjT.h,dec,lines,linesK,ckH,ckK,ckRows,kOnly,ckCusOn,ckTip,needClan,cG,lunarNote,ckWarn,hdr,ckWho:cG==='sang'||cG==='je'};
 }
 
 /* ── 그리기 ── */
@@ -367,28 +442,6 @@ function drawMyeong(ctx,x,y,w,h,k,str,wt){
   const ch=Array.from(str); const fs=Math.min(W*0.5,(H*0.84)/ch.length*0.88);
   ctx.fillStyle='#f4efe6'; ctx.font=fnt(wt,fs); spread(ctx,ch,X+W/2,Y+H*0.07,Y+H-H*0.06,fs); ctx.restore();
 }
-function drawHonbaek(ctx,k,m){
-  const item=PS.hbItem; ctx.fillStyle='#111111';
-  if(item==='box'){
-    const s=Math.max(30,Math.min(190,Number(PS.hbSize)*10||100)); const x=(210-s)/2, y=30;
-    ctx.save(); ctx.lineWidth=Math.max(1,0.3*k); ctx.strokeStyle='#111111'; ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.restore();
-    ctx.save(); cutLine(ctx,k); ctx.strokeRect((x-4)*k,(y-4)*k,(s+8)*k,(s+8)*k); ctx.restore();
-    const big=s*(PS.hbName?0.48:0.58); ctx.fillStyle='#111111'; ctx.font=fnt(900,big*k); ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText(PS.hbChar,(x+s/2)*k,(y+s*(PS.hbName?0.40:0.5))*k);
-    if(PS.hbName&&m.hbName){ const t=m.hbName; let fs=Math.min(s*0.11,(s*0.86)/Math.max(1,Array.from(t).length)); ctx.font=fnt(700,fs*k); ctx.fillText(t,(x+s/2)*k,(y+s*0.82)*k); }
-    ctx.font=fnt(500,3.2*k,SANS); ctx.fillStyle='#59615b'; ctx.fillText('혼백상자 표지 · '+(s/10)+'×'+(s/10)+'cm · 점선을 따라 자르세요',105*k,(y+s+12)*k);
-  } else if(item==='up'){
-    const s=40, cols=3, rows=4, gx=12, gy=12; const bw=cols*s+(cols-1)*gx, bh=rows*s+(rows-1)*gy; const x0=(210-bw)/2, y0=(297-bh)/2;
-    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){ const x=x0+c*(s+gx), y=y0+r*(s+gy); ctx.save(); cutLine(ctx,k); ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.restore(); ctx.fillStyle='#111111'; ctx.font=fnt(900,s*0.62*k); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('上',(x+s/2)*k,(y+s/2)*k); }
-    ctx.font=fnt(500,3.2*k,SANS); ctx.fillStyle='#59615b'; ctx.textAlign='center'; ctx.fillText('혼백 윗부분에 붙이는 上 글자 · 4×4cm',105*k,(y0+bh+10)*k);
-  } else {
-    const s=Math.max(30,Math.min(190,Number(PS.hbSize)*10||180)); const x=(210-s)/2, y=(297-s)/2;
-    ctx.save(); cutLine(ctx,k); ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.setLineDash([0.6*k,1.6*k]); ctx.strokeStyle='#b4bab3';
-    ctx.beginPath(); ctx.moveTo((x+s/2)*k,y*k); ctx.lineTo((x+s/2)*k,(y+s)*k); ctx.moveTo(x*k,(y+s/2)*k); ctx.lineTo((x+s)*k,(y+s/2)*k); ctx.stroke(); ctx.restore();
-    ctx.font=fnt(500,3.2*k,SANS); ctx.fillStyle='#59615b'; ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText('혼백지 '+(s/10)+'×'+(s/10)+'cm · 굵은 점선은 자르는 선, 가는 점선은 가운데 접는 선',105*k,(y+s+10)*k);
-  }
-}
 function drawChukmun(ctx,k,lines,W,H){
   const L=Math.max(lines.length,1); const mx=20, top=22, bot=20;
   const pitch=Math.min(24,(W-2*mx)/L); const avail=H-top-bot;
@@ -398,7 +451,69 @@ function drawChukmun(ctx,k,lines,W,H){
   const startX=W-(W-pitch*L)/2-pitch/2;
   lines.forEach((l,i)=>flowV(ctx,l,(startX-i*pitch)*k,top*k,fs*k,1.12));
 }
-function ckSheets(m){ const o=PS.ckOut, a=[]; if(o!=='k') a.push({t:'한문축',lines:m.ckH}); if(o!=='h') a.push({t:'한글축 · 뜻풀이',lines:m.ckK}); return a; }
+function ckSheets(m){ const o=m.kOnly?'k':PS.ckOut; if(o==='h') return [{t:'한문축',kind:'h'}]; if(o==='k') return [{t:'한글축 · 뜻풀이',kind:'k'}]; return [{t:'한문 · 읽는 소리 · 한글 뜻풀이',kind:'all'}]; }
+function drawCkSheet(ctx,k,m,kind){ if(kind==='h') drawChukmun(ctx,k,m.ckH,297,210); else if(kind==='k') drawCkK(ctx,k,m.ckK); else drawCkAll(ctx,k,m); }
+/* 한글 축문은 가로쓰기 (보통 글처럼 왼쪽에서 오른쪽, 위에서 아래로).
+   한 줄이 칸보다 길면 띄어쓰기에서 나누고, 원래 줄 사이는 조금 더 띄운다 (p = 원래 줄의 첫 줄) */
+const CK_LP=1.95, CK_LC=1.5;
+function ckWrapK(ctx,lines,f,maxW){
+  ctx.font=fnt(500,100); const w=t=>ctx.measureText(t).width/100*f; const out=[];
+  lines.forEach(L=>{ const t=String(L).trim(); if(!t){ out.push({t:'',p:true}); return; }
+    let cur='', first=true; const push=x=>{ out.push({t:x,p:first}); first=false; };
+    t.split(/\s+/).forEach(wd=>{ const tr=cur?cur+' '+wd:wd; if(w(tr)<=maxW){ cur=tr; return; }
+      if(cur){ push(cur); cur=''; }
+      if(w(wd)<=maxW){ cur=wd; return; }
+      Array.from(wd).forEach(ch=>{ if(cur&&w(cur+ch)>maxW){ push(cur); cur=ch; } else cur+=ch; }); });
+    if(cur) push(cur); });
+  return out; }
+function ckHgtK(L,f){ return L.reduce((a,o,i)=>a+(i?(o.p?f*CK_LP:f*CK_LC):f),0); }
+function ckWidK(ctx,L,f){ ctx.font=fnt(500,100); return Math.max(1,...L.map(o=>ctx.measureText(o.t).width/100*f)); }
+function ckDrawK(ctx,k,L,f,x,y){ ctx.fillStyle='#111111'; ctx.font=fnt(500,f*k); ctx.textAlign='left'; ctx.textBaseline='middle';
+  let yy=y+f/2; L.forEach((o,i)=>{ if(i) yy+=o.p?f*CK_LP:f*CK_LC; if(o.t) ctx.fillText(o.t,x*k,yy*k); }); }
+/* 한글축만 : A4 가로 한 장, 가운데에 가로쓰기 */
+function drawCkK(ctx,k,lines){
+  const W=297,H=210,mx=26,top=20,bot=22, avW=W-2*mx, avH=H-top-bot, K0=lines.length?lines:[''];
+  const fit=one=>{ for(let ff=9;ff>=2.5;ff-=0.05){ const x=ckWrapK(ctx,K0,ff,avW); if(one&&x.length>K0.length) continue; if(ckHgtK(x,ff)<=avH) return {f:ff,L:x}; } return null; };
+  /* 줄이 나뉘지 않는 쪽을 먼저 (글자가 조금 작아져도 15% 안이면) */
+  let r=fit(false); const r1=fit(true); if(r1&&(!r||r1.f>=r.f*0.85)) r=r1;
+  const f=r?r.f:2.5, L=r?r.L:ckWrapK(ctx,K0,f,avW);
+  const bw=ckWidK(ctx,L,f), bh=ckHgtK(L,f);
+  ckDrawK(ctx,k,L,f,(W-bw)/2,top+Math.max(0,(avH-bh)/2)); }
+/* 한문 글자와 읽는 소리 짝 짓기 : 띄어 쓴 마디끼리, 마디 안에서는 글자 하나에 소리 하나 */
+function ckRuby(h,r){
+  const isH=c=>/[\u3400-\u9fff\uf900-\ufaff]/.test(c);
+  const ht=String(h).split(' '), rt=String(r||'').split(' '), out=[];
+  const put=(hs,rs)=>{ const hc=Array.from(hs), rc=Array.from(rs||'');
+    if(hc.length===rc.length) hc.forEach((c,i)=>out.push({c,r:isH(c)?rc[i]:''}));
+    else hc.forEach((c,i)=>out.push({c,r:i===0&&isH(c)?(rs||''):''})); };
+  if(r&&ht.length===rt.length) ht.forEach((t,i)=>{ if(i) out.push({c:' ',r:''}); put(t,rt[i]); });
+  else { const hc=Array.from(String(h).replace(/ /g,'')), rc=Array.from(String(r||'').replace(/ /g,'')); let j=0;
+    Array.from(String(h)).forEach(c=>{ if(c===' '){ out.push({c,r:''}); return; } out.push({c,r:hc.length===rc.length&&isH(c)?rc[j]:''}); j++; }); }
+  return out; }
+/* A4 가로 한 장 : 오른쪽 한문 세로쓰기(글자 오른쪽에 작은 한글 소리, 오른쪽 줄부터) · 가운데 가는 줄 · 왼쪽 한글 뜻풀이 가로쓰기 */
+function drawCkAll(ctx,k,m){
+  const W=297,H=210,mx=14,top=16,bot=16,mid=14,PH=1.9,SH=1.1;
+  const rows=m.ckRows.length?m.ckRows:[{h:'',r:''}], K0=m.ckK.length?m.ckK:[''];
+  const lenH=Math.max(1,...rows.map(x=>vlen(x.h,1,SH)));
+  const avH=H-top-bot, avW=W-2*mx-mid;
+  /* 한글 글자를 가장 크게 : 한문은 한글의 1.3배(최대 12mm), 남은 너비에 한글을 가로로 (한 줄에 14자 이상) */
+  const fit=one=>{ for(let f=8;f>=2.5;f-=0.05){ const fh=Math.min(f*1.3,avH/lenH,12), wK=avW-rows.length*fh*PH; if(wK<f*14) continue;
+    const L=ckWrapK(ctx,K0,f,wK); if(one&&L.length>K0.length) continue; if(ckHgtK(L,f)<=avH) return {f,fh,L}; } return null; };
+  /* 한 줄이 둘로 나뉘지 않는 쪽을 먼저 (글자가 조금 작아져도 15% 안이면) */
+  let r=fit(false); const r1=fit(true); if(r1&&(!r||r1.f>=r.f*0.85)) r=r1;
+  let fH=4, fK=2.5, K=null; if(r){ fH=r.fh; fK=r.f; K=r.L; }
+  if(!K){ fH=Math.min(fK*1.3,avH/lenH,12); K=ckWrapK(ctx,K0,fK,Math.max(30,avW-rows.length*fH*PH)); }
+  const hH=lenH*fH, hK=ckHgtK(K,fK), y0=top+Math.max(0,(avH-Math.max(hH,hK))/2);
+  const wH=rows.length*fH*PH, wK=ckWidK(ctx,K,fK), spare=Math.max(0,avW-wH-wK), right=W-mx-spare/2, divX=right-wH-mid/2;
+  const rf=fH*0.42;
+  rows.forEach((x,i)=>{ const cellR=right-i*fH*PH, cx=cellR-rf*1.15-fH/2, rx=cellR-rf*0.55; let y=y0+fH/2;
+    ckRuby(x.h,x.r).forEach(o=>{ if(o.c===' '){ y+=fH*0.55; return; }
+      ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillStyle='#111111'; ctx.font=fnt(500,fH*k); ctx.fillText(o.c,cx*k,y*k);
+      if(o.r){ ctx.fillStyle='#4a4f4b'; ctx.font=fnt(500,rf*k,SANS); ctx.fillText(o.r,rx*k,y*k); }
+      y+=fH*SH; }); });
+  ctx.fillStyle='#c4c8c3'; ctx.fillRect(divX*k,(y0-2)*k,Math.max(1,0.25*k),(Math.max(hH,hK)+4)*k);
+  ckDrawK(ctx,k,K,fK,divX-mid/2-wK,y0);
+}
 function drawSangjung(ctx,k){
   ctx.fillStyle='#111111'; ctx.textAlign='center'; ctx.textBaseline='middle';
   ctx.font=fnt(900,52*k); ctx.fillText('喪 中',105*k,58*k);
@@ -428,26 +543,26 @@ function pagesFor(m){
   const wt=PS.wt; const t=PS.tab; const nm=(m.fullName||'고인').replace(/[\\/:*?"<>|]/g,'');
   if(t==='jb'){ const h=m.dims.h; const pw=m.dims.w; const gap=6;
     const cols=Math.max(1,Math.floor((190+gap)/(pw+gap))), rows=Math.max(1,Math.floor((277+gap)/(h+gap))), per=cols*rows; const pages=[];
-    for(let st=0;st<PS.copies;st+=per){ const cnt=Math.min(per,PS.copies-st);
-      pages.push({w:210,h:297,draw:(ctx,k)=>{ const used=cnt, rc=Math.ceil(used/cols), uc=Math.min(used,cols); const bw=uc*pw+(uc-1)*gap, bh=rc*h+(rc-1)*gap; const x0=(210-bw)/2, y0=Math.max(10,(297-bh)/2);
+    for(let st=0;st<PS.copies;st+=per){ const used=Math.min(per,PS.copies-st), rc=Math.ceil(used/cols), uc=Math.min(used,cols); const bw=uc*pw+(uc-1)*gap, bh=rc*h+(rc-1)*gap; const x0=(210-bw)/2, y0=Math.max(10,(297-bh)/2);
+      /* crop : 바로 인쇄할 때는 지방이 있는 부분만 실제 크기로 보낸다 (A4 한 장 크기 그림은 프린터 여백 때문에 넘쳐서 빈 장이 나옴) */
+      pages.push({w:210,h:297,crop:{x:x0-1,y:y0-1,w:bw+2,h:bh+2},draw:(ctx,k)=>{
         for(let i=0;i<used;i++){ const r=Math.floor(i/cols), c=i%cols; drawCard(ctx,x0+c*(pw+gap),y0+r*(h+gap),k,m,wt); } }}); }
     return {pages,name:(m.isYu?'지방_':'위패_')+'故'+nm, per, sheets:pages.length}; }
   if(t==='mj'){ const z=MJ[PS.mjSize]; const pages=[]; for(let c=0;c<PS.copies;c++) for(let i=0;i<z.n;i++){ pages.push({w:z.w,h:z.ph,draw:(ctx,k)=>{ ctx.save(); ctx.translate(0,-i*z.ph*k); drawMyeong(ctx,0,0,z.w,z.ph*z.n,k,m.mj,wt); ctx.restore(); }}); }
     return {pages,name:'명정_故'+nm}; }
-  if(t==='hb') return {pages:[{w:210,h:297,draw:(ctx,k)=>drawHonbaek(ctx,k,m)}],name:'혼백_故'+nm};
-  if(t==='ck') return {pages:ckSheets(m).map(sv=>({w:297,h:210,draw:(ctx,k)=>drawChukmun(ctx,k,sv.lines,297,210)})),name:(CKN[PS.ck]||'축문')+'_故'+nm};
+  if(t==='ck') return {pages:ckSheets(m).map(sv=>({w:297,h:210,draw:(ctx,k)=>drawCkSheet(ctx,k,m,sv.kind)})),name:(CKN[PS.ck]||'축문')+'_故'+nm};
   if(t==='sj') return {pages:[{w:210,h:297,draw:(ctx,k)=>drawSangjung(ctx,k)}],name:'상중안내문'};
   if(t==='env') return {pages:[{w:105,h:220,draw:(ctx,k)=>drawEnvFront(ctx,k,0)},{w:105,h:220,draw:(ctx,k)=>drawEnvBack(ctx,k,0)}],name:'부의봉투_'+or(PS.envName,'')};
   return {pages:[],name:''};
 }
-function docText(m){ return [m.jb.join(''),m.faith?[m.faith.role||'',m.faith.name||'',(m.faith.right||[]).join(''),(m.faith.left||[]).join(''),'妙法之靈'].join(''):'',m.mjSel.h,PS.sjL1,PS.sjL2,PS.sjL3,PS.sjSign,PS.hall,PS.room,m.ckH.join(''),m.ckK.join(''),'喪中上前',(ENV[PS.envWord]||[]).join(''),PS.envName,PS.envOrg,m.hbName,'집안에상을당하여부터까지문을닫습니다너그러운양해부탁드립니다주인올림'].join(''); }
+function docText(m){ return [m.jb.join(''),m.faith?[m.faith.role||'',m.faith.name||'',(m.faith.right||[]).join(''),(m.faith.left||[]).join(''),'妙法之靈'].join(''):'',m.mjSel.h,PS.sjL1,PS.sjL2,PS.sjL3,PS.sjSign,PS.hall,PS.room,m.ckH.join(''),m.ckK.join(''),m.ckRows.map(r=>r.r).join(''),'喪中',(ENV[PS.envWord]||[]).join(''),PS.envName,PS.envOrg,'집안에상을당하여부터까지문을닫습니다너그러운양해부탁드립니다주인올림'].join(''); }
 const fontDone=new Set();
 function ensureFonts(text){
   const key=PS.font+'|'+PS.wt+'|'+text; if(fontDone.has(key)||!document.fonts||!document.fonts.load) return Promise.resolve(false);
   const L=(f)=>document.fonts.load(f,text).catch(()=>null);
   const list=PS.font==='brush'?[L('400 40px "Yuji Syuku"'),L('400 40px "ChosunGs"'),L('800 40px "Shippori Mincho"')]
     :[L('800 40px "Shippori Mincho"'),L('700 40px "Shippori Mincho"'),L('500 40px "Shippori Mincho"'),L('800 40px "Noto Serif KR"'),L('700 40px "Noto Serif KR"'),L('500 40px "Noto Serif KR"')];
-  list.push(document.fonts.load('500 20px "IBM Plex Sans KR"','혼백상자표지점선을따라자르세요빈소연락처전화').catch(()=>null));
+  list.push(document.fonts.load('500 20px "IBM Plex Sans KR"','빈소연락처전화'+text).catch(()=>null));
   return Promise.all(list).then(()=>{fontDone.add(key);return true;}).catch(()=>false);
 }
 
@@ -463,12 +578,11 @@ function preview(m){
   else if(t==='mj'){ const bw=Math.max(56,Math.min(84,availW*0.28)); const bh=tall-8; cssW=bw+8; cssH=tall;
     draw=(ctx,k)=>drawMyeong(ctx,4,4,bw,bh,k,m.mj.replace(/ /g,''),PS.wt);
     draw.k=1; cap='명정 쓰는 예 · '+m.mjSel.l+' · 출력용이 아닌 참고용입니다'; sheet=''; }
-  else if(t==='hb'){ const kk=tall/297; cssW=210*kk; cssH=tall; draw=(ctx,k)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,210*k,297*k); drawHonbaek(ctx,k,m); }; draw.k=kk; cap='A4 세로 · 실제 크기로 인쇄하면 표지 크기가 맞습니다'; sheet='A4 1장'; }
   else if(t==='ck'){ const kk=Math.min(availW,660)/297; const sv=ckSheets(m); const lab=28/kk, gap=12/kk;
     cssW=297*kk; cssH=(sv.length*(210+lab)+(sv.length-1)*gap)*kk;
     draw=(ctx,k)=>{ let y=0; sv.forEach(x=>{ ctx.fillStyle='#3a413c'; ctx.font=fnt(700,(14/kk)*k,SANS); ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(x.t,0,(y+lab/2)*k); y+=lab;
-      ctx.save(); ctx.translate(0,y*k); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,297*k,210*k); drawChukmun(ctx,k,x.lines,297,210); ctx.restore(); y+=210+gap; }); };
-    draw.k=kk; cap=(CKN[PS.ck]||'')+' · A4 가로 · 오른쪽 줄부터 읽습니다'; sheet='A4 가로 '+sv.length+'장'+(sv.length>1?' (한문축 · 한글축)':''); }
+      ctx.save(); ctx.translate(0,y*k); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,297*k,210*k); drawCkSheet(ctx,k,m,x.kind); ctx.restore(); y+=210+gap; }); };
+    draw.k=kk; cap=(CKN[PS.ck]||'')+' · A4 가로 · 오른쪽 줄부터 읽습니다'; sheet='A4 가로 1장'; }
   else if(t==='sj'){ const kk=tall/297; cssW=210*kk; cssH=tall; draw=(ctx,k)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,210*k,297*k); drawSangjung(ctx,k); }; draw.k=kk; cap='A4 세로 · 문 앞에 붙이는 안내문'; sheet='A4 세로 1장'; }
   else if(t==='env'){ const kk=Math.min(tall*0.86,420)/220; const g=10/kk; cssW=(210+g)*kk; cssH=220*kk;
     draw=(ctx,k)=>{ [0,105+g].forEach((ox,i)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(ox*k,0,105*k,220*k); ctx.strokeStyle='#9aa199'; ctx.lineWidth=1; ctx.strokeRect(ox*k+0.5,0.5,105*k-1,220*k-1); if(i===0) drawEnvFront(ctx,k,ox); else drawEnvBack(ctx,k,ox); }); };
@@ -493,17 +607,17 @@ function renderPrint(){
   const m=model(); const R=m.R;
   $$('[data-seg]').forEach(b=>{ const k=b.getAttribute('data-seg'); b.setAttribute('aria-pressed',String(String(PS[k])===b.getAttribute('data-v'))); });
   $$('#ptabs [data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.getAttribute('data-tab')===PS.tab)));
-  const tab=PS.tab, ckT=tab==='ck', T4=['jb','mj','hb','ck'].indexOf(tab)>=0;
-  const needC1=tab==='mj'||tab==='tx'||(tab==='jb'&&(!m.isYu||R.g==='f'))||(tab==='hb'&&R.g==='f'&&!!PS.hbName)||(ckT&&(R.g==='f'||['sansin','pyeongto','isan'].indexOf(PS.ck)>=0));
+  const tab=PS.tab, ckT=tab==='ck', T4=['jb','mj','ck'].indexOf(tab)>=0;
+  const needC1=tab==='mj'||tab==='tx'||(tab==='jb'&&(!m.isYu||R.g==='f'))||(ckT&&(R.g==='f'||['sansin','pyeongto','isan'].indexOf(PS.ck)>=0));
   const pairHere=tab==='jb'||(ckT&&PS.ck==='gije');
   const cond={
-    decCard:['jb','mj','hb','ck','tx'].indexOf(tab)>=0, evCard:tab==='tx',
-    rlgF:tab==='jb'||tab==='mj', relF:T4, clanF:needC1, nameF:tab==='tx'||(tab==='jb'&&!m.isYu)||(['jb','hb','ck'].indexOf(tab)>=0&&!!R.named),
+    decCard:['jb','mj','ck','tx'].indexOf(tab)>=0, evCard:tab==='tx',
+    rlgF:tab==='jb'||tab==='mj', relF:T4, clanF:needC1, nameF:tab==='tx'||(tab==='jb'&&!m.isYu)||(['jb','ck'].indexOf(tab)>=0&&!!R.named),
     c1picked:!!m.c1.sk, c2picked:!!PS.c2.sk,
     c1list:!PS.man, c1man:PS.man, ttl:T4&&m.isYu&&(R.g==='m'||m.pairOn), ttlCus:T4&&PS.ttl==='cus', chr:(tab==='jb'||tab==='mj')&&PS.rlg==='chr', cat:(tab==='jb'||tab==='mj')&&PS.rlg==='cat', jbFixed:!!m.dims.fixed, jbSizeF:!m.dims.fixed, jbHanF:!m.faith&&!PS.jbCus&&PS.rlg!=='won', bud:(tab==='jb'||tab==='mj')&&PS.rlg==='bud', won:(tab==='jb'||tab==='mj')&&PS.rlg==='won', jbCus:!!PS.jbCus, out:tab!=='mj', mjInfo:tab==='mj', sjHallOn:!!PS.sjHall,
     canPair:m.canPair&&pairHere, p2:m.pairOn&&pairHere&&R.g==='m', female:tab==='jb'&&m.isYu&&(m.pairOn||R.g==='f'),
-    ckHdr:m.hdr, ckWho:m.ckWho, ckName:!['cheongu','jojeon','balin'].includes(PS.ck)&&!(m.cG==='je'&&['ybro','son'].includes(PS.rel)&&PS.ckTitle==='auto'), ckCus:!!PS.ckCus, hbBox:PS.hbItem==='box', hbSizeF:PS.hbItem!=='up', copies:tab==='jb',
-    doc:tab!=='tx', tx:tab==='tx', ckReading:ckT&&PS.ckOut!=='k'&&!m.ckCusOn, hbInfo:tab==='hb'
+    ckHdr:m.hdr, ckWho:m.ckWho, ckStone:['seokmul','seokmulsan'].includes(PS.ck), ckOutSeg:!m.kOnly, ckName:!['cheongu','jojeon','balin'].includes(PS.ck)&&!(m.cG==='je'&&['ybro','son'].includes(PS.rel)&&PS.ckTitle==='auto'), ckCus:!!PS.ckCus, copies:tab==='jb',
+    doc:tab!=='tx', tx:tab==='tx', ckReading:ckT&&PS.ckOut!=='k'&&!m.ckCusOn&&!m.kOnly, ckAll:PS.ckOut==='all'&&!m.kOnly
   };
   $$('[data-show]').forEach(el=>setVis(el,!!cond[el.getAttribute('data-show')]));
   const solo=!cond.decCard&&!cond.evCard; $('#pr-left').hidden=solo; $('#pr-grid').classList.toggle('solo',solo);
@@ -514,7 +628,6 @@ function renderPrint(){
   $('#ck-desc').textContent=(CK_INFO[PS.ck]||['',''])[1]; const tp=$('#ck-tip'); tp.hidden=!m.ckTip; tp.textContent=m.ckTip;
   $('#c2-label').textContent=clanLabel(PS.c2); $('#c2-hz').textContent=PS.c2.bh+PS.c2.sh;
   $('#pair-label').textContent=PAIR_LABEL[R.gen]||''; $('#c2-title').textContent=WIFE_LABEL[R.gen]||'';
-  $('#hbs-label').textContent=PS.hbItem==='paper'?'혼백지 크기 (cm, 정사각형)':'표지 크기 (cm, 정사각형)';
   $$('[data-k]').forEach(el=>{ const k=el.getAttribute('data-k'); if(document.activeElement===el) return; if(el.type==='checkbox') el.checked=!!PS[k]; else if(el.value!==String(PS[k]??'')) el.value=PS[k]??''; });
   $('#cp-val').textContent=PS.copies;
   $('#ck-lunar').textContent=m.lunarNote; $('#ck-reading').textContent=m.lines.map(l=>l[1]).join('\n');
@@ -530,12 +643,12 @@ function renderPrint(){
   if(PS.tab==='mj'){ $('#mj-hz').textContent=m.mjSel.h; $('#mj-rd').textContent=m.mjSel.k; }
   if(PS.tab==='tx'){ $('#msg-bugo').textContent=bugoText(m); $('#msg-thanks').textContent=thanksText(m); }
   else { preview(m); ensureFonts(docText(m)).then(ch=>{ if(ch) preview(model()); }); }
-  const dn=({jb:m.isYu?'지방':'위패',mj:'명정',hb:'혼백',ck:'축문',sj:'안내문',env:'봉투'}[PS.tab]||'서식');
+  const dn=({jb:m.isYu?'지방':'위패',mj:'명정',ck:'축문',sj:'안내문',env:'봉투'}[PS.tab]||'서식');
   $('#print-btn').textContent=dn+' 바로 인쇄'; $('#pdf-btn').textContent=dn+' PDF로 받기';
 }
 function bugoText(m){ return '[부고]\n故 '+m.fullName+'님께서 '+fmtD(PS.dDie)+' 별세하셨기에 삼가 알려 드립니다.\n\n상주  '+or(PS.sangK,'[상주]')+'\n빈소  '+or(PS.hall,'[장례식장]')+' '+(PS.room||'')+'\n발인  '+fmtD(PS.dOut)+' '+(PS.tOut||'')+'\n장지  '+or(PS.place,'[장지]')+(PS.tel?'\n연락처  '+PS.tel:'')+'\n\n마음으로 함께해 주시면 감사하겠습니다.'; }
 function thanksText(m){ return '故 '+m.fullName+'님의 장례에 함께해 주시고 따뜻한 위로를 보내 주셔서 진심으로 감사드립니다.\n\n직접 찾아뵙고 인사드려야 마땅하나 먼저 글로 대신합니다. 보내 주신 마음 오래 기억하겠습니다.\n\n상주 '+or(PS.sangK,'[상주]')+' 올림'; }
-function renderPage(pg,dpi,type){ const k=dpi/25.4; const c=document.createElement('canvas'); c.width=Math.round(pg.w*k); c.height=Math.round(pg.h*k); const x=c.getContext('2d'); x.fillStyle='#ffffff'; x.fillRect(0,0,c.width,c.height); pg.draw(x,k); return type==='png'?c.toDataURL('image/png'):c.toDataURL('image/jpeg',0.92); }
+function renderPage(pg,dpi,type,crop){ const k=dpi/25.4; const c=document.createElement('canvas'); c.width=Math.round((crop?crop.w:pg.w)*k); c.height=Math.round((crop?crop.h:pg.h)*k); const x=c.getContext('2d'); x.fillStyle='#ffffff'; x.fillRect(0,0,c.width,c.height); if(crop) x.translate(-crop.x*k,-crop.y*k); pg.draw(x,k); return type==='png'?c.toDataURL('image/png'):c.toDataURL('image/jpeg',0.92); }
 async function savePdf(){
   const btn=$('#pdf-btn'); const m=model();
   if(!window.jspdf||!window.jspdf.jsPDF){ toast('PDF 도구를 불러오는 중입니다. 잠시 뒤 다시 눌러 주세요'); return; }
@@ -558,8 +671,9 @@ async function directPrint(){
     await ensureFonts(docText(m));
     const P=pagesFor(m); const root=$('#print-root'); root.innerHTML='';
     let css=document.getElementById('page-css'); if(!css){ css=document.createElement('style'); css.id='page-css'; document.head.appendChild(css); }
-    css.textContent='@page{size:'+P.pages[0].w+'mm '+P.pages[0].h+'mm;margin:0}';
-    await Promise.all(P.pages.map(pg=>new Promise(res=>{ const img=new Image(); img.alt=''; img.style.width=pg.w+'mm'; img.style.height=pg.h+'mm'; img.onload=res; img.onerror=res; root.appendChild(img); img.src=renderPage(pg,300,'png'); })));
+    const crop=!!P.pages[0].crop;  /* 지방 · 위패 : 여백 10mm 안에 지방 부분만 → 어떤 프린터 여백에서도 한 장에 들어가 빈 장이 나오지 않음 */
+    css.textContent='@page{size:'+P.pages[0].w+'mm '+P.pages[0].h+'mm;margin:'+(crop?'10mm':'0')+'}';
+    await Promise.all(P.pages.map(pg=>new Promise(res=>{ const c=pg.crop; const img=new Image(); img.alt=''; img.style.width=(c?c.w:pg.w)+'mm'; img.style.height=(c?c.h:pg.h)+'mm'; if(c) img.className='crop'; img.onload=res; img.onerror=res; root.appendChild(img); img.src=renderPage(pg,300,'png',c); })));
     window.print();
   }catch(e){ toast('인쇄를 준비하지 못했습니다. PDF로 받아 인쇄해 주세요'); }
   btn.disabled=false; btn.textContent=old;
@@ -581,7 +695,7 @@ function bindPrint(){
   $('#cp-plus').addEventListener('click',()=>{ PS.copies=Math.min(30,PS.copies+1); renderPrint(); });
   $('#p-jbcus').addEventListener('change',()=>{ if(PS.jbCus&&!String(PS.jbText||'').trim()){ PS.jbText=model().jbAuto.join('\n'); renderPrint(); } });
   $('#jb-auto').addEventListener('click',()=>{ PS.jbText=model().jbAuto.join('\n'); renderPrint(); });
-  const ckFill=()=>{ PS.ckCus=false; const mm=model(); PS.ckTextH=mm.ckH.join('\n'); PS.ckTextK=mm.ckK.join('\n'); PS.ckCus=true; };
+  const ckFill=()=>{ PS.ckCus=false; const mm=model(); PS.ckTextH=mm.ckH.join('\n'); PS.ckTextR=mm.ckRows.map(r=>r.r).join('\n'); PS.ckTextK=mm.ckK.join('\n'); PS.ckCus=true; };
   $('#p-ckcus').addEventListener('change',()=>{ if(PS.ckCus){ ckFill(); renderPrint(); } });
   $('#ck-auto').addEventListener('click',()=>{ ckFill(); renderPrint(); });
   $('#pdf-btn').addEventListener('click',savePdf);
@@ -785,25 +899,53 @@ const DX_TYPES={
 const DX_COFFIN={cre:['화장용 오동나무관',20],bur:['매장용 오동나무관',30]};
 const DX_LINES={
   nob:[['svc','장례 형태','무빈소 장례 기본','장례지도사 · 입관지도사 · 입관용품',60,false,'무빈소 장례'],
-       ['coffin','관'],['shroud','수의','면수의','',15,false],
-       ['ipgwan','입관','입관 생화 꽃장식','관 안쪽을 생화로 채운 꽃침대',20,true,'생화 꽃장식'],
-       ['car','장의 차량','장의 차량 리무진 (편도)','1차 장지 또는 화장장까지',40,false,'리무진 (편도)']],
+       ['coffin','관'],['shroud','수의','수의','',15,false,'면수의'],
+       ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
+       ['car','장의 차량','장의 차량','',40,false,'리무진 (편도)']],
   fam:[['svc','장례 형태','가족장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'가족장 (3일장)'],
-       ['coffin','관'],['shroud','수의','면수의','',15,false],
-       ['ipgwan','입관','입관 생화 꽃장식','관 안쪽을 생화로 채운 꽃침대',20,true,'생화 꽃장식'],
+       ['coffin','관'],['shroud','수의','수의','',15,false,'면수의'],
+       ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
        ['binso','빈소 헌화','빈소 헌화 30송이','조문객이 영정 앞에 올리는 꽃',5,true,'30송이'],
-       ['car','장의 차량','장의 차량 리무진 (편도)','1차 장지 또는 화장장까지',40,false,'리무진 (편도)'],
+       ['car','장의 차량','장의 차량','',40,false,'리무진 (편도)'],
        ['staff','접객 도우미','접객 도우미','1인 12만원',24,true],
        ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',16,true]],
   gen:[['svc','장례 형태','일반장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'일반장 (3일장)'],
-       ['coffin','관'],['shroud','수의','면수의','',15,false],
-       ['ipgwan','입관','입관 생화 꽃장식','관 안쪽을 생화로 채운 꽃침대',20,true,'생화 꽃장식'],
+       ['coffin','관'],['shroud','수의','수의','',15,false,'면수의'],
+       ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
        ['binso','빈소 헌화','빈소 헌화 50송이','조문객이 영정 앞에 올리는 꽃',7,true,'50송이'],
-       ['car','장의 차량','장의 차량 리무진 (편도)','1차 장지 또는 화장장까지',40,true,'리무진 (편도)'],
-       ['bus','장의 차량','장의버스 (왕복)','가족 · 조문객이 함께 타고 다녀와요',40,true,'장의버스 (왕복)'],
+       ['car','장의 차량','장의 차량','',80,false,'리무진 + 장의버스'],
        ['staff','접객 도우미','접객 도우미','1인 12만원',48,true],
        ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',32,true]]
 };
+/* 고르는 줄 (2026-11-01 사용자 지시) : 수의(하나만) · 장의 차량(여러 개, 리무진 + 장의버스처럼) — 모든 상품
+   [값, 이름, 금액, 설명, 견적에 쓸 작은 글, 함께 고를 때 견적 글] · base 가 상품에 들어 있는 것.
+   장의 차량 : 무빈소장 차량 미사용 · 스타리아/카니발 · 리무진 · 장의버스, 가족장 · 일반장 차량 미사용 · 리무진 · 장의버스.
+   「차량 미사용」은 혼자만, 스타리아/카니발과 리무진은 둘 중 하나만(둘 다 고인을 모시는 차), 장의버스는 어느 것과도 함께 */
+const DX_OPT={
+  shroud:{lbl:'수의 고르기',below:true,base:['cotton'],   /* below : 설명은 고른 것 하나만 칸 아래에 (예전 계산기 설명, 2026-11-01 사용자 지시로 다시) */
+    all:[['cotton','면수의',15,'무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.'],
+         ['jeoma','저마수의',20,'저마는 모시풀에서 얻는 모시예요. 예부터 여름 옷감으로 쓰였고, 가볍고 시원한 결이 특징이에요. 예전에는 귀한 옷감이었어요.'],
+         ['hwangto','황토수의',30,'황토로 물들인 옷감으로 지은 수의예요. 은은한 흙빛이 나는 자연 소재예요.'],
+         ['jac','쟈가드수의',50,'자카드 직기로 무늬를 넣어 짠 옷감으로 지은 수의예요. 은은한 무늬와 광택이 있어 단정하고 품위 있게 보여요.'],
+         ['hemp','대마수의',60,'대마(삼)에서 얻은 삼베로 지은 수의예요. 바람이 잘 통하고 흙에서 자연으로 돌아가는 소재라, 오늘날 수의를 대표하는 옷감이에요.']]},
+  car:{lbl:'장의 차량 고르기 · 여러 개 고르실 수 있어요',multi:true,alt:{limo:'van',van:'limo'},
+    all:[['none','차량 미사용',0,'화장장 안에 있는 장례식장을 쓰실 때','화장장 안 장례식장 이용','차량 미사용'],
+         ['van','스타리아 · 카니발',30,'고인을 모시는 작은 장의 차량이에요','고인을 모시는 작은 장의 차량','스타리아 · 카니발'],
+         ['limo','리무진 (편도)',40,'1차 장지 또는 화장장까지 편도로 모셔요','1차 장지 또는 화장장까지 편도','리무진은 편도'],
+         ['bus','장의버스 (왕복)',40,'고인을 모시고 가족분들도 함께 타고 다녀오는 왕복이에요','가족분들도 함께 타는 왕복','장의버스는 왕복']],
+    types:{nob:['none','van','limo','bus'],fam:['none','limo','bus'],gen:['none','limo','bus']},
+    base:{nob:['limo'],fam:['limo'],gen:['limo','bus']}}
+};
+/* 매장이면 궁중대렴이 입관 꽃장식 다음에 저절로 들어간다 (2026-11-01 사용자 지시). 가격표 : 꽃장식 + 궁중대렴 30 · 궁중대렴만 20 → 꽃장식과 함께면 10 */
+const DX_DAERYEOM=['daeryeom','입관','궁중대렴','매장하시면 기본으로 넣어 드려요 · 꽃장식과 함께라 10만원',10,true,'궁중대렴'];
+function dxOpts(k){ const o=DX_OPT[k]; if(!o||!DX.type||(o.types&&!o.types[DX.type])) return null; return o.types?o.all.filter(x=>o.types[DX.type].includes(x[0])):o.all; }
+const dxBase=k=>{ const b=DX_OPT[k].base; return (Array.isArray(b)?b:b[DX.type]).slice(); };
+function dxSel(k){ const o=dxOpts(k); if(!o) return null; const v=DX.opt[k]||dxBase(k), sl=o.filter(x=>v.includes(x[0])); return sl.length?sl:o.filter(x=>dxBase(k).includes(x[0])); }
+const dxIsBase=k=>!dxOpts(k)||String((DX.opt[k]||dxBase(k)).slice().sort())===String(dxBase(k).sort());
+const dxBaseLbl=k=>dxOpts(k).filter(x=>dxBase(k).includes(x[0])).map(x=>x[1].replace(/\s*\(.*\)$/,'')).join(' · ');
+function dxResetOpt(){ DX.opt={}; Object.keys(DX_OPT).forEach(k=>{ if(dxOpts(k)) DX.opt[k]=dxBase(k); }); }
+const dxName=l=>{ const sl=dxSel(l[0]); return sl&&!DX.off[l[0]]?sl.map(x=>x[1]).join(' + '):(l[6]||l[2]); };
+const dxSub=l=>{ const k=l[0]; if(k==='svc') return '장례지도사 · 입관지도사 · 입관용품 포함'; if(k==='daeryeom') return '매장하실 때 기본으로 넣어 드려요'; const sl=dxSel(k); return !sl?'':sl.length>1?sl.map(x=>x[5]).join(' · '):(sl[0][4]||''); };
 /* 인원 · 벌 수를 정하는 줄 : 상품에 들어 있는 수가 처음 값, 0이 되면 뺀 것으로 */
 const DX_CNT={
   staff:{unit:'명',max:6,price:[12,12],rows:['첫째 날','둘째 날'],note:'4일장 이상은 현장에서 상담해 드려요.',base:{fam:[1,1],gen:[2,2]}},
@@ -815,36 +957,35 @@ const DX_HONEST={
   binso:'헌화 없이 분향만 하셔도 괜찮아요.',
   staff:'조문객이 많지 않으면 가족분들이 직접 맞으셔도 괜찮아요.',
   mourn:'갖고 계신 검은 옷으로 대신하셔도 괜찮아요.',
-  car:'리무진을 빼셔도 장의버스에 고인을 모시고 함께 가실 수 있어요.',
-  bus:'가족분들은 자가용으로 함께 이동하셔도 괜찮아요.'
+  daeryeom:'궁중대렴을 하지 않으셔도 염습과 입관은 <b>똑같이</b> 정성껏 해 드려요.'
 };
-const DX_PAIR={car:'bus',bus:'car'};   /* 일반장 : 리무진 · 장의버스는 하나씩 뺄 수 있지만 차량 하나는 꼭 남는다 */
-const DX={type:null,burial:'cre',off:{},disc:false,cnt:{}};
+const dxHonest=k=>DX_HONEST[k];
+const DX={type:null,burial:'cre',off:{},disc:false,cnt:{},opt:{}};
 const PR={nm:'',ch:false,cp:'',cpd:''};   /* 견적에 넣을 성함 · 할인권 (화면에만 있고 저장하지 않음) */
 const DX_EASE='cubic-bezier(0.19,1,0.22,1)';
 const won=n=>n.toLocaleString('ko-KR')+'원';
 const dWon=v=>(v<0?'−':'')+Math.abs(v*10000).toLocaleString('ko-KR')+'원';   /* v : 만원 */
-const dMan=v=>(v<0?'−':'')+Math.abs(v).toLocaleString('ko-KR')+'만원';
+const dMan=v=>v===0?'0원':(v<0?'−':'')+Math.abs(v).toLocaleString('ko-KR')+'만원';
 const dSMan=v=>(v>0?'+':v<0?'−':'')+Math.abs(v).toLocaleString('ko-KR')+'만원';
 const dSWon=v=>(v>0?'+':'')+dWon(v);
 const dEsc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const dNb=t=>dEsc(t).replace(/ · /g,'&nbsp;· ');   /* 가운뎃점이 줄 맨 앞에 오지 않게 */
-const dxLocked=k=>DX.type==='gen'&&!!DX_PAIR[k]&&!DX.off[k]&&!!DX.off[DX_PAIR[k]];
-function dxLines(t,bur){ t=t||DX.type; bur=bur||DX.burial;
-  return DX_LINES[t].map(l=>l[0]==='coffin'?['coffin','관',DX_COFFIN[bur][0],'',DX_COFFIN[bur][1],false]:l); }
+function dxLines(t,bur){ t=t||DX.type; bur=bur||DX.burial; const out=[];
+  DX_LINES[t].forEach(l=>{ out.push(l[0]==='coffin'?['coffin','관',DX_COFFIN[bur][0],'',DX_COFFIN[bur][1],false]:l); if(l[0]==='ipgwan'&&bur==='bur') out.push(DX_DAERYEOM); });
+  return out; }
 const dxTotal=(t,bur)=>dxLines(t,bur).reduce((a,l)=>a+l[4],0);
 const dxBaseCnt=k=>DX_CNT[k].base[DX.type].slice();
-function dxNow(l){ const k=l[0]; if(!DX_CNT[k]) return l[4]; const v=DX.cnt[k], p=DX_CNT[k].price; return v[0]*p[0]+v[1]*p[1]; }
+function dxNow(l){ const k=l[0]; if(k==='daeryeom') return DX.off.ipgwan?20:10; const sl=dxSel(k); if(sl) return sl.reduce((a,x)=>a+x[2],0); if(!DX_CNT[k]) return l[4]; const v=DX.cnt[k], p=DX_CNT[k].price; return v[0]*p[0]+v[1]*p[1]; }
 function dxCntText(k,v){ const c=DX_CNT[k]; v=v||DX.cnt[k];
   return c.rows.map((r,i)=>v[i]?r+' '+v[i]+c.unit:'').filter(Boolean).join(' · ')||'0'+c.unit; }
-/* B 상품 금액 · R 빼신 것 · C 인원 · 벌 수로 달라진 금액 · D 할인 · T 합계 · min 다 뺐을 때 */
+/* B 상품 금액 · R 빼신 것 · C 고르거나 인원 · 벌 수로 달라진 금액 · D 할인 · T 합계 · min 다 뺐을 때 */
 function dxCalc(){
   const L=dxLines(); let B=0,R=0,C=0,cut=0;
   L.forEach(l=>{ const k=l[0]; B+=l[4];
     if(DX.off[k]){ R+=l[4]; return; }
     const n=dxNow(l); C+=n-l[4];
-    if(l[5]&&!dxLocked(k)) cut+=n; });
-  if(DX.type==='gen'&&!DX.off.car&&!DX.off.bus) cut-=40;
+    if(l[5]) cut+=n;
+    if(k==='car') cut+=n; });   /* 차량 : 차량 미사용까지 */
   const D=DX.disc?20:0, T=B-R+C-D; return {B,R,C,D,T,min:T-cut};
 }
 
@@ -859,14 +1000,23 @@ function dxCntHTML(k){
     '<p class="pl-diff" id="d-'+k+'"></p><p class="pl-cnote">'+dEsc(c.note)+'</p>'+
   '</div>';
 }
+function dxOptHTML(k){
+  const o=dxOpts(k);
+  return '<div class="pl-opt'+(k==='car'?' wide':'')+'" role="group" aria-label="'+DX_OPT[k].lbl+'">'+
+    o.map(x=>'<button type="button" data-opt="'+k+':'+x[0]+'" aria-pressed="false"><b>'+dNb(x[1])+'</b><span class="p">'+(x[2]?x[2]+'만원':'0원')+'</span>'+(x[3]&&!DX_OPT[k].below?'<small>'+dNb(x[3])+'</small>':'')+'</button>').join('')+
+    (DX_OPT[k].below?'<p class="pl-desc" id="ds-'+k+'" aria-live="polite"></p>':'')+
+    '<p class="pl-diff" id="d-'+k+'"></p>'+
+    (k==='car'?'<p class="pl-cnote">리무진과 장의버스는 함께 고르실 수 있어요.'+(DX.type==='nob'?' 스타리아&nbsp;·&nbsp;카니발과 리무진은 둘 중 하나만 고르시면 돼요.':'')+'</p>':'')+
+  '</div>';
+}
 function dxRowHTML(l){
   const k=l[0], nm=l[2], sub=l[3], p=l[4], rm=l[5];
-  return '<li class="pl-row'+(DX_CNT[k]?' has-cnt':'')+'" id="pl-'+k+'">'+
+  return '<li class="pl-row'+(DX_CNT[k]?' has-cnt':'')+(dxOpts(k)?' has-opt':'')+'" id="pl-'+k+'">'+
     '<span class="pl-t"><span class="pl-tt">'+dNb(nm)+'</span></span>'+(sub?'<small class="pl-s">'+dNb(sub)+'</small>':'')+
     '<span class="pl-amt">'+dMan(p)+'</span>'+
     '<span class="pl-act">'+(rm?'<button type="button" class="pl-btn" data-off="'+k+'" aria-pressed="false" aria-label="'+dEsc(nm)+' 빼기">빼기</button>':'')+'</span>'+
-    (DX_CNT[k]?dxCntHTML(k):'')+
-    (rm&&DX_HONEST[k]?'<div class="dx-fold"><div><p class="pl-honest">'+DX_HONEST[k]+'</p></div></div>':'')+
+    (DX_CNT[k]?dxCntHTML(k):'')+(dxOpts(k)?dxOptHTML(k):'')+
+    (rm&&dxHonest(k)?'<div class="dx-fold"><div><p class="pl-honest">'+dxHonest(k)+'</p></div></div>':'')+
   '</li>';
 }
 function dxBuild(){
@@ -875,11 +1025,13 @@ function dxBuild(){
     '<p class="dx-prod-tag">'+dEsc(t.tag)+'</p>'+
     '<div class="dx-prod-hd"><h3 class="dx-prod-name" id="dx-prod-name">'+t.name+'</h3><p class="dx-prod-price"><b>'+(dxTotal()*10000).toLocaleString('ko-KR')+'</b>원</p></div>'+
     '<p class="dx-prod-desc">'+dEsc(t.desc)+'</p>'+
-    '<div class="pl-h"><b>상품 구성</b><small>필요 없는 건 빼 주세요</small></div>'+
+    '<div class="pl-h"><b>상품 구성</b><small>고르실 건 고르시고, 필요 없는 건 빼 주세요</small></div>'+
     '<ul class="pl">'+L.map(dxRowHTML).join('')+
       '<li class="pl-row free"><span class="pl-t"><span class="pl-tt">무료로 해 드리는 것</span></span><small class="pl-s">고인 이송 차량&nbsp;· 모바일 부고&nbsp;· 장지 안내&nbsp;· 화장 예약</small><span class="pl-amt free">무료</span><span class="pl-act"></span></li>'+
     '</ul>'+
-    '<p class="pl-note">'+(DX.type==='gen'?'장례 기본, 관, 수의는 꼭 있어야 해서 뺄 수 없어요. 리무진과 장의버스는 둘 중 하나만 빼실 수 있어요.':'장례 기본, 관, 수의, 장의 차량은 꼭 있어야 해서 뺄 수 없어요.')+(DX.type!=='nob'?' 도우미 인원과 상복 벌 수는 + − 로 맞추시면 돼요.':'')+'</p>';
+    '<p class="pl-note">'+({nob:'장례 기본, 관, 수의는 꼭 있어야 해서 뺄 수 없어요. 수의와 장의 차량은 원하시는 것으로 고르시고, 화장장 안에 있는 장례식장을 쓰시면 「차량 미사용」을 골라 주세요.',
+      fam:'장례 기본, 관, 수의는 꼭 있어야 해서 뺄 수 없어요. 수의와 장의 차량은 원하시는 것으로 고르시고, 화장장 안에 있는 장례식장을 쓰시면 「차량 미사용」을 골라 주세요.',
+      gen:'장례 기본, 관, 수의는 꼭 있어야 해서 뺄 수 없어요. 수의와 장의 차량은 원하시는 것으로 고르시고, 화장장 안에 있는 장례식장을 쓰시면 「차량 미사용」을 골라 주세요.'})[DX.type]+(DX.type!=='nob'?' 도우미 인원과 상복 벌 수는 + − 로 맞추시면 돼요.':'')+'</p>';
   L.forEach(l=>dxUpdRow(l[0],true));
 }
 function dxUpdRow(k,init){
@@ -889,9 +1041,14 @@ function dxUpdRow(k,init){
   const a=$('.pl-amt',r), prev=a.innerHTML;
   a.innerHTML=off?'<span class="minus">'+dMan(-l[4])+'</span>':dMan(dxNow(l));
   if(!init&&prev!==a.innerHTML&&!RM&&a.animate) a.animate([{opacity:0,transform:'translate3d(0,-6px,0)'},{opacity:1,transform:'none'}],{duration:380,easing:DX_EASE});
-  const lk=dxLocked(k);
-  const b=$('[data-off]',r); if(b){ b.textContent=off?'다시 넣기':'빼기'; b.setAttribute('aria-pressed',off); b.setAttribute('aria-label',l[2]+(off?' 다시 넣기':' 빼기')); b.disabled=lk; }
-  const sb=$('.pl-s',r); if(sb&&DX_PAIR[k]&&DX.type==='gen') sb.innerHTML=lk?'차량은 하나는 꼭 있어야 해요':dNb(l[3]);
+  const b=$('[data-off]',r); if(b){ b.textContent=off?'다시 넣기':'빼기'; b.setAttribute('aria-pressed',off); b.setAttribute('aria-label',l[2]+(off?' 다시 넣기':' 빼기')); }
+  const sb=$('.pl-s',r);
+  if(sb&&k==='daeryeom') sb.innerHTML=DX.off.ipgwan?'꽃장식 없이 궁중대렴만 하시면 20만원이에요':dNb(l[3]);
+  if(dxOpts(k)){ const ids=dxSel(k).map(x=>x[0]), d=dxNow(l)-l[4], b0=dNb(dxBaseLbl(k));
+    $$('[data-opt]',r).forEach(b=>b.setAttribute('aria-pressed',String(ids.includes(b.dataset.opt.split(':')[1]))));
+    const ds=$('#ds-'+k); if(ds){ const x=dxSel(k)[0], h='<b>'+dNb(x[1])+'</b> '+dNb(x[3]||'');
+      if(ds.innerHTML!==h){ const was=!!ds.innerHTML; ds.innerHTML=h; if(was&&!init&&!RM&&ds.animate) ds.animate([{opacity:0,transform:'translate3d(0,4px,0)'},{opacity:1,transform:'none'}],{duration:360,easing:DX_EASE}); } }
+    $('#d-'+k).innerHTML=dxIsBase(k)?'상품 구성 그대로예요':d?'상품 구성('+b0+')보다 <b>'+dSMan(d)+'</b>':'상품 구성('+b0+')과 금액이 같아요'; }
   if(DX_CNT[k]){ const c=DX_CNT[k], v=DX.cnt[k];
     v.forEach((n,i)=>{ $('#o-'+k+i).textContent=n+c.unit;
       $('[data-cnt="'+k+':'+i+':-1"]',r).disabled=n<=0; $('[data-cnt="'+k+':'+i+':1"]',r).disabled=n>=c.max; });
@@ -913,7 +1070,7 @@ function dxTween(el,to,fmt){
 function dxCalcRows(c,name){
   return '<div><dt>'+name+' 상품</dt><dd>'+dWon(c.B)+'</dd></div>'+
     (c.R?'<div><dt>빼신 것</dt><dd>'+dWon(-c.R)+'</dd></div>':'')+
-    (c.C?'<div><dt>인원 · 벌 수 바꾸심</dt><dd>'+dSWon(c.C)+'</dd></div>':'')+
+    (c.C?'<div><dt>고르고 바꾸신 것</dt><dd>'+dSWon(c.C)+'</dd></div>':'')+
     (c.D?'<div><dt>수급자 · 국가유공자 할인</dt><dd>'+dWon(-c.D)+'</dd></div>':'');
 }
 function dxUpdSum(){
@@ -945,8 +1102,8 @@ function dxResetCnt(){ DX.cnt={}; Object.keys(DX_CNT).forEach(k=>{ if(DX_CNT[k].
 function dxSetType(t,quiet){
   if(!DX_TYPES[t]||DX.type===t) return;
   const first=!DX.type;
-  const had=Object.keys(DX.off).some(k=>DX.off[k])||Object.keys(DX.cnt).some(k=>String(DX.cnt[k])!==String(DX_CNT[k].base[DX.type]||''));
-  DX.type=t; DX.off={}; dxResetCnt(); PR.cp=''; PR.cpd=''; PR.ch=false;
+  const had=Object.keys(DX.off).some(k=>DX.off[k])||Object.keys(DX.cnt).some(k=>String(DX.cnt[k])!==String(DX_CNT[k].base[DX.type]||''))||Object.keys(DX.opt).some(k=>!dxIsBase(k));
+  DX.type=t; DX.off={}; dxResetOpt(); dxResetCnt(); PR.cp=''; PR.cpd=''; PR.ch=false;
   $$('.dx-type').forEach(b=>{ const on=b.dataset.type===t; b.setAttribute('aria-checked',on); b.tabIndex=on?0:-1; });
   const s2=$('#dx-s2'); s2.hidden=false; dxBuild(); dxUpdSum(); dxUpdUrn(); dxBar();
   if(quiet) return;
@@ -954,18 +1111,27 @@ function dxSetType(t,quiet){
   else { dxReveal($('#dx-prod')); if(had) toast(DX_TYPES[t].name+' 상품으로 바꿨어요. 바꾸신 내용은 처음으로 돌아가요.'); }
 }
 function dxSetBurial(b){
-  if(DX.burial===b) return; DX.burial=b;
+  if(DX.burial===b) return; DX.burial=b; delete DX.off.daeryeom;
   $$('[data-bur]').forEach(x=>x.setAttribute('aria-pressed',x.dataset.bur===b));
   dxUpdTypePrices(); dxUpdUrn();
   if(!DX.type) return;
   dxBuild(); dxUpdSum();
-  toast(b==='bur'?'매장용 오동나무관(30만원)으로 들어가요':'화장용 오동나무관(20만원)으로 들어가요');
+  toast(b==='bur'?'매장용 오동나무관(30만원)과 궁중대렴이 들어가요':'화장용 오동나무관(20만원)으로 들어가요');
 }
 function dxUpdUrn(){
   $('#dx-urn').hidden=DX.burial==='bur';
-  $('#dx-bur-n').textContent=DX.burial==='bur'?'매장하시면 관이 매장용 오동나무관(30만원)으로 바뀌고, 유골함은 필요 없어요. 묘지 비용은 따로예요.':'세 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.';
+  $('#dx-bur-n').textContent=DX.burial==='bur'?'매장하시면 관이 매장용 오동나무관(30만원)으로 바뀌고, 궁중대렴을 기본으로 넣어 드려요. 유골함은 필요 없어요. 묘지 비용은 따로예요.':'세 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.';
 }
-function dxToggle(k){ if(dxLocked(k)) return; DX.off[k]=!DX.off[k]; if(DX_CNT[k]) DX.cnt[k]=dxBaseCnt(k); dxUpdRow(k); if(DX_PAIR[k]) dxUpdRow(DX_PAIR[k],true); dxUpdSum(); }
+function dxToggle(k){ DX.off[k]=!DX.off[k]; if(DX_CNT[k]) DX.cnt[k]=dxBaseCnt(k); if(dxOpts(k)) DX.opt[k]=dxBase(k); dxUpdRow(k); if(k==='ipgwan') dxUpdRow('daeryeom'); dxUpdSum(); }
+function dxSetOpt(k,v){
+  const o=DX_OPT[k]; if(DX.off[k]||!o) return; let s=(DX.opt[k]||dxBase(k)).slice();
+  if(!o.multi){ if(s[0]===v) return; s=[v]; }
+  else if(v==='none'){ if(s.length===1&&s[0]==='none') return; s=['none']; }
+  else { s=s.filter(x=>x!=='none');
+    if(s.includes(v)){ s=s.filter(x=>x!==v);
+      if(!s.length){ if(dxOpts(k).some(x=>x[0]==='none')) s=['none']; else { toast('장의 차량은 하나는 꼭 있어야 해요'); return; } } }
+    else { s.push(v); if(o.alt&&o.alt[v]) s=s.filter(x=>x!==o.alt[v]); } }
+  DX.opt[k]=s; dxUpdRow(k); dxUpdSum(); }
 function dxCount(k,i,d){
   const c=DX_CNT[k], v=DX.cnt[k].slice(); v[i]=Math.max(0,Math.min(c.max,v[i]+d));
   if(v[0]+v[1]===0){ DX.off[k]=true; DX.cnt[k]=dxBaseCnt(k); toast((k==='staff'?'접객 도우미를':'상복을')+' 뺐어요'); }
@@ -978,7 +1144,7 @@ function estLines(){
   const L=[];
   dxLines().filter(l=>!DX.off[l[0]]).forEach(l=>{ const k=l[0];
     if(DX_CNT[k]) L.push([l[1],dxNow(l)*10000,'',null,dxCntText(k),k==='staff'?'1인 12만원':'남성용 5만원 · 여성용 3만원']);
-    else L.push([l[1],l[4]*10000,'',null,l[6]||l[2],k==='svc'?'장례지도사 · 입관지도사 · 입관용품 포함':null]); });
+    else L.push([l[1],dxNow(l)*10000,'',null,dxName(l),dxSub(l)||null]); });
   L.push(['모시는 방식',0,'','0원',DX.burial==='cre'?'화장':'매장',DX.burial==='cre'?'화장장 사용료 별도':'묘지 비용 별도']);
   if(urnSep()) L.push(['유골함',0,'','별도','상담 때 실물을 보고 골라요','40만원 ~ 400만원 · 합계에 넣지 않음']);
   if(DX.disc) L.push(['할인',-200000,'',null,'수급자 · 국가유공자']);
@@ -1048,7 +1214,7 @@ function estText(){ const L=estLines(), X=estCut(), w=estWho(), c=dxCalc(), T=DX
   return '[나만의장례 '+estKind()+']\n'+(w?w+'\n':'')+'\n'+
     L.map(l=>'['+l[0]+'] '+l[4]+' — '+lineVal(l)+(l[5]?'\n     '+l[5]:'')).join('\n')+
     (X.length?'\n\n[빼신 것 · 합계에 들어가지 않음]\n'+X.map(x=>'· '+x[0]+' '+x[1]+' '+won(-x[2])).join('\n'):'')+
-    '\n\n'+T.name+' 상품 '+dWon(c.B)+(c.R?' · 빼신 것 '+dWon(-c.R):'')+(c.C?' · 인원 · 벌 수 바꾸심 '+dSWon(c.C):'')+(c.D?' · 할인 '+dWon(-c.D):'')+
+    '\n\n'+T.name+' 상품 '+dWon(c.B)+(c.R?' · 빼신 것 '+dWon(-c.R):'')+(c.C?' · 고르고 바꾸신 것 '+dSWon(c.C):'')+(c.D?' · 할인 '+dWon(-c.D):'')+
     '\n합계: '+won(estTotal())+(urnSep()?'\n(※ '+URN_NOTE+')':'')+(DX.disc?'\n(수급자 · 국가유공자 할인 20만원 포함 · 대상 확인은 상담 때)':'')+
     (cpOK()?'\n\n[사전 상담 감사 할인권] 100,000원 할인\n번호 '+PR.cp+' · 발급일 '+PR.cpd+'\n· 가족장 · 일반장(3일장) 진행 시 정산 금액에서 할인 · 카카오톡 채널 친구 확인\n· 기한 없음 · 수급자 · 국가유공자 할인과 함께 사용 가능':'')+
     '\n\n※ 미리 내는 돈 없이 장례를 마친 뒤 정산해요.\n※ 이 견적을 꼭 저장해 두셨다가 현장에서 보여 주시면 그대로 진행해 드려요.\n\n* 장례식장 시설 사용료 · 음식값, 화장장 사용료, 장지 비용 별도\n* 리무진은 1차 장지 또는 화장장까지 편도, 장의버스는 왕복\n* 장의 차량 기준 거리 200km 초과 시 1km당 1,800원\n상담 1661-4214 (24시간)'; }
@@ -1091,7 +1257,8 @@ function dxEstHTML(){
   const tr=(g,nm,sub,v,cls)=>'<tr'+(cls?' class="'+cls+'"':'')+'><th scope="row">'+g+'</th><td class="p">'+nm+(sub?'<small>'+dNb(sub)+'</small>':'')+'</td><td class="v">'+v+'</td></tr>';
   let rows=keep.map(l=>{ const k=l[0];
     if(DX_CNT[k]){ const d=dxNow(l)-l[4]; return tr(l[1],dNb(dxCntText(k)),(k==='staff'?'1인 12만원':'남성용 5만원 · 여성용 3만원')+(d?' · 상품 구성보다 '+dSMan(d):''),dWon(dxNow(l))); }
-    return tr(l[1],dNb(l[6]||l[2]),k==='svc'?'장례지도사 · 입관지도사 · 입관용품 포함':'',dWon(l[4])); }).join('');
+    const d=dxNow(l)-l[4], sub=dxSub(l);
+    return tr(l[1],dNb(dxName(l)),sub+(d&&dxSel(k)?(sub?' · ':'')+'상품 구성보다 '+dSMan(d):''),dWon(dxNow(l))); }).join('');
   rows+=tr('모시는 방식',DX.burial==='cre'?'화장':'매장',DX.burial==='cre'?'화장장 사용료 별도':'묘지 비용 별도','0원');
   if(urnSep()) rows+=tr('유골함','상담 때 실물을 보고 골라요','40만원 ~ 400만원 · 합계에 넣지 않음','별도');
   if(DX.disc) rows+=tr('할인','수급자 · 국가유공자','',dWon(-20));
@@ -1145,6 +1312,7 @@ function bindPrice(){
     if(b.dataset.bur){ dxSetBurial(b.dataset.bur); return; }
     if(b.dataset.off){ dxToggle(b.dataset.off); return; }
     if(b.dataset.cnt){ const p=b.dataset.cnt.split(':'); dxCount(p[0],+p[1],+p[2]); return; }
+    if(b.dataset.opt){ const p=b.dataset.opt.split(':'); dxSetOpt(p[0],p[1]); return; }
     if(b.hasAttribute('data-est')){ dxShowEst(); return; }
     if(b.hasAttribute('data-back')){ dxBackEst(); return; }
   });
@@ -1470,7 +1638,7 @@ function bindChon(){
 try{ localStorage.removeItem('mf-hist'); ['mf-ps','mf-pr','mf-ch'].forEach(k=>sessionStorage.removeItem(k)); }catch(e){}
 if(PAGE==='print'){
   const q=new URLSearchParams(location.search); let msg='';
-  const t=q.get('tab'); if(t&&['jb','mj','hb','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
+  const t=q.get('tab'); if(t&&['jb','mj','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
   const r=q.get('rel'); if(r&&Object.prototype.hasOwnProperty.call(REL,r)){ PS.rel=r; PS.tab='jb'; if(!REL[r].gen) PS.pair=false; msg='고르신 관계로 지방을 준비했습니다'; }
   const ci=q.get('clan'); if(ci!==null&&/^\d+$/.test(ci)&&CLANS[+ci]){ const c=CLANS[+ci]; PS.c1=c; PS.man=false; msg=clanLabel(c)+' '+c.bh+c.sh+' · 고인 본관에 넣었습니다'; }
   if(location.search) try{ history.replaceState(null,'',location.pathname); }catch(e){}
