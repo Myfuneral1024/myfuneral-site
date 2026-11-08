@@ -190,13 +190,6 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 .hero-q{font-family:var(--serif);font-weight:500;font-size:clamp(18px,2vw,22px);line-height:1.6;color:var(--ink2)}
 .hero-ask{font-family:var(--serif);font-weight:700;font-size:clamp(22px,5.8vw,30px);line-height:1.45;color:var(--ink);letter-spacing:-0.01em}
 .hero-main .lead b{color:var(--ink)}
-.hero-price{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid var(--ink);border-radius:4px;background:var(--surface)}
-.hero-price>div{padding:12px 16px}
-.hero-price>div+div{border-left:1px solid var(--line)}
-.hero-price span{display:block;font-size:14px;color:var(--muted)}
-.hero-price b{font-family:var(--serif);font-size:26px;font-weight:900;line-height:1.3;white-space:nowrap}
-.hero-price b small{font-size:15px;font-weight:700;margin-left:1px}
-.hero-price p{grid-column:1 / -1;margin:0;padding:10px 16px;border-top:1px solid var(--line);font-size:14px;color:var(--ink2)}
 .hero-more{align-self:flex-start;display:inline-flex;align-items:center;min-height:44px;font-weight:700;color:var(--ink);text-underline-offset:4px}
 .phone .hero-q{font-size:17px;color:var(--ink)}
 .hero h1{font-size:clamp(27px,7.2vw,56px);line-height:1.25;font-weight:900;letter-spacing:-0.015em}
@@ -491,6 +484,92 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 @media (max-width:960px){body:has(#dx-bar:not(.hide)) #toast{bottom:calc(var(--cb,75px) + 88px)}}
 @media (max-width:360px){.callbar .btn-primary{font-size:15.5px;padding:0 8px}.callbar .btn-talk{padding:0 10px;font-size:15px}}
 
+
+/* 처음 화면 가격 상자 (2026-11-08 사용자 결정 안 A: 상품 금액 155 · 210만원 + 들어 있는 것) */
+.hero-price{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));border:1px solid var(--ink);border-radius:4px;background:var(--surface)}
+.hero-price>a{display:flex;flex-direction:column;gap:2px;padding:12px 16px 14px;color:var(--ink);text-decoration:none;min-height:44px}
+.hero-price>a+a{border-left:1px solid var(--line)}
+.hero-price>a:hover .hp-n{text-decoration:underline;text-underline-offset:3px}
+.hero-price .hp-n{font-size:14px;color:var(--muted)}
+.hero-price b{font-family:var(--serif);font-size:28px;font-weight:900;line-height:1.25;white-space:nowrap}
+.hero-price b small{font-size:15px;font-weight:700;margin-left:1px}
+.hero-price .hp-i{font-size:13.5px;line-height:1.5;color:var(--ink2)}
+.hero-price p{grid-column:1 / -1;margin:0;padding:10px 16px;border-top:1px solid var(--line);font-size:14px;line-height:1.6;color:var(--ink2)}
+.promise-c{display:block;margin-top:6px;font-size:14px;line-height:1.6;color:var(--muted)}
+
+/* 상품 명세 : 견적서처럼 한 줄에 구분 · 금액, 아래에 고른 것 */
+.bills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.bill-tabs{display:none}
+.bill{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--pine);border-radius:4px;padding:18px 20px 20px}
+.bill-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--ink)}
+.bill-h h3{font-size:21px}
+.bill-h span{font-size:13px;color:var(--muted);white-space:nowrap}
+.bill-l{list-style:none;margin:0;padding:0;flex:1}
+.bill-l li{display:grid;grid-template-columns:auto minmax(14px,1fr) auto;grid-template-areas:"k d n" "v v v";align-items:baseline;column-gap:8px;padding:10px 0 9px;border-bottom:1px solid var(--line)}
+.bill-l .bk{grid-area:k;font-weight:700;color:var(--ink)}
+.bill-l i{grid-area:d;align-self:end;margin-bottom:.45em;border-bottom:1px dotted var(--edge);height:0}
+.bill-l b{grid-area:n;font-family:var(--serif);font-weight:700;font-size:17px;white-space:nowrap}
+.bill-l b small,.bill-t b small{font-size:.72em;font-weight:700;margin-left:1px}
+.bill-l .bv{grid-area:v;font-size:14px;color:var(--muted);line-height:1.5}
+.bill-l li:last-child{border-bottom:0}
+.bill-t{display:flex;align-items:baseline;justify-content:space-between;gap:10px;margin:0;padding:14px 0 2px;border-top:1px solid var(--ink);margin-top:-1px}
+.bill-t span{font-weight:700}
+.bill-t b{font-family:var(--serif);font-weight:900;font-size:30px;line-height:1.1}
+.bill .btn{margin-top:16px;align-self:stretch}
+.bill-f{margin:0;display:grid;grid-template-columns:auto minmax(0,1fr);gap:8px 14px;max-width:60em;color:var(--ink2);font-size:15px}
+.bill-f div{display:contents}
+.bill-f dt{font-weight:700;color:var(--ink);white-space:nowrap}
+.bill-f dd{margin:0}
+.bill-pair{display:grid;grid-template-columns:minmax(0,420px) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:960px){
+  .bills{grid-template-columns:minmax(0,1fr);gap:12px}
+  .bill-tabs{display:inline-grid;grid-auto-flow:column;grid-auto-columns:1fr;justify-self:start;width:100%;max-width:420px;border:1px solid var(--ink);border-radius:4px;overflow:hidden}
+  .bill-tabs label{position:relative;display:flex}
+  .bill-tabs label+label{border-left:1px solid var(--ink)}
+  .bill-tabs input{position:absolute;opacity:0;width:1px;height:1px;margin:0}
+  .bill-tabs span{flex:1;display:flex;align-items:center;justify-content:center;min-height:46px;padding:0 10px;font-weight:700;cursor:pointer;background:var(--surface);color:var(--ink);transition:background-color .2s,color .2s;white-space:nowrap}
+  .bill-tabs input:checked+span{background:var(--pine);color:var(--pine-ink)}
+  .bill-tabs input:focus-visible+span{outline:2px solid var(--pine);outline-offset:-4px}
+  .bills:has(input[value="nob"]:checked) .bill:not([data-bill="nob"]),
+  .bills:has(input[value="fam"]:checked) .bill:not([data-bill="fam"]),
+  .bills:has(input[value="gen"]:checked) .bill:not([data-bill="gen"]){display:none}
+  .bill-pair{grid-template-columns:minmax(0,1fr)}
+}
+@supports not selector(:has(*)){.bill-tabs{display:none!important}}
+@media (prefers-reduced-motion: reduce){.bill-tabs span{transition:none}}
+@media (max-width:560px){.bill{padding:16px 16px 18px}.bill-f{font-size:14px}}
+
+/* 처음 화면 「많이 찾으시는 안내」 · 바닥 안내 줄 */
+.guides{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));column-gap:40px;border-bottom:1px solid var(--line)}
+.guides a{display:flex;flex-direction:column;gap:4px;padding:16px 0;border-top:1px solid var(--line);text-decoration:none;color:var(--ink)}
+.guides b{font-family:var(--serif);font-size:19px}
+.guides span{color:var(--ink2);font-size:15px}
+.guides a:hover b{text-decoration:underline;text-underline-offset:4px}
+@media (max-width:700px){.guides{grid-template-columns:minmax(0,1fr)}}
+.foot-guides{display:flex;flex-wrap:wrap;gap:0 18px;margin-top:20px;padding-top:12px;border-top:1px solid var(--line);font-size:14px}
+.foot-guides a{display:inline-flex;align-items:center;min-height:44px;color:var(--ink2);text-underline-offset:3px}
+
+/* 안내 화면 */
+.sec>h2 .sec-n{margin-right:.45em;font-weight:900;color:var(--pine)}
+:is([data-page="gajokjang"],[data-page="sangjo"],[data-page="support"],[data-page="jibang"]) .sec>.list{max-width:46em}
+.wordtbl.kv td:first-child{width:7.5em}
+.wordtbl.kv td:nth-child(2){color:var(--ink2)}
+@media (max-width:560px){.wordtbl.kv tr{display:grid;grid-template-columns:minmax(0,1fr);padding:10px 2px;border-top:1px solid var(--line)}.wordtbl.kv td{border-top:0;padding:0;width:auto;white-space:normal}.wordtbl.kv td:first-child{font-size:14px;color:var(--muted)}}
+@media (max-width:560px){.wordtbl.cmp thead{display:none}.wordtbl.cmp tr{display:grid;grid-template-columns:minmax(0,1fr);gap:2px;padding:12px 2px;border-top:1px solid var(--line)}.wordtbl.cmp td{border-top:0;padding:0;white-space:normal}.wordtbl.cmp td:first-child{font-size:15px;padding-bottom:4px}.wordtbl.cmp td[data-l]{display:grid;grid-template-columns:5.6em minmax(0,1fr);gap:10px}.wordtbl.cmp td[data-l]::before{content:attr(data-l);font-size:13px;color:var(--muted);padding-top:1px}}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+/* 지방 : 출력실과 같은 고급 명조(Shippori Mincho) · 妣 · 辟 글자가 있는 서체 */
+.jb-tbl .hz,.jb-paper{font-family:"Shippori Mincho",var(--serif);font-weight:800}
+.jb-tbl td{vertical-align:middle}
+.jb-tbl .hz{font-size:19px;letter-spacing:.04em}
+.jb-go{display:inline-flex;align-items:center;min-height:44px;padding:0 4px;font-weight:700;color:var(--ink);white-space:nowrap;text-underline-offset:3px}
+@media (max-width:560px){.jb-tbl thead{display:none}.jb-tbl tr{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"w go" "h go" "r go";column-gap:10px;padding:10px 2px;border-top:1px solid var(--line)}.jb-tbl td{border-top:0;padding:0;white-space:normal}.jb-tbl td:nth-child(1){grid-area:w;font-size:14px}.jb-tbl td:nth-child(2){grid-area:h;font-size:20px;white-space:nowrap}.jb-tbl td:nth-child(3){grid-area:r;font-size:13.5px;color:var(--muted)}.jb-tbl td:nth-child(4){grid-area:go;align-self:center}}
+.jb-fig{aspect-ratio:auto;display:flex;justify-content:center;align-items:flex-end;gap:36px;padding:32px 20px 24px;background:var(--sunk)}
+.jb-fig>div{display:flex;flex-direction:column;align-items:center;gap:10px}
+.jb-fig figcaption{font-size:14px;color:var(--muted)}
+.jb-paper{display:flex;justify-content:center;gap:16px;width:66px;height:256px;padding:20px 0 15px;background:#ffffff;color:#111111;font-size:24px;line-height:1;clip-path:polygon(14% 0,86% 0,100% 4%,100% 100%,0 100%,0 4%);filter:drop-shadow(0 0 .6px #8d8d89)}
+.jb-paper span{writing-mode:vertical-rl;text-align:justify;text-align-last:justify;text-justify:inter-character}
+.jb-paper.two{width:112px;font-size:20px;clip-path:polygon(9% 0,91% 0,100% 3%,100% 100%,0 100%,0 3%)}
+@media (max-width:900px){.jb-fig{padding:24px 16px 18px;gap:28px}}
 
 /* 스크롤하면 떠오르는 내용 : 화면 밖에 있던 것만 */
 .rv{opacity:0;transform:translate3d(0,28px,0)}
@@ -820,9 +899,9 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="hero">
       <div class="hero-main">
         <p class="hero-ask">같은 장례인데,<br>왜 비용은 업체마다 다를까요?</p>
-        <p class="lead">대부분 <b>쓰지도 않는 패키지와 중간 마진</b> 때문이에요.<br>저희는 그 두 가지만 덜어냈어요.</p>
+        <p class="lead">대개 <b>쓰지 않는 패키지와 중간 마진</b> 때문이에요.<br>저희는 그 두 가지만 덜어냈어요.</p>
         <h1 id="h-home"><span class="ln">저렴한 장례가 아닙니다.</span><br><span class="ln">합리적 간소화입니다.</span></h1>
-        <div class="hero-price"><div><span>무빈소 장례</span><b>60<small>만원부터</small></b></div><div><span>가족장 (3일장)</span><b>70<small>만원부터</small></b></div><p>첫 견적이 끝 견적 · 장례를 마친 뒤 정산</p></div>
+        <div class="hero-price"><a href="#price" data-goto-type="nob"><span class="hp-n">무빈소장</span><b>155<small>만원</small></b><span class="hp-i">관 · 수의 · 꽃장식 · 리무진까지</span></a><a href="#price" data-goto-type="fam"><span class="hp-n">가족장 (3일장)</span><b>210<small>만원</small></b><span class="hp-i">헌화 · 도우미 · 상복까지</span></a><p>화장 기준 상품 금액이에요. 쓰지 않으실 것은 빼시면 합계에서 빠져요.<br>첫 견적이 끝 견적 · 장례를 마친 뒤 정산</p></div>
         <a class="hero-more" href="#price">내 장례 비용 바로 계산하기 →</a>
         <div class="phone">
           <p class="hero-q">소중한 가족의 마지막,<br>아무 곳에나 맡기시겠습니까.</p>
@@ -836,7 +915,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <aside class="trim" aria-labelledby="h-trim">
         <h2 id="h-trim">이렇게 덜어냈어요</h2>
         <div class="trim-cols">
-          <div><h3>덜어낸 것</h3><ul class="off"><li>쓰지도 않을 물품을 끼워 넣은 고정 패키지</li><li>영업 수당과 광고비</li><li>장례 도중에 따로 붙는 수고비</li><li>외주 지도사가 권하는 추가 상품</li></ul></div>
+          <div><h3>덜어낸 것</h3><ul class="off"><li>쓰지도 않을 물품을 끼워 넣은 고정 패키지</li><li>영업 수당과 광고비</li><li>장례 도중에 따로 붙는 수고비</li><li>그 자리에서 갑자기 권하는 추가 상품</li></ul></div>
           <div><h3>그대로 지키는 것</h3><ul class="keep"><li>처음부터 끝까지 직영 장례지도사가 곁에</li><li>고인을 깨끗이 씻겨 드리는 염습과 입관</li><li>발인부터 장지까지 함께 가는 것</li><li>처음 알려 드린 금액 그대로</li></ul></div>
         </div>
       </aside>
@@ -855,24 +934,36 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     </div>
 
     <div class="sec">
+      <h2>상품에 들어 있는 것, 금액까지 다 보여 드려요</h2>
+      <p class="sec-lead">상품 금액 안에 무엇이 들었는지 한 줄씩 적었어요. 꽃장식 · 헌화 · 도우미 · 상복처럼 쓰지 않으실 것은 비용 계산에서 빼시면 합계에서 바로 빠져요.</p>
+      <div class="bills"><div class="bill-tabs" role="radiogroup" aria-label="상품 고르기"><label><input type="radio" name="bill-k" value="nob" checked><span>무빈소장</span></label><label><input type="radio" name="bill-k" value="fam"><span>가족장</span></label><label><input type="radio" name="bill-k" value="gen"><span>일반장</span></label></div><article class="bill" data-bill="nob" aria-label="무빈소장 상품에 들어 있는 것"><header class="bill-h"><h3>무빈소장</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례 기본</span><i aria-hidden="true"></i><b>60<small>만원</small></b><span class="bv">장례지도사 · 입관지도사 · 입관용품</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>40<small>만원</small></b><span class="bv">리무진 (편도)</span></li></ul><p class="bill-t"><span>합계</span><b>155<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="nob">이 상품으로 비용 보기</a></article><article class="bill" data-bill="fam" aria-label="가족장 (3일장) 상품에 들어 있는 것"><header class="bill-h"><h3>가족장 (3일장)</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례 기본</span><i aria-hidden="true"></i><b>70<small>만원</small></b><span class="bv">장례지도사 · 입관지도사 · 입관용품</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">빈소 헌화</span><i aria-hidden="true"></i><b>5<small>만원</small></b><span class="bv">30송이</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>40<small>만원</small></b><span class="bv">리무진 (편도)</span></li><li><span class="bk">접객 도우미</span><i aria-hidden="true"></i><b>24<small>만원</small></b><span class="bv">하루 1명씩 이틀</span></li><li><span class="bk">상복</span><i aria-hidden="true"></i><b>16<small>만원</small></b><span class="bv">남 2벌 · 여 2벌</span></li></ul><p class="bill-t"><span>합계</span><b>210<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="fam">이 상품으로 비용 보기</a></article><article class="bill" data-bill="gen" aria-label="일반장 (3일장) 상품에 들어 있는 것"><header class="bill-h"><h3>일반장 (3일장)</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례 기본</span><i aria-hidden="true"></i><b>70<small>만원</small></b><span class="bv">장례지도사 · 입관지도사 · 입관용품</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">빈소 헌화</span><i aria-hidden="true"></i><b>7<small>만원</small></b><span class="bv">50송이</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>80<small>만원</small></b><span class="bv">리무진 + 장의버스</span></li><li><span class="bk">접객 도우미</span><i aria-hidden="true"></i><b>48<small>만원</small></b><span class="bv">하루 2명씩 이틀</span></li><li><span class="bk">상복</span><i aria-hidden="true"></i><b>32<small>만원</small></b><span class="bv">남 4벌 · 여 4벌</span></li></ul><p class="bill-t"><span>합계</span><b>292<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="gen">이 상품으로 비용 보기</a></article></div>
+      <dl class="bill-f"><div><dt>무료</dt><dd>고인 이송 차량 · 모바일 부고 · 장지 안내 · 화장 예약</dd></div><div><dt>따로</dt><dd>장례식장 시설 사용료 · 음식, 화장장 사용료, 장지 비용은 쓰신 만큼 따로 내시면 돼요. 유골함은 합계 밖 별도예요(<span class="nw">40~400만원</span>).</dd></div></dl>
+    </div>
+
+    <div class="sec">
       <h2>나만의장례의 약속</h2>
       <dl class="promise ill4">
         <div><dt><figure class="ill"><img src="/assets/img/ill-promise-1.webp" width="540" height="360" alt="서류 위에 놓인 흰 국화와 확인 표시" loading="lazy" decoding="async"></figure>장례를 마친 뒤에 정산해요</dt><dd>계약할 때 미리 내실 돈이 없어요.</dd></div>
         <div><dt><figure class="ill"><img src="/assets/img/ill-promise-2.webp" width="540" height="360" alt="장례지도사가 유가족에게 차분히 설명하는 모습" loading="lazy" decoding="async"></figure>직영 장례지도사가 끝까지 맡아요</dt><dd>저희가 직접 교육한 지도사가 상담부터 장지까지 함께해요. 수고비나 추가 상품을 따로 요구하지 않아요.</dd></div>
         <div><dt><figure class="ill"><img src="/assets/img/ill-promise-3.webp" width="540" height="360" alt="국화 · 수의 · 차량 가운데 필요한 것만 고르는 모습" loading="lazy" decoding="async"></figure>필요한 것만 고르시면 돼요</dt><dd>묶음 상품을 억지로 권하지 않아요. 쓰지 않으실 건 빼고 견적을 내 드려요.</dd></div>
-        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-4.webp" width="540" height="360" alt="처음 견적서와 마지막 정산서가 같다는 그림" loading="lazy" decoding="async"></figure>첫 견적이 끝 견적이에요</dt><dd>계약 전에 모든 비용을 알려 드려요. 부당한 추가 요금은 200% 돌려 드립니다.</dd></div>
+        <div><dt><figure class="ill"><img src="/assets/img/ill-promise-4.webp" width="540" height="360" alt="처음 견적서와 마지막 정산서가 같다는 그림" loading="lazy" decoding="async"></figure>첫 견적이 끝 견적이에요</dt><dd>계약 전에 모든 비용을 알려 드려요. 부당한 추가 요금은 200% 돌려 드립니다.<span class="promise-c">견적에 없던 금액을 미리 말씀드리지 않고 받았다면, 그 금액의 두 배를 돌려 드려요.</span></dd></div>
       </dl>
     </div>
 
     <div class="sec">
       <h2>모시는 장례</h2>
       <div class="svc">
-        <a href="#nobinso"><b>무빈소 장례</b><span>빈소 없이 가족끼리 조용히 모셔요. 전국 어디든 가요.</span><em>60만원부터</em></a>
-        <a href="#price" data-goto-type="fam"><b>가족장</b><span>빈소를 차리고 가까운 분들의 조문을 받는 3일장이에요.</span><em>70만원부터</em></a>
-        <a href="#price"><b>수급자 · 국가유공자 장례</b><span>20만원 할인을 비롯해, 저희가 드릴 수 있는 혜택은 최대한 챙겨 드려요. 받으실 수 있는 지원과 서류도 함께 안내해 드려요.</span><em>20만원 할인</em></a>
+        <a href="#nobinso"><b>무빈소 장례</b><span>빈소 없이 가족끼리 조용히 모셔요. 전국 어디든 가요.</span><em>155만원</em></a>
+        <a href="#gajokjang"><b>가족장</b><span>빈소를 차리고 가까운 분들의 조문을 받는 3일장이에요.</span><em>210만원</em></a>
+        <a href="#support"><b>수급자 · 국가유공자 장례</b><span>20만원 할인을 비롯해, 저희가 드릴 수 있는 혜택은 최대한 챙겨 드려요. 받으실 수 있는 지원과 서류도 함께 안내해 드려요.</span><em>20만원 할인</em></a>
         <a href="#urn"><b>유골함</b><span>봉안당, 묘, 수목장 등 모실 곳에 맞는 함을 골라 드려요. 기본 금액에는 들어 있지 않아요.</span><em>별도 40~400만원</em></a>
         <a href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><b>사전 장례 상담</b><span>임종 전에 비용과 절차를 미리 정해 두실 수 있어요. 장지 상담도 무료예요.</span><em>무료</em></a>
       </div>
+    </div>
+
+    <div class="sec">
+      <h2>장례 전후에 많이 찾으시는 안내</h2>
+      <div class="guides"><a href="#gajokjang"><b>가족장, 가까운 분들과 차분하게</b><span>210만원에 든 것, 3일 진행 순서, 무빈소장과 다른 점</span></a><a href="#sangjo"><b>상조에 가입해 두셨다면</b><span>가입 여부 찾기, 그대로 쓸 때 물어볼 것, 해약할 때</span></a><a href="#support"><b>수급자 · 국가유공자 장례</b><span>장제급여 신청, 국가유공자 지원, 저희 할인</span></a><a href="#jibang"><b>지방 쓰는 법</b><span>모시는 분별 지방, 종이 크기, 두 분 함께 모실 때</span></a><a href="#urn"><b>유골함 고르는 법</b><span>일반함과 진공함, 모실 곳에 맞는 함</span></a></div>
     </div>
 
     <div class="sec">
@@ -894,7 +985,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
         <details class="faq"><summary>비용은 언제 내나요?</summary><div class="faq-a">장례를 모두 마치신 뒤에 정산하시면 돼요. 계약할 때 미리 내실 돈은 없어요.</div></details>
         <details class="faq"><summary>선불식 상조와 무엇이 다른가요?</summary><div class="faq-a">선불식 상조는 가입한 뒤 매달 조금씩 미리 내고, 가입할 때 정한 상품대로 장례를 치러요. 저희는 필요한 것만 골라, 미리 내는 돈 없이 장례를 마친 뒤 정산해요. <a href="#price" data-goto="prepaid">자세히 비교해 보기</a></div></details>
         <details class="faq"><summary>싼 만큼 무언가 빠지는 건 아닌가요?</summary><div class="faq-a">빠지는 건 쓰지 않으실 상품과 중간 마진뿐이에요. 직영 장례지도사가 처음부터 끝까지 맡고, 염습과 입관, 장지까지 함께 가는 것도 그대로예요.</div></details>
-        <details class="faq"><summary>상담 때 들은 금액보다 더 나오지 않나요?</summary><div class="faq-a">첫 견적이 끝 견적이에요. 모든 품목과 비용을 미리 알려 드리고, 부당한 추가 요금은 200% 돌려 드립니다. 장례식장 시설 사용료와 음식값, 화장장 사용료, 장지 비용은 쓰신 만큼 따로 내시면 돼요.</div></details>
+        <details class="faq"><summary>상담 때 들은 금액보다 더 나오지 않나요?</summary><div class="faq-a">첫 견적이 끝 견적이에요. 모든 품목과 비용을 미리 알려 드리고, 부당한 추가 요금은 200% 돌려 드립니다. 견적에 없던 금액을 미리 말씀드리지 않고 받았다면, 그 금액의 두 배를 돌려 드려요. 1661-4214로 말씀해 주세요.<br>장례식장 시설 사용료와 음식값, 화장장 사용료, 장지 비용은 쓰신 만큼 따로 내시면 돼요. 장의 차량은 200km까지가 기본이고, 넘으면 1km당 1,800원이 더해져요.</div></details>
         <details class="faq"><summary>빈소가 없으면 소홀하지 않을까요?</summary><div class="faq-a">아니에요. 빈소를 차리지 않는 것 말고는 똑같아요. 전담 장례지도사가 안치부터 입관, 발인까지 함께하고, 고인을 모시는 과정은 하나도 빼지 않아요.</div></details>
         <details class="faq"><summary>장지나 납골당이 이미 있는데 장례만 맡겨도 되나요?</summary><div class="faq-a">네, 필요한 것만 골라 맡기셔도 돼요. 장지가 아직 없으시면 전국 약 1,000곳 가운데 형편에 맞는 세 곳을 골라 함께 둘러봐 드려요.</div></details>
         <details class="faq"><summary>아직 임종 전인데 미리 상담해도 될까요?</summary><div class="faq-a">네, 그럼요. 비용과 절차를 미리 정해 두시면 그날 훨씬 덜 막막하실 거예요. 상담과 장례 접수는 주말, 공휴일 없이 365일 24시간 받아요.</div></details>
@@ -973,52 +1064,48 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <figure class="ph"><img src="/assets/img/candle-900.webp" srcset="/assets/img/candle-480.webp 480w, /assets/img/candle-900.webp 900w" sizes="(max-width: 900px) 100vw, 440px" width="900" height="600" alt="켜 놓은 초와 흰 국화" fetchpriority="high" decoding="async"></figure>
     </div>
     <div class="grid3">
-      <div class="card pad"><span class="price-from">60<small>만원부터</small></span><p class="muted" style="margin-top:8px">장례지도사, 입관지도사, 입관용품이 들어 있어요. 고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료예요.</p></div>
-      <div class="card pad"><b style="font-size:18px">이럴 때 많이 하세요</b><ul class="list" style="margin-top:8px"><li>가족이 적거나 조문객이 많지 않을 때</li><li>고인이 조용한 장례를 원하셨을 때</li><li>장례 비용을 줄이고 싶으실 때</li></ul></div>
+      <div class="card pad"><span class="price-from">155<small>만원 · 무빈소장 상품</small></span><p class="muted" style="margin-top:8px">장례지도사 · 입관지도사 · 입관용품에 관, 수의, 입관 꽃장식, 리무진까지 들어 있어요(화장 기준). 고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료예요.</p></div>
+      <div class="card pad"><b style="font-size:18px">이럴 때 많이 하시는 장례예요</b><ul class="list" style="margin-top:8px"><li>가족이 적거나 조문객이 많지 않을 때</li><li>고인이 조용한 장례를 원하셨을 때</li><li>장례 비용을 줄이고 싶으실 때</li></ul></div>
       <div class="card pad"><b style="font-size:18px">가족장과 똑같은 것</b><ul class="list" style="margin-top:8px"><li>전담 장례지도사가 처음부터 끝까지</li><li>고인을 씻겨 드리는 염습과 입관</li><li>발인부터 장지까지 함께</li></ul></div>
     </div>
     <div class="sec">
       <h2>무빈소 장례 진행 순서</h2>
       <ol class="num-step">
         <li><b>임종 · 이송 · 안치</b><span>전화 주시면 바로 출동해서 고인을 장례식장 안치실로 모셔요.</span></li>
-        <li><b>입관</b><span>고인을 깨끗이 씻겨 드리고 수의를 입혀 입관해요. 이때 가족분들이 마지막 인사를 나누세요.</span></li>
+        <li><b>입관</b><span>고인을 깨끗이 씻겨 드리고 수의를 입혀 입관해요. 이때 가족분들이 마지막 인사를 나누실 수 있어요.</span></li>
         <li><b>발인 · 화장</b><span>돌아가신 지 24시간이 지나면 화장할 수 있어서, 2일장으로도 치를 수 있어요.</span></li>
         <li><b>장지</b><span>봉안당, 수목장, 해양장 등 미리 정해 두신 곳에 모셔요.</span></li>
       </ol>
     </div>
     <div class="sec">
       <h2>무빈소 장례와 가족장, 무엇이 다른가요</h2>
-      <div class="tblwrap"><table class="wordtbl wrap1"><thead><tr><th>구분</th><th>무빈소 장례</th><th>가족장</th></tr></thead><tbody>
-        <tr><td><b>빈소</b></td><td>차리지 않아요</td><td>차리고 조문객을 맞아요</td></tr>
-        <tr><td><b>조문</b></td><td>받지 않고, 모바일 부고로 소식을 전해요</td><td>빈소에서 받아요</td></tr>
-        <tr><td><b>기간</b></td><td>2일장도 할 수 있어요</td><td>보통 3일장이에요</td></tr>
-        <tr><td><b>들지 않는 비용</b></td><td>빈소 사용료 · 접객 음식 · 도우미</td><td>쓰신 만큼 내요</td></tr>
-        <tr><td><b>기본 금액</b></td><td>60만원부터</td><td>70만원부터</td></tr>
+      <div class="tblwrap"><table class="wordtbl cmp"><thead><tr><th>구분</th><th>무빈소 장례</th><th>가족장</th></tr></thead><tbody>
+        <tr><td><b>빈소</b></td><td data-l="무빈소 장례">차리지 않아요</td><td data-l="가족장">차리고 조문객을 맞아요</td></tr>
+        <tr><td><b>조문</b></td><td data-l="무빈소 장례">받지 않고, 모바일 부고로 소식을 전해요</td><td data-l="가족장">빈소에서 받아요</td></tr>
+        <tr><td><b>기간</b></td><td data-l="무빈소 장례">2일장도 할 수 있어요</td><td data-l="가족장">보통 3일장이에요</td></tr>
+        <tr><td><b>들지 않는 비용</b></td><td data-l="무빈소 장례">빈소 사용료 · 접객 음식 · 도우미</td><td data-l="가족장">쓰신 만큼 내요</td></tr>
+        <tr><td><b>상품 금액</b></td><td data-l="무빈소 장례">155만원 (화장 기준)</td><td data-l="가족장">210만원 (화장 기준)</td></tr>
       </tbody></table></div>
-      <p class="note">염습과 입관, 발인, 장지까지 함께 가는 것은 두 장례 모두 똑같아요.</p>
+      <p class="note">염습과 입관, 발인, 장지까지 함께 가는 것은 두 장례 모두 똑같아요. <a href="#gajokjang">가족장 안내 보기</a></p>
     </div>
     <div class="sec">
       <h2>무빈소 장례 비용은 이렇게</h2>
-      <div class="grid3">
-        <div class="card pad"><b style="font-size:18px">기본 60만원에 들어 있는 것</b><ul class="list" style="margin-top:8px"><li>장례지도사 · 입관지도사</li><li>입관용품</li><li>무료: 고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약</li></ul></div>
-        <div class="card pad"><b style="font-size:18px">무빈소장 상품 155만원</b><ul class="list" style="margin-top:8px"><li>기본 60만원 + 화장용 오동나무관 20만원</li><li>면수의 15만원 + 입관 생화 꽃장식 20만원</li><li>장의 차량 리무진 (편도) 40만원</li></ul><p class="note" style="margin-top:8px">꽃장식은 빼실 수 있어요. 유골함은 따로예요. <a href="#price" data-goto-type="nob">무빈소장 비용 보기</a></p></div>
-        <div class="card pad"><b style="font-size:18px">쓰신 만큼 따로 내는 것</b><ul class="list" style="margin-top:8px"><li>장례식장 안치실 · 입관실 사용료</li><li>화장장 사용료</li><li>봉안당 · 자연장지 같은 장지 비용</li></ul></div>
-      </div>
+      <div class="bill-pair"><article class="bill" data-bill="nob" aria-label="무빈소장 상품에 들어 있는 것"><header class="bill-h"><h3>무빈소장</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례 기본</span><i aria-hidden="true"></i><b>60<small>만원</small></b><span class="bv">장례지도사 · 입관지도사 · 입관용품</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>40<small>만원</small></b><span class="bv">리무진 (편도)</span></li></ul><p class="bill-t"><span>합계</span><b>155<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="nob">이 상품으로 비용 보기</a></article><div class="card pad"><b style="font-size:18px">장례 기본 60만원에 들어 있는 것</b><ul class="list" style="margin-top:8px"><li>장례지도사 · 입관지도사</li><li>입관용품</li><li>무료: 고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약</li></ul><b style="font-size:18px;display:block;margin-top:18px">쓰신 만큼 따로 내는 것</b><ul class="list" style="margin-top:8px"><li>장례식장 안치실 · 입관실 사용료</li><li>화장장 사용료</li><li>봉안당 · 자연장지 같은 장지 비용</li><li>유골함 (별도 <span class="nw">40~400만원</span>)</li></ul><p class="note" style="margin-top:12px">꽃장식은 빼실 수 있어요. 장의 차량은 200km까지가 기본이고, 넘으면 1km당 1,800원이 더해져요.</p></div></div>
     </div>
     <div class="sec">
       <h2>조문을 받지 않을 때 부고 쓰는 법</h2>
-      <p class="sec-lead">무빈소로 모실 때는 부고에 조문을 받지 않는다고 미리 적어 두세요. 소식을 들은 분들이 헛걸음하지 않고 마음만 전하실 수 있어요.</p>
+      <p class="sec-lead">무빈소로 모실 때는 부고에 조문을 받지 않는다고 미리 적어 두시면 좋아요. 소식을 들은 분들이 헛걸음하지 않고 마음만 전하실 수 있어요.</p>
       <div class="card pad"><b>부고 문구 예시</b><p style="margin-top:8px;line-height:1.8">고인의 뜻에 따라 가족끼리 조용히 장례를 모십니다. 조문과 부의는 정중히 사양하오니 너른 양해 부탁드립니다.</p></div>
       <p class="note">부고 문자는 <a href="#print" data-goto-tab="tx">출력실 「부고·감사 문자」</a>에서 바로 만드실 수 있어요.</p>
     </div>
     <div class="sec">
       <h2>무빈소 장례, 많이 물어보시는 것</h2>
       <div>
-        <details class="faq"><summary>지방이나 먼 곳에서도 되나요?</summary><div class="faq-a">네, 전국 어디든 가요. 큰 상조회사들이 외주로 넘기는 지방의 작은 도시도 저희는 직영 지도사가 직접 가요.</div></details>
-        <details class="faq"><summary>빈소가 없으면 고인은 어디에 모시나요?</summary><div class="faq-a">장례식장 안치실에 모셨다가 입관실에서 입관해요. 가족분들은 입관 때 마지막 인사를 나누세요.</div></details>
+        <details class="faq"><summary>지방이나 먼 곳에서도 되나요?</summary><div class="faq-a">네, 전국 어디든 가요. 지방의 작은 도시도 저희 직영 장례지도사가 직접 가요. 장의 차량은 200km까지가 기본이고, 넘으면 1km당 1,800원이 더해져요.</div></details>
+        <details class="faq"><summary>빈소가 없으면 고인은 어디에 모시나요?</summary><div class="faq-a">장례식장 안치실에 모셨다가 입관실에서 입관해요. 가족분들은 입관 때 마지막 인사를 나누실 수 있어요.</div></details>
         <details class="faq"><summary>2일장으로도 할 수 있나요?</summary><div class="faq-a">네. 법(장사법)에 따라 돌아가신 지 24시간이 지나면 화장할 수 있어서 2일장도 가능해요.</div></details>
         <details class="faq"><summary>조문은 아예 받지 못하나요?</summary><div class="faq-a">빈소에서 조문객을 맞지는 않아요. 대신 무료 모바일 부고로 소식을 전하실 수 있어요.</div></details>
-        <details class="faq"><summary>어떤 비용이 따로 드나요?</summary><div class="faq-a">안치실 같은 시설 사용료와 화장료는 쓰신 만큼 따로 정산해요. 관과 수의는 고르신 대로 견적에 넣고, 유골함은 40만원부터 400만원까지 종류가 많아 따로 고르시면 돼요. <a href="#urn">유골함 고르는 법</a></div></details>
+        <details class="faq"><summary>어떤 비용이 따로 드나요?</summary><div class="faq-a">장례식장 시설 사용료(안치실 · 입관실), 화장장 사용료, 장지 비용은 쓰신 만큼 따로 내시면 돼요. 관과 수의는 상품에 들어 있고, 유골함은 40만원부터 400만원까지 종류가 많아 따로 고르시면 돼요. <a href="#urn">유골함 고르는 법</a></div></details>
       </div>
       <div class="actions"><a class="btn btn-primary" href="#price" data-goto-type="nob">무빈소장 비용 보기</a><a class="btn btn-line" href="tel:16614214">1661-4214 전화</a></div>
     </div>
@@ -1073,7 +1160,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 
     <section class="terms" aria-labelledby="h-terms">
       <h2 id="h-terms">꼭 알아 두실 것</h2>
-      <p>첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.</p>
+      <p>첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.<br>견적에 없던 금액을 미리 말씀드리지 않고 받았다면, 그 금액의 두 배를 돌려 드려요. 1661-4214로 말씀해 주세요.</p>
       <ul>
         <li>기본 금액(무빈소 60만원, 가족장 · 일반장 70만원)에 장례지도사 · 입관지도사와 입관용품이 들어 있어요.</li>
         <li>관은 다른 종류도 있어요. 바꾸고 싶으시면 상담 때 말씀해 주세요.</li>
@@ -1227,7 +1314,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
             </div>
             <div data-panel="mj" style="display:flex;flex-direction:column;gap:16px">
               <p style="line-height:1.7">명정은 장례식장에서 붉은 천에 흰 글씨로 준비해요. 여기서는 <b>쓰는 예</b>만 보여 드려요.</p>
-              <p class="note">교회 · 성당 · 사찰에 정해진 양식이 있으면 그 양식을 따르세요.</p>
+              <p class="note">교회 · 성당 · 사찰에 정해진 양식이 있으면 그 양식을 따르시면 돼요.</p>
             </div>
             <div data-panel="ck" style="display:flex;flex-direction:column;gap:16px">
               <div class="fld"><label for="p-ck">축문 종류</label><select id="p-ck" class="in" data-k="ck">
@@ -1266,14 +1353,14 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
               <div class="fld"><label for="p-ew">앞면 문구</label><select id="p-ew" class="in" data-k="envWord"><option value="buui">賻儀 부의</option><option value="geunjo">謹弔 근조</option><option value="chumo">追慕 추모</option><option value="chudo">追悼 추도</option><option value="aedo">哀悼 애도</option><option value="myeongbok">삼가 고인의 명복을 빕니다</option><option value="buuiK">부의 (한글)</option></select></div>
               <div class="fld"><label for="p-en">보내는 사람 이름</label><input id="p-en" class="in" data-k="envName" placeholder="김민수"></div>
               <div class="fld"><label for="p-eo">소속 <span>(선택)</span></label><input id="p-eo" class="in" data-k="envOrg" placeholder="○○주식회사"></div>
-              <p class="note">규격 봉투(220×105mm) 앞면 · 뒷면 2쪽이에요. 봉투를 넣는 방향은 프린터마다 다르니 종이에 한 번 시험해 보세요.</p>
+              <p class="note">규격 봉투(220×105mm) 앞면 · 뒷면 2쪽이에요. 봉투를 넣는 방향은 프린터마다 다르니 종이에 한 번 시험해 보시면 좋아요.</p>
             </div>
             <div class="go" data-show="out">
               <div class="stepper" data-show="copies" style="padding:0"><span class="lbl">매수</span><div class="ctl"><button type="button" id="cp-minus" aria-label="한 장 줄이기">−</button><output id="cp-val">1</output><button type="button" id="cp-plus" aria-label="한 장 늘리기">+</button></div></div>
               <p class="note" id="sheet-note"></p>
               <button type="button" class="btn btn-primary" id="print-btn">바로 인쇄</button>
               <button type="button" class="btn btn-line" id="pdf-btn">PDF로 받기</button>
-              <p class="note" id="print-note">인쇄 창에서 배율을 <b>실제 크기(100%)</b>로 두세요.</p>
+              <p class="note" id="print-note">인쇄 창에서 배율을 <b>실제 크기(100%)</b>로 맞춰 주세요.</p>
             </div>
           </div>
         </section>
@@ -1365,7 +1452,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <h2>날짜, 많이 물어보시는 것</h2>
       <div>
         <details class="faq"><summary>삼우제는 돌아가신 날부터 세나요, 발인 날부터 세나요?</summary><div class="faq-a">발인 날(장례를 마친 날)을 첫날로 세어요. 발인 날이 초우, 다음 날이 재우, 그다음 날이 삼우예요. 10월 3일에 발인하셨다면 삼우제는 10월 5일이에요.</div></details>
-        <details class="faq"><summary>49재는 정확히 언제인가요?</summary><div class="faq-a">돌아가신 날을 1일로 세어 49일째 되는 날이에요. 10월 1일에 돌아가셨다면 11월 18일이에요. 절마다 세는 법이 조금 다를 수 있으니, 재를 지낼 절에 한 번 여쭤보세요.</div></details>
+        <details class="faq"><summary>49재는 정확히 언제인가요?</summary><div class="faq-a">돌아가신 날을 1일로 세어 49일째 되는 날이에요. 10월 1일에 돌아가셨다면 11월 18일이에요. 절마다 세는 법이 조금 다를 수 있으니, 재를 지낼 절에 한 번 여쭤봐 주세요.</div></details>
         <details class="faq"><summary>기일은 왜 해마다 양력 날짜가 바뀌나요?</summary><div class="faq-a">기일을 음력으로 지내는 집이 많아서 그래요. 음력 날짜는 같아도 양력 날짜는 해마다 달라져요. 위 「해마다 돌아오는 기일」 표에서 올해부터 양력 날짜를 보실 수 있어요.</div></details>
         <details class="faq"><summary>기일을 양력으로 지내도 되나요?</summary><div class="faq-a">네. 요즘은 기억하기 쉽게 양력으로 지내는 집도 있어요. 가족끼리 의논해서 정하시면 돼요.</div></details>
       </div>
@@ -1378,9 +1465,9 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
   <div class="wrap">
     <div class="page-head">
       <h1 id="h-clan">본관을 한글로 찾으시면 한자로 알려 드려요</h1>
-      <p>어머니 지방이나 명정, 축문에 들어가는 본관 한자를 찾아보세요. 성씨 139개, 본관 423곳이 들어 있고, 고르시면 출력실 고인 정보에 바로 들어가요.</p>
+      <p>어머니 지방이나 명정, 축문에 들어가는 본관 한자를 찾아 드려요. 성씨 139개, 본관 423곳이 들어 있고, 고르시면 출력실 고인 정보에 바로 들어가요.</p>
     </div>
-    <div class="clan-search"><label for="clan-q" class="lbl" style="flex-basis:100%">본관이나 성 (예: 김해 김, 밀양, 박, 金海)</label><input id="clan-q" class="in" autocomplete="off" placeholder="본관이나 성을 입력하세요"></div>
+    <div class="clan-search"><label for="clan-q" class="lbl" style="flex-basis:100%">본관이나 성 (예: 김해 김, 밀양, 박, 金海)</label><input id="clan-q" class="in" autocomplete="off" placeholder="본관이나 성을 적어 주세요"></div>
     <p class="note" id="clan-count" style="margin-top:10px"></p>
     <div class="clan-list" id="clan-list" style="margin-top:12px"></div>
     <div class="sec">
@@ -1414,7 +1501,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <div>
         <details class="faq"><summary>결혼한 어머니 지방에는 어느 집안 본관을 쓰나요?</summary><div class="faq-a">어머니가 태어나신 집안(친정)의 본관과 성을 써요. 우리나라는 결혼해도 성과 본이 바뀌지 않거든요. 김해 김씨 어머니라면 顯妣孺人金海金氏神位예요.</div></details>
         <details class="faq"><summary>소리가 같은 본관인데 한자가 다를 수 있나요?</summary><div class="faq-a">네. 같은 ‘광주’라도 전라도 광주는 光州, 경기도 광주는 廣州로 한자가 달라요. 서식에 넣기 전에 증명서나 족보의 한자를 꼭 확인해 주세요.</div></details>
-        <details class="faq"><summary>본관을 끝내 모르면 어떻게 하나요?</summary><div class="faq-a">어머니 지방은 본관을 빼고 성만 써서 顯妣孺人金氏神位로 쓰셔도 돼요. 명정도 본관 없이 쓸 수 있으니 담당 장례지도사와 상의해 보세요.</div></details>
+        <details class="faq"><summary>본관을 끝내 모르면 어떻게 하나요?</summary><div class="faq-a">어머니 지방은 본관을 빼고 성만 써서 顯妣孺人金氏神位로 쓰셔도 돼요. 명정도 본관 없이 쓸 수 있으니 담당 장례지도사와 상의해 주세요.</div></details>
       </div>
     </div>
   </div>
@@ -1441,7 +1528,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <ol class="chain" id="chain"></ol>
       <div class="actions"><button type="button" class="btn btn-line" id="ch-add">‘…의’ 한 단계 더하기</button><button type="button" class="btn btn-ghost" id="ch-reset">처음부터</button></div>
       <div class="ans" id="ch-ans" aria-live="polite"></div>
-      <div class="fld"><span class="lbl">이런 관계도 찾아보세요</span><div class="ex-list" id="ch-ex"></div></div>
+      <div class="fld"><span class="lbl">이런 관계도 찾아보실 수 있어요</span><div class="ex-list" id="ch-ex"></div></div>
     </section>
 
     <section class="card find" data-cmode="pair" aria-labelledby="h-pair" style="margin-top:16px" hidden>
@@ -1478,7 +1565,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="sec">
       <h2>장례에서 촌수와 호칭이 필요한 때</h2>
       <div class="grid3">
-        <div class="card pad"><b>부고를 보낼 때</b><p class="muted" style="margin-top:6px">상주를 기준으로 돌아가신 분이 누구인지 써요. 아버지면 부친상, 장인이면 빙부상이에요. 아래 표를 참고하세요.</p></div>
+        <div class="card pad"><b>부고를 보낼 때</b><p class="muted" style="margin-top:6px">상주를 기준으로 돌아가신 분이 누구인지 써요. 아버지면 부친상, 장인이면 빙부상이에요. 아래 표를 보시면 돼요.</p></div>
         <div class="card pad"><b>장례를 결정할 때</b><p class="muted" style="margin-top:6px">화장이나 장지 같은 일은 법에서 정한 연고자 순서를 따라요. 배우자 → 자녀 → 부모 → 손자녀 → 조부모 → 형제자매 순이고, 자녀가 여럿이면 나이가 많은 자녀가 먼저예요.</p></div>
         <div class="card pad"><b>지방 · 축문을 쓸 때</b><p class="muted" style="margin-top:6px">고인과의 관계에 따라 첫머리가 달라져요. 아버지 <span class="serif">顯考</span> · 어머니 <span class="serif">顯妣</span> · 할아버지 <span class="serif">顯祖考</span> · 할머니 <span class="serif">顯祖妣</span> · 남편 <span class="serif">顯辟</span> · 아내 <span class="serif">亡室</span>. <a href="#print">출력실</a>에서 관계를 고르시면 맞게 써 드려요.</p></div>
       </div>
@@ -1514,7 +1601,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <div>
         <details class="faq"><summary>부부는 몇 촌인가요?</summary><div class="faq-a">부부 사이에는 촌수가 없어서 ‘무촌’이라고 해요. 배우자의 가족은 배우자를 기준으로 촌수를 세어요.</div></details>
         <details class="faq"><summary>친척(친족)은 몇 촌까지인가요?</summary><div class="faq-a">민법에서는 8촌 이내의 혈족, 4촌 이내의 인척(배우자 쪽 가족과 가족의 배우자), 배우자를 친족으로 봐요.</div></details>
-        <details class="faq"><summary>조부상 · 외조부상에도 회사 경조휴가가 나오나요?</summary><div class="faq-a">경조휴가는 법으로 정해진 게 아니라 회사마다 규정으로 정해요. 몇 촌까지 며칠인지는 회사 취업규칙을 보시거나 인사 담당자에게 물어보세요.</div></details>
+        <details class="faq"><summary>조부상 · 외조부상에도 회사 경조휴가가 나오나요?</summary><div class="faq-a">경조휴가는 법으로 정해진 게 아니라 회사마다 규정으로 정해요. 몇 촌까지 며칠인지는 회사 취업규칙을 보시거나 인사 담당자에게 물어봐 주세요.</div></details>
       </div>
     </div>
   </div>
@@ -1553,7 +1640,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div class="sec">
       <h2>위로의 말</h2>
       <div class="grid2">
-        <div class="card pad"><b>이렇게 말씀하세요</b><ul class="list" style="margin-top:8px"><li>삼가 고인의 명복을 빕니다.</li><li>얼마나 상심이 크십니까.</li><li>뭐라 위로의 말씀을 드려야 할지 모르겠습니다.</li></ul></div>
+        <div class="card pad"><b>이렇게 말씀하시면 돼요</b><ul class="list" style="margin-top:8px"><li>삼가 고인의 명복을 빕니다.</li><li>얼마나 상심이 크십니까.</li><li>뭐라 위로의 말씀을 드려야 할지 모르겠습니다.</li></ul></div>
         <div class="card pad"><b>상주가 답할 때</b><ul class="list" style="margin-top:8px"><li>와 주셔서 고맙습니다.</li><li>먼 길 와 주셔서 감사합니다.</li></ul></div>
       </div>
       <div class="card pad" style="margin-top:4px"><b>남의 부모를 말할 때 · 내 부모를 말할 때</b>
@@ -1613,7 +1700,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 <section class="page" data-page="urn" aria-labelledby="h-urn" hidden>
   <div class="wrap">
     <div class="page-head has-ph">
-      <h1 id="h-urn">유골함은<br>모실 곳에 맞춰 고르시면 돼요</h1>
+      <h1 id="h-urn">유골함은<br>모실 곳에 맞춰 <span class="nw">고르시면 돼요</span></h1>
       <p>유골함은 한 번 모시면 오랫동안 그 자리에 그대로 둬요. 그래서 겉모습보다 속 구조와 모실 곳이 더 중요해요. 일반함과 진공함이 어떻게 다른지, 어디에 어떤 함이 맞는지 알려 드릴게요.</p>
       <figure class="ph"><img src="/assets/img/urn-900.webp" srcset="/assets/img/urn-480.webp 480w, /assets/img/urn-900.webp 900w" sizes="(max-width: 900px) 100vw, 440px" width="900" height="600" alt="흰 도자기 유골함과 국화 한 송이" fetchpriority="high" decoding="async"></figure>
     </div>
@@ -1696,6 +1783,213 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     </div>
   </div>
 </section>
+<section class="page" data-page="gajokjang" aria-labelledby="h-gaj" hidden>
+  <div class="wrap">
+    <div class="page-head">
+      <h1 id="h-gaj">가족장,<br>가까운 분들과 차분하게 모셔요</h1>
+      <p>가족장은 빈소는 차리되, 가족과 가까운 친지 위주로 조문을 받는 3일장이에요. 저희 가족장 상품은 <b>210만원</b>(화장 기준)이고, 장례를 모두 마친 뒤에 정산해요.</p>
+      <div class="actions"><a class="btn btn-primary" href="#price" data-goto-type="fam">가족장 비용 보기</a><a class="btn btn-line" href="tel:16614214">1661-4214 전화</a></div>
+    </div>
+
+    <div class="sec">
+      <h2>가족장 상품 210만원에 들어 있는 것</h2>
+      <div class="bill-pair"><article class="bill" data-bill="fam" aria-label="가족장 (3일장) 상품에 들어 있는 것"><header class="bill-h"><h3>가족장 (3일장)</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례 기본</span><i aria-hidden="true"></i><b>70<small>만원</small></b><span class="bv">장례지도사 · 입관지도사 · 입관용품</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">빈소 헌화</span><i aria-hidden="true"></i><b>5<small>만원</small></b><span class="bv">30송이</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>40<small>만원</small></b><span class="bv">리무진 (편도)</span></li><li><span class="bk">접객 도우미</span><i aria-hidden="true"></i><b>24<small>만원</small></b><span class="bv">하루 1명씩 이틀</span></li><li><span class="bk">상복</span><i aria-hidden="true"></i><b>16<small>만원</small></b><span class="bv">남 2벌 · 여 2벌</span></li></ul><p class="bill-t"><span>합계</span><b>210<small>만원</small></b></p></article><div class="card pad"><ul class="list"><li>고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료예요.</li><li>꽃장식 · 헌화 · 도우미 · 상복은 비용 계산에서 빼실 수 있어요. 빼시면 합계에서 바로 빠져요.</li><li>매장으로 모시면 관이 매장용 오동나무관으로 바뀌고 궁중대렴이 더해져 230만원이에요.</li></ul><b style="font-size:18px;display:block;margin-top:18px">따로 내시는 것</b><p class="muted" style="margin-top:8px">장례식장 시설 사용료와 음식, 화장장 사용료, 장지 비용은 쓰신 만큼 따로 내시면 돼요. 유골함은 합계 밖 별도 항목이에요(<span class="nw">40~400만원</span>). 장의 차량은 200km까지가 기본이고, 넘으면 1km당 1,800원이 더해져요.</p></div></div>
+    </div>
+
+    <div class="sec">
+      <h2>가족장은 이렇게 진행돼요</h2>
+      <ol class="num-step">
+        <li><b>첫째 날</b><span>1661-4214로 전화 주시면 고인을 장례식장으로 모셔요. 빈소를 준비하고 부고를 보내 드려요.</span></li>
+        <li><b>둘째 날</b><span>염습과 입관을 하고, 빈소에서 가까운 분들의 조문을 받으시면 돼요.</span></li>
+        <li><b>셋째 날</b><span>발인해 화장장(또는 장지)으로 함께 가요. 장지까지 모신 뒤 정산하시면 돼요.</span></li>
+      </ol>
+    </div>
+
+    <div class="sec">
+      <h2>무빈소장 · 가족장 · 일반장, 무엇이 다른가요</h2>
+      <div class="tblwrap"><table class="wordtbl cmp"><thead><tr><th>구분</th><th>무빈소장</th><th>가족장</th><th>일반장</th></tr></thead><tbody>
+        <tr><td><b>빈소</b></td><td data-l="무빈소장">차리지 않아요</td><td data-l="가족장">차려요</td><td data-l="일반장">차려요</td></tr>
+        <tr><td><b>조문</b></td><td data-l="무빈소장">받지 않아요</td><td data-l="가족장">가까운 분 위주</td><td data-l="일반장">많이 오실 때</td></tr>
+        <tr><td><b>기간</b></td><td data-l="무빈소장">2일장도 돼요</td><td data-l="가족장">보통 3일장</td><td data-l="일반장">3일장</td></tr>
+        <tr><td><b>상품 금액</b></td><td data-l="무빈소장">155만원</td><td data-l="가족장">210만원</td><td data-l="일반장">292만원</td></tr>
+        <tr><td><b>접객 도우미</b></td><td data-l="무빈소장">없어요</td><td data-l="가족장">하루 1명씩</td><td data-l="일반장">하루 2명씩</td></tr>
+        <tr><td><b>장의 차량</b></td><td data-l="무빈소장">리무진</td><td data-l="가족장">리무진</td><td data-l="일반장">리무진 + 장의버스</td></tr>
+      </tbody></table></div>
+      <p class="note">상품 금액은 화장 기준이에요. 염습과 입관, 발인, 장지까지 함께 가는 것은 세 장례 모두 똑같아요. <a href="#nobinso">무빈소 장례 안내</a></p>
+    </div>
+
+    <div class="sec">
+      <h2>받으실 수 있는 할인</h2>
+      <ul class="list">
+        <li>수급자 · 국가유공자 가족이시면 20만원을 할인해 드려요. <a href="#support">수급자 · 국가유공자 장례 안내</a></li>
+        <li>가족장 견적을 받으신 뒤 카카오톡 채널 @나만의장례를 추가하시면 10만원 사전 상담 감사 할인권을 드려요. 기한이 없고, 수급자 · 국가유공자 할인과 함께 쓰셔도 돼요. 장례 한 번에 한 장만 쓰실 수 있고 현금으로 바꿀 수는 없어요. 채널 친구는 현장에서 확인해요.</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <h2>가족장, 많이 물어보시는 것</h2>
+      <div>
+        <details class="faq"><summary>가족장도 부고를 보내나요?</summary><div class="faq-a">네, 가까운 분들께만 보내시면 돼요. 조문을 받는 범위를 부고에 적어 두시면 좋아요. 부고 문자는 <a href="#print" data-goto-tab="tx">출력실</a>에서 바로 만드실 수 있어요.</div></details>
+        <details class="faq"><summary>장례식장은 어디로 하나요?</summary><div class="faq-a">원하시는 장례식장에서 진행할 수 있어요. 저희와 협약된 장례식장을 쓰시면 빈소를 할인받으실 수 있어요.</div></details>
+        <details class="faq"><summary>견적보다 더 나오지는 않나요?</summary><div class="faq-a">첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다. 견적에 없던 금액을 미리 말씀드리지 않고 받았다면, 그 금액의 두 배를 돌려 드려요. 다만 장의 차량은 200km까지가 기본이고, 넘으면 1km당 1,800원이 더해져요.</div></details>
+        <details class="faq"><summary>지방에서도 되나요?</summary><div class="faq-a">네, 전국 어디든 저희 직영 장례지도사가 직접 가요.</div></details>
+      </div>
+      <div class="actions"><a class="btn btn-primary" href="#price" data-goto-type="fam">가족장 비용 보기</a><a class="btn btn-line" href="tel:16614214">1661-4214 전화</a><a class="btn btn-line" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>카톡 상담</a></div>
+    </div>
+  </div>
+</section>
+<section class="page" data-page="sangjo" aria-labelledby="h-sangjo" hidden>
+  <div class="wrap">
+    <div class="page-head">
+      <h1 id="h-sangjo">상조에 가입해 두셨다면,<br>이것부터 확인해 주세요</h1>
+      <p>부모님이 상조에 가입해 두셨는데, 무빈소나 가족장처럼 작게 모시고 싶으실 때가 있어요. 어느 쪽이 나은지는 집마다 달라요. 아래 순서대로 확인하시면 돼요.</p>
+    </div>
+
+    <div class="sec">
+      <h2><span class="sec-n">1</span>가입한 상조가 있는지 찾기</h2>
+      <ul class="list">
+        <li><b>본인 가입분</b>: 공정거래위원회가 운영하는 「내상조 찾아줘」에서 조회해 보실 수 있어요. 여기서 나오지 않으면 가입하신 상조회사에 직접 물어봐 주세요.</li>
+        <li><b>돌아가신 분 명의</b>: 정부24 「안심상속 원스톱 서비스」를 신청하시면 고인이 가입한 상조도 함께 조회돼요. 사망신고할 때, 또는 돌아가신 달의 말일부터 1년 안에 신청하시면 돼요. 사망신고할 때 함께 신청하시는 게 가장 편해요.</li>
+        <li>조회 결과는 바로 나오지 않고 며칠 걸려요. 장례는 결과를 기다리지 않고 먼저 치르셔도 돼요.</li>
+      </ul>
+      <div class="actions"><a class="btn btn-line" href="https://www.mysangjo.or.kr" target="_blank" rel="noopener">내상조 찾아줘 열기</a><a class="btn btn-line" href="#date" data-goto="after">장례 후 서류 기한 보기</a></div>
+    </div>
+
+    <div class="sec">
+      <h2><span class="sec-n">2</span>가입한 상조로 진행하실 때 물어보실 것</h2>
+      <ul class="list">
+        <li>무빈소나 가족장으로 바꿀 수 있는지</li>
+        <li>쓰지 않는 항목(빈소 꽃, 도우미 등)이 있으면 그만큼 돌려받거나 다른 것으로 바꿀 수 있는지</li>
+        <li>상품에 없는 것(차량 거리, 수의 등급 등)으로 추가 요금이 붙는지</li>
+        <li>아직 다 내지 않은 돈을 언제, 어떻게 내는지</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <h2><span class="sec-n">3</span>해약하실 때</h2>
+      <ul class="list">
+        <li>해약하면 돌려받는 돈(해약환급금)은 회사가 마음대로 정하는 게 아니에요. 공정거래위원회 고시 기준을 따르고, 회사는 이보다 불리하게 정할 수 없어요.</li>
+        <li>계약서의 해약환급금표를 먼저 봐 주세요. 가입 초기에는 낸 돈보다 적게 돌려받을 수 있어요.</li>
+        <li>해약하겠다는 뜻은 내용증명처럼 기록이 남는 방법으로 알리시면 좋아요.</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <h2><span class="sec-n">4</span>상조회사가 문을 닫았다면</h2>
+      <ul class="list">
+        <li>회사가 폐업하거나 등록이 취소되면, 법에 따라 맡겨 둔 돈(대개 낸 돈의 절반 정도)에서 은행이나 공제조합이 보상해 드려요(할부거래법 27조). 정확한 금액은 그 은행 · 공제조합에 확인해 주세요.</li>
+        <li>「내상조 그대로」를 쓰시면, 보상금을 받은 뒤 참여 상조회사에서 그동안 낸 돈을 모두 인정받고 서비스를 이어 받으실 수 있어요.</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <h2><span class="sec-n">5</span>계산이 어려우시면</h2>
+      <p class="sec-lead">계약서를 들고 전화 주세요. 상조 상품에 든 것과 저희 견적을 나란히 놓고 같이 봐 드릴게요. 억지로 권하지 않아요.</p>
+      <p class="note">이 글은 일반적인 안내예요. 실제 환급금과 조건은 가입하신 회사의 계약서를 따라요.</p>
+      <div class="actions"><a class="btn btn-primary" href="tel:16614214">1661-4214 전화</a><a class="btn btn-line" href="#price" data-goto-type="nob">무빈소장 비용 보기</a><a class="btn btn-line" href="#price" data-goto-type="fam">가족장 비용 보기</a></div>
+    </div>
+
+    <div class="sec">
+      <h2>상조, 많이 물어보시는 것</h2>
+      <div>
+        <details class="faq"><summary>해약하면 얼마나 돌려받나요?</summary><div class="faq-a">낸 기간과 상품마다 달라요. 가입하신 회사에 해약환급금을 조회해 달라고 하시고, 계약서의 표와 맞는지 보시면 돼요.</div></details>
+        <details class="faq"><summary>상조를 안 쓰고 후불제로 해도 되나요?</summary><div class="faq-a">네, 가입한 상조를 꼭 써야 하는 건 아니에요. 다만 가입한 상조를 그대로 둘지 해약할지는 따로 정하셔야 해요. <a href="#price" data-goto="prepaid">선불식 상조와 후불제 비교</a></div></details>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="page" data-page="support" aria-labelledby="h-sup" hidden>
+  <div class="wrap">
+    <div class="page-head">
+      <h1 id="h-sup">수급자 · 국가유공자 가족이시면,<br>받으실 수 있는 것부터 챙겨 드려요</h1>
+      <p>저희는 수급자 · 국가유공자 가족께 20만원을 할인해 드려요. 할인을 비롯해 저희가 드릴 수 있는 혜택은 최대한 챙겨 드리고, 받으실 수 있는 지원과 서류도 함께 안내해 드려요.</p>
+      <div class="actions"><a class="btn btn-primary" href="#price">비용 계산에서 할인 넣기</a><a class="btn btn-line" href="tel:16614214">1661-4214 전화</a></div>
+    </div>
+
+    <div class="sec">
+      <h2>기초생활수급자: 장제급여</h2>
+      <div class="tblwrap"><table class="wordtbl kv"><tbody>
+        <tr><td><b>대상</b></td><td>생계 · 의료 · 주거급여 수급자가 돌아가신 경우 (교육급여만 받으셨다면 대상이 아니에요)</td></tr>
+        <tr><td><b>금액</b></td><td>한 분당 80만원, 현금으로 받으세요 (해마다 바뀔 수 있어요)</td></tr>
+        <tr><td><b>받으시는 분</b></td><td>실제로 장례를 치르신 분</td></tr>
+        <tr><td><b>신청하는 곳</b></td><td>읍 · 면 · 동 주민센터 (사시던 곳이 아니어도 돼요)</td></tr>
+        <tr><td><b>내시는 서류</b></td><td>신청서와 사망 사실을 확인할 서류(사망진단서 등). 필요한 서류는 주민센터에서 알려 줘요.</td></tr>
+      </tbody></table></div>
+      <p class="note">수급자가 아니어도 갑작스러운 어려움으로 긴급복지 지원을 받는 가구라면 장제비를 지원받으실 수 있어요. 보건복지상담센터 129에 물어봐 주세요.</p>
+    </div>
+
+    <div class="sec">
+      <h2>국가유공자</h2>
+      <ul class="list">
+        <li>국립묘지(현충원 · 호국원)에 모실 수 있는지는 국립묘지법에 따라 정해져요. 국가보훈부 보훈상담센터 1577-0606에서 확인해 주세요.</li>
+        <li>국립묘지가 아닌 봉안당 · 자연장지 등에 모시면, 대상에 따라 안장 시설 사용료를 100만원 안에서 실제 내신 만큼 지원받으실 수 있어요. 관할 보훈관서에 가시거나 우편으로 신청하시면 돼요.</li>
+        <li>보상금을 받던 분이 돌아가시면 유족께 드리는 지원은 등급과 분류마다 달라요. 보훈상담센터에 함께 물어봐 주세요.</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <h2>저희 할인</h2>
+      <ul class="list">
+        <li>수급자 · 국가유공자 가족이시면 어느 상품이든 20만원을 할인해 드려요.</li>
+        <li>가족장 · 일반장이면 카카오톡 채널 할인권 10만원과 함께 쓰실 수 있어요.</li>
+        <li>확인에 필요한 서류는 상담 때 알려 드릴게요.</li>
+      </ul>
+      <p class="note">지원 제도는 2026년 11월에 정부24 · 국가보훈부 안내로 확인한 내용이에요. 금액과 조건은 바뀔 수 있으니 신청하실 때 한 번 더 확인해 주세요.</p>
+    </div>
+
+    <div class="sec">
+      <h2>수급자 · 국가유공자 장례, 많이 물어보시는 것</h2>
+      <div>
+        <details class="faq"><summary>장제급여로 장례를 다 치를 수 있나요?</summary><div class="faq-a">장례식장 · 화장장 비용이 지역마다 달라서 미리 말씀드리기는 어려워요. 견적을 먼저 보시고, 장제급여는 장례를 치르신 분이 따로 신청하시면 돼요.</div></details>
+        <details class="faq"><summary>언제까지 신청해야 하나요?</summary><div class="faq-a">기한은 주민센터에 꼭 확인해 주세요. 장례를 마치신 뒤 되도록 빨리 신청하시는 게 좋아요.</div></details>
+      </div>
+      <div class="actions"><a class="btn btn-primary" href="#price">비용 계산에서 할인 넣기</a><a class="btn btn-line" href="tel:16614214">1661-4214 전화</a><a class="btn btn-line" href="#date" data-goto="after">장례 후 서류 기한</a></div>
+    </div>
+  </div>
+</section>
+<section class="page" data-page="jibang" aria-labelledby="h-jb" hidden>
+  <div class="wrap">
+    <div class="page-head has-ph">
+      <h1 id="h-jb">지방, 모시는 분만 고르시면<br>바로 쓰실 수 있어요</h1>
+      <p>지방은 제사나 차례 때 신주(위패) 대신 종이에 써서 모시는 신위예요. 글자는 「나와의 관계 · 고인의 직위 · 부르는 말 · 신위」 순서로 이어져요. 어렵게 느껴지시면 출력실에서 모시는 분만 고르시면 돼요.</p>
+      <div class="actions"><a class="btn btn-primary" href="#print">지방 무료로 뽑기</a><a class="btn btn-line" href="#clan">본관 찾기</a></div>
+      <figure class="ph jb-fig" aria-label="지방 예시: 왼쪽은 아버지 지방, 오른쪽은 부모님을 함께 모시는 지방">
+        <div><div class="jb-paper"><span>顯考學生府君神位</span></div><figcaption>아버지</figcaption></div>
+        <div><div class="jb-paper two"><span>顯考學生府君神位</span><span>顯妣孺人金海金氏神位</span></div><figcaption>부모님 함께</figcaption></div>
+      </figure>
+    </div>
+
+    <div class="sec">
+      <h2>모시는 분별 지방</h2>
+      <div class="tblwrap"><table class="wordtbl jb-tbl"><thead><tr><th>모시는 분</th><th>지방</th><th>읽는 법</th><th><span class="sr">출력실</span></th></tr></thead><tbody>
+        <tr><td><b>아버지</b></td><td class="hz">顯考學生府君神位</td><td>현고학생부군신위</td><td><a class="jb-go" href="#print" data-goto-rel="f">이대로 뽑기</a></td></tr><tr><td><b>어머니</b></td><td class="hz">顯妣孺人金海金氏神位</td><td>현비유인김해김씨신위</td><td><a class="jb-go" href="#print" data-goto-rel="m">이대로 뽑기</a></td></tr><tr><td><b>할아버지</b></td><td class="hz">顯祖考學生府君神位</td><td>현조고학생부군신위</td><td><a class="jb-go" href="#print" data-goto-rel="gf">이대로 뽑기</a></td></tr><tr><td><b>할머니</b></td><td class="hz">顯祖妣孺人金海金氏神位</td><td>현조비유인김해김씨신위</td><td><a class="jb-go" href="#print" data-goto-rel="gm">이대로 뽑기</a></td></tr><tr><td><b>남편</b></td><td class="hz">顯辟學生府君神位</td><td>현벽학생부군신위</td><td><a class="jb-go" href="#print" data-goto-rel="hus">이대로 뽑기</a></td></tr><tr><td><b>아내</b></td><td class="hz">亡室孺人金海金氏神位</td><td>망실유인김해김씨신위</td><td><a class="jb-go" href="#print" data-goto-rel="wife">이대로 뽑기</a></td></tr><tr><td><b>형</b></td><td class="hz">顯兄學生府君神位</td><td>현형학생부군신위</td><td><a class="jb-go" href="#print" data-goto-rel="bro">이대로 뽑기</a></td></tr><tr><td><b>형수</b></td><td class="hz">顯兄嫂孺人金海金氏神位</td><td>현형수유인김해김씨신위</td><td><a class="jb-go" href="#print" data-goto-rel="sil">이대로 뽑기</a></td></tr><tr><td><b>남동생</b></td><td class="hz">亡弟學生府君神位</td><td>망제학생부군신위</td><td><a class="jb-go" href="#print" data-goto-rel="ybro">이대로 뽑기</a></td></tr><tr><td><b>아들</b></td><td class="hz">亡子秀才○○之靈</td><td>망자수재(이름)지령</td><td><a class="jb-go" href="#print" data-goto-rel="son">이대로 뽑기</a></td></tr>
+      </tbody></table></div>
+      <p class="note">「김해김씨」 자리에는 모시는 분의 본관과 성을 넣으시면 돼요. 「이대로 뽑기」를 누르시면 출력실에 그 관계가 골라진 채로 열려요.</p>
+    </div>
+
+    <div class="sec">
+      <h2>쓰실 때 알아 두실 것</h2>
+      <ul class="list">
+        <li><b>종이</b>: 폭 5~6cm, 길이 20~22cm 정도의 깨끗한 흰 종이에 써요.</li>
+        <li><b>두 분을 함께 모실 때</b>: 한 장에 왼쪽에 아버지, 오른쪽에 어머니를 써요.</li>
+        <li><b>직위</b>: 벼슬이 없으셔도 남자 어른은 學生(학생), 여자 어른은 孺人(유인)이라고 써요.</li>
+        <li><b>이름</b>: 어른의 지방에는 이름을 쓰지 않아요. 이름은 아들 지방에만 써요.</li>
+        <li><b>본관</b>: 본관과 성은 한자로 써요. 모르시면 <a href="#clan">본관 찾기</a>에서 한글로 찾으시면 돼요.</li>
+        <li><b>종교가 있으시면</b>: 기독교 · 천주교 · 불교 등은 위패 모양이 달라요. 출력실에서 종교를 고르시면 맞는 모양으로 나와요.</li>
+      </ul>
+    </div>
+
+    <div class="sec">
+      <h2>지방, 많이 물어보시는 것</h2>
+      <div>
+        <details class="faq"><summary>한글로 써도 되나요?</summary><div class="faq-a">네. 한자로 써도, 한글로 써도, 인쇄해서 쓰셔도 돼요.</div></details>
+        <details class="faq"><summary>본관을 모르면 어떻게 하나요?</summary><div class="faq-a">가족관계증명서나 기본증명서의 「본」 칸에 적혀 있어요. <a href="#clan">본관 찾기</a>에서 한자도 바로 찾으실 수 있어요.</div></details>
+        <details class="faq"><summary>설 · 추석 차례에도 같은 지방을 쓰나요?</summary><div class="faq-a">네, 같은 지방을 쓰시면 돼요. 차례에서는 축문을 읽지 않아요.</div></details>
+      </div>
+      <div class="actions"><a class="btn btn-primary" href="#print">지방 무료로 뽑기</a><a class="btn btn-line" href="#print" data-goto-tab="ck">축문 보기</a><a class="btn btn-line" href="#date">기일 날짜 계산</a></div>
+    </div>
+  </div>
+</section>
 </main>
 
 <footer class="foot">
@@ -1707,6 +2001,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div>대표번호 <a class="ft-tel" href="tel:16614214">1661-4214</a><br>장례 접수 · 상담 · 긴급 출동<br>365일 24시간 연중무휴 (주말 · 공휴일 포함)<br>카카오톡 채널 <a class="ft-talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener">@나만의장례</a></div>
     <div>www.myfuneral.co.kr<br>적으신 내용은 어디에도 저장되지 않아요.</div>
   </div>
+  <nav class="wrap foot-guides" aria-label="안내"><a href="#gajokjang">가족장 안내</a><a href="#sangjo">상조에 가입해 두셨다면</a><a href="#support">수급자 · 국가유공자 장례</a><a href="#jibang">지방 쓰는 법</a><a href="#urn">유골함 고르는 법</a></nav>
 </footer>
 
 <div class="callbar" aria-label="전화 · 카카오톡 상담"><a class="btn btn-primary" href="tel:16614214">24시간 접수 1661-4214</a><a class="btn btn-line btn-talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>카톡 상담</a></div>
@@ -1727,7 +2022,7 @@ function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; cle
 function copyText(text, okMsg, el){
   let p;
   try{ p=navigator.clipboard.writeText(text); }catch(e){ p=Promise.reject(e); }
-  p.then(()=>toast(okMsg||'복사했습니다')).catch(()=>{
+  p.then(()=>toast(okMsg||'복사했어요')).catch(()=>{
     if(el){ const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r); }
     toast(el?'선택된 글을 길게 눌러 복사해 주세요':'번호를 길게 눌러 복사해 주세요: '+text);
   });
@@ -1747,10 +2042,11 @@ async function saveFile(filename,data,okMsg){
 document.addEventListener('click',e=>{
   const c=e.target.closest('[data-copy]'); if(c){ copyText(c.getAttribute('data-copy'),'전화번호를 복사했어요'); }
   const g=e.target.closest('[data-goto-tab]'); if(g){ PS.tab=g.getAttribute('data-goto-tab'); }
+  const gr=e.target.closest('[data-goto-rel]'); if(gr&&REL[gr.getAttribute('data-goto-rel')]){ PS.rel=gr.getAttribute('data-goto-rel'); PS.tab='jb'; if(!REL[PS.rel].gen) PS.pair=false; }
 });
 
 /* ── 화면 이동 ── */
-const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn','gajokjang','sangjo','support','jibang'];
 function route(){
   const h=(location.hash||'').replace('#','');
   const p=PAGES.indexOf(h)>=0?h:'home';
@@ -1985,7 +2281,7 @@ function model(){
   let H=[], HK=[], lunarNote='', ckWarn='', ckL=null;
   const hdr=CK_NOHDR.indexOf(ck)<0;
   if(hdr){ ckL=lunar(PS.ckDate);
-    if(!ckL){ ckWarn='음력 · 간지 자동 계산은 2016년부터 2040년까지 날짜만 됩니다.'; lunarNote='날짜를 다시 골라 주세요.'; }
+    if(!ckL){ ckWarn='음력 · 간지 자동 계산은 2016년부터 2040년까지 날짜만 돼요.'; lunarNote='날짜를 다시 골라 주세요.'; }
     else { const L=ckL, yi=((L.y-4)%60+60)%60;
       const mH=(L.leap?'閏':'')+(L.m===1?'正':numH(L.m))+'月', mK=(L.leap?'윤':'')+MK[L.m]+'월';
       H=[['維 歲次 '+gzH(yi)+' '+mH+' '+gzH(L.shuo)+'朔','유 세차 '+gzK(yi)+' '+mK+' '+gzK(L.shuo)+'삭'],[numH(L.d)+'日 '+gzH(L.day),numK(L.d)+'일 '+gzK(L.day)]];
@@ -2097,7 +2393,7 @@ function model(){
   else if(ck==='noje') ckTip='노제는 정해진 본문이 없어요. 아래 「축문 직접 고치기」를 눌러 가운데 줄에 고인을 기리는 글을 써 넣어 주세요.';
   else if(ck==='donggang') ckTip='「○代」는 몇 대 어른 묘인지에 맞게 「축문 직접 고치기」로 고쳐 주세요. 할머니 묘면 祖考 → 祖妣, 學生府君 → 孺人○○○氏로 바꿔요.';
   else if(ck==='seongbok'||ck==='talsang3'||ck==='talsang49'||ck==='talsang100') ckTip='『가례』 · 『사례편람』 같은 예서에는 없는, 요즘 예절 책과 문중 자료에서 쓰는 문구예요. 집안 양식이 있으면 그것을 따르세요.';
-  else if(ck==='jolgok') ckTip='요즘은 부제(祔祭)를 지내지 않아, 옛 축문 끝의 「來日隮祔…」(내일 조상 곁에 모신다) 구절은 넣지 않았습니다.';
+  else if(ck==='jolgok') ckTip='요즘은 부제(祔祭)를 지내지 않아, 옛 축문 끝의 「來日隮祔…」(내일 조상 곁에 모신다) 구절은 넣지 않았어요.';
   const needClan=(R.g==='f'||(CK_SAN.indexOf(ck)>=0&&ck!=='myosan')||ck==='noje')||(pairCk&&R.g==='m');
   const kOnly=ck==='wiryeong';
   const fullName=or(fullK,'[고인 성함]');
@@ -2296,12 +2592,12 @@ function preview(m){
     draw.k=kk; const P=pagesFor(m); cap=(m.isYu?'지방 ':'위패 ')+d.l+' · '+(pw/10)+' × '+(d.h/10)+'cm · 화면은 실제의 '+Math.round(kk/3.78*100)+'%'; sheet='A4 한 장에 '+P.per+'장씩 · '+PS.copies+'장이면 종이 '+P.sheets+'장'; }
   else if(t==='mj'){ const bw=Math.max(56,Math.min(84,availW*0.28)); const bh=tall-8; cssW=bw+8; cssH=tall;
     draw=(ctx,k)=>drawMyeong(ctx,4,4,bw,bh,k,m.mj.replace(/ /g,''),PS.wt);
-    draw.k=1; cap='명정 쓰는 예 · '+m.mjSel.l+' · 출력용이 아닌 참고용입니다'; sheet=''; }
+    draw.k=1; cap='명정 쓰는 예 · '+m.mjSel.l+' · 출력용이 아닌 참고용이에요'; sheet=''; }
   else if(t==='ck'){ const kk=Math.min(availW,660)/297; const sv=ckSheets(m); const lab=28/kk, gap=12/kk;
     cssW=297*kk; cssH=(sv.length*(210+lab)+(sv.length-1)*gap)*kk;
     draw=(ctx,k)=>{ let y=0; sv.forEach(x=>{ ctx.fillStyle='#3a413c'; ctx.font=fnt(700,(14/kk)*k,SANS); ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(x.t,0,(y+lab/2)*k); y+=lab;
       ctx.save(); ctx.translate(0,y*k); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,297*k,210*k); drawCkSheet(ctx,k,m,x.kind); ctx.restore(); y+=210+gap; }); };
-    draw.k=kk; cap=(CKN[PS.ck]||'')+' · A4 가로 · 오른쪽 줄부터 읽습니다'; sheet='A4 가로 1장'; }
+    draw.k=kk; cap=(CKN[PS.ck]||'')+' · A4 가로 · 오른쪽 줄부터 읽어요'; sheet='A4 가로 1장'; }
   else if(t==='sj'){ const kk=tall/297; cssW=210*kk; cssH=tall; draw=(ctx,k)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,210*k,297*k); drawSangjung(ctx,k); }; draw.k=kk; cap='A4 세로 · 문 앞에 붙이는 안내문'; sheet='A4 세로 1장'; }
   else if(t==='env'){ const kk=Math.min(tall*0.86,420)/220; const g=10/kk; cssW=(210+g)*kk; cssH=220*kk;
     draw=(ctx,k)=>{ [0,105+g].forEach((ox,i)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(ox*k,0,105*k,220*k); ctx.strokeStyle='#9aa199'; ctx.lineWidth=1; ctx.strokeRect(ox*k+0.5,0.5,105*k-1,220*k-1); if(i===0) drawEnvFront(ctx,k,ox); else drawEnvBack(ctx,k,ox); }); };
@@ -2351,14 +2647,14 @@ function renderPrint(){
   $('#cp-val').textContent=PS.copies;
   $('#ck-lunar').textContent=m.lunarNote; $('#ck-reading').textContent=m.lines.map(l=>l[1]).join('\n');
   let warn='';
-  if(PS.tab==='jb'&&m.isYu&&R.named&&!PS.nameK) warn='아들 지방에는 이름이 들어갑니다. 이름을 입력하세요.';
-  else if(PS.tab!=='tx'&&PS.man&&(!PS.mbh||!PS.msh)) warn='본관과 성을 한자로 입력하세요.';
+  if(PS.tab==='jb'&&m.isYu&&R.named&&!PS.nameK) warn='아들 지방에는 이름이 들어가요. 이름을 적어 주세요.';
+  else if(PS.tab!=='tx'&&PS.man&&(!PS.mbh||!PS.msh)) warn='본관과 성을 한자로 적어 주세요.';
   else if(cond.clanF&&!PS.man&&!m.c1.sk&&tab!=='tx') warn='고인 본관 · 성을 골라 주세요. 지금은 ○로 비워 둔 자리에 들어갑니다.';
   else if(cond.p2&&!PS.c2.sk) warn=(WIFE_LABEL[R.gen]||'본관 · 성씨')+'을 골라 주세요.';
   else if(PS.tab==='ck') warn=m.ckWarn;
   else if(PS.tab==='sj'&&isoOk(PS.sjFrom)&&isoOk(PS.sjTo)&&PS.sjTo<PS.sjFrom) warn='마지막 날이 첫날보다 빠릅니다.';
   const w=$('#pv-warn'); w.hidden=!warn; w.textContent=warn?'주의 · '+warn:'';
-  $('#jb-fixed-note').textContent=m.dims.fixed?(PS.rlg==='sgi'?'SGI 위패는 4 × 17.5cm 고정 규격입니다. A4 한 장에 4장까지 들어갑니다.':'기독교 · 천주교 위패는 8.5 × 25.5cm 고정 규격입니다. A4 한 장에 2장씩 나옵니다.'):'';
+  $('#jb-fixed-note').textContent=m.dims.fixed?(PS.rlg==='sgi'?'SGI 위패는 4 × 17.5cm 고정 규격이에요. A4 한 장에 4장까지 들어가요.':'기독교 · 천주교 위패는 8.5 × 25.5cm 고정 규격이에요. A4 한 장에 2장씩 나와요.'):'';
   if(PS.tab==='mj'){ $('#mj-hz').textContent=m.mjSel.h; $('#mj-rd').textContent=m.mjSel.k; }
   if(PS.tab==='tx'){ $('#msg-bugo').textContent=bugoText(m); $('#msg-thanks').textContent=thanksText(m); }
   else { preview(m); ensureFonts(docText(m)).then(ch=>{ if(ch) preview(model()); }); }
@@ -2370,7 +2666,7 @@ function thanksText(m){ return '故 '+m.fullName+'님의 장례에 함께해 주
 function renderPage(pg,dpi,type,crop){ const k=dpi/25.4; const c=document.createElement('canvas'); c.width=Math.round((crop?crop.w:pg.w)*k); c.height=Math.round((crop?crop.h:pg.h)*k); const x=c.getContext('2d'); x.fillStyle='#ffffff'; x.fillRect(0,0,c.width,c.height); if(crop) x.translate(-crop.x*k,-crop.y*k); pg.draw(x,k); return type==='png'?c.toDataURL('image/png'):c.toDataURL('image/jpeg',0.92); }
 async function savePdf(){
   const btn=$('#pdf-btn'); const m=model();
-  if(!window.jspdf||!window.jspdf.jsPDF){ toast('PDF 도구를 불러오는 중입니다. 잠시 뒤 다시 눌러 주세요'); return; }
+  if(!window.jspdf||!window.jspdf.jsPDF){ toast('PDF 도구를 불러오는 중이에요. 잠시 뒤 다시 눌러 주세요'); return; }
   btn.disabled=true; const old=btn.textContent; btn.textContent='PDF 만드는 중…';
   try{
     await ensureFonts(docText(m));
@@ -2378,13 +2674,13 @@ async function savePdf(){
     P.pages.forEach((pg,i)=>{ const o=pg.w>pg.h?'l':'p'; if(i===0) doc=new window.jspdf.jsPDF({unit:'mm',format:[pg.w,pg.h],orientation:o,compress:true}); else doc.addPage([pg.w,pg.h],o);
       doc.addImage(renderPage(pg,250,'jpg'),'JPEG',0,0,pg.w,pg.h); });
     const buf=doc.output('arraybuffer');
-    const ok=await saveFile(P.name+'.pdf',buf,'PDF를 저장했습니다. 실제 크기(100%)로 인쇄하세요');
-  }catch(e){ toast('PDF를 만들지 못했습니다. 다시 시도해 주세요'); }
+    const ok=await saveFile(P.name+'.pdf',buf,'PDF를 저장했어요. 실제 크기(100%)로 인쇄해 주세요');
+  }catch(e){ toast('PDF를 만들지 못했어요. 다시 눌러 주세요'); }
   btn.disabled=false; btn.textContent=old;
 }
 const FRAMED=(function(){ try{ return window.self!==window.top; }catch(e){ return true; } })();
 async function directPrint(){
-  if(FRAMED){ toast('미리보기 화면에서는 인쇄 창이 막혀 있어 PDF로 저장합니다'); return savePdf(); }
+  if(FRAMED){ toast('미리보기 화면에서는 인쇄 창이 막혀 있어 PDF로 저장해요'); return savePdf(); }
   const btn=$('#print-btn'); const m=model(); btn.disabled=true; const old=btn.textContent; btn.textContent='인쇄 준비 중…';
   try{
     await ensureFonts(docText(m));
@@ -2394,7 +2690,7 @@ async function directPrint(){
     css.textContent='@page{size:'+P.pages[0].w+'mm '+P.pages[0].h+'mm;margin:'+(crop?'10mm':'0')+'}';
     await Promise.all(P.pages.map(pg=>new Promise(res=>{ const c=pg.crop; const img=new Image(); img.alt=''; img.style.width=(c?c.w:pg.w)+'mm'; img.style.height=(c?c.h:pg.h)+'mm'; if(c) img.className='crop'; img.onload=res; img.onerror=res; root.appendChild(img); img.src=renderPage(pg,300,'png',c); })));
     window.print();
-  }catch(e){ toast('인쇄를 준비하지 못했습니다. PDF로 받아 인쇄해 주세요'); }
+  }catch(e){ toast('인쇄를 준비하지 못했어요. PDF로 받아 인쇄해 주세요'); }
   btn.disabled=false; btn.textContent=old;
 }
 window.addEventListener('afterprint',()=>{ const r=document.getElementById('print-root'); if(r) r.innerHTML=''; });
@@ -2419,9 +2715,9 @@ function bindPrint(){
   $('#ck-auto').addEventListener('click',()=>{ ckFill(); renderPrint(); });
   $('#pdf-btn').addEventListener('click',savePdf);
   $('#print-btn').addEventListener('click',directPrint);
-  if(FRAMED) $('#print-note').innerHTML='지금 보시는 미리보기 화면에서는 인쇄 창이 막혀 있어 <b>바로 인쇄</b>를 누르면 PDF로 저장됩니다. 홈페이지 주소에 올리면 프린터로 바로 나갑니다. 배율은 <b>실제 크기(100%)</b>로 두세요.';
-  $('#copy-bugo').addEventListener('click',()=>copyText(bugoText(model()),'부고 문자를 복사했습니다',$('#msg-bugo')));
-  $('#copy-thanks').addEventListener('click',()=>copyText(thanksText(model()),'감사 문자를 복사했습니다',$('#msg-thanks')));
+  if(FRAMED) $('#print-note').innerHTML='지금 보시는 미리보기 화면에서는 인쇄 창이 막혀 있어 <b>바로 인쇄</b>를 누르면 PDF로 저장돼요. 홈페이지 주소에 올리면 프린터로 바로 나가요. 배율은 <b>실제 크기(100%)</b>로 맞춰 주세요.';
+  $('#copy-bugo').addEventListener('click',()=>copyText(bugoText(model()),'부고 문자를 복사했어요',$('#msg-bugo')));
+  $('#copy-thanks').addEventListener('click',()=>copyText(thanksText(model()),'감사 문자를 복사했어요',$('#msg-thanks')));
   let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(!$('[data-page="print"]').hidden&&PS.tab!=='tx') preview(model()); },150); });
 }
 
@@ -2441,13 +2737,13 @@ const dtName=()=>DT.mode==='pro'?String(DT.name||'').trim():'';
 const isoMonths=(s,n,end)=>{ const p=s.split('-').map(Number); const t=p[0]*12+p[1]-1+n, y=Math.floor(t/12), m=t%12+1; const len=new Date(Date.UTC(y,m,0)).getUTCDate(); return y+'-'+String(m).padStart(2,'0')+'-'+String(end?len:Math.min(p[2],len)).padStart(2,'0'); };
 /* 장례 후 서류 · 신고 기한 (근거: 가족관계등록법 84조 · 민법 1019조 · 상속세및증여세법 67조 · 지방세법 20조 · 자동차등록령 26조 · 국민연금법 115조, 안심상속은 행정안전부 안내) */
 function dtAfter(die){ return [
-  {t:'사망신고',d:isoMonths(die,1),w:'시 · 구청, 읍 · 면 · 동 주민센터',s:'돌아가신 사실을 안 날부터 1개월 · 늦으면 과태료가 붙습니다'},
+  {t:'사망신고',d:isoMonths(die,1),w:'시 · 구청, 읍 · 면 · 동 주민센터',s:'돌아가신 사실을 안 날부터 1개월 · 늦으면 과태료가 붙어요'},
   {t:'상속 포기 · 한정승인',d:isoMonths(die,3),w:'가정법원 · 고인의 빚이 재산보다 많을 수 있을 때',s:'상속이 시작된 것을 안 날부터 3개월 · 지나면 빚도 함께 물려받는 것으로 봅니다'},
   {t:'상속세 신고 · 납부',d:isoMonths(die,6,1),w:'세무서 · 홈택스',s:'돌아가신 달의 말일부터 6개월 (고인과 상속인 모두 외국에 살면 9개월)'},
   {t:'부동산 상속 취득세',d:isoMonths(die,6,1),w:'시 · 군 · 구청 (위택스) · 고인 명의 부동산이 있을 때',s:'돌아가신 달의 말일부터 6개월 (외국에 사는 상속인이 있으면 9개월) · 늦으면 가산세'},
-  {t:'자동차 상속 이전',d:isoMonths(die,6,1),w:'차량등록사업소 · 시 · 구청 · 고인 명의 차가 있을 때',s:'돌아가신 달의 말일부터 6개월 · 늦으면 과태료가 붙습니다'},
-  {t:'안심상속 원스톱 서비스',d:isoMonths(die,12,1),w:'사망신고 때 주민센터에서 함께 신청 (정부24도 됩니다)',s:'고인의 금융 · 토지 · 자동차 · 세금 · 연금 내역을 한 번에 조회 · 돌아가신 달의 말일부터 1년'},
-  {t:'국민연금 유족연금 · 사망일시금',d:isoMonths(die,60),w:'국민연금공단 (1355) · 고인이 가입했거나 연금을 받고 계셨을 때',s:'5년이 지나면 받을 수 없습니다 · 빨리 신청하실수록 좋습니다'} ]; }
+  {t:'자동차 상속 이전',d:isoMonths(die,6,1),w:'차량등록사업소 · 시 · 구청 · 고인 명의 차가 있을 때',s:'돌아가신 달의 말일부터 6개월 · 늦으면 과태료가 붙어요'},
+  {t:'안심상속 원스톱 서비스',d:isoMonths(die,12,1),w:'사망신고 때 주민센터에서 함께 신청 (정부24도 돼요)',s:'고인의 금융 · 토지 · 자동차 · 세금 · 연금 내역을 한 번에 조회 · 돌아가신 달의 말일부터 1년'},
+  {t:'국민연금 유족연금 · 사망일시금',d:isoMonths(die,60),w:'국민연금공단 (1355) · 고인이 가입했거나 연금을 받고 계셨을 때',s:'5년이 지나면 받을 수 없어요 · 빨리 신청하실수록 좋아요'} ]; }
 function renderAfter(M){ const ol=$('#dt-after'); if(!ol) return; ol.innerHTML='';
   dtAfter(M.die).forEach(it=>{ const li=document.createElement('li'); const dd=dDay(it.d);
     li.innerHTML='<span class="t"></span><span class="d"></span><span class="s"><span class="w"></span></span><span class="dd"></span>';
@@ -2455,13 +2751,13 @@ function renderAfter(M){ const ol=$('#dt-after'); if(!ol) return; ol.innerHTML='
     li.children[3].textContent=dd[0]; if(dd[1]) li.children[3].classList.add('soon'); ol.appendChild(li); }); }
 function afterText(){ const M=dtModel(), nm=dtName(); const L=[(nm?'[故 '+nm+'님 ':'[')+'장례 후 서류 · 신고 기한]','돌아가신 날 '+fmtY(M.die)+' 기준',''];
   dtAfter(M.die).forEach(it=>{ L.push('■ '+it.t+'  '+fmtY(it.d)+'까지'); L.push('  '+it.w); L.push('  '+it.s); });
-  L.push('','※ 쉽게 셈한 날짜입니다. 기한이 가까우면 해당 기관에 꼭 확인하세요.','나만의장례 24시간 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
-function dDay(iso){ const n=dayDiff(isoDay(0),iso); return n===0?['오늘',true]:n>0?[n+'일 남음',n<=7]:['지났습니다',false]; }
+  L.push('','※ 쉽게 셈한 날짜예요. 기한이 가까우면 해당 기관에 꼭 확인해 주세요.','나만의장례 24시간 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
+function dDay(iso){ const n=dayDiff(isoDay(0),iso); return n===0?['오늘',true]:n>0?[n+'일 남음',n<=7]:['지났어요',false]; }
 function dtModel(){
   const die=isoOk(DT.die)?DT.die:isoDay(0);
   const out=DT.outSet&&isoOk(DT.out)?DT.out:isoAdd(die,DT.days-1);
   const L=lunar(die), items=[], seven=[], years=[]; let yrNote='';
-  items.push({k:'die',t:'돌아가신 날',m:'별세',d:die,s:L?'음력 '+lunTxt(L)+' · '+gzK(L.day)+'일':'음력은 2016년부터 2040년까지만 계산합니다'});
+  items.push({k:'die',t:'돌아가신 날',m:'별세',d:die,s:L?'음력 '+lunTxt(L)+' · '+gzK(L.day)+'일':'음력은 2016년부터 2040년까지만 계산해요'});
   items.push({k:'out',t:'발인',m:'발인',d:out,s:'장례 '+(dayDiff(die,out)+1)+'일째'});
   items.push({k:'samu',t:'삼우제',m:'삼우제',d:isoAdd(out,2),s:'발인 날을 첫날로 세어 사흘째 (초우는 발인 날, 재우는 다음 날)'});
   items.push({k:'49',t:'49재 (사십구재)',m:'49재',d:isoAdd(die,48),s:'돌아가신 날을 첫날로 세어 49일째'});
@@ -2472,10 +2768,10 @@ function dtModel(){
     for(let n=1;n<=40;n++){ const r=solarOf(L.y+n,L.m,L.d); if(!r) break; if(!start&&r.iso>=today) start=n; years.push({n,y:L.y+n,r}); }
     [1,2].forEach(n=>{ const e=years.find(x=>x.n===n); if(e) items.push({k:'g'+n,t:n===1?'첫 기일 (1주기 · 소상)':'두 번째 기일 (2주기 · 대상)',m:n===1?'첫 기일':'2주기',d:e.r.iso,s:'음력 '+L.m+'월 '+e.r.d+'일'+(e.r.short?' (그해 '+L.m+'월이 '+e.r.len+'일까지라 그믐으로)':'')}); });
     const from=Math.max(0,(start||years.length)-1); DT.yrAll=years;
-    yrNote=(L.leap?'윤달에 돌아가셔서 기일은 평달 '+L.m+'월 '+L.d+'일로 계산했습니다. ':'')+'양력으로 지내시는 집은 해마다 '+Number(die.slice(5,7))+'월 '+Number(die.slice(8,10))+'일입니다.';
+    yrNote=(L.leap?'윤달에 돌아가셔서 기일은 평달 '+L.m+'월 '+L.d+'일로 계산했어요. ':'')+'양력으로 지내시는 집은 해마다 '+Number(die.slice(5,7))+'월 '+Number(die.slice(8,10))+'일이에요.';
     return {die,out,L,items,seven,years:years.slice(from,from+6),yrNote,warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
   }
-  return {die,out,L,items,seven,years:[],yrNote:'음력 기일은 2016년부터 2040년 사이에 돌아가신 경우만 계산합니다.',warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
+  return {die,out,L,items,seven,years:[],yrNote:'음력 기일은 2016년부터 2040년 사이에 돌아가신 경우만 계산해요.',warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
 }
 function renderDate(){
   const M=dtModel(); DT.items=M.items; DT.years=M.years;
@@ -2485,7 +2781,7 @@ function renderDate(){
   $$('[data-dtmode]').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute('data-dtmode')===DT.mode)));
   const pro=$('#dt-pro'); if(pro) pro.hidden=DT.mode!=='pro';
   $('#h-dtres').textContent=dtName()?'故 '+dtName()+'님 장례 · 제사 일정':'날짜 안내';
-  $('#dt-die-l').textContent=M.L?'음력 '+lunTxt(M.L)+' · '+gzK(((M.L.y-4)%60+60)%60)+'년 '+gzK(M.L.day)+'일':'음력은 2016년부터 2040년까지만 계산합니다.';
+  $('#dt-die-l').textContent=M.L?'음력 '+lunTxt(M.L)+' · '+gzK(((M.L.y-4)%60+60)%60)+'년 '+gzK(M.L.day)+'일':'음력은 2016년부터 2040년까지만 계산해요.';
   const w=$('#dt-warn'); w.hidden=!M.warn; w.textContent=M.warn?'주의 · '+M.warn:'';
   const ul=$('#dt-list'); ul.innerHTML='';
   M.items.forEach(it=>{ const li=document.createElement('li'); const dd=dDay(it.d);
@@ -2507,7 +2803,7 @@ function renderCal(){
   $('#cal-ym').textContent=y+'년 '+m+'월';
   const L1=lunar(first), Ln=lunar(y+'-'+pad(m)+'-'+pad(n));
   const lm=[]; for(let d=1;d<=n;d++){ const L=lunar(y+'-'+pad(m)+'-'+pad(d)); if(L){ const t=(L.leap?'윤':'')+L.m+'월'; if(lm.indexOf(t)<0) lm.push(t); } }
-  $('#cal-lunar').textContent=L1?'음력 '+gzK(((L1.y-4)%60+60)%60)+'년 '+lm.join(' · '):'이 달은 음력을 계산하지 않습니다';
+  $('#cal-lunar').textContent=L1?'음력 '+gzK(((L1.y-4)%60+60)%60)+'년 '+lm.join(' · '):'이 달은 음력을 계산하지 않아요';
   const marks={}; DT.items.forEach(it=>{ (marks[it.d]=marks[it.d]||[]).push(it.m); });
   (DT.yrAll||[]).forEach(e=>{ if(e.n>2) (marks[e.r.iso]=marks[e.r.iso]||[]).push(e.n+'주기'); });
   const tb=$('#cal-body'); tb.innerHTML=''; const today=isoDay(0); let tr=document.createElement('tr');
@@ -2568,7 +2864,7 @@ function dtDraw(){
   return c; }
 function dtFileName(){ const nm=dtName(); return (nm?'故'+nm+'_장례일정':'나만의장례_날짜안내')+'.png'; }
 function dtMakeBlob(){ return Promise.all([ensureFonts('故님장례제사일정안내날짜돌아가신날발인삼우제49재100일첫기일두번째음력주기소상대상담당지도사나만의장례24시간0123456789년월일()·월화수목금토일카카오톡절이나집안에따라세는법이조금다를수있습니다기준소규모가족장무빈소장전문'+dtName()+dtDirs().map(d=>d.n+d.t).join('')),logoReady]).then(()=>new Promise(r=>dtDraw().toBlob(b=>{ dtBlob=b; r(b); },'image/png'))); }
-function dtSaveImg(){ dtMakeBlob().then(b=>{ if(b) saveFile(dtFileName(),b,'날짜 안내 이미지를 저장했습니다'); else toast('이미지를 만들지 못했어요'); }); }
+function dtSaveImg(){ dtMakeBlob().then(b=>{ if(b) saveFile(dtFileName(),b,'날짜 안내 이미지를 저장했어요'); else toast('이미지를 만들지 못했어요'); }); }
 function dtShare(){
   const go=b=>{ const f=new File([b],dtFileName(),{type:'image/png'}); navigator.share({files:[f],title:'장례 · 제사 날짜 안내'}).catch(e=>{ if(e&&e.name!=='AbortError') dtSaveImg(); }); };
   if(dtBlob) go(dtBlob); else dtMakeBlob().then(b=>{ if(b) go(b); }).catch(()=>dtSaveImg()); }
@@ -2579,8 +2875,8 @@ function bindDate(){
   const onOut=()=>{ if(isoOk(oi.value)){ DT.out=oi.value; DT.outSet=true; renderDate(); } };
   oi.addEventListener('change',onOut); oi.addEventListener('input',onOut);
   $$('[data-dtdays]').forEach(b=>b.addEventListener('click',()=>{ DT.days=+b.getAttribute('data-dtdays'); DT.outSet=false; renderDate(); }));
-  $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했습니다. 단톡방에 붙여 넣어 보내세요',$('#dt-list')));
-  const ac=$('#dt-after-copy'); if(ac) ac.addEventListener('click',()=>copyText(afterText(),'서류 기한을 복사했습니다',$('#dt-after')));
+  $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했어요. 단톡방에 붙여 넣어 보내시면 돼요',$('#dt-list')));
+  const ac=$('#dt-after-copy'); if(ac) ac.addEventListener('click',()=>copyText(afterText(),'서류 기한을 복사했어요',$('#dt-after')));
   const im=$('#dt-img'); if(im) im.addEventListener('click',dtSaveImg);
   const sh=$('#dt-share'); if(sh){ sh.hidden=!CAN_SHARE; sh.addEventListener('click',dtShare); }
   $$('[data-dtmode]').forEach(b=>b.addEventListener('click',()=>{ DT.mode=b.getAttribute('data-dtmode'); renderDate(); dtDirty(); }));
@@ -2601,7 +2897,7 @@ function renderClanPage(){
   let res; if(q) res=searchClans(q,400); else if(clanSur) res=CLANS.filter(c=>c.sk+':'+c.sh===clanSur); else res=CLANS.slice(0,24);
   res.forEach(c=>list.appendChild(clanCard(c)));
   const sCount=new Set(CLANS.map(c=>c.sk+c.sh)).size;
-  $('#clan-count').textContent=q?(res.length?'‘'+q+'’ 찾은 본관 '+res.length+'곳 · 누르면 출력실에 들어갑니다':'‘'+q+'’에 맞는 본관이 목록에 없습니다. 출력실에서 직접 입력할 수 있습니다.'):(clanSur?clanSur.split(':')[0]+'('+clanSur.split(':')[1]+')씨 본관 '+res.length+'곳':'성씨 '+sCount+'개 · 본관 '+CLANS.length+'곳이 들어 있습니다. 많이 쓰는 본관부터 보여 드립니다.');
+  $('#clan-count').textContent=q?(res.length?'‘'+q+'’ 찾은 본관 '+res.length+'곳 · 누르면 출력실에 들어갑니다':'‘'+q+'’에 맞는 본관이 목록에 없어요. 출력실에서 직접 적으실 수 있어요.'):(clanSur?clanSur.split(':')[0]+'('+clanSur.split(':')[1]+')씨 본관 '+res.length+'곳':'성씨 '+sCount+'개 · 본관 '+CLANS.length+'곳이 들어 있어요. 많이 쓰는 본관부터 보여 드려요.');
   const idx=$('#sur-index'); if(!idx.childElementCount){ const seen=[]; CLANS.forEach(c=>{ const k=c.sk+':'+c.sh; if(seen.indexOf(k)<0) seen.push(k); });
     seen.sort((a,b)=>a.localeCompare(b,'ko')).forEach(k=>{ const b=document.createElement('button'); b.type='button'; const p=k.split(':'); b.textContent=p[0]+' '+p[1]; b.setAttribute('data-sur',k); b.addEventListener('click',()=>{ clanSur=clanSur===k?'':k; $('#clan-q').value=''; renderClanPage(); $('#clan-list').scrollIntoView({block:'start'}); }); idx.appendChild(b); }); }
   $$('#sur-index button').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute('data-sur')===clanSur&&!q)));
@@ -3054,32 +3350,32 @@ const MAPS={
     {id:'gg2',x:3,y:0,name:'고조할아버지 · 고조할머니',chon:4,formal:'고조부(高祖父) · 고조모(高祖母)',call:'고조할아버지 · 고조할머니',jibang:'顯高祖考 · 顯高祖妣',rel:'gggf',note:'기제사는 보통 고조부모까지 4대를 모십니다.'},
     {id:'gg',x:3,y:1,p:'gg2',name:'증조할아버지 · 증조할머니',chon:3,formal:'증조부(曾祖父) · 증조모(曾祖母)',call:'증조할아버지 · 증조할머니',jibang:'顯曾祖考 · 顯曾祖妣',rel:'ggf'},
     {id:'gp',x:3,y:2,p:'gg',name:'할아버지 · 할머니',chon:2,formal:'조부(祖父) · 조모(祖母)',call:'할아버지 · 할머니',refer:'할아버지 · 할머니 (남의 조부는 조부님)',jibang:'顯祖考 · 顯祖妣',rel:'gf'},
-    {id:'gu',x:7,y:2,p:'gg',name:'큰할아버지 · 작은할아버지',chon:4,formal:'종조부(從祖父)',call:'큰할아버지 · 작은할아버지',spouse:'큰할머니 · 작은할머니 (종조모 從祖母)',note:'할아버지의 형제입니다.'},
-    {id:'gaunt',x:8,y:2,p:'gg',name:'고모할머니',chon:4,formal:'대고모(大姑母) · 왕고모',call:'고모할머니',spouse:'고모할아버지',note:'할아버지의 누이입니다.'},
+    {id:'gu',x:7,y:2,p:'gg',name:'큰할아버지 · 작은할아버지',chon:4,formal:'종조부(從祖父)',call:'큰할아버지 · 작은할아버지',spouse:'큰할머니 · 작은할머니 (종조모 從祖母)',note:'할아버지의 형제예요.'},
+    {id:'gaunt',x:8,y:2,p:'gg',name:'고모할머니',chon:4,formal:'대고모(大姑母) · 왕고모',call:'고모할머니',spouse:'고모할아버지',note:'할아버지의 누이예요.'},
     {id:'mgp',x:1,y:2,mat:1,name:'외할아버지 · 외할머니',chon:2,formal:'외조부(外祖父) · 외조모(外祖母)',call:'외할아버지 · 외할머니',jibang:'顯外祖考 · 顯外祖妣 (외손이 제사를 모실 때)'},
     {id:'fa',x:3,y:3,p:'gp',name:'아버지',chon:1,formal:'부친(父親)',call:'아버지',refer:'아버지 · 가친(家親)',dead:'선친(先親) · 선고(先考)',jibang:'顯考 (현고)',rel:'f'},
     {id:'mo',x:2,y:3,p:'mgp',mat:1,name:'어머니',chon:1,formal:'모친(母親)',call:'어머니',refer:'어머니 · 자친(慈親)',dead:'선비(先妣) · 선자(先慈)',jibang:'顯妣 (현비)',rel:'m'},
     {id:'unc',x:5,y:3,p:'gp',name:'큰아버지 · 작은아버지',chon:3,formal:'백부(伯父) · 숙부(叔父)',call:'큰아버지 · 작은아버지 (결혼 전이면 삼촌)',spouse:'큰어머니(백모 伯母) · 작은어머니(숙모 叔母)'},
-    {id:'aunt',x:6,y:3,p:'gp',name:'고모',chon:3,formal:'고모(姑母)',call:'고모',spouse:'고모부(姑母夫)',note:'아버지의 누이입니다.'},
-    {id:'dang',x:7,y:3,p:'gu',name:'당숙',chon:5,formal:'당숙(堂叔) · 종숙(從叔)',call:'아저씨 · 당숙',spouse:'아주머니 · 당숙모',note:'아버지의 사촌 형제, 흔히 5촌 아저씨라고 합니다.'},
-    {id:'muncle',x:0,y:3,p:'mgp',mat:1,name:'외삼촌',chon:3,formal:'외숙(外叔)',call:'외삼촌',spouse:'외숙모(外叔母)',note:'어머니의 남자 형제입니다.'},
-    {id:'maunt',x:1,y:3,p:'mgp',mat:1,name:'이모',chon:3,formal:'이모(姨母)',call:'이모',spouse:'이모부(姨母夫)',note:'어머니의 여자 형제입니다.'},
-    {id:'me',x:3,y:4,p:'fa',me:1,name:'나',chon:'',note:'촌수는 나를 기준으로 셉니다. 다른 칸을 눌러 보세요.'},
+    {id:'aunt',x:6,y:3,p:'gp',name:'고모',chon:3,formal:'고모(姑母)',call:'고모',spouse:'고모부(姑母夫)',note:'아버지의 누이예요.'},
+    {id:'dang',x:7,y:3,p:'gu',name:'당숙',chon:5,formal:'당숙(堂叔) · 종숙(從叔)',call:'아저씨 · 당숙',spouse:'아주머니 · 당숙모',note:'아버지의 사촌 형제, 흔히 5촌 아저씨라고 해요.'},
+    {id:'muncle',x:0,y:3,p:'mgp',mat:1,name:'외삼촌',chon:3,formal:'외숙(外叔)',call:'외삼촌',spouse:'외숙모(外叔母)',note:'어머니의 남자 형제예요.'},
+    {id:'maunt',x:1,y:3,p:'mgp',mat:1,name:'이모',chon:3,formal:'이모(姨母)',call:'이모',spouse:'이모부(姨母夫)',note:'어머니의 여자 형제예요.'},
+    {id:'me',x:3,y:4,p:'fa',me:1,name:'나',chon:'',note:'촌수는 나를 기준으로 세어요. 다른 칸도 눌러 보실 수 있어요.'},
     {id:'sib',x:4,y:4,p:'fa',name:{m:'형 · 누나 · 동생',f:'오빠 · 언니 · 동생'},chon:2,formal:'형제자매(兄弟姉妹)',call:{m:'형 · 누나 · 이름(동생)',f:'오빠 · 언니 · 이름(동생)'},refer:{m:'형 · 누님 · 아우 · 누이동생',f:'오빠 · 언니 · 남동생 · 여동생'},spouse:{m:'형의 아내 형수님 · 남동생의 아내 제수씨 · 누나의 남편 매형(자형) · 여동생의 남편 매제',f:'오빠의 아내 새언니 · 남동생의 아내 올케 · 언니의 남편 형부 · 여동생의 남편 제부'},jibang:'형 顯兄 · 형수 顯兄嫂 · 동생 亡弟',rel:'bro'},
     {id:'cous',x:5,y:4,p:'unc',name:'사촌',chon:4,formal:'종형제(從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',refer:'사촌 형 · 사촌 동생'},
-    {id:'gcous',x:6,y:4,p:'aunt',name:'고종사촌',chon:4,formal:'고종형제(姑從兄弟) · 내종(內從)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'고모의 자녀입니다.'},
-    {id:'jae',x:7,y:4,p:'dang',name:'육촌',chon:6,formal:'재종형제(再從兄弟)',call:'나이에 따라 형 · 누나 · 이름',note:'당숙의 자녀입니다.'},
-    {id:'mcous',x:0,y:4,p:'muncle',mat:1,name:'외사촌',chon:4,formal:'외종형제(外從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'외삼촌의 자녀입니다.'},
-    {id:'icous',x:1,y:4,p:'maunt',mat:1,name:'이종사촌',chon:4,formal:'이종형제(姨從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'이모의 자녀입니다.'},
-    {id:'inlaw',x:2,y:5,inl:1,name:'며느리 · 사위',chon:1,formal:'자부(子婦) · 서(壻)',call:'며느리: 아가 · 새아가 · ○○ 어미 / 사위: ○ 서방 · 자네',note:'자녀의 배우자는 인척 1촌입니다.'},
+    {id:'gcous',x:6,y:4,p:'aunt',name:'고종사촌',chon:4,formal:'고종형제(姑從兄弟) · 내종(內從)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'고모의 자녀예요.'},
+    {id:'jae',x:7,y:4,p:'dang',name:'육촌',chon:6,formal:'재종형제(再從兄弟)',call:'나이에 따라 형 · 누나 · 이름',note:'당숙의 자녀예요.'},
+    {id:'mcous',x:0,y:4,p:'muncle',mat:1,name:'외사촌',chon:4,formal:'외종형제(外從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'외삼촌의 자녀예요.'},
+    {id:'icous',x:1,y:4,p:'maunt',mat:1,name:'이종사촌',chon:4,formal:'이종형제(姨從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'이모의 자녀예요.'},
+    {id:'inlaw',x:2,y:5,inl:1,name:'며느리 · 사위',chon:1,formal:'자부(子婦) · 서(壻)',call:'며느리: 아가 · 새아가 · ○○ 어미 / 사위: ○ 서방 · 자네',note:'자녀의 배우자는 인척 1촌이에요.'},
     {id:'ch',x:3,y:5,p:'me',name:'아들 · 딸',chon:1,formal:'자(子) · 여(女)',call:'이름',refer:'아들 · 딸 (남의 자녀는 아드님 · 따님)',jibang:'아들 亡子 (망자)',rel:'son'},
     {id:'nep',x:4,y:5,p:'sib',name:{m:'조카 · 생질',f:'조카 · 이질'},chon:3,formal:{m:'형제의 자녀 조카(姪) · 자매의 자녀 생질(甥姪)',f:'남자 형제의 자녀 조카(姪) · 자매의 자녀 이질(姨姪)'},call:'이름',spouse:'조카며느리 · 조카사위'},
-    {id:'cnep',x:5,y:5,p:'cous',name:'5촌 조카',chon:5,formal:'당질(堂姪)',call:'이름',note:'사촌의 자녀입니다.'},
+    {id:'cnep',x:5,y:5,p:'cous',name:'5촌 조카',chon:5,formal:'당질(堂姪)',call:'이름',note:'사촌의 자녀예요.'},
     {id:'gch',x:3,y:6,p:'ch',name:'손자 · 손녀',chon:2,formal:'손자(孫子) · 손녀(孫女)',call:'이름',spouse:'손자며느리 · 손녀사위'}
   ],wed:[['mo','fa']],dash:[['inlaw','ch']]},
   cheo:{cols:7,rows:3,gen:['장인 · 장모','아내 형제','처조카'],nodes:[
     {id:'jang',x:3,y:0,inl:1,name:'장인 · 장모',chon:1,formal:'장인(丈人) · 장모(丈母)',call:'장인어른 · 아버님 / 장모님 · 어머님',refer:'장인 · 장모 (남의 장인은 빙장 聘丈 · 빙모 聘母)'},
-    {id:'me',x:1,y:1,me:1,name:'나 (남편)',chon:'',note:'아내 쪽 가족은 아내를 기준으로 촌수를 셉니다.'},
+    {id:'me',x:1,y:1,me:1,name:'나 (남편)',chon:'',note:'아내 쪽 가족은 아내를 기준으로 촌수를 세어요.'},
     {id:'wife',x:2,y:1,p:'jang',name:'아내',chon:'무촌',formal:'처(妻)',call:'여보 · ○○ 씨',refer:'아내 · 집사람 · 안사람',jibang:'亡室 (망실)',rel:'wife'},
     {id:'wbo',x:3,y:1,p:'jang',inl:1,name:'아내의 오빠',chon:2,formal:'처남(妻男) · 손위',call:'형님',refer:'처남',spouse:'아주머니'},
     {id:'wby',x:4,y:1,p:'jang',inl:1,name:'아내의 남동생',chon:2,formal:'처남(妻男)',call:'처남 · ○○ 씨',spouse:'처남댁'},
@@ -3089,7 +3385,7 @@ const MAPS={
   ],wed:[['me','wife']],dash:[]},
   si:{cols:7,rows:3,gen:['시부모','남편 형제','시조카'],nodes:[
     {id:'sibu',x:3,y:0,inl:1,name:'시아버지 · 시어머니',chon:1,formal:'시부(媤父) · 시모(媤母)',call:'아버님 · 어머님',refer:'시아버지 · 시어머니'},
-    {id:'me',x:1,y:1,me:1,name:'나 (아내)',chon:'',note:'남편 쪽 가족은 남편을 기준으로 촌수를 셉니다. 요즘은 도련님 · 아가씨 대신 ‘○○ 씨’처럼 이름으로 부르기도 합니다.'},
+    {id:'me',x:1,y:1,me:1,name:'나 (아내)',chon:'',note:'남편 쪽 가족은 남편을 기준으로 촌수를 세어요. 요즘은 도련님 · 아가씨 대신 ‘○○ 씨’처럼 이름으로 부르기도 해요.'},
     {id:'hus',x:2,y:1,p:'sibu',name:'남편',chon:'무촌',formal:'부(夫)',call:'여보 · ○○ 씨',refer:'남편 · 바깥양반 · ○○ 아빠',jibang:'顯辟 (현벽)',rel:'hus'},
     {id:'hbo',x:3,y:1,p:'sibu',inl:1,name:'남편의 형',chon:2,formal:'시숙(媤叔)',call:'아주버님',spouse:'형님 (손윗동서)'},
     {id:'hby',x:4,y:1,p:'sibu',inl:1,name:'남편의 남동생',chon:2,formal:'시동생(媤同生)',call:'도련님 (결혼 전) · 서방님 (결혼 후)',spouse:'동서'},
@@ -3168,33 +3464,33 @@ function bloodTerm(d,bs){
   if(u===0){ const k=down.map(x=>x==='m'?'S':'D').join(''), T=L_DOWN[k]; return T?{id:k,name:T[0],call:T[1],formal:T[2]}:{id:'x',name:dn+'대 아래 자손',call:'이름'}; }
   const line=up.slice(0,u-1).join(''), br=down[0];
   if(u===1&&dn===1){ const w=sibWord(sex,age,bs); return {id:(age==='-'?'y':'e')+(m?'B':'Z'),name:w,call:age==='-'?'이름':w,formal:m?(age==='-'?'제(弟)':'형(兄)'):(age==='-'?'매(妹)':'자(姊)')}; }
-  if(u===1&&dn===2){ if(br==='m') return {id:'nep',name:m?'조카':'조카딸',call:'이름',formal:m?'질(姪)':'질녀(姪女)',note:'형제의 자녀입니다.'};
-    return bs==='m'?{id:'nep',name:m?'생질':'생질녀',call:'이름',formal:'생질(甥姪)',note:'누이의 자녀입니다.'}:{id:'nep',name:m?'이질':'이질녀',call:'이름',formal:'이질(姨姪)',note:'자매의 자녀입니다.'}; }
+  if(u===1&&dn===2){ if(br==='m') return {id:'nep',name:m?'조카':'조카딸',call:'이름',formal:m?'질(姪)':'질녀(姪女)',note:'형제의 자녀예요.'};
+    return bs==='m'?{id:'nep',name:m?'생질':'생질녀',call:'이름',formal:'생질(甥姪)',note:'누이의 자녀예요.'}:{id:'nep',name:m?'이질':'이질녀',call:'이름',formal:'이질(姨姪)',note:'자매의 자녀예요.'}; }
   if(u===1&&dn===3) return {id:'x',name:br==='m'?(m?'종손자':'종손녀'):'형제자매의 손주',call:'이름',formal:br==='m'?'종손(從孫)':''};
   if(u===2&&dn===1){
-    if(line==='F'){ if(m) return age==='+'?{id:'pUo',name:'큰아버지',call:'큰아버지',formal:'백부(伯父)'}:age==='-'?{id:'pUy',name:'작은아버지',call:'작은아버지 (결혼 전이면 삼촌)',formal:'숙부(叔父)'}:{id:'pU',name:'큰아버지 · 작은아버지',call:'큰아버지 · 작은아버지'}; return {id:'pA',name:'고모',call:'고모',formal:'고모(姑母)',note:'아버지의 누이입니다.'}; }
-    if(m) return {id:'mU',name:'외삼촌',call:'외삼촌',formal:'외숙(外叔)',note:'어머니의 남자 형제입니다.'}; return {id:'mA',name:'이모',call:'이모',formal:'이모(姨母)',note:'어머니의 여자 형제입니다.'}; }
+    if(line==='F'){ if(m) return age==='+'?{id:'pUo',name:'큰아버지',call:'큰아버지',formal:'백부(伯父)'}:age==='-'?{id:'pUy',name:'작은아버지',call:'작은아버지 (결혼 전이면 삼촌)',formal:'숙부(叔父)'}:{id:'pU',name:'큰아버지 · 작은아버지',call:'큰아버지 · 작은아버지'}; return {id:'pA',name:'고모',call:'고모',formal:'고모(姑母)',note:'아버지의 누이예요.'}; }
+    if(m) return {id:'mU',name:'외삼촌',call:'외삼촌',formal:'외숙(外叔)',note:'어머니의 남자 형제예요.'}; return {id:'mA',name:'이모',call:'이모',formal:'이모(姨母)',note:'어머니의 여자 형제예요.'}; }
   if(u===2&&dn===2){ const t=line==='F'?(br==='m'?['사촌','종형제(從兄弟)','cF']:['고종사촌','고종(姑從)','cFA']):(br==='m'?['외사촌','외종(外從)','cM']:['이종사촌','이종(姨從)','cMA']);
     if(!age) return {id:t[2],name:t[0],call:'나이에 따라 '+(bs==='m'?'형 · 누나':'오빠 · 언니')+' · 이름',formal:t[1],cous:t[0],sibw:''};
     const w=sibWord(sex,age,bs); return {id:t[2],name:t[0]+' '+w,call:age==='+'?w:'이름',formal:t[1],cous:t[0],sibw:w}; }
-  if(u===2&&dn===3){ const pre=line==='F'?(br==='m'?'':'고종 '):(br==='m'?'외종 ':'이종 '); return {id:'cnep',name:pre+'5촌 조카',call:'이름',formal:pre===''?(m?'당질(堂姪)':'당질녀(堂姪女)'):'',note:'사촌의 자녀입니다.'}; }
+  if(u===2&&dn===3){ const pre=line==='F'?(br==='m'?'':'고종 '):(br==='m'?'외종 ':'이종 '); return {id:'cnep',name:pre+'5촌 조카',call:'이름',formal:pre===''?(m?'당질(堂姪)':'당질녀(堂姪女)'):'',note:'사촌의 자녀예요.'}; }
   if(u===3&&dn===1){
-    if(line==='FF') return m?{id:'gU',name:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'큰할아버지 · 작은할아버지',call:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'할아버지',formal:'종조부(從祖父)',note:'할아버지의 형제입니다.'}:{id:'gA',name:'고모할머니',call:'고모할머니',formal:'대고모(大姑母)',note:'할아버지의 누이입니다.'};
-    if(line==='MF') return m?{id:'mgU',name:'외종조부',call:'외할아버지',formal:'외종조부(外從祖父)',note:'외할아버지의 형제입니다.'}:{id:'x',name:'외할아버지의 누이',call:'할머니'};
+    if(line==='FF') return m?{id:'gU',name:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'큰할아버지 · 작은할아버지',call:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'할아버지',formal:'종조부(從祖父)',note:'할아버지의 형제예요.'}:{id:'gA',name:'고모할머니',call:'고모할머니',formal:'대고모(大姑母)',note:'할아버지의 누이예요.'};
+    if(line==='MF') return m?{id:'mgU',name:'외종조부',call:'외할아버지',formal:'외종조부(外從祖父)',note:'외할아버지의 형제예요.'}:{id:'x',name:'외할아버지의 누이',call:'할머니'};
     if(line==='FM') return m?{id:'x',name:'아버지의 외삼촌 (진외종조부)',call:'할아버지'}:{id:'x',name:'아버지의 이모',call:'할머니'};
     return m?{id:'x',name:'어머니의 외삼촌',call:'할아버지'}:{id:'x',name:'어머니의 이모',call:'할머니'}; }
   if(u===3&&dn===2){
-    if(line==='FF'&&br==='m') return m?{id:'dang',name:'당숙',call:'아저씨 · 당숙',formal:'종숙(從叔)',note:'아버지의 사촌 형제입니다. 흔히 5촌 아저씨라고 합니다.'}:{id:'dangA',name:'당고모',call:'고모 · 당고모',formal:'종고모(從姑母)',note:'아버지의 사촌 자매, 5촌 고모입니다.'};
-    if(line==='FF') return {id:'x',name:'아버지의 고종사촌',call:m?'아저씨':'아주머니 · 고모',note:'할아버지 누이의 자녀입니다.'};
-    if(line==='FM') return {id:'x',name:'아버지의 '+(br==='m'?'외사촌':'이종사촌'),call:m?'아저씨':'아주머니',note:'할머니 형제자매의 자녀입니다.'};
-    if(line==='MF'&&br==='m') return m?{id:'mdang',name:'외당숙',call:'아저씨 · 외당숙',formal:'외종숙(外從叔)',note:'어머니의 사촌 형제, 외5촌 아저씨입니다.'}:{id:'mdangA',name:'종이모',call:'이모',formal:'종이모(從姨母)',note:'어머니의 사촌 자매입니다.'};
+    if(line==='FF'&&br==='m') return m?{id:'dang',name:'당숙',call:'아저씨 · 당숙',formal:'종숙(從叔)',note:'아버지의 사촌 형제예요. 흔히 5촌 아저씨라고 해요.'}:{id:'dangA',name:'당고모',call:'고모 · 당고모',formal:'종고모(從姑母)',note:'아버지의 사촌 자매, 5촌 고모예요.'};
+    if(line==='FF') return {id:'x',name:'아버지의 고종사촌',call:m?'아저씨':'아주머니 · 고모',note:'할아버지 누이의 자녀예요.'};
+    if(line==='FM') return {id:'x',name:'아버지의 '+(br==='m'?'외사촌':'이종사촌'),call:m?'아저씨':'아주머니',note:'할머니 형제자매의 자녀예요.'};
+    if(line==='MF'&&br==='m') return m?{id:'mdang',name:'외당숙',call:'아저씨 · 외당숙',formal:'외종숙(外從叔)',note:'어머니의 사촌 형제, 외5촌 아저씨예요.'}:{id:'mdangA',name:'종이모',call:'이모',formal:'종이모(從姨母)',note:'어머니의 사촌 자매예요.'};
     return {id:'x',name:'어머니의 '+(line==='MF'?'고종사촌':(br==='m'?'외사촌':'이종사촌')),call:m?'아저씨':'이모'}; }
-  if(u===3&&dn===3&&line==='FF'&&br==='m'){ const w=age?sibWord(sex,age,bs):''; return {id:'x',name:'육촌'+(w?' '+w:''),call:age==='+'?w:'이름',formal:'재종(再從)',note:'당숙의 자녀입니다.'}; }
+  if(u===3&&dn===3&&line==='FF'&&br==='m'){ const w=age?sibWord(sex,age,bs):''; return {id:'x',name:'육촌'+(w?' '+w:''),call:age==='+'?w:'이름',formal:'재종(再從)',note:'당숙의 자녀예요.'}; }
   if(u===4&&dn===1&&line==='FFF') return m?{id:'x',name:'증조할아버지의 형제',call:'할아버지',formal:'종증조부(從曾祖父)'}:{id:'x',name:'증조할아버지의 누이',call:'할머니'};
   if(u===4&&dn===2&&line==='FFF') return m?{id:'x',name:'할아버지의 사촌 형제',call:'할아버지',formal:'재종조부(再從祖父)'}:{id:'x',name:'할아버지의 사촌 누이',call:'할머니'};
-  if(u===4&&dn===3&&line==='FFF'&&br==='m') return m?{id:'x',name:'재당숙',call:'아저씨',formal:'재종숙(再從叔)',note:'아버지의 육촌 형제, 7촌 아저씨입니다.'}:{id:'x',name:'재당고모',call:'고모',note:'아버지의 육촌 자매, 7촌 고모입니다.'};
+  if(u===4&&dn===3&&line==='FFF'&&br==='m') return m?{id:'x',name:'재당숙',call:'아저씨',formal:'재종숙(再從叔)',note:'아버지의 육촌 형제, 7촌 아저씨예요.'}:{id:'x',name:'재당고모',call:'고모',note:'아버지의 육촌 자매, 7촌 고모예요.'};
   if(u===4&&dn===4&&line==='FFF'&&br==='m'){ const w=age?sibWord(sex,age,bs):''; return {id:'x',name:'팔촌'+(w?' '+w:''),call:age==='+'?w:'이름',formal:'삼종(三從)'}; }
-  const gg=u-dn; return {id:'x',name:(u+dn)+'촌 친척',call:gg>=2?(m?'할아버지':'할머니'):gg===1?(m?'아저씨':'아주머니'):gg===0?(age==='+'?(m?'형님':'누님'):'이름'):'이름',note:'따로 정해진 호칭이 없으면 항렬과 나이에 맞춰 아저씨 · 아주머니 · 형님처럼 부르거나 이름을 부릅니다.'};
+  const gg=u-dn; return {id:'x',name:(u+dn)+'촌 친척',call:gg>=2?(m?'할아버지':'할머니'):gg===1?(m?'아저씨':'아주머니'):gg===0?(age==='+'?(m?'형님':'누님'):'이름'):'이름',note:'따로 정해진 호칭이 없으면 항렬과 나이에 맞춰 아저씨 · 아주머니 · 형님처럼 부르거나 이름을 불러요.'};
 }
 const SP_OF={F:['어머니'],M:['아버지'],FF:['할머니'],FM:['할아버지'],MF:['외할머니'],MM:['외할아버지'],S:['며느리','아가 · 새아가 · ○○ 어미','자부(子婦)'],D:['사위','○ 서방 · 자네','서(壻)'],SS:['손자며느리','아가'],SD:['손녀사위','○ 서방'],DS:['외손자며느리','아가'],DD:['외손녀사위','○ 서방'],pUo:['큰어머니','큰어머니','백모(伯母)'],pUy:['작은어머니','작은어머니','숙모(叔母)'],pU:['큰어머니 · 작은어머니','큰어머니 · 작은어머니'],pA:['고모부','고모부','고모부(姑母夫)'],mU:['외숙모','외숙모','외숙모(外叔母)'],mA:['이모부','이모부','이모부(姨母夫)'],gU:['큰할머니 · 작은할머니','할머니','종조모(從祖母)'],gA:['고모할아버지','할아버지'],mgU:['외종조모','외할머니'],dang:['당숙모','아주머니 · 당숙모','종숙모(從叔母)'],dangA:['당고모부','아저씨'],mdang:['외당숙모','아주머니'],mdangA:['종이모부','이모부']};
 function spouseOf(t,bs,relSex){
@@ -3219,17 +3515,17 @@ function relate(a,b){
   let d=bloodDesc(a,b);
   if(d){ const t=bloodTerm(d,a.sex); const sp=spouseOf(t,a.sex,b.sex); return {name:t.name,call:t.call,formal:t.formal,note:t.note,chonText:chonText(chonOf(d)),kind:'혈족',spouse:sp?sp.name:'',rel:JB_OF[t.id]||''}; }
   if(b.spouse){ d=bloodDesc(a,b.spouse); if(d){ const t=bloodTerm(d,a.sex); const sp=spouseOf(t,a.sex,b.spouse.sex); const nm=sp?sp.name:t.name+'의 '+(b.sex==='m'?'남편':'아내');
-    return {name:nm,call:sp?sp.call:(b.born<a.born-15?(b.sex==='m'?'아저씨':'아주머니'):'○○ 씨'),formal:sp?sp.formal:'',note:t.name+'의 '+(b.sex==='m'?'남편':'아내')+'입니다.',chonText:chonText(chonOf(d),'인척'),kind:'인척 · 내 가족의 배우자',rel:(t.id==='eB'&&a.sex==='m')?'sil':''}; } }
+    return {name:nm,call:sp?sp.call:(b.born<a.born-15?(b.sex==='m'?'아저씨':'아주머니'):'○○ 씨'),formal:sp?sp.formal:'',note:t.name+'의 '+(b.sex==='m'?'남편이에요.':'아내예요.'),chonText:chonText(chonOf(d),'인척'),kind:'인척 · 내 가족의 배우자',rel:(t.id==='eB'&&a.sex==='m')?'sil':''}; } }
   if(a.spouse){
     d=bloodDesc(a.spouse,b);
     if(d){ const t=bloodTerm(d,a.spouse.sex); const T=(a.sex==='m'?IN_M:IN_F)[t.id]; const sw=a.sex==='m'?'아내':'남편';
-      if(T) return {name:T[0],call:T[1],formal:T[2]||'',chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+'입니다.'};
-      if(t.cous) return {name:(a.sex==='m'?'처':'시')+t.cous,call:t.call,chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+'입니다.'};
+      if(T) return {name:T[0],call:T[1],formal:T[2]||'',chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+josa(t.name,'이에요.','예요.')};
+      if(t.cous) return {name:(a.sex==='m'?'처':'시')+t.cous,call:t.call,chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+josa(t.name,'이에요.','예요.')};
       return {name:sw+'의 '+t.name,call:t.call,chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족'}; }
     if(b.spouse){ d=bloodDesc(a.spouse,b.spouse); if(d){ const t=bloodTerm(d,a.spouse.sex); const T=(a.sex==='m'?INE_M:INE_F)[t.id]; const sw=a.sex==='m'?'아내':'남편'; const desc=sw+'의 '+t.name+'의 '+(b.sex==='m'?'남편':'아내');
-      return {name:T?T[0]:desc,call:T?T[1]:(b.born<a.born-15?'어른':'○○ 씨'),chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자 가족의 배우자',note:desc+'입니다.'}; } }
+      return {name:T?T[0]:desc,call:T?T[1]:(b.born<a.born-15?'어른':'○○ 씨'),chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자 가족의 배우자',note:desc+josa(desc,'이에요.','예요.')}; } }
   }
-  return {name:'사돈',call:b.born<a.born-15?'사돈어른':'사돈',chonText:'촌수 없음',kind:'법적 친족 아님',note:'내 가족의 배우자 쪽 가족입니다. 촌수를 따지지 않고 서로 사돈이라고 부릅니다.'};
+  return {name:'사돈',call:b.born<a.born-15?'사돈어른':'사돈',chonText:'촌수 없음',kind:'법적 친족 아님',note:'내 가족의 배우자 쪽 가족이에요. 촌수를 따지지 않고 서로 사돈이라고 불러요.'};
 }
 function josa(w,a,b){ for(let i=w.length-1;i>=0;i--){ const c=w.charCodeAt(i); if(c>=0xAC00&&c<=0xD7A3) return ((c-0xAC00)%28)?a:b; } return b; }
 function renderAnswer(box,pathText,r){
@@ -3362,7 +3658,7 @@ route();
 (function(){
   if(RM||!('IntersectionObserver' in window)||!Element.prototype.animate) return;
   const vh=window.innerHeight||800;
-  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
+  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.sec>.bills,.sec>.bill-f,.sec>.bill-pair>*,.guides>a,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
   if(!els.length) return;
   els.forEach(el=>el.classList.add('rv'));
   let queue=[], timer=0;

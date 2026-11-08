@@ -10,7 +10,7 @@ function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; cle
 function copyText(text, okMsg, el){
   let p;
   try{ p=navigator.clipboard.writeText(text); }catch(e){ p=Promise.reject(e); }
-  p.then(()=>toast(okMsg||'복사했습니다')).catch(()=>{
+  p.then(()=>toast(okMsg||'복사했어요')).catch(()=>{
     if(el){ const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r); }
     toast(el?'선택된 글을 길게 눌러 복사해 주세요':'번호를 길게 눌러 복사해 주세요: '+text);
   });
@@ -30,10 +30,11 @@ async function saveFile(filename,data,okMsg){
 document.addEventListener('click',e=>{
   const c=e.target.closest('[data-copy]'); if(c){ copyText(c.getAttribute('data-copy'),'전화번호를 복사했어요'); }
   const g=e.target.closest('[data-goto-tab]'); if(g){ PS.tab=g.getAttribute('data-goto-tab'); }
+  const gr=e.target.closest('[data-goto-rel]'); if(gr&&REL[gr.getAttribute('data-goto-rel')]){ PS.rel=gr.getAttribute('data-goto-rel'); PS.tab='jb'; if(!REL[PS.rel].gen) PS.pair=false; }
 });
 
 /* ── 화면 이동 (메뉴마다 주소가 따로 있음) ── */
-const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn','gajokjang','sangjo','support','jibang'];
 const PAGE=(function(){ const b=document.body.getAttribute('data-route'); return PAGES.indexOf(b)>=0?b:'home'; })();
 function route(){
   const p=PAGE;
@@ -266,7 +267,7 @@ function model(){
   let H=[], HK=[], lunarNote='', ckWarn='', ckL=null;
   const hdr=CK_NOHDR.indexOf(ck)<0;
   if(hdr){ ckL=lunar(PS.ckDate);
-    if(!ckL){ ckWarn='음력 · 간지 자동 계산은 2016년부터 2040년까지 날짜만 됩니다.'; lunarNote='날짜를 다시 골라 주세요.'; }
+    if(!ckL){ ckWarn='음력 · 간지 자동 계산은 2016년부터 2040년까지 날짜만 돼요.'; lunarNote='날짜를 다시 골라 주세요.'; }
     else { const L=ckL, yi=((L.y-4)%60+60)%60;
       const mH=(L.leap?'閏':'')+(L.m===1?'正':numH(L.m))+'月', mK=(L.leap?'윤':'')+MK[L.m]+'월';
       H=[['維 歲次 '+gzH(yi)+' '+mH+' '+gzH(L.shuo)+'朔','유 세차 '+gzK(yi)+' '+mK+' '+gzK(L.shuo)+'삭'],[numH(L.d)+'日 '+gzH(L.day),numK(L.d)+'일 '+gzK(L.day)]];
@@ -378,7 +379,7 @@ function model(){
   else if(ck==='noje') ckTip='노제는 정해진 본문이 없어요. 아래 「축문 직접 고치기」를 눌러 가운데 줄에 고인을 기리는 글을 써 넣어 주세요.';
   else if(ck==='donggang') ckTip='「○代」는 몇 대 어른 묘인지에 맞게 「축문 직접 고치기」로 고쳐 주세요. 할머니 묘면 祖考 → 祖妣, 學生府君 → 孺人○○○氏로 바꿔요.';
   else if(ck==='seongbok'||ck==='talsang3'||ck==='talsang49'||ck==='talsang100') ckTip='『가례』 · 『사례편람』 같은 예서에는 없는, 요즘 예절 책과 문중 자료에서 쓰는 문구예요. 집안 양식이 있으면 그것을 따르세요.';
-  else if(ck==='jolgok') ckTip='요즘은 부제(祔祭)를 지내지 않아, 옛 축문 끝의 「來日隮祔…」(내일 조상 곁에 모신다) 구절은 넣지 않았습니다.';
+  else if(ck==='jolgok') ckTip='요즘은 부제(祔祭)를 지내지 않아, 옛 축문 끝의 「來日隮祔…」(내일 조상 곁에 모신다) 구절은 넣지 않았어요.';
   const needClan=(R.g==='f'||(CK_SAN.indexOf(ck)>=0&&ck!=='myosan')||ck==='noje')||(pairCk&&R.g==='m');
   const kOnly=ck==='wiryeong';
   const fullName=or(fullK,'[고인 성함]');
@@ -577,12 +578,12 @@ function preview(m){
     draw.k=kk; const P=pagesFor(m); cap=(m.isYu?'지방 ':'위패 ')+d.l+' · '+(pw/10)+' × '+(d.h/10)+'cm · 화면은 실제의 '+Math.round(kk/3.78*100)+'%'; sheet='A4 한 장에 '+P.per+'장씩 · '+PS.copies+'장이면 종이 '+P.sheets+'장'; }
   else if(t==='mj'){ const bw=Math.max(56,Math.min(84,availW*0.28)); const bh=tall-8; cssW=bw+8; cssH=tall;
     draw=(ctx,k)=>drawMyeong(ctx,4,4,bw,bh,k,m.mj.replace(/ /g,''),PS.wt);
-    draw.k=1; cap='명정 쓰는 예 · '+m.mjSel.l+' · 출력용이 아닌 참고용입니다'; sheet=''; }
+    draw.k=1; cap='명정 쓰는 예 · '+m.mjSel.l+' · 출력용이 아닌 참고용이에요'; sheet=''; }
   else if(t==='ck'){ const kk=Math.min(availW,660)/297; const sv=ckSheets(m); const lab=28/kk, gap=12/kk;
     cssW=297*kk; cssH=(sv.length*(210+lab)+(sv.length-1)*gap)*kk;
     draw=(ctx,k)=>{ let y=0; sv.forEach(x=>{ ctx.fillStyle='#3a413c'; ctx.font=fnt(700,(14/kk)*k,SANS); ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(x.t,0,(y+lab/2)*k); y+=lab;
       ctx.save(); ctx.translate(0,y*k); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,297*k,210*k); drawCkSheet(ctx,k,m,x.kind); ctx.restore(); y+=210+gap; }); };
-    draw.k=kk; cap=(CKN[PS.ck]||'')+' · A4 가로 · 오른쪽 줄부터 읽습니다'; sheet='A4 가로 1장'; }
+    draw.k=kk; cap=(CKN[PS.ck]||'')+' · A4 가로 · 오른쪽 줄부터 읽어요'; sheet='A4 가로 1장'; }
   else if(t==='sj'){ const kk=tall/297; cssW=210*kk; cssH=tall; draw=(ctx,k)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,210*k,297*k); drawSangjung(ctx,k); }; draw.k=kk; cap='A4 세로 · 문 앞에 붙이는 안내문'; sheet='A4 세로 1장'; }
   else if(t==='env'){ const kk=Math.min(tall*0.86,420)/220; const g=10/kk; cssW=(210+g)*kk; cssH=220*kk;
     draw=(ctx,k)=>{ [0,105+g].forEach((ox,i)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(ox*k,0,105*k,220*k); ctx.strokeStyle='#9aa199'; ctx.lineWidth=1; ctx.strokeRect(ox*k+0.5,0.5,105*k-1,220*k-1); if(i===0) drawEnvFront(ctx,k,ox); else drawEnvBack(ctx,k,ox); }); };
@@ -632,14 +633,14 @@ function renderPrint(){
   $('#cp-val').textContent=PS.copies;
   $('#ck-lunar').textContent=m.lunarNote; $('#ck-reading').textContent=m.lines.map(l=>l[1]).join('\n');
   let warn='';
-  if(PS.tab==='jb'&&m.isYu&&R.named&&!PS.nameK) warn='아들 지방에는 이름이 들어갑니다. 이름을 입력하세요.';
-  else if(PS.tab!=='tx'&&PS.man&&(!PS.mbh||!PS.msh)) warn='본관과 성을 한자로 입력하세요.';
+  if(PS.tab==='jb'&&m.isYu&&R.named&&!PS.nameK) warn='아들 지방에는 이름이 들어가요. 이름을 적어 주세요.';
+  else if(PS.tab!=='tx'&&PS.man&&(!PS.mbh||!PS.msh)) warn='본관과 성을 한자로 적어 주세요.';
   else if(cond.clanF&&!PS.man&&!m.c1.sk&&tab!=='tx') warn='고인 본관 · 성을 골라 주세요. 지금은 ○로 비워 둔 자리에 들어갑니다.';
   else if(cond.p2&&!PS.c2.sk) warn=(WIFE_LABEL[R.gen]||'본관 · 성씨')+'을 골라 주세요.';
   else if(PS.tab==='ck') warn=m.ckWarn;
   else if(PS.tab==='sj'&&isoOk(PS.sjFrom)&&isoOk(PS.sjTo)&&PS.sjTo<PS.sjFrom) warn='마지막 날이 첫날보다 빠릅니다.';
   const w=$('#pv-warn'); w.hidden=!warn; w.textContent=warn?'주의 · '+warn:'';
-  $('#jb-fixed-note').textContent=m.dims.fixed?(PS.rlg==='sgi'?'SGI 위패는 4 × 17.5cm 고정 규격입니다. A4 한 장에 4장까지 들어갑니다.':'기독교 · 천주교 위패는 8.5 × 25.5cm 고정 규격입니다. A4 한 장에 2장씩 나옵니다.'):'';
+  $('#jb-fixed-note').textContent=m.dims.fixed?(PS.rlg==='sgi'?'SGI 위패는 4 × 17.5cm 고정 규격이에요. A4 한 장에 4장까지 들어가요.':'기독교 · 천주교 위패는 8.5 × 25.5cm 고정 규격이에요. A4 한 장에 2장씩 나와요.'):'';
   if(PS.tab==='mj'){ $('#mj-hz').textContent=m.mjSel.h; $('#mj-rd').textContent=m.mjSel.k; }
   if(PS.tab==='tx'){ $('#msg-bugo').textContent=bugoText(m); $('#msg-thanks').textContent=thanksText(m); }
   else { preview(m); ensureFonts(docText(m)).then(ch=>{ if(ch) preview(model()); }); }
@@ -651,7 +652,7 @@ function thanksText(m){ return '故 '+m.fullName+'님의 장례에 함께해 주
 function renderPage(pg,dpi,type,crop){ const k=dpi/25.4; const c=document.createElement('canvas'); c.width=Math.round((crop?crop.w:pg.w)*k); c.height=Math.round((crop?crop.h:pg.h)*k); const x=c.getContext('2d'); x.fillStyle='#ffffff'; x.fillRect(0,0,c.width,c.height); if(crop) x.translate(-crop.x*k,-crop.y*k); pg.draw(x,k); return type==='png'?c.toDataURL('image/png'):c.toDataURL('image/jpeg',0.92); }
 async function savePdf(){
   const btn=$('#pdf-btn'); const m=model();
-  if(!window.jspdf||!window.jspdf.jsPDF){ toast('PDF 도구를 불러오는 중입니다. 잠시 뒤 다시 눌러 주세요'); return; }
+  if(!window.jspdf||!window.jspdf.jsPDF){ toast('PDF 도구를 불러오는 중이에요. 잠시 뒤 다시 눌러 주세요'); return; }
   btn.disabled=true; const old=btn.textContent; btn.textContent='PDF 만드는 중…';
   try{
     await ensureFonts(docText(m));
@@ -659,13 +660,13 @@ async function savePdf(){
     P.pages.forEach((pg,i)=>{ const o=pg.w>pg.h?'l':'p'; if(i===0) doc=new window.jspdf.jsPDF({unit:'mm',format:[pg.w,pg.h],orientation:o,compress:true}); else doc.addPage([pg.w,pg.h],o);
       doc.addImage(renderPage(pg,250,'jpg'),'JPEG',0,0,pg.w,pg.h); });
     const buf=doc.output('arraybuffer');
-    const ok=await saveFile(P.name+'.pdf',buf,'PDF를 저장했습니다. 실제 크기(100%)로 인쇄하세요');
-  }catch(e){ toast('PDF를 만들지 못했습니다. 다시 시도해 주세요'); }
+    const ok=await saveFile(P.name+'.pdf',buf,'PDF를 저장했어요. 실제 크기(100%)로 인쇄해 주세요');
+  }catch(e){ toast('PDF를 만들지 못했어요. 다시 눌러 주세요'); }
   btn.disabled=false; btn.textContent=old;
 }
 const FRAMED=(function(){ try{ return window.self!==window.top; }catch(e){ return true; } })();
 async function directPrint(){
-  if(FRAMED){ toast('미리보기 화면에서는 인쇄 창이 막혀 있어 PDF로 저장합니다'); return savePdf(); }
+  if(FRAMED){ toast('미리보기 화면에서는 인쇄 창이 막혀 있어 PDF로 저장해요'); return savePdf(); }
   const btn=$('#print-btn'); const m=model(); btn.disabled=true; const old=btn.textContent; btn.textContent='인쇄 준비 중…';
   try{
     await ensureFonts(docText(m));
@@ -675,7 +676,7 @@ async function directPrint(){
     css.textContent='@page{size:'+P.pages[0].w+'mm '+P.pages[0].h+'mm;margin:'+(crop?'10mm':'0')+'}';
     await Promise.all(P.pages.map(pg=>new Promise(res=>{ const c=pg.crop; const img=new Image(); img.alt=''; img.style.width=(c?c.w:pg.w)+'mm'; img.style.height=(c?c.h:pg.h)+'mm'; if(c) img.className='crop'; img.onload=res; img.onerror=res; root.appendChild(img); img.src=renderPage(pg,300,'png',c); })));
     window.print();
-  }catch(e){ toast('인쇄를 준비하지 못했습니다. PDF로 받아 인쇄해 주세요'); }
+  }catch(e){ toast('인쇄를 준비하지 못했어요. PDF로 받아 인쇄해 주세요'); }
   btn.disabled=false; btn.textContent=old;
 }
 window.addEventListener('afterprint',()=>{ const r=document.getElementById('print-root'); if(r) r.innerHTML=''; });
@@ -700,9 +701,9 @@ function bindPrint(){
   $('#ck-auto').addEventListener('click',()=>{ ckFill(); renderPrint(); });
   $('#pdf-btn').addEventListener('click',savePdf);
   $('#print-btn').addEventListener('click',directPrint);
-  if(FRAMED) $('#print-note').innerHTML='지금 보시는 미리보기 화면에서는 인쇄 창이 막혀 있어 <b>바로 인쇄</b>를 누르면 PDF로 저장됩니다. 홈페이지 주소에 올리면 프린터로 바로 나갑니다. 배율은 <b>실제 크기(100%)</b>로 두세요.';
-  $('#copy-bugo').addEventListener('click',()=>copyText(bugoText(model()),'부고 문자를 복사했습니다',$('#msg-bugo')));
-  $('#copy-thanks').addEventListener('click',()=>copyText(thanksText(model()),'감사 문자를 복사했습니다',$('#msg-thanks')));
+  if(FRAMED) $('#print-note').innerHTML='지금 보시는 미리보기 화면에서는 인쇄 창이 막혀 있어 <b>바로 인쇄</b>를 누르면 PDF로 저장돼요. 홈페이지 주소에 올리면 프린터로 바로 나가요. 배율은 <b>실제 크기(100%)</b>로 맞춰 주세요.';
+  $('#copy-bugo').addEventListener('click',()=>copyText(bugoText(model()),'부고 문자를 복사했어요',$('#msg-bugo')));
+  $('#copy-thanks').addEventListener('click',()=>copyText(thanksText(model()),'감사 문자를 복사했어요',$('#msg-thanks')));
   let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(!$('[data-page="print"]').hidden&&PS.tab!=='tx') preview(model()); },150); });
 }
 
@@ -722,13 +723,13 @@ const dtName=()=>DT.mode==='pro'?String(DT.name||'').trim():'';
 const isoMonths=(s,n,end)=>{ const p=s.split('-').map(Number); const t=p[0]*12+p[1]-1+n, y=Math.floor(t/12), m=t%12+1; const len=new Date(Date.UTC(y,m,0)).getUTCDate(); return y+'-'+String(m).padStart(2,'0')+'-'+String(end?len:Math.min(p[2],len)).padStart(2,'0'); };
 /* 장례 후 서류 · 신고 기한 (근거: 가족관계등록법 84조 · 민법 1019조 · 상속세및증여세법 67조 · 지방세법 20조 · 자동차등록령 26조 · 국민연금법 115조, 안심상속은 행정안전부 안내) */
 function dtAfter(die){ return [
-  {t:'사망신고',d:isoMonths(die,1),w:'시 · 구청, 읍 · 면 · 동 주민센터',s:'돌아가신 사실을 안 날부터 1개월 · 늦으면 과태료가 붙습니다'},
+  {t:'사망신고',d:isoMonths(die,1),w:'시 · 구청, 읍 · 면 · 동 주민센터',s:'돌아가신 사실을 안 날부터 1개월 · 늦으면 과태료가 붙어요'},
   {t:'상속 포기 · 한정승인',d:isoMonths(die,3),w:'가정법원 · 고인의 빚이 재산보다 많을 수 있을 때',s:'상속이 시작된 것을 안 날부터 3개월 · 지나면 빚도 함께 물려받는 것으로 봅니다'},
   {t:'상속세 신고 · 납부',d:isoMonths(die,6,1),w:'세무서 · 홈택스',s:'돌아가신 달의 말일부터 6개월 (고인과 상속인 모두 외국에 살면 9개월)'},
   {t:'부동산 상속 취득세',d:isoMonths(die,6,1),w:'시 · 군 · 구청 (위택스) · 고인 명의 부동산이 있을 때',s:'돌아가신 달의 말일부터 6개월 (외국에 사는 상속인이 있으면 9개월) · 늦으면 가산세'},
-  {t:'자동차 상속 이전',d:isoMonths(die,6,1),w:'차량등록사업소 · 시 · 구청 · 고인 명의 차가 있을 때',s:'돌아가신 달의 말일부터 6개월 · 늦으면 과태료가 붙습니다'},
-  {t:'안심상속 원스톱 서비스',d:isoMonths(die,12,1),w:'사망신고 때 주민센터에서 함께 신청 (정부24도 됩니다)',s:'고인의 금융 · 토지 · 자동차 · 세금 · 연금 내역을 한 번에 조회 · 돌아가신 달의 말일부터 1년'},
-  {t:'국민연금 유족연금 · 사망일시금',d:isoMonths(die,60),w:'국민연금공단 (1355) · 고인이 가입했거나 연금을 받고 계셨을 때',s:'5년이 지나면 받을 수 없습니다 · 빨리 신청하실수록 좋습니다'} ]; }
+  {t:'자동차 상속 이전',d:isoMonths(die,6,1),w:'차량등록사업소 · 시 · 구청 · 고인 명의 차가 있을 때',s:'돌아가신 달의 말일부터 6개월 · 늦으면 과태료가 붙어요'},
+  {t:'안심상속 원스톱 서비스',d:isoMonths(die,12,1),w:'사망신고 때 주민센터에서 함께 신청 (정부24도 돼요)',s:'고인의 금융 · 토지 · 자동차 · 세금 · 연금 내역을 한 번에 조회 · 돌아가신 달의 말일부터 1년'},
+  {t:'국민연금 유족연금 · 사망일시금',d:isoMonths(die,60),w:'국민연금공단 (1355) · 고인이 가입했거나 연금을 받고 계셨을 때',s:'5년이 지나면 받을 수 없어요 · 빨리 신청하실수록 좋아요'} ]; }
 function renderAfter(M){ const ol=$('#dt-after'); if(!ol) return; ol.innerHTML='';
   dtAfter(M.die).forEach(it=>{ const li=document.createElement('li'); const dd=dDay(it.d);
     li.innerHTML='<span class="t"></span><span class="d"></span><span class="s"><span class="w"></span></span><span class="dd"></span>';
@@ -736,13 +737,13 @@ function renderAfter(M){ const ol=$('#dt-after'); if(!ol) return; ol.innerHTML='
     li.children[3].textContent=dd[0]; if(dd[1]) li.children[3].classList.add('soon'); ol.appendChild(li); }); }
 function afterText(){ const M=dtModel(), nm=dtName(); const L=[(nm?'[故 '+nm+'님 ':'[')+'장례 후 서류 · 신고 기한]','돌아가신 날 '+fmtY(M.die)+' 기준',''];
   dtAfter(M.die).forEach(it=>{ L.push('■ '+it.t+'  '+fmtY(it.d)+'까지'); L.push('  '+it.w); L.push('  '+it.s); });
-  L.push('','※ 쉽게 셈한 날짜입니다. 기한이 가까우면 해당 기관에 꼭 확인하세요.','나만의장례 24시간 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
-function dDay(iso){ const n=dayDiff(isoDay(0),iso); return n===0?['오늘',true]:n>0?[n+'일 남음',n<=7]:['지났습니다',false]; }
+  L.push('','※ 쉽게 셈한 날짜예요. 기한이 가까우면 해당 기관에 꼭 확인해 주세요.','나만의장례 24시간 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
+function dDay(iso){ const n=dayDiff(isoDay(0),iso); return n===0?['오늘',true]:n>0?[n+'일 남음',n<=7]:['지났어요',false]; }
 function dtModel(){
   const die=isoOk(DT.die)?DT.die:isoDay(0);
   const out=DT.outSet&&isoOk(DT.out)?DT.out:isoAdd(die,DT.days-1);
   const L=lunar(die), items=[], seven=[], years=[]; let yrNote='';
-  items.push({k:'die',t:'돌아가신 날',m:'별세',d:die,s:L?'음력 '+lunTxt(L)+' · '+gzK(L.day)+'일':'음력은 2016년부터 2040년까지만 계산합니다'});
+  items.push({k:'die',t:'돌아가신 날',m:'별세',d:die,s:L?'음력 '+lunTxt(L)+' · '+gzK(L.day)+'일':'음력은 2016년부터 2040년까지만 계산해요'});
   items.push({k:'out',t:'발인',m:'발인',d:out,s:'장례 '+(dayDiff(die,out)+1)+'일째'});
   items.push({k:'samu',t:'삼우제',m:'삼우제',d:isoAdd(out,2),s:'발인 날을 첫날로 세어 사흘째 (초우는 발인 날, 재우는 다음 날)'});
   items.push({k:'49',t:'49재 (사십구재)',m:'49재',d:isoAdd(die,48),s:'돌아가신 날을 첫날로 세어 49일째'});
@@ -753,10 +754,10 @@ function dtModel(){
     for(let n=1;n<=40;n++){ const r=solarOf(L.y+n,L.m,L.d); if(!r) break; if(!start&&r.iso>=today) start=n; years.push({n,y:L.y+n,r}); }
     [1,2].forEach(n=>{ const e=years.find(x=>x.n===n); if(e) items.push({k:'g'+n,t:n===1?'첫 기일 (1주기 · 소상)':'두 번째 기일 (2주기 · 대상)',m:n===1?'첫 기일':'2주기',d:e.r.iso,s:'음력 '+L.m+'월 '+e.r.d+'일'+(e.r.short?' (그해 '+L.m+'월이 '+e.r.len+'일까지라 그믐으로)':'')}); });
     const from=Math.max(0,(start||years.length)-1); DT.yrAll=years;
-    yrNote=(L.leap?'윤달에 돌아가셔서 기일은 평달 '+L.m+'월 '+L.d+'일로 계산했습니다. ':'')+'양력으로 지내시는 집은 해마다 '+Number(die.slice(5,7))+'월 '+Number(die.slice(8,10))+'일입니다.';
+    yrNote=(L.leap?'윤달에 돌아가셔서 기일은 평달 '+L.m+'월 '+L.d+'일로 계산했어요. ':'')+'양력으로 지내시는 집은 해마다 '+Number(die.slice(5,7))+'월 '+Number(die.slice(8,10))+'일이에요.';
     return {die,out,L,items,seven,years:years.slice(from,from+6),yrNote,warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
   }
-  return {die,out,L,items,seven,years:[],yrNote:'음력 기일은 2016년부터 2040년 사이에 돌아가신 경우만 계산합니다.',warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
+  return {die,out,L,items,seven,years:[],yrNote:'음력 기일은 2016년부터 2040년 사이에 돌아가신 경우만 계산해요.',warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
 }
 function renderDate(){
   const M=dtModel(); DT.items=M.items; DT.years=M.years;
@@ -766,7 +767,7 @@ function renderDate(){
   $$('[data-dtmode]').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute('data-dtmode')===DT.mode)));
   const pro=$('#dt-pro'); if(pro) pro.hidden=DT.mode!=='pro';
   $('#h-dtres').textContent=dtName()?'故 '+dtName()+'님 장례 · 제사 일정':'날짜 안내';
-  $('#dt-die-l').textContent=M.L?'음력 '+lunTxt(M.L)+' · '+gzK(((M.L.y-4)%60+60)%60)+'년 '+gzK(M.L.day)+'일':'음력은 2016년부터 2040년까지만 계산합니다.';
+  $('#dt-die-l').textContent=M.L?'음력 '+lunTxt(M.L)+' · '+gzK(((M.L.y-4)%60+60)%60)+'년 '+gzK(M.L.day)+'일':'음력은 2016년부터 2040년까지만 계산해요.';
   const w=$('#dt-warn'); w.hidden=!M.warn; w.textContent=M.warn?'주의 · '+M.warn:'';
   const ul=$('#dt-list'); ul.innerHTML='';
   M.items.forEach(it=>{ const li=document.createElement('li'); const dd=dDay(it.d);
@@ -788,7 +789,7 @@ function renderCal(){
   $('#cal-ym').textContent=y+'년 '+m+'월';
   const L1=lunar(first), Ln=lunar(y+'-'+pad(m)+'-'+pad(n));
   const lm=[]; for(let d=1;d<=n;d++){ const L=lunar(y+'-'+pad(m)+'-'+pad(d)); if(L){ const t=(L.leap?'윤':'')+L.m+'월'; if(lm.indexOf(t)<0) lm.push(t); } }
-  $('#cal-lunar').textContent=L1?'음력 '+gzK(((L1.y-4)%60+60)%60)+'년 '+lm.join(' · '):'이 달은 음력을 계산하지 않습니다';
+  $('#cal-lunar').textContent=L1?'음력 '+gzK(((L1.y-4)%60+60)%60)+'년 '+lm.join(' · '):'이 달은 음력을 계산하지 않아요';
   const marks={}; DT.items.forEach(it=>{ (marks[it.d]=marks[it.d]||[]).push(it.m); });
   (DT.yrAll||[]).forEach(e=>{ if(e.n>2) (marks[e.r.iso]=marks[e.r.iso]||[]).push(e.n+'주기'); });
   const tb=$('#cal-body'); tb.innerHTML=''; const today=isoDay(0); let tr=document.createElement('tr');
@@ -849,7 +850,7 @@ function dtDraw(){
   return c; }
 function dtFileName(){ const nm=dtName(); return (nm?'故'+nm+'_장례일정':'나만의장례_날짜안내')+'.png'; }
 function dtMakeBlob(){ return Promise.all([ensureFonts('故님장례제사일정안내날짜돌아가신날발인삼우제49재100일첫기일두번째음력주기소상대상담당지도사나만의장례24시간0123456789년월일()·월화수목금토일카카오톡절이나집안에따라세는법이조금다를수있습니다기준소규모가족장무빈소장전문'+dtName()+dtDirs().map(d=>d.n+d.t).join('')),logoReady]).then(()=>new Promise(r=>dtDraw().toBlob(b=>{ dtBlob=b; r(b); },'image/png'))); }
-function dtSaveImg(){ dtMakeBlob().then(b=>{ if(b) saveFile(dtFileName(),b,'날짜 안내 이미지를 저장했습니다'); else toast('이미지를 만들지 못했어요'); }); }
+function dtSaveImg(){ dtMakeBlob().then(b=>{ if(b) saveFile(dtFileName(),b,'날짜 안내 이미지를 저장했어요'); else toast('이미지를 만들지 못했어요'); }); }
 function dtShare(){
   const go=b=>{ const f=new File([b],dtFileName(),{type:'image/png'}); navigator.share({files:[f],title:'장례 · 제사 날짜 안내'}).catch(e=>{ if(e&&e.name!=='AbortError') dtSaveImg(); }); };
   if(dtBlob) go(dtBlob); else dtMakeBlob().then(b=>{ if(b) go(b); }).catch(()=>dtSaveImg()); }
@@ -860,8 +861,8 @@ function bindDate(){
   const onOut=()=>{ if(isoOk(oi.value)){ DT.out=oi.value; DT.outSet=true; renderDate(); } };
   oi.addEventListener('change',onOut); oi.addEventListener('input',onOut);
   $$('[data-dtdays]').forEach(b=>b.addEventListener('click',()=>{ DT.days=+b.getAttribute('data-dtdays'); DT.outSet=false; renderDate(); }));
-  $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했습니다. 단톡방에 붙여 넣어 보내세요',$('#dt-list')));
-  const ac=$('#dt-after-copy'); if(ac) ac.addEventListener('click',()=>copyText(afterText(),'서류 기한을 복사했습니다',$('#dt-after')));
+  $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했어요. 단톡방에 붙여 넣어 보내시면 돼요',$('#dt-list')));
+  const ac=$('#dt-after-copy'); if(ac) ac.addEventListener('click',()=>copyText(afterText(),'서류 기한을 복사했어요',$('#dt-after')));
   const im=$('#dt-img'); if(im) im.addEventListener('click',dtSaveImg);
   const sh=$('#dt-share'); if(sh){ sh.hidden=!CAN_SHARE; sh.addEventListener('click',dtShare); }
   $$('[data-dtmode]').forEach(b=>b.addEventListener('click',()=>{ DT.mode=b.getAttribute('data-dtmode'); renderDate(); dtDirty(); }));
@@ -882,7 +883,7 @@ function renderClanPage(){
   let res; if(q) res=searchClans(q,400); else if(clanSur) res=CLANS.filter(c=>c.sk+':'+c.sh===clanSur); else res=CLANS.slice(0,24);
   res.forEach(c=>list.appendChild(clanCard(c)));
   const sCount=new Set(CLANS.map(c=>c.sk+c.sh)).size;
-  $('#clan-count').textContent=q?(res.length?'‘'+q+'’ 찾은 본관 '+res.length+'곳 · 누르면 출력실에 들어갑니다':'‘'+q+'’에 맞는 본관이 목록에 없습니다. 출력실에서 직접 입력할 수 있습니다.'):(clanSur?clanSur.split(':')[0]+'('+clanSur.split(':')[1]+')씨 본관 '+res.length+'곳':'성씨 '+sCount+'개 · 본관 '+CLANS.length+'곳이 들어 있습니다. 많이 쓰는 본관부터 보여 드립니다.');
+  $('#clan-count').textContent=q?(res.length?'‘'+q+'’ 찾은 본관 '+res.length+'곳 · 누르면 출력실에 들어갑니다':'‘'+q+'’에 맞는 본관이 목록에 없어요. 출력실에서 직접 적으실 수 있어요.'):(clanSur?clanSur.split(':')[0]+'('+clanSur.split(':')[1]+')씨 본관 '+res.length+'곳':'성씨 '+sCount+'개 · 본관 '+CLANS.length+'곳이 들어 있어요. 많이 쓰는 본관부터 보여 드려요.');
   const idx=$('#sur-index'); if(!idx.childElementCount){ const seen=[]; CLANS.forEach(c=>{ const k=c.sk+':'+c.sh; if(seen.indexOf(k)<0) seen.push(k); });
     seen.sort((a,b)=>a.localeCompare(b,'ko')).forEach(k=>{ const b=document.createElement('button'); b.type='button'; const p=k.split(':'); b.textContent=p[0]+' '+p[1]; b.setAttribute('data-sur',k); b.addEventListener('click',()=>{ clanSur=clanSur===k?'':k; $('#clan-q').value=''; renderClanPage(); $('#clan-list').scrollIntoView({block:'start'}); }); idx.appendChild(b); }); }
   $$('#sur-index button').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute('data-sur')===clanSur&&!q)));
@@ -1335,32 +1336,32 @@ const MAPS={
     {id:'gg2',x:3,y:0,name:'고조할아버지 · 고조할머니',chon:4,formal:'고조부(高祖父) · 고조모(高祖母)',call:'고조할아버지 · 고조할머니',jibang:'顯高祖考 · 顯高祖妣',rel:'gggf',note:'기제사는 보통 고조부모까지 4대를 모십니다.'},
     {id:'gg',x:3,y:1,p:'gg2',name:'증조할아버지 · 증조할머니',chon:3,formal:'증조부(曾祖父) · 증조모(曾祖母)',call:'증조할아버지 · 증조할머니',jibang:'顯曾祖考 · 顯曾祖妣',rel:'ggf'},
     {id:'gp',x:3,y:2,p:'gg',name:'할아버지 · 할머니',chon:2,formal:'조부(祖父) · 조모(祖母)',call:'할아버지 · 할머니',refer:'할아버지 · 할머니 (남의 조부는 조부님)',jibang:'顯祖考 · 顯祖妣',rel:'gf'},
-    {id:'gu',x:7,y:2,p:'gg',name:'큰할아버지 · 작은할아버지',chon:4,formal:'종조부(從祖父)',call:'큰할아버지 · 작은할아버지',spouse:'큰할머니 · 작은할머니 (종조모 從祖母)',note:'할아버지의 형제입니다.'},
-    {id:'gaunt',x:8,y:2,p:'gg',name:'고모할머니',chon:4,formal:'대고모(大姑母) · 왕고모',call:'고모할머니',spouse:'고모할아버지',note:'할아버지의 누이입니다.'},
+    {id:'gu',x:7,y:2,p:'gg',name:'큰할아버지 · 작은할아버지',chon:4,formal:'종조부(從祖父)',call:'큰할아버지 · 작은할아버지',spouse:'큰할머니 · 작은할머니 (종조모 從祖母)',note:'할아버지의 형제예요.'},
+    {id:'gaunt',x:8,y:2,p:'gg',name:'고모할머니',chon:4,formal:'대고모(大姑母) · 왕고모',call:'고모할머니',spouse:'고모할아버지',note:'할아버지의 누이예요.'},
     {id:'mgp',x:1,y:2,mat:1,name:'외할아버지 · 외할머니',chon:2,formal:'외조부(外祖父) · 외조모(外祖母)',call:'외할아버지 · 외할머니',jibang:'顯外祖考 · 顯外祖妣 (외손이 제사를 모실 때)'},
     {id:'fa',x:3,y:3,p:'gp',name:'아버지',chon:1,formal:'부친(父親)',call:'아버지',refer:'아버지 · 가친(家親)',dead:'선친(先親) · 선고(先考)',jibang:'顯考 (현고)',rel:'f'},
     {id:'mo',x:2,y:3,p:'mgp',mat:1,name:'어머니',chon:1,formal:'모친(母親)',call:'어머니',refer:'어머니 · 자친(慈親)',dead:'선비(先妣) · 선자(先慈)',jibang:'顯妣 (현비)',rel:'m'},
     {id:'unc',x:5,y:3,p:'gp',name:'큰아버지 · 작은아버지',chon:3,formal:'백부(伯父) · 숙부(叔父)',call:'큰아버지 · 작은아버지 (결혼 전이면 삼촌)',spouse:'큰어머니(백모 伯母) · 작은어머니(숙모 叔母)'},
-    {id:'aunt',x:6,y:3,p:'gp',name:'고모',chon:3,formal:'고모(姑母)',call:'고모',spouse:'고모부(姑母夫)',note:'아버지의 누이입니다.'},
-    {id:'dang',x:7,y:3,p:'gu',name:'당숙',chon:5,formal:'당숙(堂叔) · 종숙(從叔)',call:'아저씨 · 당숙',spouse:'아주머니 · 당숙모',note:'아버지의 사촌 형제, 흔히 5촌 아저씨라고 합니다.'},
-    {id:'muncle',x:0,y:3,p:'mgp',mat:1,name:'외삼촌',chon:3,formal:'외숙(外叔)',call:'외삼촌',spouse:'외숙모(外叔母)',note:'어머니의 남자 형제입니다.'},
-    {id:'maunt',x:1,y:3,p:'mgp',mat:1,name:'이모',chon:3,formal:'이모(姨母)',call:'이모',spouse:'이모부(姨母夫)',note:'어머니의 여자 형제입니다.'},
-    {id:'me',x:3,y:4,p:'fa',me:1,name:'나',chon:'',note:'촌수는 나를 기준으로 셉니다. 다른 칸을 눌러 보세요.'},
+    {id:'aunt',x:6,y:3,p:'gp',name:'고모',chon:3,formal:'고모(姑母)',call:'고모',spouse:'고모부(姑母夫)',note:'아버지의 누이예요.'},
+    {id:'dang',x:7,y:3,p:'gu',name:'당숙',chon:5,formal:'당숙(堂叔) · 종숙(從叔)',call:'아저씨 · 당숙',spouse:'아주머니 · 당숙모',note:'아버지의 사촌 형제, 흔히 5촌 아저씨라고 해요.'},
+    {id:'muncle',x:0,y:3,p:'mgp',mat:1,name:'외삼촌',chon:3,formal:'외숙(外叔)',call:'외삼촌',spouse:'외숙모(外叔母)',note:'어머니의 남자 형제예요.'},
+    {id:'maunt',x:1,y:3,p:'mgp',mat:1,name:'이모',chon:3,formal:'이모(姨母)',call:'이모',spouse:'이모부(姨母夫)',note:'어머니의 여자 형제예요.'},
+    {id:'me',x:3,y:4,p:'fa',me:1,name:'나',chon:'',note:'촌수는 나를 기준으로 세어요. 다른 칸도 눌러 보실 수 있어요.'},
     {id:'sib',x:4,y:4,p:'fa',name:{m:'형 · 누나 · 동생',f:'오빠 · 언니 · 동생'},chon:2,formal:'형제자매(兄弟姉妹)',call:{m:'형 · 누나 · 이름(동생)',f:'오빠 · 언니 · 이름(동생)'},refer:{m:'형 · 누님 · 아우 · 누이동생',f:'오빠 · 언니 · 남동생 · 여동생'},spouse:{m:'형의 아내 형수님 · 남동생의 아내 제수씨 · 누나의 남편 매형(자형) · 여동생의 남편 매제',f:'오빠의 아내 새언니 · 남동생의 아내 올케 · 언니의 남편 형부 · 여동생의 남편 제부'},jibang:'형 顯兄 · 형수 顯兄嫂 · 동생 亡弟',rel:'bro'},
     {id:'cous',x:5,y:4,p:'unc',name:'사촌',chon:4,formal:'종형제(從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',refer:'사촌 형 · 사촌 동생'},
-    {id:'gcous',x:6,y:4,p:'aunt',name:'고종사촌',chon:4,formal:'고종형제(姑從兄弟) · 내종(內從)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'고모의 자녀입니다.'},
-    {id:'jae',x:7,y:4,p:'dang',name:'육촌',chon:6,formal:'재종형제(再從兄弟)',call:'나이에 따라 형 · 누나 · 이름',note:'당숙의 자녀입니다.'},
-    {id:'mcous',x:0,y:4,p:'muncle',mat:1,name:'외사촌',chon:4,formal:'외종형제(外從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'외삼촌의 자녀입니다.'},
-    {id:'icous',x:1,y:4,p:'maunt',mat:1,name:'이종사촌',chon:4,formal:'이종형제(姨從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'이모의 자녀입니다.'},
-    {id:'inlaw',x:2,y:5,inl:1,name:'며느리 · 사위',chon:1,formal:'자부(子婦) · 서(壻)',call:'며느리: 아가 · 새아가 · ○○ 어미 / 사위: ○ 서방 · 자네',note:'자녀의 배우자는 인척 1촌입니다.'},
+    {id:'gcous',x:6,y:4,p:'aunt',name:'고종사촌',chon:4,formal:'고종형제(姑從兄弟) · 내종(內從)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'고모의 자녀예요.'},
+    {id:'jae',x:7,y:4,p:'dang',name:'육촌',chon:6,formal:'재종형제(再從兄弟)',call:'나이에 따라 형 · 누나 · 이름',note:'당숙의 자녀예요.'},
+    {id:'mcous',x:0,y:4,p:'muncle',mat:1,name:'외사촌',chon:4,formal:'외종형제(外從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'외삼촌의 자녀예요.'},
+    {id:'icous',x:1,y:4,p:'maunt',mat:1,name:'이종사촌',chon:4,formal:'이종형제(姨從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'이모의 자녀예요.'},
+    {id:'inlaw',x:2,y:5,inl:1,name:'며느리 · 사위',chon:1,formal:'자부(子婦) · 서(壻)',call:'며느리: 아가 · 새아가 · ○○ 어미 / 사위: ○ 서방 · 자네',note:'자녀의 배우자는 인척 1촌이에요.'},
     {id:'ch',x:3,y:5,p:'me',name:'아들 · 딸',chon:1,formal:'자(子) · 여(女)',call:'이름',refer:'아들 · 딸 (남의 자녀는 아드님 · 따님)',jibang:'아들 亡子 (망자)',rel:'son'},
     {id:'nep',x:4,y:5,p:'sib',name:{m:'조카 · 생질',f:'조카 · 이질'},chon:3,formal:{m:'형제의 자녀 조카(姪) · 자매의 자녀 생질(甥姪)',f:'남자 형제의 자녀 조카(姪) · 자매의 자녀 이질(姨姪)'},call:'이름',spouse:'조카며느리 · 조카사위'},
-    {id:'cnep',x:5,y:5,p:'cous',name:'5촌 조카',chon:5,formal:'당질(堂姪)',call:'이름',note:'사촌의 자녀입니다.'},
+    {id:'cnep',x:5,y:5,p:'cous',name:'5촌 조카',chon:5,formal:'당질(堂姪)',call:'이름',note:'사촌의 자녀예요.'},
     {id:'gch',x:3,y:6,p:'ch',name:'손자 · 손녀',chon:2,formal:'손자(孫子) · 손녀(孫女)',call:'이름',spouse:'손자며느리 · 손녀사위'}
   ],wed:[['mo','fa']],dash:[['inlaw','ch']]},
   cheo:{cols:7,rows:3,gen:['장인 · 장모','아내 형제','처조카'],nodes:[
     {id:'jang',x:3,y:0,inl:1,name:'장인 · 장모',chon:1,formal:'장인(丈人) · 장모(丈母)',call:'장인어른 · 아버님 / 장모님 · 어머님',refer:'장인 · 장모 (남의 장인은 빙장 聘丈 · 빙모 聘母)'},
-    {id:'me',x:1,y:1,me:1,name:'나 (남편)',chon:'',note:'아내 쪽 가족은 아내를 기준으로 촌수를 셉니다.'},
+    {id:'me',x:1,y:1,me:1,name:'나 (남편)',chon:'',note:'아내 쪽 가족은 아내를 기준으로 촌수를 세어요.'},
     {id:'wife',x:2,y:1,p:'jang',name:'아내',chon:'무촌',formal:'처(妻)',call:'여보 · ○○ 씨',refer:'아내 · 집사람 · 안사람',jibang:'亡室 (망실)',rel:'wife'},
     {id:'wbo',x:3,y:1,p:'jang',inl:1,name:'아내의 오빠',chon:2,formal:'처남(妻男) · 손위',call:'형님',refer:'처남',spouse:'아주머니'},
     {id:'wby',x:4,y:1,p:'jang',inl:1,name:'아내의 남동생',chon:2,formal:'처남(妻男)',call:'처남 · ○○ 씨',spouse:'처남댁'},
@@ -1370,7 +1371,7 @@ const MAPS={
   ],wed:[['me','wife']],dash:[]},
   si:{cols:7,rows:3,gen:['시부모','남편 형제','시조카'],nodes:[
     {id:'sibu',x:3,y:0,inl:1,name:'시아버지 · 시어머니',chon:1,formal:'시부(媤父) · 시모(媤母)',call:'아버님 · 어머님',refer:'시아버지 · 시어머니'},
-    {id:'me',x:1,y:1,me:1,name:'나 (아내)',chon:'',note:'남편 쪽 가족은 남편을 기준으로 촌수를 셉니다. 요즘은 도련님 · 아가씨 대신 ‘○○ 씨’처럼 이름으로 부르기도 합니다.'},
+    {id:'me',x:1,y:1,me:1,name:'나 (아내)',chon:'',note:'남편 쪽 가족은 남편을 기준으로 촌수를 세어요. 요즘은 도련님 · 아가씨 대신 ‘○○ 씨’처럼 이름으로 부르기도 해요.'},
     {id:'hus',x:2,y:1,p:'sibu',name:'남편',chon:'무촌',formal:'부(夫)',call:'여보 · ○○ 씨',refer:'남편 · 바깥양반 · ○○ 아빠',jibang:'顯辟 (현벽)',rel:'hus'},
     {id:'hbo',x:3,y:1,p:'sibu',inl:1,name:'남편의 형',chon:2,formal:'시숙(媤叔)',call:'아주버님',spouse:'형님 (손윗동서)'},
     {id:'hby',x:4,y:1,p:'sibu',inl:1,name:'남편의 남동생',chon:2,formal:'시동생(媤同生)',call:'도련님 (결혼 전) · 서방님 (결혼 후)',spouse:'동서'},
@@ -1449,33 +1450,33 @@ function bloodTerm(d,bs){
   if(u===0){ const k=down.map(x=>x==='m'?'S':'D').join(''), T=L_DOWN[k]; return T?{id:k,name:T[0],call:T[1],formal:T[2]}:{id:'x',name:dn+'대 아래 자손',call:'이름'}; }
   const line=up.slice(0,u-1).join(''), br=down[0];
   if(u===1&&dn===1){ const w=sibWord(sex,age,bs); return {id:(age==='-'?'y':'e')+(m?'B':'Z'),name:w,call:age==='-'?'이름':w,formal:m?(age==='-'?'제(弟)':'형(兄)'):(age==='-'?'매(妹)':'자(姊)')}; }
-  if(u===1&&dn===2){ if(br==='m') return {id:'nep',name:m?'조카':'조카딸',call:'이름',formal:m?'질(姪)':'질녀(姪女)',note:'형제의 자녀입니다.'};
-    return bs==='m'?{id:'nep',name:m?'생질':'생질녀',call:'이름',formal:'생질(甥姪)',note:'누이의 자녀입니다.'}:{id:'nep',name:m?'이질':'이질녀',call:'이름',formal:'이질(姨姪)',note:'자매의 자녀입니다.'}; }
+  if(u===1&&dn===2){ if(br==='m') return {id:'nep',name:m?'조카':'조카딸',call:'이름',formal:m?'질(姪)':'질녀(姪女)',note:'형제의 자녀예요.'};
+    return bs==='m'?{id:'nep',name:m?'생질':'생질녀',call:'이름',formal:'생질(甥姪)',note:'누이의 자녀예요.'}:{id:'nep',name:m?'이질':'이질녀',call:'이름',formal:'이질(姨姪)',note:'자매의 자녀예요.'}; }
   if(u===1&&dn===3) return {id:'x',name:br==='m'?(m?'종손자':'종손녀'):'형제자매의 손주',call:'이름',formal:br==='m'?'종손(從孫)':''};
   if(u===2&&dn===1){
-    if(line==='F'){ if(m) return age==='+'?{id:'pUo',name:'큰아버지',call:'큰아버지',formal:'백부(伯父)'}:age==='-'?{id:'pUy',name:'작은아버지',call:'작은아버지 (결혼 전이면 삼촌)',formal:'숙부(叔父)'}:{id:'pU',name:'큰아버지 · 작은아버지',call:'큰아버지 · 작은아버지'}; return {id:'pA',name:'고모',call:'고모',formal:'고모(姑母)',note:'아버지의 누이입니다.'}; }
-    if(m) return {id:'mU',name:'외삼촌',call:'외삼촌',formal:'외숙(外叔)',note:'어머니의 남자 형제입니다.'}; return {id:'mA',name:'이모',call:'이모',formal:'이모(姨母)',note:'어머니의 여자 형제입니다.'}; }
+    if(line==='F'){ if(m) return age==='+'?{id:'pUo',name:'큰아버지',call:'큰아버지',formal:'백부(伯父)'}:age==='-'?{id:'pUy',name:'작은아버지',call:'작은아버지 (결혼 전이면 삼촌)',formal:'숙부(叔父)'}:{id:'pU',name:'큰아버지 · 작은아버지',call:'큰아버지 · 작은아버지'}; return {id:'pA',name:'고모',call:'고모',formal:'고모(姑母)',note:'아버지의 누이예요.'}; }
+    if(m) return {id:'mU',name:'외삼촌',call:'외삼촌',formal:'외숙(外叔)',note:'어머니의 남자 형제예요.'}; return {id:'mA',name:'이모',call:'이모',formal:'이모(姨母)',note:'어머니의 여자 형제예요.'}; }
   if(u===2&&dn===2){ const t=line==='F'?(br==='m'?['사촌','종형제(從兄弟)','cF']:['고종사촌','고종(姑從)','cFA']):(br==='m'?['외사촌','외종(外從)','cM']:['이종사촌','이종(姨從)','cMA']);
     if(!age) return {id:t[2],name:t[0],call:'나이에 따라 '+(bs==='m'?'형 · 누나':'오빠 · 언니')+' · 이름',formal:t[1],cous:t[0],sibw:''};
     const w=sibWord(sex,age,bs); return {id:t[2],name:t[0]+' '+w,call:age==='+'?w:'이름',formal:t[1],cous:t[0],sibw:w}; }
-  if(u===2&&dn===3){ const pre=line==='F'?(br==='m'?'':'고종 '):(br==='m'?'외종 ':'이종 '); return {id:'cnep',name:pre+'5촌 조카',call:'이름',formal:pre===''?(m?'당질(堂姪)':'당질녀(堂姪女)'):'',note:'사촌의 자녀입니다.'}; }
+  if(u===2&&dn===3){ const pre=line==='F'?(br==='m'?'':'고종 '):(br==='m'?'외종 ':'이종 '); return {id:'cnep',name:pre+'5촌 조카',call:'이름',formal:pre===''?(m?'당질(堂姪)':'당질녀(堂姪女)'):'',note:'사촌의 자녀예요.'}; }
   if(u===3&&dn===1){
-    if(line==='FF') return m?{id:'gU',name:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'큰할아버지 · 작은할아버지',call:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'할아버지',formal:'종조부(從祖父)',note:'할아버지의 형제입니다.'}:{id:'gA',name:'고모할머니',call:'고모할머니',formal:'대고모(大姑母)',note:'할아버지의 누이입니다.'};
-    if(line==='MF') return m?{id:'mgU',name:'외종조부',call:'외할아버지',formal:'외종조부(外從祖父)',note:'외할아버지의 형제입니다.'}:{id:'x',name:'외할아버지의 누이',call:'할머니'};
+    if(line==='FF') return m?{id:'gU',name:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'큰할아버지 · 작은할아버지',call:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'할아버지',formal:'종조부(從祖父)',note:'할아버지의 형제예요.'}:{id:'gA',name:'고모할머니',call:'고모할머니',formal:'대고모(大姑母)',note:'할아버지의 누이예요.'};
+    if(line==='MF') return m?{id:'mgU',name:'외종조부',call:'외할아버지',formal:'외종조부(外從祖父)',note:'외할아버지의 형제예요.'}:{id:'x',name:'외할아버지의 누이',call:'할머니'};
     if(line==='FM') return m?{id:'x',name:'아버지의 외삼촌 (진외종조부)',call:'할아버지'}:{id:'x',name:'아버지의 이모',call:'할머니'};
     return m?{id:'x',name:'어머니의 외삼촌',call:'할아버지'}:{id:'x',name:'어머니의 이모',call:'할머니'}; }
   if(u===3&&dn===2){
-    if(line==='FF'&&br==='m') return m?{id:'dang',name:'당숙',call:'아저씨 · 당숙',formal:'종숙(從叔)',note:'아버지의 사촌 형제입니다. 흔히 5촌 아저씨라고 합니다.'}:{id:'dangA',name:'당고모',call:'고모 · 당고모',formal:'종고모(從姑母)',note:'아버지의 사촌 자매, 5촌 고모입니다.'};
-    if(line==='FF') return {id:'x',name:'아버지의 고종사촌',call:m?'아저씨':'아주머니 · 고모',note:'할아버지 누이의 자녀입니다.'};
-    if(line==='FM') return {id:'x',name:'아버지의 '+(br==='m'?'외사촌':'이종사촌'),call:m?'아저씨':'아주머니',note:'할머니 형제자매의 자녀입니다.'};
-    if(line==='MF'&&br==='m') return m?{id:'mdang',name:'외당숙',call:'아저씨 · 외당숙',formal:'외종숙(外從叔)',note:'어머니의 사촌 형제, 외5촌 아저씨입니다.'}:{id:'mdangA',name:'종이모',call:'이모',formal:'종이모(從姨母)',note:'어머니의 사촌 자매입니다.'};
+    if(line==='FF'&&br==='m') return m?{id:'dang',name:'당숙',call:'아저씨 · 당숙',formal:'종숙(從叔)',note:'아버지의 사촌 형제예요. 흔히 5촌 아저씨라고 해요.'}:{id:'dangA',name:'당고모',call:'고모 · 당고모',formal:'종고모(從姑母)',note:'아버지의 사촌 자매, 5촌 고모예요.'};
+    if(line==='FF') return {id:'x',name:'아버지의 고종사촌',call:m?'아저씨':'아주머니 · 고모',note:'할아버지 누이의 자녀예요.'};
+    if(line==='FM') return {id:'x',name:'아버지의 '+(br==='m'?'외사촌':'이종사촌'),call:m?'아저씨':'아주머니',note:'할머니 형제자매의 자녀예요.'};
+    if(line==='MF'&&br==='m') return m?{id:'mdang',name:'외당숙',call:'아저씨 · 외당숙',formal:'외종숙(外從叔)',note:'어머니의 사촌 형제, 외5촌 아저씨예요.'}:{id:'mdangA',name:'종이모',call:'이모',formal:'종이모(從姨母)',note:'어머니의 사촌 자매예요.'};
     return {id:'x',name:'어머니의 '+(line==='MF'?'고종사촌':(br==='m'?'외사촌':'이종사촌')),call:m?'아저씨':'이모'}; }
-  if(u===3&&dn===3&&line==='FF'&&br==='m'){ const w=age?sibWord(sex,age,bs):''; return {id:'x',name:'육촌'+(w?' '+w:''),call:age==='+'?w:'이름',formal:'재종(再從)',note:'당숙의 자녀입니다.'}; }
+  if(u===3&&dn===3&&line==='FF'&&br==='m'){ const w=age?sibWord(sex,age,bs):''; return {id:'x',name:'육촌'+(w?' '+w:''),call:age==='+'?w:'이름',formal:'재종(再從)',note:'당숙의 자녀예요.'}; }
   if(u===4&&dn===1&&line==='FFF') return m?{id:'x',name:'증조할아버지의 형제',call:'할아버지',formal:'종증조부(從曾祖父)'}:{id:'x',name:'증조할아버지의 누이',call:'할머니'};
   if(u===4&&dn===2&&line==='FFF') return m?{id:'x',name:'할아버지의 사촌 형제',call:'할아버지',formal:'재종조부(再從祖父)'}:{id:'x',name:'할아버지의 사촌 누이',call:'할머니'};
-  if(u===4&&dn===3&&line==='FFF'&&br==='m') return m?{id:'x',name:'재당숙',call:'아저씨',formal:'재종숙(再從叔)',note:'아버지의 육촌 형제, 7촌 아저씨입니다.'}:{id:'x',name:'재당고모',call:'고모',note:'아버지의 육촌 자매, 7촌 고모입니다.'};
+  if(u===4&&dn===3&&line==='FFF'&&br==='m') return m?{id:'x',name:'재당숙',call:'아저씨',formal:'재종숙(再從叔)',note:'아버지의 육촌 형제, 7촌 아저씨예요.'}:{id:'x',name:'재당고모',call:'고모',note:'아버지의 육촌 자매, 7촌 고모예요.'};
   if(u===4&&dn===4&&line==='FFF'&&br==='m'){ const w=age?sibWord(sex,age,bs):''; return {id:'x',name:'팔촌'+(w?' '+w:''),call:age==='+'?w:'이름',formal:'삼종(三從)'}; }
-  const gg=u-dn; return {id:'x',name:(u+dn)+'촌 친척',call:gg>=2?(m?'할아버지':'할머니'):gg===1?(m?'아저씨':'아주머니'):gg===0?(age==='+'?(m?'형님':'누님'):'이름'):'이름',note:'따로 정해진 호칭이 없으면 항렬과 나이에 맞춰 아저씨 · 아주머니 · 형님처럼 부르거나 이름을 부릅니다.'};
+  const gg=u-dn; return {id:'x',name:(u+dn)+'촌 친척',call:gg>=2?(m?'할아버지':'할머니'):gg===1?(m?'아저씨':'아주머니'):gg===0?(age==='+'?(m?'형님':'누님'):'이름'):'이름',note:'따로 정해진 호칭이 없으면 항렬과 나이에 맞춰 아저씨 · 아주머니 · 형님처럼 부르거나 이름을 불러요.'};
 }
 const SP_OF={F:['어머니'],M:['아버지'],FF:['할머니'],FM:['할아버지'],MF:['외할머니'],MM:['외할아버지'],S:['며느리','아가 · 새아가 · ○○ 어미','자부(子婦)'],D:['사위','○ 서방 · 자네','서(壻)'],SS:['손자며느리','아가'],SD:['손녀사위','○ 서방'],DS:['외손자며느리','아가'],DD:['외손녀사위','○ 서방'],pUo:['큰어머니','큰어머니','백모(伯母)'],pUy:['작은어머니','작은어머니','숙모(叔母)'],pU:['큰어머니 · 작은어머니','큰어머니 · 작은어머니'],pA:['고모부','고모부','고모부(姑母夫)'],mU:['외숙모','외숙모','외숙모(外叔母)'],mA:['이모부','이모부','이모부(姨母夫)'],gU:['큰할머니 · 작은할머니','할머니','종조모(從祖母)'],gA:['고모할아버지','할아버지'],mgU:['외종조모','외할머니'],dang:['당숙모','아주머니 · 당숙모','종숙모(從叔母)'],dangA:['당고모부','아저씨'],mdang:['외당숙모','아주머니'],mdangA:['종이모부','이모부']};
 function spouseOf(t,bs,relSex){
@@ -1500,17 +1501,17 @@ function relate(a,b){
   let d=bloodDesc(a,b);
   if(d){ const t=bloodTerm(d,a.sex); const sp=spouseOf(t,a.sex,b.sex); return {name:t.name,call:t.call,formal:t.formal,note:t.note,chonText:chonText(chonOf(d)),kind:'혈족',spouse:sp?sp.name:'',rel:JB_OF[t.id]||''}; }
   if(b.spouse){ d=bloodDesc(a,b.spouse); if(d){ const t=bloodTerm(d,a.sex); const sp=spouseOf(t,a.sex,b.spouse.sex); const nm=sp?sp.name:t.name+'의 '+(b.sex==='m'?'남편':'아내');
-    return {name:nm,call:sp?sp.call:(b.born<a.born-15?(b.sex==='m'?'아저씨':'아주머니'):'○○ 씨'),formal:sp?sp.formal:'',note:t.name+'의 '+(b.sex==='m'?'남편':'아내')+'입니다.',chonText:chonText(chonOf(d),'인척'),kind:'인척 · 내 가족의 배우자',rel:(t.id==='eB'&&a.sex==='m')?'sil':''}; } }
+    return {name:nm,call:sp?sp.call:(b.born<a.born-15?(b.sex==='m'?'아저씨':'아주머니'):'○○ 씨'),formal:sp?sp.formal:'',note:t.name+'의 '+(b.sex==='m'?'남편이에요.':'아내예요.'),chonText:chonText(chonOf(d),'인척'),kind:'인척 · 내 가족의 배우자',rel:(t.id==='eB'&&a.sex==='m')?'sil':''}; } }
   if(a.spouse){
     d=bloodDesc(a.spouse,b);
     if(d){ const t=bloodTerm(d,a.spouse.sex); const T=(a.sex==='m'?IN_M:IN_F)[t.id]; const sw=a.sex==='m'?'아내':'남편';
-      if(T) return {name:T[0],call:T[1],formal:T[2]||'',chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+'입니다.'};
-      if(t.cous) return {name:(a.sex==='m'?'처':'시')+t.cous,call:t.call,chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+'입니다.'};
+      if(T) return {name:T[0],call:T[1],formal:T[2]||'',chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+josa(t.name,'이에요.','예요.')};
+      if(t.cous) return {name:(a.sex==='m'?'처':'시')+t.cous,call:t.call,chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+josa(t.name,'이에요.','예요.')};
       return {name:sw+'의 '+t.name,call:t.call,chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족'}; }
     if(b.spouse){ d=bloodDesc(a.spouse,b.spouse); if(d){ const t=bloodTerm(d,a.spouse.sex); const T=(a.sex==='m'?INE_M:INE_F)[t.id]; const sw=a.sex==='m'?'아내':'남편'; const desc=sw+'의 '+t.name+'의 '+(b.sex==='m'?'남편':'아내');
-      return {name:T?T[0]:desc,call:T?T[1]:(b.born<a.born-15?'어른':'○○ 씨'),chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자 가족의 배우자',note:desc+'입니다.'}; } }
+      return {name:T?T[0]:desc,call:T?T[1]:(b.born<a.born-15?'어른':'○○ 씨'),chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자 가족의 배우자',note:desc+josa(desc,'이에요.','예요.')}; } }
   }
-  return {name:'사돈',call:b.born<a.born-15?'사돈어른':'사돈',chonText:'촌수 없음',kind:'법적 친족 아님',note:'내 가족의 배우자 쪽 가족입니다. 촌수를 따지지 않고 서로 사돈이라고 부릅니다.'};
+  return {name:'사돈',call:b.born<a.born-15?'사돈어른':'사돈',chonText:'촌수 없음',kind:'법적 친족 아님',note:'내 가족의 배우자 쪽 가족이에요. 촌수를 따지지 않고 서로 사돈이라고 불러요.'};
 }
 function josa(w,a,b){ for(let i=w.length-1;i>=0;i--){ const c=w.charCodeAt(i); if(c>=0xAC00&&c<=0xD7A3) return ((c-0xAC00)%28)?a:b; } return b; }
 function renderAnswer(box,pathText,r){
@@ -1639,8 +1640,8 @@ try{ localStorage.removeItem('mf-hist'); ['mf-ps','mf-pr','mf-ch'].forEach(k=>se
 if(PAGE==='print'){
   const q=new URLSearchParams(location.search); let msg='';
   const t=q.get('tab'); if(t&&['jb','mj','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
-  const r=q.get('rel'); if(r&&Object.prototype.hasOwnProperty.call(REL,r)){ PS.rel=r; PS.tab='jb'; if(!REL[r].gen) PS.pair=false; msg='고르신 관계로 지방을 준비했습니다'; }
-  const ci=q.get('clan'); if(ci!==null&&/^\d+$/.test(ci)&&CLANS[+ci]){ const c=CLANS[+ci]; PS.c1=c; PS.man=false; msg=clanLabel(c)+' '+c.bh+c.sh+' · 고인 본관에 넣었습니다'; }
+  const r=q.get('rel'); if(r&&Object.prototype.hasOwnProperty.call(REL,r)){ PS.rel=r; PS.tab='jb'; if(!REL[r].gen) PS.pair=false; msg='고르신 관계로 지방을 준비했어요'; }
+  const ci=q.get('clan'); if(ci!==null&&/^\d+$/.test(ci)&&CLANS[+ci]){ const c=CLANS[+ci]; PS.c1=c; PS.man=false; msg=clanLabel(c)+' '+c.bh+c.sh+' · 고인 본관에 넣었어요'; }
   if(location.search) try{ history.replaceState(null,'',location.pathname); }catch(e){}
   bindPrint();
   if(msg) setTimeout(()=>toast(msg),400);
@@ -1655,7 +1656,7 @@ route();
 (function(){
   if(RM||!('IntersectionObserver' in window)||!Element.prototype.animate) return;
   const vh=window.innerHeight||800;
-  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
+  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.sec>.bills,.sec>.bill-f,.sec>.bill-pair>*,.guides>a,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
   if(!els.length) return;
   els.forEach(el=>el.classList.add('rv'));
   let queue=[], timer=0;

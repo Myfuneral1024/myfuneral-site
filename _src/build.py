@@ -5,11 +5,11 @@
   python3 _src/build.py            → 저장소 맨 위(공개되는 곳)에 페이지를 다시 만든다
   python3 _src/build.py --out DIR  → DIR에 따로 만든다 (확인용, 고정 파일도 함께 복사)
 
-만들어지는 것: index.html, urgent/ nobinso/ price/ print/ clan/ chon/ manners/ 의 index.html,
+만들어지는 것: index.html, ROUTES 화면마다 폴더/index.html (안내 화면 gajokjang · sangjo · support · jibang 포함),
 assets/site.<해시>.css · .js(최근 8판 보관, versions.json), assets/site.css · site.js(예전 페이지용), sitemap.xml, 404.html
 그대로 두는 것: CNAME, favicon.svg, apple-touch-icon.png, og.png, robots.txt, naver….html, assets/fonts/
 """
-import os, re, shutil, sys, html, datetime, hashlib, json
+import os, re, shutil, sys, html, datetime, hashlib, json, urllib.parse
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, 'src.html')
@@ -18,7 +18,7 @@ OUT = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else ROOT
 BASE = 'https://www.myfuneral.co.kr'
 VER = datetime.datetime.now().strftime('%Y%m%d%H%M')
 TODAY = datetime.date.today().isoformat()
-ROUTES = ['urgent', 'nobinso', 'price', 'print', 'date', 'clan', 'chon', 'manners', 'urn']  # urn은 메뉴에 없음
+ROUTES = ['urgent', 'nobinso', 'price', 'print', 'date', 'clan', 'chon', 'manners', 'urn', 'gajokjang', 'sangjo', 'support', 'jibang']  # urn · 안내 화면 4개는 메뉴에 없음
 STATIC = ['CNAME', 'favicon.svg', 'apple-touch-icon.png', 'og.png', 'robots.txt',
           'naverb64ba87306a5179497b82d3c875bb21e.html']
 
@@ -27,8 +27,8 @@ META = {
              '저렴한 장례가 아닙니다. 합리적 간소화입니다. 소규모 가족장 · 무빈소장 전문 나만의장례, 24시간 장례 접수 1661-4214. 장례를 마친 뒤 정산합니다.'),
     'urgent': ('장례가 발생하셨다면 · 임종 후 할 일 | 나만의장례',
                '병원 · 요양병원 · 자택 · 사고 등 돌아가신 곳에 따라 먼저 할 일, 챙겨 둘 것, 장례 후 사망신고까지 정리했습니다. 1661-4214로 전화하시면 나만의장례가 이송부터 장지까지 모두 맡아 드립니다.'),
-    'nobinso': ('무빈소 장례 · 전국 어디서나 60만원부터 | 나만의장례',
-                '빈소 없이 가족끼리 조용히 모시는 무빈소 장례를 전국 어디서나 진행합니다. 진행 순서와 비용, 자주 묻는 질문을 정리했습니다. 24시간 상담 1661-4214.'),
+    'nobinso': ('무빈소 장례 155만원 · 전국 어디서나 | 나만의장례',
+                '빈소 없이 가족끼리 조용히 모시는 무빈소 장례를 전국 어디서나 진행합니다. 무빈소장 상품 155만원(화장 기준)에 들어 있는 것, 진행 순서, 따로 내는 비용, 자주 묻는 질문을 정리했습니다. 24시간 상담 1661-4214.'),
     'price': ('장례 비용 · 무빈소장 · 가족장 · 일반장 상품 | 나만의장례 후불제 상조',
               '무빈소장 155만원 · 가족장 210만원 · 일반장 292만원. 상품을 고르고 수의 · 장의 차량을 고르거나 쓰지 않으실 것을 빼면 장례 비용이 바로 나옵니다. 나만의장례 가격표 그대로, 미리 내는 돈 없이 장례를 마친 뒤 정산합니다.'),
     'print': ('지방 · 위패 · 축문 출력 · 명정 예시 | 나만의장례 출력실',
@@ -41,6 +41,14 @@ META = {
              '아버지의 사촌 동생, 어머니와 고모 사이처럼 헷갈리는 촌수와 호칭을 바로 계산합니다. 친가 · 외가 · 처가 · 시가 호칭을 지도로 볼 수 있습니다.'),
     'urn': ('유골함 고르는 법 · 일반함과 진공함 차이 | 나만의장례',
             '봉안당 · 봉안묘 · 수목장, 모실 곳에 따라 맞는 유골함이 다릅니다. 일반함과 진공함의 속 구조와 차이, 유골함 비용(별도, 40만원부터 400만원까지), 봉안당 칸 크기 확인까지 정리했습니다. 24시간 상담 1661-4214.'),
+    'gajokjang': ('가족장 비용 · 진행 순서 · 210만원 상품 | 나만의장례 후불제 상조',
+                  '가까운 가족과 친지만 모시는 가족장을 전국 어디서나 진행합니다. 210만원 상품에 든 것, 3일 진행 순서, 따로 내는 비용, 무빈소장 · 일반장과의 차이를 정리했습니다. 24시간 상담 1661-4214.'),
+    'sangjo': ('상조에 가입했는데 무빈소 · 가족장으로 하려면 | 나만의장례',
+               '부모님이 가입해 두신 상조가 있을 때 확인할 것을 정리했습니다. 가입 여부 조회, 그대로 쓸 때 물어볼 것, 해약환급금 기준, 상조회사가 문을 닫았을 때. 24시간 상담 1661-4214.'),
+    'support': ('수급자 · 국가유공자 장례, 장제급여 신청 | 나만의장례',
+                '생계 · 의료 · 주거급여 수급자가 돌아가시면 장제급여를 받을 수 있습니다. 신청하는 곳과 서류, 국가유공자 안장 지원, 나만의장례 20만원 할인을 정리했습니다. 24시간 상담 1661-4214.'),
+    'jibang': ('지방 쓰는 법 · 아버지 어머니 지방 예시 · 무료 출력 | 나만의장례',
+               '현고학생부군신위처럼 모시는 분마다 다른 지방 쓰는 법을 표로 정리했습니다. 종이 크기, 두 분을 함께 모실 때, 본관 쓰는 법까지 보고 출력실에서 무료로 바로 인쇄할 수 있습니다.'),
     'manners': ('조문 예절 · 부의 봉투 쓰는 법 | 나만의장례',
                 '조문 순서, 절하는 법과 공수, 위로의 말, 삼가야 할 것, 부의 봉투 쓰는 법과 부의금 관례까지 처음 가는 조문에 필요한 예절을 정리했습니다.'),
 }
@@ -82,6 +90,7 @@ def fix_links(s):
     s = s.replace('href="#print" data-goto-tab="ck"', 'href="/print/?tab=ck"')
     s = s.replace('href="#date" data-goto="after"', 'href="/date/#after"')
     s = s.replace('href="#price" data-goto="prepaid"', 'href="/price/#prepaid"')
+    s = re.sub(r'href="#print" data-goto-rel="(\w+)"', r'href="/print/?rel=\1"', s)  # 지방 안내 → 그 관계로 출력실
     for t in ('nob', 'fam', 'gen'):  # 비용 계산에 그 상품이 골라진 채로
         s = s.replace(f'href="#price" data-goto-type="{t}"', f'href="/price/?type={t}"')
     s = s.replace('href="#home"', 'href="/"')
@@ -122,7 +131,7 @@ js = JS
 start = js.index('/* ── 화면 이동 ── */')
 end = js.index("window.addEventListener('hashchange',route);") + len("window.addEventListener('hashchange',route);")
 js = js[:start] + r"""/* ── 화면 이동 (메뉴마다 주소가 따로 있음) ── */
-const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn','gajokjang','sangjo','support','jibang'];
 const PAGE=(function(){ const b=document.body.getAttribute('data-route'); return PAGES.indexOf(b)>=0?b:'home'; })();
 function route(){
   const p=PAGE;
@@ -150,8 +159,8 @@ try{ localStorage.removeItem('mf-hist'); ['mf-ps','mf-pr','mf-ch'].forEach(k=>se
 if(PAGE==='print'){
   const q=new URLSearchParams(location.search); let msg='';
   const t=q.get('tab'); if(t&&['jb','mj','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
-  const r=q.get('rel'); if(r&&Object.prototype.hasOwnProperty.call(REL,r)){ PS.rel=r; PS.tab='jb'; if(!REL[r].gen) PS.pair=false; msg='고르신 관계로 지방을 준비했습니다'; }
-  const ci=q.get('clan'); if(ci!==null&&/^\d+$/.test(ci)&&CLANS[+ci]){ const c=CLANS[+ci]; PS.c1=c; PS.man=false; msg=clanLabel(c)+' '+c.bh+c.sh+' · 고인 본관에 넣었습니다'; }
+  const r=q.get('rel'); if(r&&Object.prototype.hasOwnProperty.call(REL,r)){ PS.rel=r; PS.tab='jb'; if(!REL[r].gen) PS.pair=false; msg='고르신 관계로 지방을 준비했어요'; }
+  const ci=q.get('clan'); if(ci!==null&&/^\d+$/.test(ci)&&CLANS[+ci]){ const c=CLANS[+ci]; PS.c1=c; PS.man=false; msg=clanLabel(c)+' '+c.bh+c.sh+' · 고인 본관에 넣었어요'; }
   if(location.search) try{ history.replaceState(null,'',location.pathname); }catch(e){}
   bindPrint();
   if(msg) setTimeout(()=>toast(msg),400);
@@ -192,6 +201,9 @@ def page(p):
         head.append('<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","name":"나만의장례","url":"' + BASE + '/"},{"@type":"Organization","name":"나만의장례","url":"' + BASE + '/","logo":"' + BASE + '/apple-touch-icon.png","telephone":"+82-1661-4214","sameAs":["https://pf.kakao.com/_BxnMxhX"]}]}</script>')
     if p == 'print':
         head_common_p = head_common + '\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700;800&family=Yuji+Syuku&display=swap">\n<style>@font-face{font-family:"ChosunGs";src:url("/assets/fonts/chosungs.woff") format("woff");font-display:swap}</style>'
+    elif p == 'jibang':  # 지방 글자(妣 · 辟)가 있는 고급 명조를 이 화면 한자만 받아 씀
+        hz = ''.join(sorted(set(re.findall(r'[\u3400-\u9fff]', SECTIONS['jibang']))))
+        head_common_p = head_common + f'\n<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@800&display=swap&text={urllib.parse.quote(hz)}">'
     else:
         head_common_p = head_common
     head_common_p += '\n<script type="speculationrules">{"prefetch":[{"where":{"href_matches":"/*"},"eagerness":"moderate"}]}</script>'
