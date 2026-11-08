@@ -900,21 +900,22 @@ const DX_TYPES={
 const DX_COFFIN={cre:['화장용 오동나무관',20],bur:['매장용 오동나무관',30]};
 const DX_LINES={
   nob:[['svc','장례 형태','무빈소 장례 기본','장례지도사 · 입관지도사 · 입관용품',60,false,'무빈소 장례'],
-       ['coffin','관'],['shroud','수의','수의','',15,false,'면수의'],
+       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.',15,false,'면수의'],
        ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
-       ['car','장의 차량','장의 차량','',40,false,'리무진 (편도)']],
+       ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)']],
   fam:[['svc','장례 형태','가족장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'가족장 (3일장)'],
-       ['coffin','관'],['shroud','수의','수의','',15,false,'면수의'],
+       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.',15,false,'면수의'],
        ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
        ['binso','빈소 헌화','빈소 헌화 30송이','조문객이 영정 앞에 올리는 꽃',5,true,'30송이'],
-       ['car','장의 차량','장의 차량','',40,false,'리무진 (편도)'],
+       ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)'],
        ['staff','접객 도우미','접객 도우미','1인 12만원',24,true],
        ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',16,true]],
   gen:[['svc','장례 형태','일반장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'일반장 (3일장)'],
-       ['coffin','관'],['shroud','수의','수의','',15,false,'면수의'],
+       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.',15,false,'면수의'],
        ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
        ['binso','빈소 헌화','빈소 헌화 50송이','조문객이 영정 앞에 올리는 꽃',7,true,'50송이'],
-       ['car','장의 차량','장의 차량','',80,false,'리무진 + 장의버스'],
+       ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)'],
+       ['bus','장의 차량','장의 차량 · 장의버스 (왕복)','가족분들도 함께 타고 다녀오는 왕복이에요',40,true,'장의버스 (왕복)'],
        ['staff','접객 도우미','접객 도우미','1인 12만원',48,true],
        ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',32,true]]
 };
@@ -922,21 +923,9 @@ const DX_LINES={
    [값, 이름, 금액, 설명, 견적에 쓸 작은 글, 함께 고를 때 견적 글] · base 가 상품에 들어 있는 것.
    장의 차량 : 무빈소장 차량 미사용 · 스타리아/카니발 · 리무진 · 장의버스, 가족장 · 일반장 차량 미사용 · 리무진 · 장의버스.
    「차량 미사용」은 혼자만, 스타리아/카니발과 리무진은 둘 중 하나만(둘 다 고인을 모시는 차), 장의버스는 어느 것과도 함께 */
-const DX_OPT={
-  shroud:{lbl:'수의 고르기',below:true,base:['cotton'],   /* below : 설명은 고른 것 하나만 칸 아래에 (예전 계산기 설명, 2026-11-01 사용자 지시로 다시) */
-    all:[['cotton','면수의',15,'무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.'],
-         ['jeoma','저마수의',20,'저마는 모시풀에서 얻는 모시예요. 예부터 여름 옷감으로 쓰였고, 가볍고 시원한 결이 특징이에요. 예전에는 귀한 옷감이었어요.'],
-         ['hwangto','황토수의',30,'황토로 물들인 옷감으로 지은 수의예요. 은은한 흙빛이 나는 자연 소재예요.'],
-         ['jac','쟈가드수의',50,'자카드 직기로 무늬를 넣어 짠 옷감으로 지은 수의예요. 은은한 무늬와 광택이 있어 단정하고 품위 있게 보여요.'],
-         ['hemp','대마수의',60,'대마(삼)에서 얻은 삼베로 지은 수의예요. 바람이 잘 통하고 흙에서 자연으로 돌아가는 소재라, 오늘날 수의를 대표하는 옷감이에요.']]},
-  car:{lbl:'장의 차량 고르기 · 여러 개 고르실 수 있어요',multi:true,alt:{limo:'van',van:'limo'},
-    all:[['none','차량 미사용',0,'화장장 안에 있는 장례식장을 쓰실 때','화장장 안 장례식장 이용','차량 미사용'],
-         ['van','스타리아 · 카니발',30,'고인을 모시는 작은 장의 차량이에요','고인을 모시는 작은 장의 차량','스타리아 · 카니발'],
-         ['limo','리무진 (편도)',40,'1차 장지 또는 화장장까지 편도로 모셔요','1차 장지 또는 화장장까지 편도','리무진은 편도'],
-         ['bus','장의버스 (왕복)',40,'고인을 모시고 가족분들도 함께 타고 다녀오는 왕복이에요','가족분들도 함께 타는 왕복','장의버스는 왕복']],
-    types:{nob:['none','van','limo','bus'],fam:['none','limo','bus'],gen:['none','limo','bus']},
-    base:{nob:['limo'],fam:['limo'],gen:['limo','bus']}}
-};
+/* 2026-11-08 사용자 지시 : 비용 계산은 상품에서 「공제(빼기)만」. 수의 · 장의 차량 고르기는 없애고,
+   업그레이드할 수 있는 항목(수의 · 관 · 입관 · 헌화 · 차량 · 도우미 · 상복)은 비용 계산 아래 #upgrade 표로 따로 안내한다 (상담 때 정함) */
+const DX_OPT={};
 /* 매장이면 궁중대렴이 입관 꽃장식 다음에 저절로 들어간다 (2026-11-01 사용자 지시). 가격표 : 꽃장식 + 궁중대렴 30 · 궁중대렴만 20 → 꽃장식과 함께면 10 */
 const DX_DAERYEOM=['daeryeom','입관','궁중대렴','매장하시면 기본으로 넣어 드려요 · 꽃장식과 함께라 10만원',10,true,'궁중대렴'];
 function dxOpts(k){ const o=DX_OPT[k]; if(!o||!DX.type||(o.types&&!o.types[DX.type])) return null; return o.types?o.all.filter(x=>o.types[DX.type].includes(x[0])):o.all; }
@@ -946,11 +935,11 @@ const dxIsBase=k=>!dxOpts(k)||String((DX.opt[k]||dxBase(k)).slice().sort())===St
 const dxBaseLbl=k=>dxOpts(k).filter(x=>dxBase(k).includes(x[0])).map(x=>x[1].replace(/\s*\(.*\)$/,'')).join(' · ');
 function dxResetOpt(){ DX.opt={}; Object.keys(DX_OPT).forEach(k=>{ if(dxOpts(k)) DX.opt[k]=dxBase(k); }); }
 const dxName=l=>{ const sl=dxSel(l[0]); return sl&&!DX.off[l[0]]?sl.map(x=>x[1]).join(' + '):(l[6]||l[2]); };
-const dxSub=l=>{ const k=l[0]; if(k==='svc') return '장례지도사 · 입관지도사 · 입관용품 포함'; if(k==='daeryeom') return '매장하실 때 기본으로 넣어 드려요'; const sl=dxSel(k); return !sl?'':sl.length>1?sl.map(x=>x[5]).join(' · '):(sl[0][4]||''); };
+const dxSub=l=>{ const k=l[0]; if(k==='svc') return '장례지도사 · 입관지도사 · 입관용품 포함'; if(k==='car'||k==='bus') return l[3]; if(k==='daeryeom') return '매장하실 때 기본으로 넣어 드려요'; const sl=dxSel(k); return !sl?'':sl.length>1?sl.map(x=>x[5]).join(' · '):(sl[0][4]||''); };
 /* 인원 · 벌 수를 정하는 줄 : 상품에 들어 있는 수가 처음 값, 0이 되면 뺀 것으로 */
 const DX_CNT={
-  staff:{unit:'명',max:6,price:[12,12],rows:['첫째 날','둘째 날'],note:'4일장 이상은 현장에서 상담해 드려요.',base:{fam:[1,1],gen:[2,2]}},
-  mourn:{unit:'벌',max:10,price:[5,3],rows:['남성용','여성용'],note:'남성용에는 셔츠 · 타이가 함께 있어요. 갖고 계신 분은 빼고 세어 주세요.',base:{fam:[2,2],gen:[4,4]}}
+  staff:{unit:'명',max:6,price:[12,12],rows:['첫째 날','둘째 날'],note:'줄이신 만큼 100% 빼 드려요. 더 필요하시면 상담 때 말씀해 주세요(1인 12만원). 4일장 이상은 현장에서 상담해 드려요.',base:{fam:[1,1],gen:[2,2]}},
+  mourn:{unit:'벌',max:10,price:[5,3],rows:['남성용','여성용'],note:'줄이신 만큼 100% 빼 드려요. 남성용에는 셔츠 · 타이가 함께 있어요. 갖고 계신 분은 빼고 세어 주세요.',base:{fam:[2,2],gen:[4,4]}}
 };
 /* 빼면 열리는 정직한 한 줄 */
 const DX_HONEST={
@@ -958,6 +947,8 @@ const DX_HONEST={
   binso:'헌화 없이 분향만 하셔도 괜찮아요.',
   staff:'조문객이 많지 않으면 가족분들이 직접 맞으셔도 괜찮아요.',
   mourn:'갖고 계신 검은 옷으로 대신하셔도 괜찮아요.',
+  car:'화장장 안에 있는 장례식장을 쓰시면 장의 차량 없이도 모실 수 있어요.',
+  bus:'가족분들이 따로 움직이시면 장의버스 없이도 괜찮아요.',
   daeryeom:'궁중대렴을 하지 않으셔도 염습과 입관은 <b>똑같이</b> 정성껏 해 드려요.'
 };
 const dxHonest=k=>DX_HONEST[k];
@@ -986,7 +977,7 @@ function dxCalc(){
     if(DX.off[k]){ R+=l[4]; return; }
     const n=dxNow(l); C+=n-l[4];
     if(l[5]) cut+=n;
-    if(k==='car') cut+=n; });   /* 차량 : 차량 미사용까지 */
+    });
   const D=DX.disc?20:0, T=B-R+C-D; return {B,R,C,D,T,min:T-cut};
 }
 
@@ -997,7 +988,7 @@ function dxCntHTML(k){
     c.rows.map((r,i)=>'<div class="pl-st"><span class="l">'+r+'<small>1'+c.unit+' '+c.price[i]+'만원</small></span>'+
       '<span class="dx-step"><button type="button" data-cnt="'+k+':'+i+':-1" aria-label="'+r+' 하나 줄이기">−</button>'+
       '<output id="o-'+k+i+'" aria-live="polite"></output>'+
-      '<button type="button" data-cnt="'+k+':'+i+':1" aria-label="'+r+' 하나 늘리기">+</button></span></div>').join('')+
+      '<button type="button" data-cnt="'+k+':'+i+':1" aria-label="'+r+' 다시 하나 늘리기">+</button></span></div>').join('')+
     '<p class="pl-diff" id="d-'+k+'"></p><p class="pl-cnote">'+dEsc(c.note)+'</p>'+
   '</div>';
 }
@@ -1020,20 +1011,20 @@ function dxRowHTML(l){
     (rm&&dxHonest(k)?'<div class="dx-fold"><div><p class="pl-honest">'+dxHonest(k)+'</p></div></div>':'')+
   '</li>';
 }
+function dxGoUp(e){ const p=$('#upgrade'); if(!p) return; e.preventDefault(); window.scrollTo({top:dxY(p,12),behavior:RM?'auto':'smooth'}); }
 function dxBuild(){
   const t=DX_TYPES[DX.type], L=dxLines();
   $('#dx-prod').innerHTML=
     '<p class="dx-prod-tag">'+dEsc(t.tag)+'</p>'+
     '<div class="dx-prod-hd"><h3 class="dx-prod-name" id="dx-prod-name">'+t.name+'</h3><p class="dx-prod-price"><b>'+(dxTotal()*10000).toLocaleString('ko-KR')+'</b>원</p></div>'+
     '<p class="dx-prod-desc">'+dEsc(t.desc)+'</p>'+
-    '<div class="pl-h"><b>상품 구성</b><small>고르실 건 고르시고, 필요 없는 건 빼 주세요</small></div>'+
+    '<div class="pl-h"><b>상품 구성</b><small>쓰지 않으실 항목은 100% 공제해 드려요</small></div>'+
     '<ul class="pl">'+L.map(dxRowHTML).join('')+
       '<li class="pl-row free"><span class="pl-t"><span class="pl-tt">무료로 해 드리는 것</span></span><small class="pl-s">고인 이송 차량&nbsp;· 모바일 부고&nbsp;· 장지 안내&nbsp;· 화장 예약</small><span class="pl-amt free">무료</span><span class="pl-act"></span></li>'+
     '</ul>'+
-    '<p class="pl-note">'+({nob:'장례 기본, 관, 수의는 꼭 있어야 해서 뺄 수 없어요. 수의와 장의 차량은 원하시는 것으로 고르시고, 화장장 안에 있는 장례식장을 쓰시면 「차량 미사용」을 골라 주세요.',
-      fam:'장례 기본, 관, 수의는 꼭 있어야 해서 뺄 수 없어요. 수의와 장의 차량은 원하시는 것으로 고르시고, 화장장 안에 있는 장례식장을 쓰시면 「차량 미사용」을 골라 주세요.',
-      gen:'장례 기본, 관, 수의는 꼭 있어야 해서 뺄 수 없어요. 수의와 장의 차량은 원하시는 것으로 고르시고, 화장장 안에 있는 장례식장을 쓰시면 「차량 미사용」을 골라 주세요.'})[DX.type]+(DX.type!=='nob'?' 도우미 인원과 상복 벌 수는 + − 로 맞추시면 돼요.':'')+'</p>';
+    '<p class="pl-note">장례 기본, 관, 수의는 꼭 있어야 해서 빼지 않아요. 그 밖에 쓰지 않으실 항목은 「빼기」를 누르시면 금액 그대로 100% 빠져요. 화장장 안에 있는 장례식장을 쓰시면 장의 차량도 빼실 수 있어요.'+(DX.type!=='nob'?' 도우미 인원과 상복 벌 수는 − 로 줄이시면 돼요.':'')+' 관 · 수의 · 장의 차량을 더 좋은 것으로 바꾸고 싶으시면 <a href="#upgrade" data-a="up">업그레이드할 수 있는 항목</a>을 봐 주세요.</p>';
   L.forEach(l=>dxUpdRow(l[0],true));
+  const up=$('[data-a="up"]',$('#dx-prod')); if(up) up.addEventListener('click',dxGoUp);
 }
 function dxUpdRow(k,init){
   const r=$('#pl-'+k); if(!r) return;
@@ -1052,7 +1043,7 @@ function dxUpdRow(k,init){
     $('#d-'+k).innerHTML=dxIsBase(k)?'상품 구성 그대로예요':d?'상품 구성('+b0+')보다 <b>'+dSMan(d)+'</b>':'상품 구성('+b0+')과 금액이 같아요'; }
   if(DX_CNT[k]){ const c=DX_CNT[k], v=DX.cnt[k];
     v.forEach((n,i)=>{ $('#o-'+k+i).textContent=n+c.unit;
-      $('[data-cnt="'+k+':'+i+':-1"]',r).disabled=n<=0; $('[data-cnt="'+k+':'+i+':1"]',r).disabled=n>=c.max; });
+      $('[data-cnt="'+k+':'+i+':-1"]',r).disabled=n<=0; $('[data-cnt="'+k+':'+i+':1"]',r).disabled=n>=dxBaseCnt(k)[i]; });
     const d=dxNow(l)-l[4], bt=dxCntText(k,dxBaseCnt(k)), same=String(v)===String(dxBaseCnt(k));
     $('#d-'+k).innerHTML=same?'상품 구성 그대로예요':d?'상품 구성('+dNb(bt)+')보다 <b>'+dSMan(d)+'</b>':'상품 구성('+dNb(bt)+')과 금액이 같아요'; }
   const f=$('.dx-fold',r); if(f) f.classList.toggle('open',off);
@@ -1071,7 +1062,7 @@ function dxTween(el,to,fmt){
 function dxCalcRows(c,name){
   return '<div><dt>'+name+' 상품</dt><dd>'+dWon(c.B)+'</dd></div>'+
     (c.R?'<div><dt>빼신 것</dt><dd>'+dWon(-c.R)+'</dd></div>':'')+
-    (c.C?'<div><dt>고르고 바꾸신 것</dt><dd>'+dSWon(c.C)+'</dd></div>':'')+
+    (c.C?'<div><dt>줄이신 인원 · 벌 수</dt><dd>'+dSWon(c.C)+'</dd></div>':'')+
     (c.D?'<div><dt>수급자 · 국가유공자 할인</dt><dd>'+dWon(-c.D)+'</dd></div>':'');
 }
 function dxUpdSum(){
@@ -1134,7 +1125,7 @@ function dxSetOpt(k,v){
     else { s.push(v); if(o.alt&&o.alt[v]) s=s.filter(x=>x!==o.alt[v]); } }
   DX.opt[k]=s; dxUpdRow(k); dxUpdSum(); }
 function dxCount(k,i,d){
-  const c=DX_CNT[k], v=DX.cnt[k].slice(); v[i]=Math.max(0,Math.min(c.max,v[i]+d));
+  const c=DX_CNT[k], v=DX.cnt[k].slice(); v[i]=Math.max(0,Math.min(dxBaseCnt(k)[i],v[i]+d));   /* 공제만 : 상품 수보다 늘리지 않음 */
   if(v[0]+v[1]===0){ DX.off[k]=true; DX.cnt[k]=dxBaseCnt(k); toast((k==='staff'?'접객 도우미를':'상복을')+' 뺐어요'); }
   else DX.cnt[k]=v;
   dxUpdRow(k); dxUpdSum();
@@ -1147,7 +1138,7 @@ function estLines(){
     if(DX_CNT[k]) L.push([l[1],dxNow(l)*10000,'',null,dxCntText(k),k==='staff'?'1인 12만원':'남성용 5만원 · 여성용 3만원']);
     else L.push([l[1],dxNow(l)*10000,'',null,dxName(l),dxSub(l)||null]); });
   L.push(['모시는 방식',0,'','0원',DX.burial==='cre'?'화장':'매장',DX.burial==='cre'?'화장장 사용료 별도':'묘지 비용 별도']);
-  if(urnSep()) L.push(['유골함',0,'','별도','상담 때 실물을 보고 골라요','40만원 ~ 400만원 · 합계에 넣지 않음']);
+  if(urnSep()) L.push(['유골함',0,'','별도','카탈로그를 보시고 상담으로 정해요','합계에 넣지 않음']);
   if(DX.disc) L.push(['할인',-200000,'',null,'수급자 · 국가유공자']);
   L.push(['무료 제공',0,'','무료','고인 이송 · 모바일 부고 · 장지 안내 · 화장 예약']);
   return L;
@@ -1156,7 +1147,7 @@ function estLines(){
 function estCut(){ return dxLines().filter(l=>DX.off[l[0]]).map(l=>[l[1],DX_CNT[l[0]]?l[2]+' ('+dxCntText(l[0],dxBaseCnt(l[0]))+')':(l[6]||l[2]),-l[4]*10000]); }
 const estTotal=()=>dxCalc().T*10000;
 const urnSep=()=>DX.burial!=='bur';   /* 화장이면 유골함은 합계에 넣지 않는 별도 항목 (2026-10-21 사용자 지시) */
-const URN_NOTE='유골함은 합계에 들어 있지 않은 별도 항목이에요 · 40만원 ~ 400만원';
+const URN_NOTE='유골함은 합계에 들어 있지 않은 별도 항목이에요 · 카탈로그를 보시고 상담으로 정해요';
 const lineVal=l=>l[3]||(l[1]<0?'−'+won(-l[1]):won(l[1]));
 const estKind=()=>DX_TYPES[DX.type].name+' 상품 견적';
 const estWho=()=>{ const n=String(PR.nm||'').trim().replace(/\s*(고객)?\s*님$/,'').trim(); return n?n+' 고객님':''; };
@@ -1215,7 +1206,7 @@ function estText(){ const L=estLines(), X=estCut(), w=estWho(), c=dxCalc(), T=DX
   return '[나만의장례 '+estKind()+']\n'+(w?w+'\n':'')+'\n'+
     L.map(l=>'['+l[0]+'] '+l[4]+' — '+lineVal(l)+(l[5]?'\n     '+l[5]:'')).join('\n')+
     (X.length?'\n\n[빼신 것 · 합계에 들어가지 않음]\n'+X.map(x=>'· '+x[0]+' '+x[1]+' '+won(-x[2])).join('\n'):'')+
-    '\n\n'+T.name+' 상품 '+dWon(c.B)+(c.R?' · 빼신 것 '+dWon(-c.R):'')+(c.C?' · 고르고 바꾸신 것 '+dSWon(c.C):'')+(c.D?' · 할인 '+dWon(-c.D):'')+
+    '\n\n'+T.name+' 상품 '+dWon(c.B)+(c.R?' · 빼신 것 '+dWon(-c.R):'')+(c.C?' · 줄이신 인원 · 벌 수 '+dSWon(c.C):'')+(c.D?' · 할인 '+dWon(-c.D):'')+
     '\n합계: '+won(estTotal())+(urnSep()?'\n(※ '+URN_NOTE+')':'')+(DX.disc?'\n(수급자 · 국가유공자 할인 20만원 포함 · 대상 확인은 상담 때)':'')+
     (cpOK()?'\n\n[사전 상담 감사 할인권] 100,000원 할인\n번호 '+PR.cp+' · 발급일 '+PR.cpd+'\n· 가족장 · 일반장(3일장) 진행 시 정산 금액에서 할인 · 카카오톡 채널 친구 확인\n· 기한 없음 · 수급자 · 국가유공자 할인과 함께 사용 가능':'')+
     '\n\n※ 미리 내는 돈 없이 장례를 마친 뒤 정산해요.\n※ 이 견적을 꼭 저장해 두셨다가 현장에서 보여 주시면 그대로 진행해 드려요.\n\n* 장례식장 시설 사용료 · 음식값, 화장장 사용료, 장지 비용 별도\n* 리무진은 1차 장지 또는 화장장까지 편도, 장의버스는 왕복\n* 장의 차량 기준 거리 200km 초과 시 1km당 1,800원\n상담 1661-4214 (24시간)'; }
@@ -1261,7 +1252,7 @@ function dxEstHTML(){
     const d=dxNow(l)-l[4], sub=dxSub(l);
     return tr(l[1],dNb(dxName(l)),sub+(d&&dxSel(k)?(sub?' · ':'')+'상품 구성보다 '+dSMan(d):''),dWon(dxNow(l))); }).join('');
   rows+=tr('모시는 방식',DX.burial==='cre'?'화장':'매장',DX.burial==='cre'?'화장장 사용료 별도':'묘지 비용 별도','0원');
-  if(urnSep()) rows+=tr('유골함','상담 때 실물을 보고 골라요','40만원 ~ 400만원 · 합계에 넣지 않음','별도');
+  if(urnSep()) rows+=tr('유골함','카탈로그를 보시고 상담으로 정해요','합계에 넣지 않음','별도');
   if(DX.disc) rows+=tr('할인','수급자 · 국가유공자','',dWon(-20));
   rows+=tr('무료 제공',dNb('고인 이송 · 모바일 부고 · 장지 안내 · 화장 예약'),'','무료');
   if(cut.length) rows+='<tr class="sub"><th colspan="3" scope="colgroup">빼신 것 <small>합계에 들어가지 않아요</small></th></tr>'+cut.map(l=>tr(l[1],'<s>'+dNb(DX_CNT[l[0]]?dxCntText(l[0],dxBaseCnt(l[0])):(l[6]||l[2]))+'</s>','','<s>'+dWon(l[4])+'</s>','cut')).join('');
@@ -1277,6 +1268,7 @@ function dxEstHTML(){
     '<div class="keep-box" role="note"><p class="keep-t">이 견적, 꼭 저장해 두세요</p><p>현장에서 보여 주시면 이 금액 그대로 진행해 드려요. 첫 견적이 끝 견적이고, 미리 내는 돈 없이 장례를 마친 뒤 정산해요.</p>'+
       '<div class="est-who"><div class="fld"><label for="est-nm">견적에 넣을 성함 <span>(선택)</span></label><input id="est-nm" class="in" autocomplete="name" enterkeyhint="done"></div><p class="note">넣으시면 견적 이미지와 복사 글 맨 위에 「○○○ 고객님」으로 들어가요. 어디에도 저장되지 않아요.</p></div>'+
       '<button type="button" class="btn btn-primary" data-a="img">견적 이미지 저장</button></div>'+
+    '<p class="note wz-link">원하시는 항목은 업그레이드하실 수 있어요. 상담 때 말씀해 주시면 상품에 든 것과의 차액만 더해 견적에 적어 드려요. <a href="#upgrade" data-a="up">업그레이드할 수 있는 항목</a></p>'+
     '<p class="note wz-link">미리 내는 돈 없이 장례를 마친 뒤 정산해요. <a href="#prepaid" data-a="prepaid">일반 선불식 상조와 무엇이 다른가요?</a></p>'+
     (DX.type!=='nob'?'<div class="cp-box"></div>':'')+
     '<div class="acts2"><a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><a class="btn btn-line" data-a="talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>견적 보내고 카톡 상담</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button></div>'+
@@ -1297,6 +1289,7 @@ function dxShowEst(){
   $('[data-a="img"]',v).addEventListener('click',saveEstImg);
   $('[data-a="copy"]',v).addEventListener('click',()=>copyText(estText(),'견적 내용을 복사했어요',tbl));
   $('[data-a="talk"]',v).addEventListener('click',()=>copyText(estText(),'견적을 복사했어요. 카카오톡 대화창에 붙여 넣어 보내 주세요',tbl));
+  $$('[data-a="up"]',v).forEach(a=>a.addEventListener('click',dxGoUp));
   $('[data-a="prepaid"]',v).addEventListener('click',e=>{ const p=$('#prepaid'); if(!p) return; e.preventDefault(); window.scrollTo({top:dxY(p,12),behavior:RM?'auto':'smooth'}); });
   const cpb=$('.cp-box',v); if(cpb) renderCp(cpb);
   dxSwap($('#dx-pick-view'),v,()=>{ dxBar(); window.scrollTo({top:dxY($('[data-page="price"]'),0),behavior:'auto'}); const h=$('#h-est'); try{ h.focus({preventScroll:true}); }catch(e){} });
@@ -1656,7 +1649,7 @@ route();
 (function(){
   if(RM||!('IntersectionObserver' in window)||!Element.prototype.animate) return;
   const vh=window.innerHeight||800;
-  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.sec>.bills,.sec>.bill-f,.sec>.bill-pair>*,.guides>a,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
+  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.fit3>li,.sec>.bills,.sec>.bill-f,.sec>.bill-pair>*,.guides>a,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
   if(!els.length) return;
   els.forEach(el=>el.classList.add('rv'));
   let queue=[], timer=0;
