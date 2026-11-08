@@ -900,18 +900,18 @@ const DX_TYPES={
 const DX_COFFIN={cre:['화장용 오동나무관',20],bur:['매장용 오동나무관',30]};
 const DX_LINES={
   nob:[['svc','장례 형태','무빈소 장례 기본','장례지도사 · 입관지도사 · 입관용품',60,false,'무빈소 장례'],
-       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.',15,false,'면수의'],
+       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 기본 수의예요. 미리 준비해 두신 수의가 있으면 공제해 드려요.',15,true,'면수의'],
        ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
        ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)']],
   fam:[['svc','장례 형태','가족장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'가족장 (3일장)'],
-       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.',15,false,'면수의'],
+       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 기본 수의예요. 미리 준비해 두신 수의가 있으면 공제해 드려요.',15,true,'면수의'],
        ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
        ['binso','빈소 헌화','빈소 헌화 30송이','조문객이 영정 앞에 올리는 꽃',5,true,'30송이'],
        ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)'],
        ['staff','접객 도우미','접객 도우미','1인 12만원',24,true],
        ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',16,true]],
   gen:[['svc','장례 형태','일반장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'일반장 (3일장)'],
-       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.',15,false,'면수의'],
+       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 기본 수의예요. 미리 준비해 두신 수의가 있으면 공제해 드려요.',15,true,'면수의'],
        ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
        ['binso','빈소 헌화','빈소 헌화 50송이','조문객이 영정 앞에 올리는 꽃',7,true,'50송이'],
        ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)'],
@@ -946,12 +946,17 @@ const DX_HONEST={
   ipgwan:'꽃장식을 하지 않으셔도 염습과 입관은 <b>똑같이</b> 해 드려요.',
   binso:'헌화 없이 분향만 하셔도 괜찮아요.',
   staff:'조문객이 많지 않으면 가족분들이 직접 맞으셔도 괜찮아요.',
+  shroud:'미리 준비해 두신 수의(자가수의)로 정성껏 입혀 드려요. 상품의 면수의 금액은 공제해 드리고, 염습과 입관은 <b>똑같이</b> 해 드려요.',
   mourn:'갖고 계신 검은 옷으로 대신하셔도 괜찮아요.',
   car:'화장장 안에 있는 장례식장을 쓰시면 장의 차량 없이도 모실 수 있어요.',
   bus:'가족분들이 따로 움직이시면 장의버스 없이도 괜찮아요.',
   daeryeom:'궁중대렴을 하지 않으셔도 염습과 입관은 <b>똑같이</b> 정성껏 해 드려요.'
 };
 const dxHonest=k=>DX_HONEST[k];
+/* 빼기 버튼 이름 (2026-11-08 사용자 지시 : 수의는 「자가수의 사용」 · 미리 준비하신 수의는 공제) */
+const DX_OFFLBL={shroud:'자가수의 사용'};
+const dxOffLbl=k=>DX_OFFLBL[k]||'빼기';
+const dxCutName=l=>l[0]==='shroud'?'면수의 (자가수의 사용)':(l[6]||l[2]);
 const DX={type:null,burial:'cre',off:{},disc:false,cnt:{},opt:{}};
 const PR={nm:'',ch:false,cp:'',cpd:''};   /* 견적에 넣을 성함 · 할인권 (화면에만 있고 저장하지 않음) */
 const DX_EASE='cubic-bezier(0.19,1,0.22,1)';
@@ -976,7 +981,7 @@ function dxCalc(){
   L.forEach(l=>{ const k=l[0]; B+=l[4];
     if(DX.off[k]){ R+=l[4]; return; }
     const n=dxNow(l); C+=n-l[4];
-    if(l[5]) cut+=n;
+    if(l[5]&&k!=='shroud') cut+=n; /* 자가수의는 빼는 게 아니라 갖고 계신 수의로 바꾸는 것이라 「다 빼시면」에 넣지 않아요 */
     });
   const D=DX.disc?20:0, T=B-R+C-D; return {B,R,C,D,T,min:T-cut};
 }
@@ -1006,7 +1011,7 @@ function dxRowHTML(l){
   return '<li class="pl-row'+(DX_CNT[k]?' has-cnt':'')+(dxOpts(k)?' has-opt':'')+'" id="pl-'+k+'">'+
     '<span class="pl-t"><span class="pl-tt">'+dNb(nm)+'</span></span>'+(sub?'<small class="pl-s">'+dNb(sub)+'</small>':'')+
     '<span class="pl-amt">'+dMan(p)+'</span>'+
-    '<span class="pl-act">'+(rm?'<button type="button" class="pl-btn" data-off="'+k+'" aria-pressed="false" aria-label="'+dEsc(nm)+' 빼기">빼기</button>':'')+'</span>'+
+    '<span class="pl-act">'+(rm?'<button type="button" class="pl-btn'+(k==='shroud'?' own':'')+'" data-off="'+k+'" aria-pressed="false" aria-label="'+dEsc(nm)+' '+dxOffLbl(k)+'">'+dxOffLbl(k)+'</button>':'')+'</span>'+
     (DX_CNT[k]?dxCntHTML(k):'')+(dxOpts(k)?dxOptHTML(k):'')+
     (rm&&dxHonest(k)?'<div class="dx-fold"><div><p class="pl-honest">'+dxHonest(k)+'</p></div></div>':'')+
   '</li>';
@@ -1022,7 +1027,7 @@ function dxBuild(){
     '<ul class="pl">'+L.map(dxRowHTML).join('')+
       '<li class="pl-row free"><span class="pl-t"><span class="pl-tt">무료로 해 드리는 것</span></span><small class="pl-s">고인 이송 차량&nbsp;· 모바일 부고&nbsp;· 장지 안내&nbsp;· 화장 예약</small><span class="pl-amt free">무료</span><span class="pl-act"></span></li>'+
     '</ul>'+
-    '<p class="pl-note">장례 기본, 관, 수의는 꼭 있어야 해서 빼지 않아요. 그 밖에 쓰지 않으실 항목은 「빼기」를 누르시면 금액 그대로 100% 빠져요. 화장장 안에 있는 장례식장을 쓰시면 장의 차량도 빼실 수 있어요.'+(DX.type!=='nob'?' 도우미 인원과 상복 벌 수는 − 로 줄이시면 돼요.':'')+' 관 · 수의 · 장의 차량을 더 좋은 것으로 바꾸고 싶으시면 <a href="#upgrade" data-a="up">업그레이드할 수 있는 항목</a>을 봐 주세요.</p>';
+    '<p class="pl-note">장례 기본과 관은 꼭 있어야 해서 빼지 않아요. 쓰지 않으실 항목은 「빼기」를 누르시면 금액 그대로 100% 빠져요. 수의를 미리 준비해 두셨다면 「자가수의 사용」을 누르시면 수의 금액을 공제해 드려요. 화장장 안에 있는 장례식장을 쓰시면 장의 차량도 빼실 수 있어요.'+(DX.type!=='nob'?' 도우미 인원과 상복 벌 수는 − 로 줄이시면 돼요.':'')+' 관 · 수의 · 장의 차량을 더 좋은 것으로 바꾸고 싶으시면 <a href="#upgrade" data-a="up">업그레이드할 수 있는 항목</a>을 봐 주세요.</p>';
   L.forEach(l=>dxUpdRow(l[0],true));
   const up=$('[data-a="up"]',$('#dx-prod')); if(up) up.addEventListener('click',dxGoUp);
 }
@@ -1033,7 +1038,7 @@ function dxUpdRow(k,init){
   const a=$('.pl-amt',r), prev=a.innerHTML;
   a.innerHTML=off?'<span class="minus">'+dMan(-l[4])+'</span>':dMan(dxNow(l));
   if(!init&&prev!==a.innerHTML&&!RM&&a.animate) a.animate([{opacity:0,transform:'translate3d(0,-6px,0)'},{opacity:1,transform:'none'}],{duration:380,easing:DX_EASE});
-  const b=$('[data-off]',r); if(b){ b.textContent=off?'다시 넣기':'빼기'; b.setAttribute('aria-pressed',off); b.setAttribute('aria-label',l[2]+(off?' 다시 넣기':' 빼기')); }
+  const b=$('[data-off]',r); if(b){ b.textContent=off?'다시 넣기':dxOffLbl(k); b.setAttribute('aria-pressed',off); b.setAttribute('aria-label',l[2]+' '+(off?'다시 넣기':dxOffLbl(k))); }
   const sb=$('.pl-s',r);
   if(sb&&k==='daeryeom') sb.innerHTML=DX.off.ipgwan?'꽃장식 없이 궁중대렴만 하시면 20만원이에요':dNb(l[3]);
   if(dxOpts(k)){ const ids=dxSel(k).map(x=>x[0]), d=dxNow(l)-l[4], b0=dNb(dxBaseLbl(k));
@@ -1144,7 +1149,7 @@ function estLines(){
   return L;
 }
 /* 빼신 것 : [구분, 이름, 금액(원, 음수)] · 합계에는 들어가지 않고 보여 주기만 */
-function estCut(){ return dxLines().filter(l=>DX.off[l[0]]).map(l=>[l[1],DX_CNT[l[0]]?l[2]+' ('+dxCntText(l[0],dxBaseCnt(l[0]))+')':(l[6]||l[2]),-l[4]*10000]); }
+function estCut(){ return dxLines().filter(l=>DX.off[l[0]]).map(l=>[l[1],DX_CNT[l[0]]?l[2]+' ('+dxCntText(l[0],dxBaseCnt(l[0]))+')':dxCutName(l),-l[4]*10000]); }
 const estTotal=()=>dxCalc().T*10000;
 const urnSep=()=>DX.burial!=='bur';   /* 화장이면 유골함은 합계에 넣지 않는 별도 항목 (2026-10-21 사용자 지시) */
 const URN_NOTE='유골함은 합계에 들어 있지 않은 별도 항목이에요 · 카탈로그를 보시고 상담으로 정해요';
@@ -1255,7 +1260,7 @@ function dxEstHTML(){
   if(urnSep()) rows+=tr('유골함','카탈로그를 보시고 상담으로 정해요','합계에 넣지 않음','별도');
   if(DX.disc) rows+=tr('할인','수급자 · 국가유공자','',dWon(-20));
   rows+=tr('무료 제공',dNb('고인 이송 · 모바일 부고 · 장지 안내 · 화장 예약'),'','무료');
-  if(cut.length) rows+='<tr class="sub"><th colspan="3" scope="colgroup">빼신 것 <small>합계에 들어가지 않아요</small></th></tr>'+cut.map(l=>tr(l[1],'<s>'+dNb(DX_CNT[l[0]]?dxCntText(l[0],dxBaseCnt(l[0])):(l[6]||l[2]))+'</s>','','<s>'+dWon(l[4])+'</s>','cut')).join('');
+  if(cut.length) rows+='<tr class="sub"><th colspan="3" scope="colgroup">빼신 것 <small>합계에 들어가지 않아요</small></th></tr>'+cut.map(l=>tr(l[1],l[0]==='shroud'?'<s>면수의</s> 자가수의 사용':'<s>'+dNb(DX_CNT[l[0]]?dxCntText(l[0],dxBaseCnt(l[0])):(l[6]||l[2]))+'</s>','','<s>'+dWon(l[4])+'</s>','cut')).join('');
   const net=c.B-c.T;   /* 상품 금액보다 얼마나 덜었는지 (합계 줄 · 휴대폰 합계 줄과 같은 셈) */
   const kind=net>0?T.name+' 상품에서 '+dMan(net)+' 덜어낸 견적이에요.':net<0?T.name+' 상품에 '+dMan(-net)+' 더한 견적이에요.':T.name+' 상품 그대로의 견적이에요.';
   return '<section class="dx-est" aria-labelledby="h-est">'+
