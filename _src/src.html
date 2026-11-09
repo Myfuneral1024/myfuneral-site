@@ -498,7 +498,9 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 .promise-c{display:block;margin-top:6px;font-size:14px;line-height:1.6;color:var(--muted)}
 
 /* 상품 명세 : 견적서처럼 한 줄에 구분 · 금액, 아래에 고른 것 */
-.bills{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;align-items:stretch}
+.bills{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;align-items:stretch}
+.bills-more{margin-top:14px;font-size:15px;line-height:1.7;color:var(--ink-2,var(--muted))}
+.bills-more b{color:var(--ink)}
 .bill-tabs{display:none}
 .bill{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--pine);border-radius:4px;padding:18px 20px 20px}
 .bill-h{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:12px;border-bottom:1px solid var(--ink)}
@@ -531,8 +533,7 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
   .bill-tabs input:checked+span{background:var(--pine);color:var(--pine-ink)}
   .bill-tabs input:focus-visible+span{outline:2px solid var(--pine);outline-offset:-4px}
   .bills:has(input[value="nob"]:checked) .bill:not([data-bill="nob"]),
-  .bills:has(input[value="fam"]:checked) .bill:not([data-bill="fam"]),
-  .bills:has(input[value="gen"]:checked) .bill:not([data-bill="gen"]){display:none}
+  .bills:has(input[value="fam"]:checked) .bill:not([data-bill="fam"]){display:none}
   .bill-pair{grid-template-columns:minmax(0,1fr)}
 }
 @supports not selector(:has(*)){.bill-tabs{display:none!important}}
@@ -681,7 +682,8 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 .dx-n{flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--pine);color:var(--pine-ink);font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:0}
 
 /* 1. 상품 고르기 */
-.dx-types{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.dx-types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.dx-tnote{margin:10px 0 0;font-size:14px;line-height:1.65;color:var(--muted)}
 .dx-type{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:44px;padding:14px 14px 13px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);text-align:left;cursor:pointer;font:inherit;transition:border-color .2s,background-color .2s}
 .dx-type .t{font-weight:700;font-size:17px;line-height:1.35}
 .dx-type .p{font-family:var(--serif);font-weight:900;font-size:24px;line-height:1.25;white-space:nowrap;font-variant-numeric:tabular-nums}
@@ -689,7 +691,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 .dx-type .g{font-size:13.5px;color:var(--muted);line-height:1.45}
 .dx-type[aria-checked="true"]{border:2px solid var(--pine);padding:13px 13px 12px;background:var(--pine-soft)}
 .dx-type:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
-@media (max-width:560px){.dx-type{padding:12px 10px 11px}.dx-type[aria-checked="true"]{padding:11px 9px 10px}.dx-type .t{font-size:16px}.dx-type .p{font-size:21px}.dx-type .p small{font-size:13px}.dx-type .g{display:none}}
+@media (max-width:560px){.dx-type{padding:12px 10px 11px}.dx-type[aria-checked="true"]{padding:11px 9px 10px}.dx-type .t{font-size:16px}.dx-type .p{font-size:21px}.dx-type .p small{font-size:13px}.dx-type .g{font-size:13px}}
 @media (max-width:340px){.dx-type .t{font-size:15px}.dx-type .p{font-size:19px}}
 
 .dx-burial{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
@@ -953,9 +955,10 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 
     <div class="sec">
       <h2>상품에서 시작해, 우리 가족에 꼭 맞게</h2>
-      <ol class="fit3"><li><b>상품에서 시작해요</b><span>무빈소장 · 가족장 · 일반장 가운데 가족분들께 맞는 상품을 고르시면 돼요.</span></li><li><b>쓰지 않는 항목은 100% 공제</b><span>꽃장식 · 헌화 · 장의 차량 · 도우미 · 상복 가운데 쓰지 않으실 것은 금액 그대로 빼 드려요. 수의를 미리 준비해 두셨다면 수의 금액도 공제돼요.</span></li><li><b>원하시는 항목은 업그레이드</b><span>관 · 수의 · 장의 차량은 더 좋은 것으로 바꾸실 수 있어요. 차액만 더해져요.</span></li></ol>
+      <ol class="fit3"><li><b>상품에서 시작해요</b><span>빈소 없이 모시는 무빈소장과 빈소를 차리는 가족장 가운데, 가족분들께 맞는 상품을 고르시면 돼요.</span></li><li><b>쓰지 않는 항목은 100% 공제</b><span>꽃장식 · 헌화 · 장의 차량 · 도우미 · 상복 가운데 쓰지 않으실 것은 금액 그대로 빼 드려요. 수의를 미리 준비해 두셨다면 수의 금액도 공제돼요.</span></li><li><b>원하시는 항목은 업그레이드</b><span>관 · 수의 · 장의 차량은 더 좋은 것으로 바꾸실 수 있어요. 차액만 더해져요.</span></li></ol>
       <p class="sec-lead">상품마다 무엇이 들었는지 금액까지 한 줄씩 다 보여 드려요.</p>
-      <div class="bills"><div class="bill-tabs" role="radiogroup" aria-label="상품 고르기"><label><input type="radio" name="bill-k" value="nob" checked><span>무빈소장</span></label><label><input type="radio" name="bill-k" value="fam"><span>가족장</span></label><label><input type="radio" name="bill-k" value="gen"><span>일반장</span></label></div><article class="bill" data-bill="nob" aria-label="무빈소장 상품에 들어 있는 것"><header class="bill-h"><h3>무빈소장</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례 기본</span><i aria-hidden="true"></i><b>60<small>만원</small></b><span class="bv">장례지도사 · 입관지도사 · 입관용품</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>40<small>만원</small></b><span class="bv">리무진 (편도)</span></li></ul><p class="bill-t"><span>합계</span><b>155<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="nob">이 상품으로 비용 보기</a></article><article class="bill" data-bill="fam" aria-label="가족장 (3일장) 상품에 들어 있는 것"><header class="bill-h"><h3>가족장 (3일장)</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례 기본</span><i aria-hidden="true"></i><b>70<small>만원</small></b><span class="bv">장례지도사 · 입관지도사 · 입관용품</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">빈소 헌화</span><i aria-hidden="true"></i><b>5<small>만원</small></b><span class="bv">30송이</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>40<small>만원</small></b><span class="bv">리무진 (편도)</span></li><li><span class="bk">접객 도우미</span><i aria-hidden="true"></i><b>24<small>만원</small></b><span class="bv">하루 1명씩 이틀</span></li><li><span class="bk">상복</span><i aria-hidden="true"></i><b>16<small>만원</small></b><span class="bv">남 2벌 · 여 2벌</span></li></ul><p class="bill-t"><span>합계</span><b>210<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="fam">이 상품으로 비용 보기</a></article><article class="bill" data-bill="gen" aria-label="일반장 (3일장) 상품에 들어 있는 것"><header class="bill-h"><h3>일반장 (3일장)</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례 기본</span><i aria-hidden="true"></i><b>70<small>만원</small></b><span class="bv">장례지도사 · 입관지도사 · 입관용품</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">빈소 헌화</span><i aria-hidden="true"></i><b>7<small>만원</small></b><span class="bv">50송이</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>80<small>만원</small></b><span class="bv">리무진 + 장의버스</span></li><li><span class="bk">접객 도우미</span><i aria-hidden="true"></i><b>48<small>만원</small></b><span class="bv">하루 2명씩 이틀</span></li><li><span class="bk">상복</span><i aria-hidden="true"></i><b>32<small>만원</small></b><span class="bv">남 4벌 · 여 4벌</span></li></ul><p class="bill-t"><span>합계</span><b>292<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="gen">이 상품으로 비용 보기</a></article></div>
+      <div class="bills"><div class="bill-tabs" role="radiogroup" aria-label="상품 고르기"><label><input type="radio" name="bill-k" value="nob" checked><span>무빈소장</span></label><label><input type="radio" name="bill-k" value="fam"><span>가족장</span></label></div><article class="bill" data-bill="nob" aria-label="무빈소장 상품에 들어 있는 것"><header class="bill-h"><h3>무빈소장</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례 기본</span><i aria-hidden="true"></i><b>60<small>만원</small></b><span class="bv">장례지도사 · 입관지도사 · 입관용품</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>40<small>만원</small></b><span class="bv">리무진 (편도)</span></li></ul><p class="bill-t"><span>합계</span><b>155<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="nob">이 상품으로 비용 보기</a></article><article class="bill" data-bill="fam" aria-label="가족장 (3일장) 상품에 들어 있는 것"><header class="bill-h"><h3>가족장 (3일장)</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례 기본</span><i aria-hidden="true"></i><b>70<small>만원</small></b><span class="bv">장례지도사 · 입관지도사 · 입관용품</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">빈소 헌화</span><i aria-hidden="true"></i><b>5<small>만원</small></b><span class="bv">30송이</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>40<small>만원</small></b><span class="bv">리무진 (편도)</span></li><li><span class="bk">접객 도우미</span><i aria-hidden="true"></i><b>24<small>만원</small></b><span class="bv">하루 1명씩 이틀</span></li><li><span class="bk">상복</span><i aria-hidden="true"></i><b>16<small>만원</small></b><span class="bv">남 2벌 · 여 2벌</span></li></ul><p class="bill-t"><span>합계</span><b>210<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="fam">이 상품으로 비용 보기</a></article></div>
+      <p class="bills-more"><b>조문객이 많으셔도 가족장으로 모시면 돼요.</b> 접객 도우미 · 빈소 헌화 · 장의버스를 필요한 만큼 더해 맞춰 드려요.</p>
       <dl class="bill-f"><div><dt>무료</dt><dd>고인 이송 차량 · 모바일 부고 · 장지 안내 · 화장 예약</dd></div><div><dt>따로</dt><dd>장례식장 시설 사용료 · 음식, 화장장 사용료, 장지 비용은 쓰신 만큼 따로 내시면 돼요. 유골함은 합계 밖 별도이고, 실제 카탈로그를 보시고 상담으로 정하시면 돼요.</dd></div></dl>
       <div class="actions"><a class="btn btn-primary" href="#price">우리 가족 비용 계산하기</a><a class="btn btn-line" href="#price" data-goto="upgrade">업그레이드할 수 있는 항목</a></div>
     </div>
@@ -1140,7 +1143,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     <div id="dx-pick-view">
       <div class="dx-head">
         <h1 id="h-price">어떻게 모실지 고르시면,<br>비용을 바로 보여 드릴게요</h1>
-        <p>가족분들이 많이 하시는 구성으로 세 가지를 꾸려 두었어요. 쓰지 않으실 항목은 「빼기」를 누르시면 <b>금액 그대로 100% 공제</b>돼요. 수의를 미리 준비해 두셨다면 「자가수의 사용」을 누르시면 수의 금액이 공제돼요. 관 · 수의 · 장의 차량은 원하시면 업그레이드하실 수 있어요. 비용은 미리 내는 돈 없이 장례를 마친 뒤 정산해요.</p>
+        <p>가족분들이 많이 하시는 구성으로 두 가지를 꾸려 두었어요. 쓰지 않으실 항목은 「빼기」를 누르시면 <b>금액 그대로 100% 공제</b>돼요. 수의를 미리 준비해 두셨다면 「자가수의 사용」을 누르시면 수의 금액이 공제돼요. 관 · 수의 · 장의 차량은 원하시면 업그레이드하실 수 있어요. 비용은 미리 내는 돈 없이 장례를 마친 뒤 정산해요.</p>
       </div>
       <div class="dx-layout">
         <div>
@@ -1149,12 +1152,12 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
             <div class="dx-types" role="radiogroup" aria-labelledby="h-s1">
               <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="nob"><span class="t">무빈소장</span><span class="p" data-tp="nob">155<small>만원</small></span><span class="g">빈소 없이 가족끼리</span></button>
               <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="fam"><span class="t">가족장</span><span class="p" data-tp="fam">210<small>만원</small></span><span class="g">가족 · 가까운 친지와 함께</span></button>
-              <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="gen"><span class="t">일반장</span><span class="p" data-tp="gen">292<small>만원</small></span><span class="g">조문객이 많은 장례</span></button>
             </div>
+            <p class="dx-tnote">조문객이 많으시면 가족장을 고르신 뒤, 접객 도우미 · 빈소 헌화 · 장의버스를 <a href="#upgrade">업그레이드</a>로 더하시면 돼요.</p>
             <div class="dx-burial">
               <span id="dx-bur-l">모시는 방식</span>
               <div class="dx-seg" role="group" aria-labelledby="dx-bur-l"><button type="button" data-bur="cre" aria-pressed="true">화장</button><button type="button" data-bur="bur" aria-pressed="false">매장</button></div>
-              <small id="dx-bur-n">세 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.</small>
+              <small id="dx-bur-n">두 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.</small>
             </div>
           </section>
 
@@ -1184,7 +1187,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <h2>원하시면 업그레이드할 수 있어요</h2>
       <p class="sec-lead">상품에 든 것이 기본이에요. 원하시는 항목은 더 좋은 것으로 바꾸실 수 있고, 상품에 든 것과의 <b>차액만</b> 더해져요. 업그레이드는 상담 때 함께 정하고, 정하신 금액은 견적에 그대로 적어 드려요.</p>
       <div class="tblwrap"><table class="wordtbl cmp up"><thead><tr><th>항목</th><th>상품에 든 것</th><th>원하시면 <span class="muted">(괄호는 차액)</span></th></tr></thead><tbody>
-        <tr><td><b>수의</b></td><td data-l="상품에 든 것">면수의 15만원</td><td data-l="원하시면"><div class="up-o"><span>저마수의 20만원 <small>(+5만원)</small></span><span>황토수의 30만원 <small>(+15만원)</small></span><span>쟈가드수의 50만원 <small>(+35만원)</small></span><span>대마수의 60만원 <small>(+45만원)</small></span><span>자가수의를 쓰시면 공제 <small>(−15만원)</small></span></div></td></tr><tr><td><b>관 · 화장</b></td><td data-l="상품에 든 것">화장용 오동나무관 20만원</td><td data-l="원하시면"><div class="up-o"><span>특수관 30만원 <small>(+10만원)</small></span></div></td></tr><tr><td><b>관 · 매장</b></td><td data-l="상품에 든 것">매장용 오동나무관 30만원</td><td data-l="원하시면"><div class="up-o"><span>솔송관 80만원 <small>(+50만원)</small></span><span>향나무관 160만원 <small>(+130만원)</small></span></div></td></tr><tr><td><b>입관</b></td><td data-l="상품에 든 것">생화 꽃장식 20만원</td><td data-l="원하시면"><div class="up-o"><span>꽃장식 + 궁중대렴 30만원 <small>(+10만원)</small></span></div></td></tr><tr><td><b>빈소 헌화</b></td><td data-l="상품에 든 것">30송이 5만원 (가족장)</td><td data-l="원하시면"><div class="up-o"><span>50송이 7만원 <small>(+2만원)</small></span></div></td></tr><tr><td><b>장의 차량</b></td><td data-l="상품에 든 것">리무진 (편도) 40만원</td><td data-l="원하시면"><div class="up-o"><span>장의버스 (왕복) 더하기 40만원 <small>(+40만원)</small></span><span>무빈소장은 스타리아 · 카니발 30만원으로 바꾸셔도 돼요 <small>(−10만원)</small></span></div></td></tr><tr><td><b>접객 도우미</b></td><td data-l="상품에 든 것">가족장 하루 1명씩 · 일반장 하루 2명씩</td><td data-l="원하시면"><div class="up-o"><span>1명 더 12만원 <small>(하루에)</small></span></div></td></tr><tr><td><b>상복</b></td><td data-l="상품에 든 것">가족장 남 2 · 여 2벌 · 일반장 남 4 · 여 4벌</td><td data-l="원하시면"><div class="up-o"><span>남성용 1벌 5만원 · 여성용 1벌 3만원 더</span></div></td></tr>
+        <tr><td><b>수의</b></td><td data-l="상품에 든 것">면수의 15만원</td><td data-l="원하시면"><div class="up-o"><span>저마수의 20만원 <small>(+5만원)</small></span><span>황토수의 30만원 <small>(+15만원)</small></span><span>쟈가드수의 50만원 <small>(+35만원)</small></span><span>대마수의 60만원 <small>(+45만원)</small></span><span>자가수의를 쓰시면 공제 <small>(−15만원)</small></span></div></td></tr><tr><td><b>관 · 화장</b></td><td data-l="상품에 든 것">화장용 오동나무관 20만원</td><td data-l="원하시면"><div class="up-o"><span>특수관 30만원 <small>(+10만원)</small></span></div></td></tr><tr><td><b>관 · 매장</b></td><td data-l="상품에 든 것">매장용 오동나무관 30만원</td><td data-l="원하시면"><div class="up-o"><span>솔송관 80만원 <small>(+50만원)</small></span><span>향나무관 160만원 <small>(+130만원)</small></span></div></td></tr><tr><td><b>입관</b></td><td data-l="상품에 든 것">생화 꽃장식 20만원</td><td data-l="원하시면"><div class="up-o"><span>꽃장식 + 궁중대렴 30만원 <small>(+10만원)</small></span></div></td></tr><tr><td><b>빈소 헌화</b></td><td data-l="상품에 든 것">30송이 5만원 (가족장)</td><td data-l="원하시면"><div class="up-o"><span>50송이 7만원 <small>(+2만원)</small></span></div></td></tr><tr><td><b>장의 차량</b></td><td data-l="상품에 든 것">리무진 (편도) 40만원</td><td data-l="원하시면"><div class="up-o"><span>장의버스 (왕복) 더하기 40만원 <small>(+40만원)</small></span><span>무빈소장은 스타리아 · 카니발 30만원으로 바꾸셔도 돼요 <small>(−10만원)</small></span></div></td></tr><tr><td><b>접객 도우미</b></td><td data-l="상품에 든 것">가족장 하루 1명씩</td><td data-l="원하시면"><div class="up-o"><span>1명 더 12만원 <small>(하루에)</small></span></div></td></tr><tr><td><b>상복</b></td><td data-l="상품에 든 것">가족장 남 2 · 여 2벌</td><td data-l="원하시면"><div class="up-o"><span>남성용 1벌 5만원 · 여성용 1벌 3만원 더</span></div></td></tr>
       </tbody></table></div>
       <details class="faq"><summary>수의 옷감은 이렇게 달라요</summary><div class="faq-a"><dl class="up-dl"><div><dt>면수의</dt><dd>무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.</dd></div><div><dt>저마수의</dt><dd>저마는 모시풀에서 얻는 모시예요. 예부터 여름 옷감으로 쓰였고, 가볍고 시원한 결이 특징이에요. 예전에는 귀한 옷감이었어요.</dd></div><div><dt>황토수의</dt><dd>황토로 물들인 옷감으로 지은 수의예요. 은은한 흙빛이 나는 자연 소재예요.</dd></div><div><dt>쟈가드수의</dt><dd>자카드 직기로 무늬를 넣어 짠 옷감으로 지은 수의예요. 은은한 무늬와 광택이 있어 단정하고 품위 있게 보여요.</dd></div><div><dt>대마수의</dt><dd>대마(삼)에서 얻은 삼베로 지은 수의예요. 바람이 잘 통하고 흙에서 자연으로 돌아가는 소재라, 오늘날 수의를 대표하는 옷감이에요.</dd></div></dl></div></details>
       <p class="note">금액은 나만의장례 가격표 그대로예요. 장의 차량은 200km까지가 기본이고, 넘으면 1km당 1,800원이 더해져요. 유골함은 실제 카탈로그를 보시고 상담하며, 모실 곳과 형편에 맞게 합리적으로 정하실 수 있어요.</p>
@@ -1195,13 +1198,13 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <h2 id="h-terms">꼭 알아 두실 것</h2>
       <p>첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.<br>견적에 없던 금액을 미리 말씀드리지 않고 받았다면, 그 금액의 두 배를 돌려 드려요. 1661-4214로 말씀해 주세요.</p>
       <ul>
-        <li>기본 금액(무빈소 60만원, 가족장 · 일반장 70만원)에 장례지도사 · 입관지도사와 입관용품이 들어 있어요.</li>
+        <li>기본 금액(무빈소 60만원, 가족장 70만원)에 장례지도사 · 입관지도사와 입관용품이 들어 있어요.</li>
         <li>쓰지 않으신 항목은 상품 금액에서 100% 공제해 드려요. 장례 기본과 관은 꼭 있어야 해서 빼지 않아요.</li>
         <li>수의를 미리 준비해 두셨다면(자가수의) 그 수의로 모시고, 상품의 면수의 금액 15만원을 공제해 드려요.</li>
         <li>관 · 수의 · 장의 차량 등은 원하시면 업그레이드하실 수 있어요. 상품에 든 것과의 차액만 더해져요. <a href="#upgrade">업그레이드할 수 있는 항목</a></li>
         <li><b>유골함은 견적 합계에 넣지 않는 별도 항목이에요.</b> 실제 카탈로그를 보시고 상담하며, 모실 곳과 형편에 맞게 합리적으로 정하실 수 있어요. <a href="#urn">일반함과 진공함 차이</a></li>
         <li>고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료예요.</li>
-        <li>가족장이나 일반장 견적을 받으신 뒤 카카오톡 채널 @나만의장례를 추가하시면 10만원 사전 상담 감사 할인권을 드려요. 기한이 없고, 수급자 · 국가유공자 할인과 함께 쓰셔도 돼요.</li>
+        <li>가족장 견적을 받으신 뒤 카카오톡 채널 @나만의장례를 추가하시면 10만원 사전 상담 감사 할인권을 드려요. 기한이 없고, 수급자 · 국가유공자 할인과 함께 쓰셔도 돼요.</li>
         <li>장례식장 시설 사용료와 음식 비용, 화장장 사용료, 장지 비용은 쓰신 만큼 따로 내시면 돼요.</li>
         <li>장의 차량은 200km까지가 기본이고, 넘으면 1km당 1,800원이 더해져요.</li>
         <li>리무진은 1차 장지나 화장장까지 운행해요.</li>
@@ -1841,16 +1844,16 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
     </div>
 
     <div class="sec">
-      <h2>무빈소장 · 가족장 · 일반장, 무엇이 다른가요</h2>
-      <div class="tblwrap"><table class="wordtbl cmp"><thead><tr><th>구분</th><th>무빈소장</th><th>가족장</th><th>일반장</th></tr></thead><tbody>
-        <tr><td><b>빈소</b></td><td data-l="무빈소장">차리지 않아요</td><td data-l="가족장">차려요</td><td data-l="일반장">차려요</td></tr>
-        <tr><td><b>조문</b></td><td data-l="무빈소장">받지 않아요</td><td data-l="가족장">가까운 분 위주</td><td data-l="일반장">많이 오실 때</td></tr>
-        <tr><td><b>기간</b></td><td data-l="무빈소장">2일장도 돼요</td><td data-l="가족장">보통 3일장</td><td data-l="일반장">3일장</td></tr>
-        <tr><td><b>상품 금액</b></td><td data-l="무빈소장">155만원</td><td data-l="가족장">210만원</td><td data-l="일반장">292만원</td></tr>
-        <tr><td><b>접객 도우미</b></td><td data-l="무빈소장">없어요</td><td data-l="가족장">하루 1명씩</td><td data-l="일반장">하루 2명씩</td></tr>
-        <tr><td><b>장의 차량</b></td><td data-l="무빈소장">리무진</td><td data-l="가족장">리무진</td><td data-l="일반장">리무진 + 장의버스</td></tr>
+      <h2>무빈소장과 가족장, 무엇이 다른가요</h2>
+      <div class="tblwrap"><table class="wordtbl cmp"><thead><tr><th>구분</th><th>무빈소장</th><th>가족장</th></tr></thead><tbody>
+        <tr><td><b>빈소</b></td><td data-l="무빈소장">차리지 않아요</td><td data-l="가족장">차려요</td></tr>
+        <tr><td><b>조문</b></td><td data-l="무빈소장">받지 않아요</td><td data-l="가족장">받아요 · 많으셔도 돼요</td></tr>
+        <tr><td><b>기간</b></td><td data-l="무빈소장">2일장도 돼요</td><td data-l="가족장">보통 3일장</td></tr>
+        <tr><td><b>상품 금액</b></td><td data-l="무빈소장">155만원</td><td data-l="가족장">210만원</td></tr>
+        <tr><td><b>접객 도우미</b></td><td data-l="무빈소장">없어요</td><td data-l="가족장">하루 1명씩</td></tr>
+        <tr><td><b>장의 차량</b></td><td data-l="무빈소장">리무진</td><td data-l="가족장">리무진</td></tr>
       </tbody></table></div>
-      <p class="note">상품 금액은 화장 기준이에요. 염습과 입관, 발인, 장지까지 함께 가는 것은 세 장례 모두 똑같아요. <a href="#nobinso">무빈소 장례 안내</a></p>
+      <p class="note">상품 금액은 화장 기준이에요. 염습과 입관, 발인, 장지까지 함께 가는 것은 두 장례 모두 똑같아요. 조문객이 많으시면 가족장에 접객 도우미 · 빈소 헌화 · 장의버스를 더해 맞춰 드려요. <a href="#nobinso">무빈소 장례 안내</a></p>
     </div>
 
     <div class="sec">
@@ -1966,7 +1969,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <h2>저희 할인</h2>
       <ul class="list">
         <li>수급자 · 국가유공자 가족이시면 어느 상품이든 20만원을 할인해 드려요.</li>
-        <li>가족장 · 일반장이면 카카오톡 채널 할인권 10만원과 함께 쓰실 수 있어요.</li>
+        <li>가족장이면 카카오톡 채널 할인권 10만원과 함께 쓰실 수 있어요.</li>
         <li>확인에 필요한 서류는 상담 때 알려 드릴게요.</li>
       </ul>
       <p class="note">지원 제도는 2026년 11월에 정부24 · 국가보훈부 안내로 확인한 내용이에요. 금액과 조건은 바뀔 수 있으니 신청하실 때 한 번 더 확인해 주세요.</p>
@@ -2939,12 +2942,11 @@ function renderClanPage(){
 }
 
 /* ── 비용 계산 : 상품을 고르고, 쓰지 않을 것만 빼기 (2026-11-01 사용자 결정 · 예전 단계별 계산기를 바꿈) ──
-   가격 단위는 만원. 세 상품 구성은 이 표 하나에서 나온다 → 바꾸면 build.py META['price'] 검색 설명 · 영수증 파일 PRICE도 같이.
+   가격 단위는 만원. 두 상품 구성은 이 표 하나에서 나온다 (2026-11-09 일반장 없앰 — 조문객이 많으면 가족장 + 업그레이드) → 바꾸면 build.py META['price'] 검색 설명 · 영수증 파일 PRICE도 같이.
    줄 = [키, 구분(견적용), 이름, 작은 글, 상품 금액, 뺄 수 있음, 견적에 쓸 이름] · 모두 화장 기준, 매장이면 관만 매장용 오동나무관 30 */
 const DX_TYPES={
   nob:{name:'무빈소장',tag:'빈소 없이 가족끼리',desc:'빈소 없이 가족끼리 조용히 마지막 인사를 나누는 장례예요. 전국 어디서나 정성껏 모셔 드려요.'},
-  fam:{name:'가족장',tag:'가족 · 가까운 친지와 함께',desc:'가족과 가까운 친지분들이 모여, 사흘 동안 고인 곁에서 함께 배웅하는 장례예요.'},
-  gen:{name:'일반장',tag:'조문객이 많은 장례',desc:'직장 동료와 지인분들까지 함께 배웅하는 장례예요. 조문객이 많아도 가족분들이 고인 곁을 지키실 수 있게 넉넉히 준비해 드려요.'}
+  fam:{name:'가족장',tag:'가족 · 가까운 친지와 함께',desc:'가족과 가까운 친지분들이 모여, 사흘 동안 고인 곁에서 함께 배웅하는 장례예요.'}
 };
 const DX_COFFIN={cre:['화장용 오동나무관',20],bur:['매장용 오동나무관',30]};
 const DX_LINES={
@@ -2958,19 +2960,11 @@ const DX_LINES={
        ['binso','빈소 헌화','빈소 헌화 30송이','조문객이 영정 앞에 올리는 꽃',5,true,'30송이'],
        ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)'],
        ['staff','접객 도우미','접객 도우미','1인 12만원',24,true],
-       ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',16,true]],
-  gen:[['svc','장례 형태','일반장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'일반장 (3일장)'],
-       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 기본 수의예요. 미리 준비해 두신 수의가 있으면 공제해 드려요.',15,true,'면수의'],
-       ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
-       ['binso','빈소 헌화','빈소 헌화 50송이','조문객이 영정 앞에 올리는 꽃',7,true,'50송이'],
-       ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)'],
-       ['bus','장의 차량','장의 차량 · 장의버스 (왕복)','가족분들도 함께 타고 다녀오는 왕복이에요',40,true,'장의버스 (왕복)'],
-       ['staff','접객 도우미','접객 도우미','1인 12만원',48,true],
-       ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',32,true]]
+       ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',16,true]]
 };
 /* 고르는 줄 (2026-11-01 사용자 지시) : 수의(하나만) · 장의 차량(여러 개, 리무진 + 장의버스처럼) — 모든 상품
    [값, 이름, 금액, 설명, 견적에 쓸 작은 글, 함께 고를 때 견적 글] · base 가 상품에 들어 있는 것.
-   장의 차량 : 무빈소장 차량 미사용 · 스타리아/카니발 · 리무진 · 장의버스, 가족장 · 일반장 차량 미사용 · 리무진 · 장의버스.
+   장의 차량 : 무빈소장 차량 미사용 · 스타리아/카니발 · 리무진 · 장의버스, 가족장 차량 미사용 · 리무진 · 장의버스.
    「차량 미사용」은 혼자만, 스타리아/카니발과 리무진은 둘 중 하나만(둘 다 고인을 모시는 차), 장의버스는 어느 것과도 함께 */
 /* 2026-11-08 사용자 지시 : 비용 계산은 상품에서 「공제(빼기)만」. 수의 · 장의 차량 고르기는 없애고,
    업그레이드할 수 있는 항목(수의 · 관 · 입관 · 헌화 · 차량 · 도우미 · 상복)은 비용 계산 아래 #upgrade 표로 따로 안내한다 (상담 때 정함) */
@@ -2987,8 +2981,8 @@ const dxName=l=>{ const sl=dxSel(l[0]); return sl&&!DX.off[l[0]]?sl.map(x=>x[1])
 const dxSub=l=>{ const k=l[0]; if(k==='svc') return '장례지도사 · 입관지도사 · 입관용품 포함'; if(k==='car'||k==='bus') return l[3]; if(k==='daeryeom') return '매장하실 때 기본으로 넣어 드려요'; const sl=dxSel(k); return !sl?'':sl.length>1?sl.map(x=>x[5]).join(' · '):(sl[0][4]||''); };
 /* 인원 · 벌 수를 정하는 줄 : 상품에 들어 있는 수가 처음 값, 0이 되면 뺀 것으로 */
 const DX_CNT={
-  staff:{unit:'명',max:6,price:[12,12],rows:['첫째 날','둘째 날'],note:'줄이신 만큼 100% 빼 드려요. 더 필요하시면 상담 때 말씀해 주세요(1인 12만원). 4일장 이상은 현장에서 상담해 드려요.',base:{fam:[1,1],gen:[2,2]}},
-  mourn:{unit:'벌',max:10,price:[5,3],rows:['남성용','여성용'],note:'줄이신 만큼 100% 빼 드려요. 남성용에는 셔츠 · 타이가 함께 있어요. 갖고 계신 분은 빼고 세어 주세요.',base:{fam:[2,2],gen:[4,4]}}
+  staff:{unit:'명',max:6,price:[12,12],rows:['첫째 날','둘째 날'],note:'줄이신 만큼 100% 빼 드려요. 더 필요하시면 상담 때 말씀해 주세요(1인 12만원). 4일장 이상은 현장에서 상담해 드려요.',base:{fam:[1,1]}},
+  mourn:{unit:'벌',max:10,price:[5,3],rows:['남성용','여성용'],note:'줄이신 만큼 100% 빼 드려요. 남성용에는 셔츠 · 타이가 함께 있어요. 갖고 계신 분은 빼고 세어 주세요.',base:{fam:[2,2]}}
 };
 /* 빼면 열리는 정직한 한 줄 */
 const DX_HONEST={
@@ -3166,7 +3160,7 @@ function dxSetBurial(b){
 }
 function dxUpdUrn(){
   $('#dx-urn').hidden=DX.burial==='bur';
-  $('#dx-bur-n').textContent=DX.burial==='bur'?'매장하시면 관이 매장용 오동나무관(30만원)으로 바뀌고, 궁중대렴을 기본으로 넣어 드려요. 유골함은 필요 없어요. 묘지 비용은 따로예요.':'세 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.';
+  $('#dx-bur-n').textContent=DX.burial==='bur'?'매장하시면 관이 매장용 오동나무관(30만원)으로 바뀌고, 궁중대렴을 기본으로 넣어 드려요. 유골함은 필요 없어요. 묘지 비용은 따로예요.':'두 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.';
 }
 function dxToggle(k){ DX.off[k]=!DX.off[k]; if(DX_CNT[k]) DX.cnt[k]=dxBaseCnt(k); if(dxOpts(k)) DX.opt[k]=dxBase(k); dxUpdRow(k); if(k==='ipgwan') dxUpdRow('daeryeom'); dxUpdSum(); }
 function dxSetOpt(k,v){
@@ -3205,10 +3199,10 @@ const URN_NOTE='유골함은 합계에 들어 있지 않은 별도 항목이에�
 const lineVal=l=>l[3]||(l[1]<0?'−'+won(-l[1]):won(l[1]));
 const estKind=()=>DX_TYPES[DX.type].name+' 상품 견적';
 const estWho=()=>{ const n=String(PR.nm||'').trim().replace(/\s*(고객)?\s*님$/,'').trim(); return n?n+' 고객님':''; };
-/* ── 사전 상담 감사 할인권 (가족장 · 일반장 견적 + 카톡 채널 추가 · 기한 없음 · 수급자 할인과 함께 사용 · 저장하지 않음) ── */
+/* ── 사전 상담 감사 할인권 (가족장 견적 + 카톡 채널 추가 · 기한 없음 · 수급자 할인과 함께 사용 · 저장하지 않음) ── */
 const CP_AMT=100000, CP_CH_URL='https://pf.kakao.com/_BxnMxhX/friend';
-const CP_RULES=['가족장 · 일반장(3일장)으로 장례를 진행할 때 정산 금액에서 10만원을 할인해 드립니다.','카카오톡 채널 @나만의장례 친구에게 드리는 할인권이며, 현장에서 채널 친구를 확인합니다.','기한 없이 쓰실 수 있고, 수급자 · 국가유공자 할인과 함께 쓰실 수 있습니다.','장례 한 번에 한 장만 쓸 수 있고, 현금으로 바꿀 수 없습니다.'];
-const cpType=()=>DX.type==='fam'||DX.type==='gen';
+const CP_RULES=['가족장(3일장)으로 장례를 진행할 때 정산 금액에서 10만원을 할인해 드립니다.','카카오톡 채널 @나만의장례 친구에게 드리는 할인권이며, 현장에서 채널 친구를 확인합니다.','기한 없이 쓰실 수 있고, 수급자 · 국가유공자 할인과 함께 쓰실 수 있습니다.','장례 한 번에 한 장만 쓸 수 있고, 현금으로 바꿀 수 없습니다.'];
+const cpType=()=>DX.type==='fam';
 const cpOK=()=>cpType()&&PR.ch;
 function cpNo(){ if(!PR.cp){ const d=new Date(), A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', r=new Uint32Array(4);
     try{ crypto.getRandomValues(r); }catch(e){ for(let i=0;i<4;i++) r[i]=Math.floor(Math.random()*4294967295); }
@@ -3218,7 +3212,7 @@ function cpNo(){ if(!PR.cp){ const d=new Date(), A='ABCDEFGHJKLMNPQRSTUVWXYZ2345
 const cpAfter=()=>won(Math.max(0,estTotal()-CP_AMT))+(urnSep()?' (유골함 별도)':'');
 function renderCp(box){
   if(!PR.ch){
-    box.innerHTML='<p class="cp-t">사전 상담 감사 할인권 <b>100,000원</b></p><p>'+(DX.type==='gen'?'일반장':'가족장')+' 견적을 받아 주셔서 고맙습니다. 카카오톡 채널 <b>@나만의장례</b>를 추가하시면, 나중에 장례 때 쓰실 수 있는 10만원 할인권을 드려요.</p><a class="btn btn-primary" data-a="ch" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>채널 추가하고 할인권 받기</a><p class="note">이미 채널 친구이시면 눌러도 그대로 받으실 수 있어요.</p>';
+    box.innerHTML='<p class="cp-t">사전 상담 감사 할인권 <b>100,000원</b></p><p>가족장 견적을 받아 주셔서 고맙습니다. 카카오톡 채널 <b>@나만의장례</b>를 추가하시면, 나중에 장례 때 쓰실 수 있는 10만원 할인권을 드려요.</p><a class="btn btn-primary" data-a="ch" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>채널 추가하고 할인권 받기</a><p class="note">이미 채널 친구이시면 눌러도 그대로 받으실 수 있어요.</p>';
     const a=box.querySelector('[data-a="ch"]'); a.href=CP_CH_URL;
     a.addEventListener('click',()=>{ PR.ch=true; cpNo(); setTimeout(()=>{ renderCp(box); toast('할인권이 나왔어요. 견적 이미지를 다시 저장해 주세요'); },300); });
     return; }
@@ -3262,7 +3256,7 @@ function estText(){ const L=estLines(), X=estCut(), w=estWho(), c=dxCalc(), T=DX
     (X.length?'\n\n[빼신 것 · 합계에 들어가지 않음]\n'+X.map(x=>'· '+x[0]+' '+x[1]+' '+won(-x[2])).join('\n'):'')+
     '\n\n'+T.name+' 상품 '+dWon(c.B)+(c.R?' · 빼신 것 '+dWon(-c.R):'')+(c.C?' · 줄이신 인원 · 벌 수 '+dSWon(c.C):'')+(c.D?' · 할인 '+dWon(-c.D):'')+
     '\n합계: '+won(estTotal())+(urnSep()?'\n(※ '+URN_NOTE+')':'')+(DX.disc?'\n(수급자 · 국가유공자 할인 20만원 포함 · 대상 확인은 상담 때)':'')+
-    (cpOK()?'\n\n[사전 상담 감사 할인권] 100,000원 할인\n번호 '+PR.cp+' · 발급일 '+PR.cpd+'\n· 가족장 · 일반장(3일장) 진행 시 정산 금액에서 할인 · 카카오톡 채널 친구 확인\n· 기한 없음 · 수급자 · 국가유공자 할인과 함께 사용 가능':'')+
+    (cpOK()?'\n\n[사전 상담 감사 할인권] 100,000원 할인\n번호 '+PR.cp+' · 발급일 '+PR.cpd+'\n· 가족장(3일장) 진행 시 정산 금액에서 할인 · 카카오톡 채널 친구 확인\n· 기한 없음 · 수급자 · 국가유공자 할인과 함께 사용 가능':'')+
     '\n\n※ 미리 내는 돈 없이 장례를 마친 뒤 정산해요.\n※ 이 견적을 꼭 저장해 두셨다가 현장에서 보여 주시면 그대로 진행해 드려요.\n\n* 장례식장 시설 사용료 · 음식값, 화장장 사용료, 장지 비용 별도\n* 리무진은 1차 장지 또는 화장장까지 편도, 장의버스는 왕복\n* 장의 차량 기준 거리 200km 초과 시 1km당 1,800원\n상담 1661-4214 (24시간)'; }
 const LOGO={mark:new Image(),word:new Image()};
 const logoReady=Promise.all(['mark','word'].map(k=>new Promise(r=>{ LOGO[k].onload=r; LOGO[k].onerror=r; LOGO[k].src={mark:'data:image/png;base64,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',word:'data:image/png;base64,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'}[k]; })));
@@ -3373,7 +3367,7 @@ function bindPrice(){
   cbH(); window.addEventListener('resize',cbH);
   if('IntersectionObserver' in window){ new IntersectionObserver(es=>{ es.forEach(en=>{ DX_SEEN=en.isIntersecting; }); dxBar(); },{rootMargin:'0px 0px -35% 0px'}).observe($('#dx-pick-view')); }
   /* /price/?type=fam 으로 오면 그 상품이 골라진 채로 */
-  const q=new URLSearchParams(location.search).get('type');
+  let q=new URLSearchParams(location.search).get('type'); if(q==='gen') q='fam'; /* 일반장은 2026-11-09 없앰 */
   if(q&&DX_TYPES[q]){ dxSetType(q,true); try{ history.replaceState(null,'',location.pathname); }catch(e){} }
 }
 

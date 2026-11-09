@@ -10,7 +10,7 @@ function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; cle
 function copyText(text, okMsg, el){
   let p;
   try{ p=navigator.clipboard.writeText(text); }catch(e){ p=Promise.reject(e); }
-  p.then(()=>toast(okMsg||'복사했습니다')).catch(()=>{
+  p.then(()=>toast(okMsg||'복사했어요')).catch(()=>{
     if(el){ const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r); }
     toast(el?'선택된 글을 길게 눌러 복사해 주세요':'번호를 길게 눌러 복사해 주세요: '+text);
   });
@@ -30,10 +30,11 @@ async function saveFile(filename,data,okMsg){
 document.addEventListener('click',e=>{
   const c=e.target.closest('[data-copy]'); if(c){ copyText(c.getAttribute('data-copy'),'전화번호를 복사했어요'); }
   const g=e.target.closest('[data-goto-tab]'); if(g){ PS.tab=g.getAttribute('data-goto-tab'); }
+  const gr=e.target.closest('[data-goto-rel]'); if(gr&&REL[gr.getAttribute('data-goto-rel')]){ PS.rel=gr.getAttribute('data-goto-rel'); PS.tab='jb'; if(!REL[PS.rel].gen) PS.pair=false; }
 });
 
 /* ── 화면 이동 (메뉴마다 주소가 따로 있음) ── */
-const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn','gajokjang','sangjo','support','jibang'];
 const PAGE=(function(){ const b=document.body.getAttribute('data-route'); return PAGES.indexOf(b)>=0?b:'home'; })();
 function route(){
   const p=PAGE;
@@ -188,7 +189,7 @@ const cz=c=>({bk:(c&&c.bk)||'○○',sk:(c&&c.sk)||'○',bh:(c&&c.bh)||'○○',
 const PS={
   tab:'jb', rlg:'yu', rel:'f', c1:NOCLAN, c2:NOCLAN, man:false, mbk:'', msk:'', mbh:'', msh:'',
   nameK:'', ttl:'hak', ttlH:'', role:'성도', bap:'', beop:'', wonHo:'', jbCus:false, jbText:'', pair:false, han:'0', bon:true, wt:800, font:'my',
-  jbSize:'L', copies:3, mjSize:'A4x2', hbItem:'box', hbChar:'前', hbSize:10, hbName:false,
+  jbSize:'L', copies:1, mjSize:'A4x2',
   ck:'balin', ckDate:isoDay(0), ckTitle:'auto', ckOut:'all', ckCus:false, ckTextH:'', ckTextR:'', ckTextK:'', ckStone:'碑石',
   sjFrom:isoDay(0), sjTo:isoDay(2), sjHall:true, sjL1:'집안에 상(喪)을 당하여', sjL2:'문을 닫습니다.', sjL3:'너그러운 양해 부탁드립니다.', sjSign:'주인 올림', sjTel:'',
   envWord:'buui', envName:'', envOrg:'',
@@ -266,7 +267,7 @@ function model(){
   let H=[], HK=[], lunarNote='', ckWarn='', ckL=null;
   const hdr=CK_NOHDR.indexOf(ck)<0;
   if(hdr){ ckL=lunar(PS.ckDate);
-    if(!ckL){ ckWarn='음력 · 간지 자동 계산은 2016년부터 2040년까지 날짜만 됩니다.'; lunarNote='날짜를 다시 골라 주세요.'; }
+    if(!ckL){ ckWarn='음력 · 간지 자동 계산은 2016년부터 2040년까지 날짜만 돼요.'; lunarNote='날짜를 다시 골라 주세요.'; }
     else { const L=ckL, yi=((L.y-4)%60+60)%60;
       const mH=(L.leap?'閏':'')+(L.m===1?'正':numH(L.m))+'月', mK=(L.leap?'윤':'')+MK[L.m]+'월';
       H=[['維 歲次 '+gzH(yi)+' '+mH+' '+gzH(L.shuo)+'朔','유 세차 '+gzK(yi)+' '+mK+' '+gzK(L.shuo)+'삭'],[numH(L.d)+'日 '+gzH(L.day),numK(L.d)+'일 '+gzK(L.day)]];
@@ -378,12 +379,11 @@ function model(){
   else if(ck==='noje') ckTip='노제는 정해진 본문이 없어요. 아래 「축문 직접 고치기」를 눌러 가운데 줄에 고인을 기리는 글을 써 넣어 주세요.';
   else if(ck==='donggang') ckTip='「○代」는 몇 대 어른 묘인지에 맞게 「축문 직접 고치기」로 고쳐 주세요. 할머니 묘면 祖考 → 祖妣, 學生府君 → 孺人○○○氏로 바꿔요.';
   else if(ck==='seongbok'||ck==='talsang3'||ck==='talsang49'||ck==='talsang100') ckTip='『가례』 · 『사례편람』 같은 예서에는 없는, 요즘 예절 책과 문중 자료에서 쓰는 문구예요. 집안 양식이 있으면 그것을 따르세요.';
-  else if(ck==='jolgok') ckTip='요즘은 부제(祔祭)를 지내지 않아, 옛 축문 끝의 「來日隮祔…」(내일 조상 곁에 모신다) 구절은 넣지 않았습니다.';
+  else if(ck==='jolgok') ckTip='요즘은 부제(祔祭)를 지내지 않아, 옛 축문 끝의 「來日隮祔…」(내일 조상 곁에 모신다) 구절은 넣지 않았어요.';
   const needClan=(R.g==='f'||(CK_SAN.indexOf(ck)>=0&&ck!=='myosan')||ck==='noje')||(pairCk&&R.g==='m');
   const kOnly=ck==='wiryeong';
   const fullName=or(fullK,'[고인 성함]');
-  const hbName=jb[0]? (isYu? (dec[0]) : jb[0]) : '';
-  return {R,c1:c1raw,c2,T,fullK,fullName,isYu,canPair,pairOn,jb,jbAuto,faith,dims,mjAll,mjSel,mj:mjT.h,dec,lines,linesK,ckH,ckK,ckRows,kOnly,ckCusOn,ckTip,needClan,cG,lunarNote,ckWarn,hdr,ckWho:cG==='sang'||cG==='je',hbName};
+  return {R,c1:c1raw,c2,T,fullK,fullName,isYu,canPair,pairOn,jb,jbAuto,faith,dims,mjAll,mjSel,mj:mjT.h,dec,lines,linesK,ckH,ckK,ckRows,kOnly,ckCusOn,ckTip,needClan,cG,lunarNote,ckWarn,hdr,ckWho:cG==='sang'||cG==='je'};
 }
 
 /* ── 그리기 ── */
@@ -442,24 +442,6 @@ function drawMyeong(ctx,x,y,w,h,k,str,wt){
   const X=x*k,Y=y*k,W=w*k,H=h*k; ctx.save(); ctx.fillStyle='#7a2420'; ctx.fillRect(X,Y,W,H);
   const ch=Array.from(str); const fs=Math.min(W*0.5,(H*0.84)/ch.length*0.88);
   ctx.fillStyle='#f4efe6'; ctx.font=fnt(wt,fs); spread(ctx,ch,X+W/2,Y+H*0.07,Y+H-H*0.06,fs); ctx.restore();
-}
-function drawHonbaek(ctx,k,m){
-  const item=PS.hbItem; ctx.fillStyle='#111111';
-  if(item==='box'){
-    const s=Math.max(30,Math.min(190,Number(PS.hbSize)*10||100)); const x=(210-s)/2, y=30;
-    ctx.save(); ctx.lineWidth=Math.max(1,0.3*k); ctx.strokeStyle='#111111'; ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.restore();
-    ctx.save(); cutLine(ctx,k); ctx.strokeRect((x-4)*k,(y-4)*k,(s+8)*k,(s+8)*k); ctx.restore();
-    const big=s*(PS.hbName?0.48:0.58); ctx.fillStyle='#111111'; ctx.font=fnt(900,big*k); ctx.textAlign='center'; ctx.textBaseline='middle';
-    ctx.fillText(PS.hbChar,(x+s/2)*k,(y+s*(PS.hbName?0.40:0.5))*k);
-    if(PS.hbName&&m.hbName){ const t=m.hbName; let fs=Math.min(s*0.11,(s*0.86)/Math.max(1,Array.from(t).length)); ctx.font=fnt(700,fs*k); ctx.fillText(t,(x+s/2)*k,(y+s*0.82)*k); }
-  } else if(item==='up'){
-    const s=40, cols=3, rows=4, gx=12, gy=12; const bw=cols*s+(cols-1)*gx, bh=rows*s+(rows-1)*gy; const x0=(210-bw)/2, y0=(297-bh)/2;
-    for(let r=0;r<rows;r++) for(let c=0;c<cols;c++){ const x=x0+c*(s+gx), y=y0+r*(s+gy); ctx.save(); cutLine(ctx,k); ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.restore(); ctx.fillStyle='#111111'; ctx.font=fnt(900,s*0.62*k); ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('上',(x+s/2)*k,(y+s/2)*k); }
-  } else {
-    const s=Math.max(30,Math.min(190,Number(PS.hbSize)*10||180)); const x=(210-s)/2, y=(297-s)/2;
-    ctx.save(); cutLine(ctx,k); ctx.strokeRect(x*k,y*k,s*k,s*k); ctx.setLineDash([0.6*k,1.6*k]); ctx.strokeStyle='#b4bab3';
-    ctx.beginPath(); ctx.moveTo((x+s/2)*k,y*k); ctx.lineTo((x+s/2)*k,(y+s)*k); ctx.moveTo(x*k,(y+s/2)*k); ctx.lineTo((x+s)*k,(y+s/2)*k); ctx.stroke(); ctx.restore();
-  }
 }
 function drawChukmun(ctx,k,lines,W,H){
   const L=Math.max(lines.length,1); const mx=20, top=22, bot=20;
@@ -562,19 +544,19 @@ function pagesFor(m){
   const wt=PS.wt; const t=PS.tab; const nm=(m.fullName||'고인').replace(/[\\/:*?"<>|]/g,'');
   if(t==='jb'){ const h=m.dims.h; const pw=m.dims.w; const gap=6;
     const cols=Math.max(1,Math.floor((190+gap)/(pw+gap))), rows=Math.max(1,Math.floor((277+gap)/(h+gap))), per=cols*rows; const pages=[];
-    for(let st=0;st<PS.copies;st+=per){ const cnt=Math.min(per,PS.copies-st);
-      pages.push({w:210,h:297,draw:(ctx,k)=>{ const used=cnt, rc=Math.ceil(used/cols), uc=Math.min(used,cols); const bw=uc*pw+(uc-1)*gap, bh=rc*h+(rc-1)*gap; const x0=(210-bw)/2, y0=Math.max(10,(297-bh)/2);
+    for(let st=0;st<PS.copies;st+=per){ const used=Math.min(per,PS.copies-st), rc=Math.ceil(used/cols), uc=Math.min(used,cols); const bw=uc*pw+(uc-1)*gap, bh=rc*h+(rc-1)*gap; const x0=(210-bw)/2, y0=Math.max(10,(297-bh)/2);
+      /* crop : 바로 인쇄할 때는 지방이 있는 부분만 실제 크기로 보낸다 (A4 한 장 크기 그림은 프린터 여백 때문에 넘쳐서 빈 장이 나옴) */
+      pages.push({w:210,h:297,crop:{x:x0-1,y:y0-1,w:bw+2,h:bh+2},draw:(ctx,k)=>{
         for(let i=0;i<used;i++){ const r=Math.floor(i/cols), c=i%cols; drawCard(ctx,x0+c*(pw+gap),y0+r*(h+gap),k,m,wt); } }}); }
     return {pages,name:(m.isYu?'지방_':'위패_')+'故'+nm, per, sheets:pages.length}; }
   if(t==='mj'){ const z=MJ[PS.mjSize]; const pages=[]; for(let c=0;c<PS.copies;c++) for(let i=0;i<z.n;i++){ pages.push({w:z.w,h:z.ph,draw:(ctx,k)=>{ ctx.save(); ctx.translate(0,-i*z.ph*k); drawMyeong(ctx,0,0,z.w,z.ph*z.n,k,m.mj,wt); ctx.restore(); }}); }
     return {pages,name:'명정_故'+nm}; }
-  if(t==='hb') return {pages:[{w:210,h:297,draw:(ctx,k)=>drawHonbaek(ctx,k,m)}],name:'혼백_故'+nm};
   if(t==='ck') return {pages:ckSheets(m).map(sv=>({w:297,h:210,draw:(ctx,k)=>drawCkSheet(ctx,k,m,sv.kind)})),name:(CKN[PS.ck]||'축문')+'_故'+nm};
   if(t==='sj') return {pages:[{w:210,h:297,draw:(ctx,k)=>drawSangjung(ctx,k)}],name:'상중안내문'};
   if(t==='env') return {pages:[{w:105,h:220,draw:(ctx,k)=>drawEnvFront(ctx,k,0)},{w:105,h:220,draw:(ctx,k)=>drawEnvBack(ctx,k,0)}],name:'부의봉투_'+or(PS.envName,'')};
   return {pages:[],name:''};
 }
-function docText(m){ return [m.jb.join(''),m.faith?[m.faith.role||'',m.faith.name||'',(m.faith.right||[]).join(''),(m.faith.left||[]).join(''),'妙法之靈'].join(''):'',m.mjSel.h,PS.sjL1,PS.sjL2,PS.sjL3,PS.sjSign,PS.hall,PS.room,m.ckH.join(''),m.ckK.join(''),m.ckRows.map(r=>r.r).join(''),'喪中上前',(ENV[PS.envWord]||[]).join(''),PS.envName,PS.envOrg,m.hbName,'집안에상을당하여부터까지문을닫습니다너그러운양해부탁드립니다주인올림'].join(''); }
+function docText(m){ return [m.jb.join(''),m.faith?[m.faith.role||'',m.faith.name||'',(m.faith.right||[]).join(''),(m.faith.left||[]).join(''),'妙法之靈'].join(''):'',m.mjSel.h,PS.sjL1,PS.sjL2,PS.sjL3,PS.sjSign,PS.hall,PS.room,m.ckH.join(''),m.ckK.join(''),m.ckRows.map(r=>r.r).join(''),'喪中',(ENV[PS.envWord]||[]).join(''),PS.envName,PS.envOrg,'집안에상을당하여부터까지문을닫습니다너그러운양해부탁드립니다주인올림'].join(''); }
 const fontDone=new Set();
 function ensureFonts(text){
   const key=PS.font+'|'+PS.wt+'|'+text; if(fontDone.has(key)||!document.fonts||!document.fonts.load) return Promise.resolve(false);
@@ -596,13 +578,12 @@ function preview(m){
     draw.k=kk; const P=pagesFor(m); cap=(m.isYu?'지방 ':'위패 ')+d.l+' · '+(pw/10)+' × '+(d.h/10)+'cm · 화면은 실제의 '+Math.round(kk/3.78*100)+'%'; sheet='A4 한 장에 '+P.per+'장씩 · '+PS.copies+'장이면 종이 '+P.sheets+'장'; }
   else if(t==='mj'){ const bw=Math.max(56,Math.min(84,availW*0.28)); const bh=tall-8; cssW=bw+8; cssH=tall;
     draw=(ctx,k)=>drawMyeong(ctx,4,4,bw,bh,k,m.mj.replace(/ /g,''),PS.wt);
-    draw.k=1; cap='명정 쓰는 예 · '+m.mjSel.l+' · 출력용이 아닌 참고용입니다'; sheet=''; }
-  else if(t==='hb'){ const kk=tall/297; cssW=210*kk; cssH=tall; draw=(ctx,k)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,210*k,297*k); drawHonbaek(ctx,k,m); }; draw.k=kk; cap='A4 세로 · 실제 크기로 인쇄하면 표지 크기가 맞습니다'; sheet='A4 1장'; }
+    draw.k=1; cap='명정 쓰는 예 · '+m.mjSel.l+' · 출력용이 아닌 참고용이에요'; sheet=''; }
   else if(t==='ck'){ const kk=Math.min(availW,660)/297; const sv=ckSheets(m); const lab=28/kk, gap=12/kk;
     cssW=297*kk; cssH=(sv.length*(210+lab)+(sv.length-1)*gap)*kk;
     draw=(ctx,k)=>{ let y=0; sv.forEach(x=>{ ctx.fillStyle='#3a413c'; ctx.font=fnt(700,(14/kk)*k,SANS); ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.fillText(x.t,0,(y+lab/2)*k); y+=lab;
       ctx.save(); ctx.translate(0,y*k); ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,297*k,210*k); drawCkSheet(ctx,k,m,x.kind); ctx.restore(); y+=210+gap; }); };
-    draw.k=kk; cap=(CKN[PS.ck]||'')+' · A4 가로 · 오른쪽 줄부터 읽습니다'; sheet='A4 가로 1장'; }
+    draw.k=kk; cap=(CKN[PS.ck]||'')+' · A4 가로 · 오른쪽 줄부터 읽어요'; sheet='A4 가로 1장'; }
   else if(t==='sj'){ const kk=tall/297; cssW=210*kk; cssH=tall; draw=(ctx,k)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(0,0,210*k,297*k); drawSangjung(ctx,k); }; draw.k=kk; cap='A4 세로 · 문 앞에 붙이는 안내문'; sheet='A4 세로 1장'; }
   else if(t==='env'){ const kk=Math.min(tall*0.86,420)/220; const g=10/kk; cssW=(210+g)*kk; cssH=220*kk;
     draw=(ctx,k)=>{ [0,105+g].forEach((ox,i)=>{ ctx.fillStyle='#ffffff'; ctx.fillRect(ox*k,0,105*k,220*k); ctx.strokeStyle='#9aa199'; ctx.lineWidth=1; ctx.strokeRect(ox*k+0.5,0.5,105*k-1,220*k-1); if(i===0) drawEnvFront(ctx,k,ox); else drawEnvBack(ctx,k,ox); }); };
@@ -627,17 +608,17 @@ function renderPrint(){
   const m=model(); const R=m.R;
   $$('[data-seg]').forEach(b=>{ const k=b.getAttribute('data-seg'); b.setAttribute('aria-pressed',String(String(PS[k])===b.getAttribute('data-v'))); });
   $$('#ptabs [data-tab]').forEach(b=>b.setAttribute('aria-selected',String(b.getAttribute('data-tab')===PS.tab)));
-  const tab=PS.tab, ckT=tab==='ck', T4=['jb','mj','hb','ck'].indexOf(tab)>=0;
-  const needC1=tab==='mj'||tab==='tx'||(tab==='jb'&&(!m.isYu||R.g==='f'))||(tab==='hb'&&R.g==='f'&&!!PS.hbName)||(ckT&&(R.g==='f'||['sansin','pyeongto','isan'].indexOf(PS.ck)>=0));
+  const tab=PS.tab, ckT=tab==='ck', T4=['jb','mj','ck'].indexOf(tab)>=0;
+  const needC1=tab==='mj'||tab==='tx'||(tab==='jb'&&(!m.isYu||R.g==='f'))||(ckT&&(R.g==='f'||['sansin','pyeongto','isan'].indexOf(PS.ck)>=0));
   const pairHere=tab==='jb'||(ckT&&PS.ck==='gije');
   const cond={
-    decCard:['jb','mj','hb','ck','tx'].indexOf(tab)>=0, evCard:tab==='tx',
-    rlgF:tab==='jb'||tab==='mj', relF:T4, clanF:needC1, nameF:tab==='tx'||(tab==='jb'&&!m.isYu)||(['jb','hb','ck'].indexOf(tab)>=0&&!!R.named),
+    decCard:['jb','mj','ck','tx'].indexOf(tab)>=0, evCard:tab==='tx',
+    rlgF:tab==='jb'||tab==='mj', relF:T4, clanF:needC1, nameF:tab==='tx'||(tab==='jb'&&!m.isYu)||(['jb','ck'].indexOf(tab)>=0&&!!R.named),
     c1picked:!!m.c1.sk, c2picked:!!PS.c2.sk,
     c1list:!PS.man, c1man:PS.man, ttl:T4&&m.isYu&&(R.g==='m'||m.pairOn), ttlCus:T4&&PS.ttl==='cus', chr:(tab==='jb'||tab==='mj')&&PS.rlg==='chr', cat:(tab==='jb'||tab==='mj')&&PS.rlg==='cat', jbFixed:!!m.dims.fixed, jbSizeF:!m.dims.fixed, jbHanF:!m.faith&&!PS.jbCus&&PS.rlg!=='won', bud:(tab==='jb'||tab==='mj')&&PS.rlg==='bud', won:(tab==='jb'||tab==='mj')&&PS.rlg==='won', jbCus:!!PS.jbCus, out:tab!=='mj', mjInfo:tab==='mj', sjHallOn:!!PS.sjHall,
     canPair:m.canPair&&pairHere, p2:m.pairOn&&pairHere&&R.g==='m', female:tab==='jb'&&m.isYu&&(m.pairOn||R.g==='f'),
-    ckHdr:m.hdr, ckWho:m.ckWho, ckStone:['seokmul','seokmulsan'].includes(PS.ck), ckOutSeg:!m.kOnly, ckName:!['cheongu','jojeon','balin'].includes(PS.ck)&&!(m.cG==='je'&&['ybro','son'].includes(PS.rel)&&PS.ckTitle==='auto'), ckCus:!!PS.ckCus, hbBox:PS.hbItem==='box', hbSizeF:PS.hbItem!=='up', copies:tab==='jb',
-    doc:tab!=='tx', tx:tab==='tx', ckReading:ckT&&PS.ckOut!=='k'&&!m.ckCusOn&&!m.kOnly, ckAll:PS.ckOut==='all'&&!m.kOnly, hbInfo:tab==='hb'
+    ckHdr:m.hdr, ckWho:m.ckWho, ckStone:['seokmul','seokmulsan'].includes(PS.ck), ckOutSeg:!m.kOnly, ckName:!['cheongu','jojeon','balin'].includes(PS.ck)&&!(m.cG==='je'&&['ybro','son'].includes(PS.rel)&&PS.ckTitle==='auto'), ckCus:!!PS.ckCus, copies:tab==='jb',
+    doc:tab!=='tx', tx:tab==='tx', ckReading:ckT&&PS.ckOut!=='k'&&!m.ckCusOn&&!m.kOnly, ckAll:PS.ckOut==='all'&&!m.kOnly
   };
   $$('[data-show]').forEach(el=>setVis(el,!!cond[el.getAttribute('data-show')]));
   const solo=!cond.decCard&&!cond.evCard; $('#pr-left').hidden=solo; $('#pr-grid').classList.toggle('solo',solo);
@@ -648,31 +629,30 @@ function renderPrint(){
   $('#ck-desc').textContent=(CK_INFO[PS.ck]||['',''])[1]; const tp=$('#ck-tip'); tp.hidden=!m.ckTip; tp.textContent=m.ckTip;
   $('#c2-label').textContent=clanLabel(PS.c2); $('#c2-hz').textContent=PS.c2.bh+PS.c2.sh;
   $('#pair-label').textContent=PAIR_LABEL[R.gen]||''; $('#c2-title').textContent=WIFE_LABEL[R.gen]||'';
-  $('#hbs-label').textContent=PS.hbItem==='paper'?'혼백지 크기 (cm, 정사각형)':'표지 크기 (cm, 정사각형)';
   $$('[data-k]').forEach(el=>{ const k=el.getAttribute('data-k'); if(document.activeElement===el) return; if(el.type==='checkbox') el.checked=!!PS[k]; else if(el.value!==String(PS[k]??'')) el.value=PS[k]??''; });
   $('#cp-val').textContent=PS.copies;
   $('#ck-lunar').textContent=m.lunarNote; $('#ck-reading').textContent=m.lines.map(l=>l[1]).join('\n');
   let warn='';
-  if(PS.tab==='jb'&&m.isYu&&R.named&&!PS.nameK) warn='아들 지방에는 이름이 들어갑니다. 이름을 입력하세요.';
-  else if(PS.tab!=='tx'&&PS.man&&(!PS.mbh||!PS.msh)) warn='본관과 성을 한자로 입력하세요.';
+  if(PS.tab==='jb'&&m.isYu&&R.named&&!PS.nameK) warn='아들 지방에는 이름이 들어가요. 이름을 적어 주세요.';
+  else if(PS.tab!=='tx'&&PS.man&&(!PS.mbh||!PS.msh)) warn='본관과 성을 한자로 적어 주세요.';
   else if(cond.clanF&&!PS.man&&!m.c1.sk&&tab!=='tx') warn='고인 본관 · 성을 골라 주세요. 지금은 ○로 비워 둔 자리에 들어갑니다.';
   else if(cond.p2&&!PS.c2.sk) warn=(WIFE_LABEL[R.gen]||'본관 · 성씨')+'을 골라 주세요.';
   else if(PS.tab==='ck') warn=m.ckWarn;
   else if(PS.tab==='sj'&&isoOk(PS.sjFrom)&&isoOk(PS.sjTo)&&PS.sjTo<PS.sjFrom) warn='마지막 날이 첫날보다 빠릅니다.';
   const w=$('#pv-warn'); w.hidden=!warn; w.textContent=warn?'주의 · '+warn:'';
-  $('#jb-fixed-note').textContent=m.dims.fixed?(PS.rlg==='sgi'?'SGI 위패는 4 × 17.5cm 고정 규격입니다. A4 한 장에 4장까지 들어갑니다.':'기독교 · 천주교 위패는 8.5 × 25.5cm 고정 규격입니다. A4 한 장에 2장씩 나옵니다.'):'';
+  $('#jb-fixed-note').textContent=m.dims.fixed?(PS.rlg==='sgi'?'SGI 위패는 4 × 17.5cm 고정 규격이에요. A4 한 장에 4장까지 들어가요.':'기독교 · 천주교 위패는 8.5 × 25.5cm 고정 규격이에요. A4 한 장에 2장씩 나와요.'):'';
   if(PS.tab==='mj'){ $('#mj-hz').textContent=m.mjSel.h; $('#mj-rd').textContent=m.mjSel.k; }
   if(PS.tab==='tx'){ $('#msg-bugo').textContent=bugoText(m); $('#msg-thanks').textContent=thanksText(m); }
   else { preview(m); ensureFonts(docText(m)).then(ch=>{ if(ch) preview(model()); }); }
-  const dn=({jb:m.isYu?'지방':'위패',mj:'명정',hb:'혼백',ck:'축문',sj:'안내문',env:'봉투'}[PS.tab]||'서식');
+  const dn=({jb:m.isYu?'지방':'위패',mj:'명정',ck:'축문',sj:'안내문',env:'봉투'}[PS.tab]||'서식');
   $('#print-btn').textContent=dn+' 바로 인쇄'; $('#pdf-btn').textContent=dn+' PDF로 받기';
 }
 function bugoText(m){ return '[부고]\n故 '+m.fullName+'님께서 '+fmtD(PS.dDie)+' 별세하셨기에 삼가 알려 드립니다.\n\n상주  '+or(PS.sangK,'[상주]')+'\n빈소  '+or(PS.hall,'[장례식장]')+' '+(PS.room||'')+'\n발인  '+fmtD(PS.dOut)+' '+(PS.tOut||'')+'\n장지  '+or(PS.place,'[장지]')+(PS.tel?'\n연락처  '+PS.tel:'')+'\n\n마음으로 함께해 주시면 감사하겠습니다.'; }
 function thanksText(m){ return '故 '+m.fullName+'님의 장례에 함께해 주시고 따뜻한 위로를 보내 주셔서 진심으로 감사드립니다.\n\n직접 찾아뵙고 인사드려야 마땅하나 먼저 글로 대신합니다. 보내 주신 마음 오래 기억하겠습니다.\n\n상주 '+or(PS.sangK,'[상주]')+' 올림'; }
-function renderPage(pg,dpi,type){ const k=dpi/25.4; const c=document.createElement('canvas'); c.width=Math.round(pg.w*k); c.height=Math.round(pg.h*k); const x=c.getContext('2d'); x.fillStyle='#ffffff'; x.fillRect(0,0,c.width,c.height); pg.draw(x,k); return type==='png'?c.toDataURL('image/png'):c.toDataURL('image/jpeg',0.92); }
+function renderPage(pg,dpi,type,crop){ const k=dpi/25.4; const c=document.createElement('canvas'); c.width=Math.round((crop?crop.w:pg.w)*k); c.height=Math.round((crop?crop.h:pg.h)*k); const x=c.getContext('2d'); x.fillStyle='#ffffff'; x.fillRect(0,0,c.width,c.height); if(crop) x.translate(-crop.x*k,-crop.y*k); pg.draw(x,k); return type==='png'?c.toDataURL('image/png'):c.toDataURL('image/jpeg',0.92); }
 async function savePdf(){
   const btn=$('#pdf-btn'); const m=model();
-  if(!window.jspdf||!window.jspdf.jsPDF){ toast('PDF 도구를 불러오는 중입니다. 잠시 뒤 다시 눌러 주세요'); return; }
+  if(!window.jspdf||!window.jspdf.jsPDF){ toast('PDF 도구를 불러오는 중이에요. 잠시 뒤 다시 눌러 주세요'); return; }
   btn.disabled=true; const old=btn.textContent; btn.textContent='PDF 만드는 중…';
   try{
     await ensureFonts(docText(m));
@@ -680,22 +660,23 @@ async function savePdf(){
     P.pages.forEach((pg,i)=>{ const o=pg.w>pg.h?'l':'p'; if(i===0) doc=new window.jspdf.jsPDF({unit:'mm',format:[pg.w,pg.h],orientation:o,compress:true}); else doc.addPage([pg.w,pg.h],o);
       doc.addImage(renderPage(pg,250,'jpg'),'JPEG',0,0,pg.w,pg.h); });
     const buf=doc.output('arraybuffer');
-    const ok=await saveFile(P.name+'.pdf',buf,'PDF를 저장했습니다. 실제 크기(100%)로 인쇄하세요');
-  }catch(e){ toast('PDF를 만들지 못했습니다. 다시 시도해 주세요'); }
+    const ok=await saveFile(P.name+'.pdf',buf,'PDF를 저장했어요. 실제 크기(100%)로 인쇄해 주세요');
+  }catch(e){ toast('PDF를 만들지 못했어요. 다시 눌러 주세요'); }
   btn.disabled=false; btn.textContent=old;
 }
 const FRAMED=(function(){ try{ return window.self!==window.top; }catch(e){ return true; } })();
 async function directPrint(){
-  if(FRAMED){ toast('미리보기 화면에서는 인쇄 창이 막혀 있어 PDF로 저장합니다'); return savePdf(); }
+  if(FRAMED){ toast('미리보기 화면에서는 인쇄 창이 막혀 있어 PDF로 저장해요'); return savePdf(); }
   const btn=$('#print-btn'); const m=model(); btn.disabled=true; const old=btn.textContent; btn.textContent='인쇄 준비 중…';
   try{
     await ensureFonts(docText(m));
     const P=pagesFor(m); const root=$('#print-root'); root.innerHTML='';
     let css=document.getElementById('page-css'); if(!css){ css=document.createElement('style'); css.id='page-css'; document.head.appendChild(css); }
-    css.textContent='@page{size:'+P.pages[0].w+'mm '+P.pages[0].h+'mm;margin:0}';
-    await Promise.all(P.pages.map(pg=>new Promise(res=>{ const img=new Image(); img.alt=''; img.style.width=pg.w+'mm'; img.style.height=pg.h+'mm'; img.onload=res; img.onerror=res; root.appendChild(img); img.src=renderPage(pg,300,'png'); })));
+    const crop=!!P.pages[0].crop;  /* 지방 · 위패 : 여백 10mm 안에 지방 부분만 → 어떤 프린터 여백에서도 한 장에 들어가 빈 장이 나오지 않음 */
+    css.textContent='@page{size:'+P.pages[0].w+'mm '+P.pages[0].h+'mm;margin:'+(crop?'10mm':'0')+'}';
+    await Promise.all(P.pages.map(pg=>new Promise(res=>{ const c=pg.crop; const img=new Image(); img.alt=''; img.style.width=(c?c.w:pg.w)+'mm'; img.style.height=(c?c.h:pg.h)+'mm'; if(c) img.className='crop'; img.onload=res; img.onerror=res; root.appendChild(img); img.src=renderPage(pg,300,'png',c); })));
     window.print();
-  }catch(e){ toast('인쇄를 준비하지 못했습니다. PDF로 받아 인쇄해 주세요'); }
+  }catch(e){ toast('인쇄를 준비하지 못했어요. PDF로 받아 인쇄해 주세요'); }
   btn.disabled=false; btn.textContent=old;
 }
 window.addEventListener('afterprint',()=>{ const r=document.getElementById('print-root'); if(r) r.innerHTML=''; });
@@ -720,9 +701,9 @@ function bindPrint(){
   $('#ck-auto').addEventListener('click',()=>{ ckFill(); renderPrint(); });
   $('#pdf-btn').addEventListener('click',savePdf);
   $('#print-btn').addEventListener('click',directPrint);
-  if(FRAMED) $('#print-note').innerHTML='지금 보시는 미리보기 화면에서는 인쇄 창이 막혀 있어 <b>바로 인쇄</b>를 누르면 PDF로 저장됩니다. 홈페이지 주소에 올리면 프린터로 바로 나갑니다. 배율은 <b>실제 크기(100%)</b>로 두세요.';
-  $('#copy-bugo').addEventListener('click',()=>copyText(bugoText(model()),'부고 문자를 복사했습니다',$('#msg-bugo')));
-  $('#copy-thanks').addEventListener('click',()=>copyText(thanksText(model()),'감사 문자를 복사했습니다',$('#msg-thanks')));
+  if(FRAMED) $('#print-note').innerHTML='지금 보시는 미리보기 화면에서는 인쇄 창이 막혀 있어 <b>바로 인쇄</b>를 누르면 PDF로 저장돼요. 홈페이지 주소에 올리면 프린터로 바로 나가요. 배율은 <b>실제 크기(100%)</b>로 맞춰 주세요.';
+  $('#copy-bugo').addEventListener('click',()=>copyText(bugoText(model()),'부고 문자를 복사했어요',$('#msg-bugo')));
+  $('#copy-thanks').addEventListener('click',()=>copyText(thanksText(model()),'감사 문자를 복사했어요',$('#msg-thanks')));
   let rt; window.addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ if(!$('[data-page="print"]').hidden&&PS.tab!=='tx') preview(model()); },150); });
 }
 
@@ -742,13 +723,13 @@ const dtName=()=>DT.mode==='pro'?String(DT.name||'').trim():'';
 const isoMonths=(s,n,end)=>{ const p=s.split('-').map(Number); const t=p[0]*12+p[1]-1+n, y=Math.floor(t/12), m=t%12+1; const len=new Date(Date.UTC(y,m,0)).getUTCDate(); return y+'-'+String(m).padStart(2,'0')+'-'+String(end?len:Math.min(p[2],len)).padStart(2,'0'); };
 /* 장례 후 서류 · 신고 기한 (근거: 가족관계등록법 84조 · 민법 1019조 · 상속세및증여세법 67조 · 지방세법 20조 · 자동차등록령 26조 · 국민연금법 115조, 안심상속은 행정안전부 안내) */
 function dtAfter(die){ return [
-  {t:'사망신고',d:isoMonths(die,1),w:'시 · 구청, 읍 · 면 · 동 주민센터',s:'돌아가신 사실을 안 날부터 1개월 · 늦으면 과태료가 붙습니다'},
+  {t:'사망신고',d:isoMonths(die,1),w:'시 · 구청, 읍 · 면 · 동 주민센터',s:'돌아가신 사실을 안 날부터 1개월 · 늦으면 과태료가 붙어요'},
   {t:'상속 포기 · 한정승인',d:isoMonths(die,3),w:'가정법원 · 고인의 빚이 재산보다 많을 수 있을 때',s:'상속이 시작된 것을 안 날부터 3개월 · 지나면 빚도 함께 물려받는 것으로 봅니다'},
   {t:'상속세 신고 · 납부',d:isoMonths(die,6,1),w:'세무서 · 홈택스',s:'돌아가신 달의 말일부터 6개월 (고인과 상속인 모두 외국에 살면 9개월)'},
   {t:'부동산 상속 취득세',d:isoMonths(die,6,1),w:'시 · 군 · 구청 (위택스) · 고인 명의 부동산이 있을 때',s:'돌아가신 달의 말일부터 6개월 (외국에 사는 상속인이 있으면 9개월) · 늦으면 가산세'},
-  {t:'자동차 상속 이전',d:isoMonths(die,6,1),w:'차량등록사업소 · 시 · 구청 · 고인 명의 차가 있을 때',s:'돌아가신 달의 말일부터 6개월 · 늦으면 과태료가 붙습니다'},
-  {t:'안심상속 원스톱 서비스',d:isoMonths(die,12,1),w:'사망신고 때 주민센터에서 함께 신청 (정부24도 됩니다)',s:'고인의 금융 · 토지 · 자동차 · 세금 · 연금 내역을 한 번에 조회 · 돌아가신 달의 말일부터 1년'},
-  {t:'국민연금 유족연금 · 사망일시금',d:isoMonths(die,60),w:'국민연금공단 (1355) · 고인이 가입했거나 연금을 받고 계셨을 때',s:'5년이 지나면 받을 수 없습니다 · 빨리 신청하실수록 좋습니다'} ]; }
+  {t:'자동차 상속 이전',d:isoMonths(die,6,1),w:'차량등록사업소 · 시 · 구청 · 고인 명의 차가 있을 때',s:'돌아가신 달의 말일부터 6개월 · 늦으면 과태료가 붙어요'},
+  {t:'안심상속 원스톱 서비스',d:isoMonths(die,12,1),w:'사망신고 때 주민센터에서 함께 신청 (정부24도 돼요)',s:'고인의 금융 · 토지 · 자동차 · 세금 · 연금 내역을 한 번에 조회 · 돌아가신 달의 말일부터 1년'},
+  {t:'국민연금 유족연금 · 사망일시금',d:isoMonths(die,60),w:'국민연금공단 (1355) · 고인이 가입했거나 연금을 받고 계셨을 때',s:'5년이 지나면 받을 수 없어요 · 빨리 신청하실수록 좋아요'} ]; }
 function renderAfter(M){ const ol=$('#dt-after'); if(!ol) return; ol.innerHTML='';
   dtAfter(M.die).forEach(it=>{ const li=document.createElement('li'); const dd=dDay(it.d);
     li.innerHTML='<span class="t"></span><span class="d"></span><span class="s"><span class="w"></span></span><span class="dd"></span>';
@@ -756,13 +737,13 @@ function renderAfter(M){ const ol=$('#dt-after'); if(!ol) return; ol.innerHTML='
     li.children[3].textContent=dd[0]; if(dd[1]) li.children[3].classList.add('soon'); ol.appendChild(li); }); }
 function afterText(){ const M=dtModel(), nm=dtName(); const L=[(nm?'[故 '+nm+'님 ':'[')+'장례 후 서류 · 신고 기한]','돌아가신 날 '+fmtY(M.die)+' 기준',''];
   dtAfter(M.die).forEach(it=>{ L.push('■ '+it.t+'  '+fmtY(it.d)+'까지'); L.push('  '+it.w); L.push('  '+it.s); });
-  L.push('','※ 쉽게 셈한 날짜입니다. 기한이 가까우면 해당 기관에 꼭 확인하세요.','나만의장례 24시간 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
-function dDay(iso){ const n=dayDiff(isoDay(0),iso); return n===0?['오늘',true]:n>0?[n+'일 남음',n<=7]:['지났습니다',false]; }
+  L.push('','※ 쉽게 셈한 날짜예요. 기한이 가까우면 해당 기관에 꼭 확인해 주세요.','나만의장례 24시간 1661-4214 · www.myfuneral.co.kr'); return L.join('\n'); }
+function dDay(iso){ const n=dayDiff(isoDay(0),iso); return n===0?['오늘',true]:n>0?[n+'일 남음',n<=7]:['지났어요',false]; }
 function dtModel(){
   const die=isoOk(DT.die)?DT.die:isoDay(0);
   const out=DT.outSet&&isoOk(DT.out)?DT.out:isoAdd(die,DT.days-1);
   const L=lunar(die), items=[], seven=[], years=[]; let yrNote='';
-  items.push({k:'die',t:'돌아가신 날',m:'별세',d:die,s:L?'음력 '+lunTxt(L)+' · '+gzK(L.day)+'일':'음력은 2016년부터 2040년까지만 계산합니다'});
+  items.push({k:'die',t:'돌아가신 날',m:'별세',d:die,s:L?'음력 '+lunTxt(L)+' · '+gzK(L.day)+'일':'음력은 2016년부터 2040년까지만 계산해요'});
   items.push({k:'out',t:'발인',m:'발인',d:out,s:'장례 '+(dayDiff(die,out)+1)+'일째'});
   items.push({k:'samu',t:'삼우제',m:'삼우제',d:isoAdd(out,2),s:'발인 날을 첫날로 세어 사흘째 (초우는 발인 날, 재우는 다음 날)'});
   items.push({k:'49',t:'49재 (사십구재)',m:'49재',d:isoAdd(die,48),s:'돌아가신 날을 첫날로 세어 49일째'});
@@ -773,10 +754,10 @@ function dtModel(){
     for(let n=1;n<=40;n++){ const r=solarOf(L.y+n,L.m,L.d); if(!r) break; if(!start&&r.iso>=today) start=n; years.push({n,y:L.y+n,r}); }
     [1,2].forEach(n=>{ const e=years.find(x=>x.n===n); if(e) items.push({k:'g'+n,t:n===1?'첫 기일 (1주기 · 소상)':'두 번째 기일 (2주기 · 대상)',m:n===1?'첫 기일':'2주기',d:e.r.iso,s:'음력 '+L.m+'월 '+e.r.d+'일'+(e.r.short?' (그해 '+L.m+'월이 '+e.r.len+'일까지라 그믐으로)':'')}); });
     const from=Math.max(0,(start||years.length)-1); DT.yrAll=years;
-    yrNote=(L.leap?'윤달에 돌아가셔서 기일은 평달 '+L.m+'월 '+L.d+'일로 계산했습니다. ':'')+'양력으로 지내시는 집은 해마다 '+Number(die.slice(5,7))+'월 '+Number(die.slice(8,10))+'일입니다.';
+    yrNote=(L.leap?'윤달에 돌아가셔서 기일은 평달 '+L.m+'월 '+L.d+'일로 계산했어요. ':'')+'양력으로 지내시는 집은 해마다 '+Number(die.slice(5,7))+'월 '+Number(die.slice(8,10))+'일이에요.';
     return {die,out,L,items,seven,years:years.slice(from,from+6),yrNote,warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
   }
-  return {die,out,L,items,seven,years:[],yrNote:'음력 기일은 2016년부터 2040년 사이에 돌아가신 경우만 계산합니다.',warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
+  return {die,out,L,items,seven,years:[],yrNote:'음력 기일은 2016년부터 2040년 사이에 돌아가신 경우만 계산해요.',warn:out<die?'발인일이 돌아가신 날보다 빠릅니다.':''};
 }
 function renderDate(){
   const M=dtModel(); DT.items=M.items; DT.years=M.years;
@@ -786,7 +767,7 @@ function renderDate(){
   $$('[data-dtmode]').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute('data-dtmode')===DT.mode)));
   const pro=$('#dt-pro'); if(pro) pro.hidden=DT.mode!=='pro';
   $('#h-dtres').textContent=dtName()?'故 '+dtName()+'님 장례 · 제사 일정':'날짜 안내';
-  $('#dt-die-l').textContent=M.L?'음력 '+lunTxt(M.L)+' · '+gzK(((M.L.y-4)%60+60)%60)+'년 '+gzK(M.L.day)+'일':'음력은 2016년부터 2040년까지만 계산합니다.';
+  $('#dt-die-l').textContent=M.L?'음력 '+lunTxt(M.L)+' · '+gzK(((M.L.y-4)%60+60)%60)+'년 '+gzK(M.L.day)+'일':'음력은 2016년부터 2040년까지만 계산해요.';
   const w=$('#dt-warn'); w.hidden=!M.warn; w.textContent=M.warn?'주의 · '+M.warn:'';
   const ul=$('#dt-list'); ul.innerHTML='';
   M.items.forEach(it=>{ const li=document.createElement('li'); const dd=dDay(it.d);
@@ -808,7 +789,7 @@ function renderCal(){
   $('#cal-ym').textContent=y+'년 '+m+'월';
   const L1=lunar(first), Ln=lunar(y+'-'+pad(m)+'-'+pad(n));
   const lm=[]; for(let d=1;d<=n;d++){ const L=lunar(y+'-'+pad(m)+'-'+pad(d)); if(L){ const t=(L.leap?'윤':'')+L.m+'월'; if(lm.indexOf(t)<0) lm.push(t); } }
-  $('#cal-lunar').textContent=L1?'음력 '+gzK(((L1.y-4)%60+60)%60)+'년 '+lm.join(' · '):'이 달은 음력을 계산하지 않습니다';
+  $('#cal-lunar').textContent=L1?'음력 '+gzK(((L1.y-4)%60+60)%60)+'년 '+lm.join(' · '):'이 달은 음력을 계산하지 않아요';
   const marks={}; DT.items.forEach(it=>{ (marks[it.d]=marks[it.d]||[]).push(it.m); });
   (DT.yrAll||[]).forEach(e=>{ if(e.n>2) (marks[e.r.iso]=marks[e.r.iso]||[]).push(e.n+'주기'); });
   const tb=$('#cal-body'); tb.innerHTML=''; const today=isoDay(0); let tr=document.createElement('tr');
@@ -869,7 +850,7 @@ function dtDraw(){
   return c; }
 function dtFileName(){ const nm=dtName(); return (nm?'故'+nm+'_장례일정':'나만의장례_날짜안내')+'.png'; }
 function dtMakeBlob(){ return Promise.all([ensureFonts('故님장례제사일정안내날짜돌아가신날발인삼우제49재100일첫기일두번째음력주기소상대상담당지도사나만의장례24시간0123456789년월일()·월화수목금토일카카오톡절이나집안에따라세는법이조금다를수있습니다기준소규모가족장무빈소장전문'+dtName()+dtDirs().map(d=>d.n+d.t).join('')),logoReady]).then(()=>new Promise(r=>dtDraw().toBlob(b=>{ dtBlob=b; r(b); },'image/png'))); }
-function dtSaveImg(){ dtMakeBlob().then(b=>{ if(b) saveFile(dtFileName(),b,'날짜 안내 이미지를 저장했습니다'); else toast('이미지를 만들지 못했어요'); }); }
+function dtSaveImg(){ dtMakeBlob().then(b=>{ if(b) saveFile(dtFileName(),b,'날짜 안내 이미지를 저장했어요'); else toast('이미지를 만들지 못했어요'); }); }
 function dtShare(){
   const go=b=>{ const f=new File([b],dtFileName(),{type:'image/png'}); navigator.share({files:[f],title:'장례 · 제사 날짜 안내'}).catch(e=>{ if(e&&e.name!=='AbortError') dtSaveImg(); }); };
   if(dtBlob) go(dtBlob); else dtMakeBlob().then(b=>{ if(b) go(b); }).catch(()=>dtSaveImg()); }
@@ -880,8 +861,8 @@ function bindDate(){
   const onOut=()=>{ if(isoOk(oi.value)){ DT.out=oi.value; DT.outSet=true; renderDate(); } };
   oi.addEventListener('change',onOut); oi.addEventListener('input',onOut);
   $$('[data-dtdays]').forEach(b=>b.addEventListener('click',()=>{ DT.days=+b.getAttribute('data-dtdays'); DT.outSet=false; renderDate(); }));
-  $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했습니다. 단톡방에 붙여 넣어 보내세요',$('#dt-list')));
-  const ac=$('#dt-after-copy'); if(ac) ac.addEventListener('click',()=>copyText(afterText(),'서류 기한을 복사했습니다',$('#dt-after')));
+  $('#dt-copy').addEventListener('click',()=>copyText(dtText(),'날짜 안내를 복사했어요. 단톡방에 붙여 넣어 보내시면 돼요',$('#dt-list')));
+  const ac=$('#dt-after-copy'); if(ac) ac.addEventListener('click',()=>copyText(afterText(),'서류 기한을 복사했어요',$('#dt-after')));
   const im=$('#dt-img'); if(im) im.addEventListener('click',dtSaveImg);
   const sh=$('#dt-share'); if(sh){ sh.hidden=!CAN_SHARE; sh.addEventListener('click',dtShare); }
   $$('[data-dtmode]').forEach(b=>b.addEventListener('click',()=>{ DT.mode=b.getAttribute('data-dtmode'); renderDate(); dtDirty(); }));
@@ -902,90 +883,87 @@ function renderClanPage(){
   let res; if(q) res=searchClans(q,400); else if(clanSur) res=CLANS.filter(c=>c.sk+':'+c.sh===clanSur); else res=CLANS.slice(0,24);
   res.forEach(c=>list.appendChild(clanCard(c)));
   const sCount=new Set(CLANS.map(c=>c.sk+c.sh)).size;
-  $('#clan-count').textContent=q?(res.length?'‘'+q+'’ 찾은 본관 '+res.length+'곳 · 누르면 출력실에 들어갑니다':'‘'+q+'’에 맞는 본관이 목록에 없습니다. 출력실에서 직접 입력할 수 있습니다.'):(clanSur?clanSur.split(':')[0]+'('+clanSur.split(':')[1]+')씨 본관 '+res.length+'곳':'성씨 '+sCount+'개 · 본관 '+CLANS.length+'곳이 들어 있습니다. 많이 쓰는 본관부터 보여 드립니다.');
+  $('#clan-count').textContent=q?(res.length?'‘'+q+'’ 찾은 본관 '+res.length+'곳 · 누르면 출력실에 들어갑니다':'‘'+q+'’에 맞는 본관이 목록에 없어요. 출력실에서 직접 적으실 수 있어요.'):(clanSur?clanSur.split(':')[0]+'('+clanSur.split(':')[1]+')씨 본관 '+res.length+'곳':'성씨 '+sCount+'개 · 본관 '+CLANS.length+'곳이 들어 있어요. 많이 쓰는 본관부터 보여 드려요.');
   const idx=$('#sur-index'); if(!idx.childElementCount){ const seen=[]; CLANS.forEach(c=>{ const k=c.sk+':'+c.sh; if(seen.indexOf(k)<0) seen.push(k); });
     seen.sort((a,b)=>a.localeCompare(b,'ko')).forEach(k=>{ const b=document.createElement('button'); b.type='button'; const p=k.split(':'); b.textContent=p[0]+' '+p[1]; b.setAttribute('data-sur',k); b.addEventListener('click',()=>{ clanSur=clanSur===k?'':k; $('#clan-q').value=''; renderClanPage(); $('#clan-list').scrollIntoView({block:'start'}); }); idx.appendChild(b); }); }
   $$('#sur-index button').forEach(b=>b.setAttribute('aria-pressed',String(b.getAttribute('data-sur')===clanSur&&!q)));
 }
 
 /* ── 비용 계산 : 상품을 고르고, 쓰지 않을 것만 빼기 (2026-11-01 사용자 결정 · 예전 단계별 계산기를 바꿈) ──
-   가격 단위는 만원. 세 상품 구성은 이 표 하나에서 나온다 → 바꾸면 build.py META['price'] 검색 설명 · 영수증 파일 PRICE도 같이.
+   가격 단위는 만원. 두 상품 구성은 이 표 하나에서 나온다 (2026-11-09 일반장 없앰 — 조문객이 많으면 가족장 + 업그레이드) → 바꾸면 build.py META['price'] 검색 설명 · 영수증 파일 PRICE도 같이.
    줄 = [키, 구분(견적용), 이름, 작은 글, 상품 금액, 뺄 수 있음, 견적에 쓸 이름] · 모두 화장 기준, 매장이면 관만 매장용 오동나무관 30 */
 const DX_TYPES={
   nob:{name:'무빈소장',tag:'빈소 없이 가족끼리',desc:'빈소 없이 가족끼리 조용히 마지막 인사를 나누는 장례예요. 전국 어디서나 정성껏 모셔 드려요.'},
-  fam:{name:'가족장',tag:'가족 · 가까운 친지와 함께',desc:'가족과 가까운 친지분들이 모여, 사흘 동안 고인 곁에서 함께 배웅하는 장례예요.'},
-  gen:{name:'일반장',tag:'조문객이 많은 장례',desc:'직장 동료와 지인분들까지 함께 배웅하는 장례예요. 조문객이 많아도 가족분들이 고인 곁을 지키실 수 있게 넉넉히 준비해 드려요.'}
+  fam:{name:'가족장',tag:'가족 · 가까운 친지와 함께',desc:'가족과 가까운 친지분들이 모여, 사흘 동안 고인 곁에서 함께 배웅하는 장례예요.'}
 };
 const DX_COFFIN={cre:['화장용 오동나무관',20],bur:['매장용 오동나무관',30]};
 const DX_LINES={
   nob:[['svc','장례 형태','무빈소 장례 기본','장례지도사 · 입관지도사 · 입관용품',60,false,'무빈소 장례'],
-       ['coffin','관'],['shroud','수의','수의','',15,false,'면수의'],
+       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 기본 수의예요. 미리 준비해 두신 수의가 있으면 공제해 드려요.',15,true,'면수의'],
        ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
-       ['car','장의 차량','장의 차량 · 장의버스 또는 리무진','화장장 안에 있는 장례식장을 쓰시면 차량이 필요 없어서 빼실 수 있어요',40,true,'리무진 (편도)']],
+       ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)']],
   fam:[['svc','장례 형태','가족장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'가족장 (3일장)'],
-       ['coffin','관'],['shroud','수의','수의','',15,false,'면수의'],
+       ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 기본 수의예요. 미리 준비해 두신 수의가 있으면 공제해 드려요.',15,true,'면수의'],
        ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
        ['binso','빈소 헌화','빈소 헌화 30송이','조문객이 영정 앞에 올리는 꽃',5,true,'30송이'],
-       ['car','장의 차량','장의 차량 · 장의버스 또는 리무진','',40,false,'리무진 (편도)'],
+       ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)'],
        ['staff','접객 도우미','접객 도우미','1인 12만원',24,true],
-       ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',16,true]],
-  gen:[['svc','장례 형태','일반장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'일반장 (3일장)'],
-       ['coffin','관'],['shroud','수의','수의','',15,false,'면수의'],
-       ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
-       ['binso','빈소 헌화','빈소 헌화 50송이','조문객이 영정 앞에 올리는 꽃',7,true,'50송이'],
-       ['car','장의 차량','장의 차량 리무진 (편도)','1차 장지 또는 화장장까지',40,true,'리무진 (편도)'],
-       ['bus','장의 차량','장의버스 (왕복)','가족 · 조문객이 함께 타고 다녀와요',40,true,'장의버스 (왕복)'],
-       ['staff','접객 도우미','접객 도우미','1인 12만원',48,true],
-       ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',32,true]]
+       ['mourn','상복','상복','남성용 5만원 · 여성용 3만원',16,true]]
 };
-/* 고르는 줄 (2026-11-01 사용자 지시) : 수의는 모든 상품, 장의 차량은 무빈소장 · 가족장 (일반장은 리무진 + 장의버스 그대로)
-   [값, 이름, 금액, 설명, 견적에 쓸 작은 글] · 첫째가 상품에 들어 있는 것. 빼면 상품 구성으로 돌아간다 */
-const DX_OPT={
-  shroud:{lbl:'수의 고르기',all:[['cotton','면수의',15],['jeoma','저마수의',20],['hwangto','황토수의',30],['jac','쟈가드수의',50],['hemp','대마수의',60]]},
-  car:{lbl:'장의 차량 고르기',all:[['limo','리무진 (편도)',40,'1차 장지 또는 화장장까지 편도로 모셔요','1차 장지 또는 화장장까지 편도'],['bus','장의버스 (왕복)',40,'고인을 모시고 가족분들도 함께 타고 다녀오는 왕복이에요','가족분들도 함께 타는 왕복'],['van','스타리아 · 카니발',30,'고인을 모시는 작은 장의 차량이에요','고인을 모시는 작은 장의 차량']],types:{nob:['limo','bus','van'],fam:['limo','bus']}}
-};
-const DX_OPT0={shroud:'cotton',car:'limo'};
+/* 고르는 줄 (2026-11-01 사용자 지시) : 수의(하나만) · 장의 차량(여러 개, 리무진 + 장의버스처럼) — 모든 상품
+   [값, 이름, 금액, 설명, 견적에 쓸 작은 글, 함께 고를 때 견적 글] · base 가 상품에 들어 있는 것.
+   장의 차량 : 무빈소장 차량 미사용 · 스타리아/카니발 · 리무진 · 장의버스, 가족장 차량 미사용 · 리무진 · 장의버스.
+   「차량 미사용」은 혼자만, 스타리아/카니발과 리무진은 둘 중 하나만(둘 다 고인을 모시는 차), 장의버스는 어느 것과도 함께 */
+/* 2026-11-08 사용자 지시 : 비용 계산은 상품에서 「공제(빼기)만」. 수의 · 장의 차량 고르기는 없애고,
+   업그레이드할 수 있는 항목(수의 · 관 · 입관 · 헌화 · 차량 · 도우미 · 상복)은 비용 계산 아래 #upgrade 표로 따로 안내한다 (상담 때 정함) */
+const DX_OPT={};
 /* 매장이면 궁중대렴이 입관 꽃장식 다음에 저절로 들어간다 (2026-11-01 사용자 지시). 가격표 : 꽃장식 + 궁중대렴 30 · 궁중대렴만 20 → 꽃장식과 함께면 10 */
 const DX_DAERYEOM=['daeryeom','입관','궁중대렴','매장하시면 기본으로 넣어 드려요 · 꽃장식과 함께라 10만원',10,true,'궁중대렴'];
 function dxOpts(k){ const o=DX_OPT[k]; if(!o||!DX.type||(o.types&&!o.types[DX.type])) return null; return o.types?o.all.filter(x=>o.types[DX.type].includes(x[0])):o.all; }
-function dxPick(k){ const o=dxOpts(k); return o?(o.find(x=>x[0]===DX.opt[k])||o[0]):null; }
-const dxName=l=>{ const p=dxPick(l[0]); return p&&!DX.off[l[0]]?p[1]:(l[6]||l[2]); };
-const dxSub=l=>{ const k=l[0]; if(k==='svc') return '장례지도사 · 입관지도사 · 입관용품 포함'; if(k==='daeryeom') return '매장하실 때 기본으로 넣어 드려요'; const p=dxPick(k); return p&&p[4]?p[4]:''; };
+const dxBase=k=>{ const b=DX_OPT[k].base; return (Array.isArray(b)?b:b[DX.type]).slice(); };
+function dxSel(k){ const o=dxOpts(k); if(!o) return null; const v=DX.opt[k]||dxBase(k), sl=o.filter(x=>v.includes(x[0])); return sl.length?sl:o.filter(x=>dxBase(k).includes(x[0])); }
+const dxIsBase=k=>!dxOpts(k)||String((DX.opt[k]||dxBase(k)).slice().sort())===String(dxBase(k).sort());
+const dxBaseLbl=k=>dxOpts(k).filter(x=>dxBase(k).includes(x[0])).map(x=>x[1].replace(/\s*\(.*\)$/,'')).join(' · ');
+function dxResetOpt(){ DX.opt={}; Object.keys(DX_OPT).forEach(k=>{ if(dxOpts(k)) DX.opt[k]=dxBase(k); }); }
+const dxName=l=>{ const sl=dxSel(l[0]); return sl&&!DX.off[l[0]]?sl.map(x=>x[1]).join(' + '):(l[6]||l[2]); };
+const dxSub=l=>{ const k=l[0]; if(k==='svc') return '장례지도사 · 입관지도사 · 입관용품 포함'; if(k==='car'||k==='bus') return l[3]; if(k==='daeryeom') return '매장하실 때 기본으로 넣어 드려요'; const sl=dxSel(k); return !sl?'':sl.length>1?sl.map(x=>x[5]).join(' · '):(sl[0][4]||''); };
 /* 인원 · 벌 수를 정하는 줄 : 상품에 들어 있는 수가 처음 값, 0이 되면 뺀 것으로 */
 const DX_CNT={
-  staff:{unit:'명',max:6,price:[12,12],rows:['첫째 날','둘째 날'],note:'4일장 이상은 현장에서 상담해 드려요.',base:{fam:[1,1],gen:[2,2]}},
-  mourn:{unit:'벌',max:10,price:[5,3],rows:['남성용','여성용'],note:'남성용에는 셔츠 · 타이가 함께 있어요. 갖고 계신 분은 빼고 세어 주세요.',base:{fam:[2,2],gen:[4,4]}}
+  staff:{unit:'명',max:6,price:[12,12],rows:['첫째 날','둘째 날'],note:'줄이신 만큼 100% 빼 드려요. 더 필요하시면 상담 때 말씀해 주세요(1인 12만원). 4일장 이상은 현장에서 상담해 드려요.',base:{fam:[1,1]}},
+  mourn:{unit:'벌',max:10,price:[5,3],rows:['남성용','여성용'],note:'줄이신 만큼 100% 빼 드려요. 남성용에는 셔츠 · 타이가 함께 있어요. 갖고 계신 분은 빼고 세어 주세요.',base:{fam:[2,2]}}
 };
 /* 빼면 열리는 정직한 한 줄 */
 const DX_HONEST={
   ipgwan:'꽃장식을 하지 않으셔도 염습과 입관은 <b>똑같이</b> 해 드려요.',
   binso:'헌화 없이 분향만 하셔도 괜찮아요.',
   staff:'조문객이 많지 않으면 가족분들이 직접 맞으셔도 괜찮아요.',
+  shroud:'미리 준비해 두신 수의(자가수의)로 정성껏 입혀 드려요. 상품의 면수의 금액은 공제해 드리고, 염습과 입관은 <b>똑같이</b> 해 드려요.',
   mourn:'갖고 계신 검은 옷으로 대신하셔도 괜찮아요.',
-  car:'리무진을 빼셔도 장의버스에 고인을 모시고 함께 가실 수 있어요.',
-  bus:'가족분들은 자가용으로 함께 이동하셔도 괜찮아요.',
+  car:'화장장 안에 있는 장례식장을 쓰시면 장의 차량 없이도 모실 수 있어요.',
+  bus:'가족분들이 따로 움직이시면 장의버스 없이도 괜찮아요.',
   daeryeom:'궁중대렴을 하지 않으셔도 염습과 입관은 <b>똑같이</b> 정성껏 해 드려요.'
 };
-const DX_HONEST_NOB={car:'화장장 안에 있는 장례식장을 쓰시면 고인을 바로 화장장으로 모실 수 있어서 차량이 필요 없어요. 그만큼 빼 드려요.'};
-const dxHonest=k=>(DX.type==='nob'&&DX_HONEST_NOB[k])||DX_HONEST[k];
-const DX_PAIR={car:'bus',bus:'car'};   /* 일반장 : 리무진 · 장의버스는 하나씩 뺄 수 있지만 차량 하나는 꼭 남는다 */
-const DX={type:null,burial:'cre',off:{},disc:false,cnt:{},opt:Object.assign({},DX_OPT0)};
+const dxHonest=k=>DX_HONEST[k];
+/* 빼기 버튼 이름 (2026-11-08 사용자 지시 : 수의는 「자가수의 사용」 · 미리 준비하신 수의는 공제) */
+const DX_OFFLBL={shroud:'자가수의 사용'};
+const dxOffLbl=k=>DX_OFFLBL[k]||'빼기';
+const dxCutName=l=>l[0]==='shroud'?'면수의 (자가수의 사용)':(l[6]||l[2]);
+const DX={type:null,burial:'cre',off:{},disc:false,cnt:{},opt:{}};
 const PR={nm:'',ch:false,cp:'',cpd:''};   /* 견적에 넣을 성함 · 할인권 (화면에만 있고 저장하지 않음) */
 const DX_EASE='cubic-bezier(0.19,1,0.22,1)';
 const won=n=>n.toLocaleString('ko-KR')+'원';
 const dWon=v=>(v<0?'−':'')+Math.abs(v*10000).toLocaleString('ko-KR')+'원';   /* v : 만원 */
-const dMan=v=>(v<0?'−':'')+Math.abs(v).toLocaleString('ko-KR')+'만원';
+const dMan=v=>v===0?'0원':(v<0?'−':'')+Math.abs(v).toLocaleString('ko-KR')+'만원';
 const dSMan=v=>(v>0?'+':v<0?'−':'')+Math.abs(v).toLocaleString('ko-KR')+'만원';
 const dSWon=v=>(v>0?'+':'')+dWon(v);
 const dEsc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const dNb=t=>dEsc(t).replace(/ · /g,'&nbsp;· ');   /* 가운뎃점이 줄 맨 앞에 오지 않게 */
-const dxLocked=k=>DX.type==='gen'&&!!DX_PAIR[k]&&!DX.off[k]&&!!DX.off[DX_PAIR[k]];
 function dxLines(t,bur){ t=t||DX.type; bur=bur||DX.burial; const out=[];
   DX_LINES[t].forEach(l=>{ out.push(l[0]==='coffin'?['coffin','관',DX_COFFIN[bur][0],'',DX_COFFIN[bur][1],false]:l); if(l[0]==='ipgwan'&&bur==='bur') out.push(DX_DAERYEOM); });
   return out; }
 const dxTotal=(t,bur)=>dxLines(t,bur).reduce((a,l)=>a+l[4],0);
 const dxBaseCnt=k=>DX_CNT[k].base[DX.type].slice();
-function dxNow(l){ const k=l[0]; if(k==='daeryeom') return DX.off.ipgwan?20:10; const pk=dxPick(k); if(pk) return pk[2]; if(!DX_CNT[k]) return l[4]; const v=DX.cnt[k], p=DX_CNT[k].price; return v[0]*p[0]+v[1]*p[1]; }
+function dxNow(l){ const k=l[0]; if(k==='daeryeom') return DX.off.ipgwan?20:10; const sl=dxSel(k); if(sl) return sl.reduce((a,x)=>a+x[2],0); if(!DX_CNT[k]) return l[4]; const v=DX.cnt[k], p=DX_CNT[k].price; return v[0]*p[0]+v[1]*p[1]; }
 function dxCntText(k,v){ const c=DX_CNT[k]; v=v||DX.cnt[k];
   return c.rows.map((r,i)=>v[i]?r+' '+v[i]+c.unit:'').filter(Boolean).join(' · ')||'0'+c.unit; }
 /* B 상품 금액 · R 빼신 것 · C 고르거나 인원 · 벌 수로 달라진 금액 · D 할인 · T 합계 · min 다 뺐을 때 */
@@ -994,8 +972,8 @@ function dxCalc(){
   L.forEach(l=>{ const k=l[0]; B+=l[4];
     if(DX.off[k]){ R+=l[4]; return; }
     const n=dxNow(l); C+=n-l[4];
-    if(l[5]&&!dxLocked(k)) cut+=n; });
-  if(DX.type==='gen'&&!DX.off.car&&!DX.off.bus) cut-=40;
+    if(l[5]&&k!=='shroud') cut+=n; /* 자가수의는 빼는 게 아니라 갖고 계신 수의로 바꾸는 것이라 「다 빼시면」에 넣지 않아요 */
+    });
   const D=DX.disc?20:0, T=B-R+C-D; return {B,R,C,D,T,min:T-cut};
 }
 
@@ -1006,15 +984,17 @@ function dxCntHTML(k){
     c.rows.map((r,i)=>'<div class="pl-st"><span class="l">'+r+'<small>1'+c.unit+' '+c.price[i]+'만원</small></span>'+
       '<span class="dx-step"><button type="button" data-cnt="'+k+':'+i+':-1" aria-label="'+r+' 하나 줄이기">−</button>'+
       '<output id="o-'+k+i+'" aria-live="polite"></output>'+
-      '<button type="button" data-cnt="'+k+':'+i+':1" aria-label="'+r+' 하나 늘리기">+</button></span></div>').join('')+
+      '<button type="button" data-cnt="'+k+':'+i+':1" aria-label="'+r+' 다시 하나 늘리기">+</button></span></div>').join('')+
     '<p class="pl-diff" id="d-'+k+'"></p><p class="pl-cnote">'+dEsc(c.note)+'</p>'+
   '</div>';
 }
 function dxOptHTML(k){
   const o=dxOpts(k);
   return '<div class="pl-opt'+(k==='car'?' wide':'')+'" role="group" aria-label="'+DX_OPT[k].lbl+'">'+
-    o.map(x=>'<button type="button" data-opt="'+k+':'+x[0]+'" aria-pressed="false"><b>'+dNb(x[1])+'</b><span class="p">'+x[2]+'만원</span>'+(x[3]?'<small>'+dNb(x[3])+'</small>':'')+'</button>').join('')+
+    o.map(x=>'<button type="button" data-opt="'+k+':'+x[0]+'" aria-pressed="false"><b>'+dNb(x[1])+'</b><span class="p">'+(x[2]?x[2]+'만원':'0원')+'</span>'+(x[3]&&!DX_OPT[k].below?'<small>'+dNb(x[3])+'</small>':'')+'</button>').join('')+
+    (DX_OPT[k].below?'<p class="pl-desc" id="ds-'+k+'" aria-live="polite"></p>':'')+
     '<p class="pl-diff" id="d-'+k+'"></p>'+
+    (k==='car'?'<p class="pl-cnote">리무진과 장의버스는 함께 고르실 수 있어요.'+(DX.type==='nob'?' 스타리아&nbsp;·&nbsp;카니발과 리무진은 둘 중 하나만 고르시면 돼요.':'')+'</p>':'')+
   '</div>';
 }
 function dxRowHTML(l){
@@ -1022,25 +1002,25 @@ function dxRowHTML(l){
   return '<li class="pl-row'+(DX_CNT[k]?' has-cnt':'')+(dxOpts(k)?' has-opt':'')+'" id="pl-'+k+'">'+
     '<span class="pl-t"><span class="pl-tt">'+dNb(nm)+'</span></span>'+(sub?'<small class="pl-s">'+dNb(sub)+'</small>':'')+
     '<span class="pl-amt">'+dMan(p)+'</span>'+
-    '<span class="pl-act">'+(rm?'<button type="button" class="pl-btn" data-off="'+k+'" aria-pressed="false" aria-label="'+dEsc(nm)+' 빼기">빼기</button>':'')+'</span>'+
+    '<span class="pl-act">'+(rm?'<button type="button" class="pl-btn'+(k==='shroud'?' own':'')+'" data-off="'+k+'" aria-pressed="false" aria-label="'+dEsc(nm)+' '+dxOffLbl(k)+'">'+dxOffLbl(k)+'</button>':'')+'</span>'+
     (DX_CNT[k]?dxCntHTML(k):'')+(dxOpts(k)?dxOptHTML(k):'')+
     (rm&&dxHonest(k)?'<div class="dx-fold"><div><p class="pl-honest">'+dxHonest(k)+'</p></div></div>':'')+
   '</li>';
 }
+function dxGoUp(e){ const p=$('#upgrade'); if(!p) return; e.preventDefault(); window.scrollTo({top:dxY(p,12),behavior:RM?'auto':'smooth'}); }
 function dxBuild(){
   const t=DX_TYPES[DX.type], L=dxLines();
   $('#dx-prod').innerHTML=
     '<p class="dx-prod-tag">'+dEsc(t.tag)+'</p>'+
     '<div class="dx-prod-hd"><h3 class="dx-prod-name" id="dx-prod-name">'+t.name+'</h3><p class="dx-prod-price"><b>'+(dxTotal()*10000).toLocaleString('ko-KR')+'</b>원</p></div>'+
     '<p class="dx-prod-desc">'+dEsc(t.desc)+'</p>'+
-    '<div class="pl-h"><b>상품 구성</b><small>고르실 건 고르시고, 필요 없는 건 빼 주세요</small></div>'+
+    '<div class="pl-h"><b>상품 구성</b><small>쓰지 않으실 항목은 100% 공제해 드려요</small></div>'+
     '<ul class="pl">'+L.map(dxRowHTML).join('')+
       '<li class="pl-row free"><span class="pl-t"><span class="pl-tt">무료로 해 드리는 것</span></span><small class="pl-s">고인 이송 차량&nbsp;· 모바일 부고&nbsp;· 장지 안내&nbsp;· 화장 예약</small><span class="pl-amt free">무료</span><span class="pl-act"></span></li>'+
     '</ul>'+
-    '<p class="pl-note">'+({nob:'장례 기본, 관, 수의는 꼭 있어야 해서 뺄 수 없어요. 수의와 장의 차량은 원하시는 것으로 고르시면 돼요.',
-      fam:'장례 기본, 관, 수의, 장의 차량은 꼭 있어야 해서 뺄 수 없어요. 수의와 장의 차량은 원하시는 것으로 고르시면 돼요.',
-      gen:'장례 기본, 관, 수의는 꼭 있어야 해서 뺄 수 없어요. 수의는 원하시는 것으로 고르시고, 리무진과 장의버스는 둘 중 하나만 빼실 수 있어요.'})[DX.type]+(DX.type!=='nob'?' 도우미 인원과 상복 벌 수는 + − 로 맞추시면 돼요.':'')+'</p>';
+    '<p class="pl-note">장례 기본과 관은 꼭 있어야 해서 빼지 않아요. 쓰지 않으실 항목은 「빼기」를 누르시면 금액 그대로 100% 빠져요. 수의를 미리 준비해 두셨다면 「자가수의 사용」을 누르시면 수의 금액을 공제해 드려요. 화장장 안에 있는 장례식장을 쓰시면 장의 차량도 빼실 수 있어요.'+(DX.type!=='nob'?' 도우미 인원과 상복 벌 수는 − 로 줄이시면 돼요.':'')+' 관 · 수의 · 장의 차량을 더 좋은 것으로 바꾸고 싶으시면 <a href="#upgrade" data-a="up">업그레이드할 수 있는 항목</a>을 봐 주세요.</p>';
   L.forEach(l=>dxUpdRow(l[0],true));
+  const up=$('[data-a="up"]',$('#dx-prod')); if(up) up.addEventListener('click',dxGoUp);
 }
 function dxUpdRow(k,init){
   const r=$('#pl-'+k); if(!r) return;
@@ -1049,17 +1029,17 @@ function dxUpdRow(k,init){
   const a=$('.pl-amt',r), prev=a.innerHTML;
   a.innerHTML=off?'<span class="minus">'+dMan(-l[4])+'</span>':dMan(dxNow(l));
   if(!init&&prev!==a.innerHTML&&!RM&&a.animate) a.animate([{opacity:0,transform:'translate3d(0,-6px,0)'},{opacity:1,transform:'none'}],{duration:380,easing:DX_EASE});
-  const lk=dxLocked(k);
-  const b=$('[data-off]',r); if(b){ b.textContent=off?'다시 넣기':'빼기'; b.setAttribute('aria-pressed',off); b.setAttribute('aria-label',l[2]+(off?' 다시 넣기':' 빼기')); b.disabled=lk; }
-  const sb=$('.pl-s',r); if(sb&&DX_PAIR[k]&&DX.type==='gen') sb.innerHTML=lk?'차량은 하나는 꼭 있어야 해요':dNb(l[3]);
+  const b=$('[data-off]',r); if(b){ b.textContent=off?'다시 넣기':dxOffLbl(k); b.setAttribute('aria-pressed',off); b.setAttribute('aria-label',l[2]+' '+(off?'다시 넣기':dxOffLbl(k))); }
+  const sb=$('.pl-s',r);
   if(sb&&k==='daeryeom') sb.innerHTML=DX.off.ipgwan?'꽃장식 없이 궁중대렴만 하시면 20만원이에요':dNb(l[3]);
-  if(dxOpts(k)){ const o=dxOpts(k), pk=dxPick(k), d=pk[2]-l[4];
-    $$('[data-opt]',r).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.opt===k+':'+pk[0])));
-    const b0=dNb(o[0][1].replace(/\s*\(.*\)$/,''));
-    $('#d-'+k).innerHTML=pk[0]===o[0][0]?'상품 구성 그대로예요':d?'상품 구성('+b0+')보다 <b>'+dSMan(d)+'</b>':'상품 구성('+b0+')과 금액이 같아요'; }
+  if(dxOpts(k)){ const ids=dxSel(k).map(x=>x[0]), d=dxNow(l)-l[4], b0=dNb(dxBaseLbl(k));
+    $$('[data-opt]',r).forEach(b=>b.setAttribute('aria-pressed',String(ids.includes(b.dataset.opt.split(':')[1]))));
+    const ds=$('#ds-'+k); if(ds){ const x=dxSel(k)[0], h='<b>'+dNb(x[1])+'</b> '+dNb(x[3]||'');
+      if(ds.innerHTML!==h){ const was=!!ds.innerHTML; ds.innerHTML=h; if(was&&!init&&!RM&&ds.animate) ds.animate([{opacity:0,transform:'translate3d(0,4px,0)'},{opacity:1,transform:'none'}],{duration:360,easing:DX_EASE}); } }
+    $('#d-'+k).innerHTML=dxIsBase(k)?'상품 구성 그대로예요':d?'상품 구성('+b0+')보다 <b>'+dSMan(d)+'</b>':'상품 구성('+b0+')과 금액이 같아요'; }
   if(DX_CNT[k]){ const c=DX_CNT[k], v=DX.cnt[k];
     v.forEach((n,i)=>{ $('#o-'+k+i).textContent=n+c.unit;
-      $('[data-cnt="'+k+':'+i+':-1"]',r).disabled=n<=0; $('[data-cnt="'+k+':'+i+':1"]',r).disabled=n>=c.max; });
+      $('[data-cnt="'+k+':'+i+':-1"]',r).disabled=n<=0; $('[data-cnt="'+k+':'+i+':1"]',r).disabled=n>=dxBaseCnt(k)[i]; });
     const d=dxNow(l)-l[4], bt=dxCntText(k,dxBaseCnt(k)), same=String(v)===String(dxBaseCnt(k));
     $('#d-'+k).innerHTML=same?'상품 구성 그대로예요':d?'상품 구성('+dNb(bt)+')보다 <b>'+dSMan(d)+'</b>':'상품 구성('+dNb(bt)+')과 금액이 같아요'; }
   const f=$('.dx-fold',r); if(f) f.classList.toggle('open',off);
@@ -1078,7 +1058,7 @@ function dxTween(el,to,fmt){
 function dxCalcRows(c,name){
   return '<div><dt>'+name+' 상품</dt><dd>'+dWon(c.B)+'</dd></div>'+
     (c.R?'<div><dt>빼신 것</dt><dd>'+dWon(-c.R)+'</dd></div>':'')+
-    (c.C?'<div><dt>고르고 바꾸신 것</dt><dd>'+dSWon(c.C)+'</dd></div>':'')+
+    (c.C?'<div><dt>줄이신 인원 · 벌 수</dt><dd>'+dSWon(c.C)+'</dd></div>':'')+
     (c.D?'<div><dt>수급자 · 국가유공자 할인</dt><dd>'+dWon(-c.D)+'</dd></div>':'');
 }
 function dxUpdSum(){
@@ -1110,8 +1090,8 @@ function dxResetCnt(){ DX.cnt={}; Object.keys(DX_CNT).forEach(k=>{ if(DX_CNT[k].
 function dxSetType(t,quiet){
   if(!DX_TYPES[t]||DX.type===t) return;
   const first=!DX.type;
-  const had=Object.keys(DX.off).some(k=>DX.off[k])||Object.keys(DX.cnt).some(k=>String(DX.cnt[k])!==String(DX_CNT[k].base[DX.type]||''))||Object.keys(DX_OPT0).some(k=>DX.opt[k]!==DX_OPT0[k]);
-  DX.type=t; DX.off={}; DX.opt=Object.assign({},DX_OPT0); dxResetCnt(); PR.cp=''; PR.cpd=''; PR.ch=false;
+  const had=Object.keys(DX.off).some(k=>DX.off[k])||Object.keys(DX.cnt).some(k=>String(DX.cnt[k])!==String(DX_CNT[k].base[DX.type]||''))||Object.keys(DX.opt).some(k=>!dxIsBase(k));
+  DX.type=t; DX.off={}; dxResetOpt(); dxResetCnt(); PR.cp=''; PR.cpd=''; PR.ch=false;
   $$('.dx-type').forEach(b=>{ const on=b.dataset.type===t; b.setAttribute('aria-checked',on); b.tabIndex=on?0:-1; });
   const s2=$('#dx-s2'); s2.hidden=false; dxBuild(); dxUpdSum(); dxUpdUrn(); dxBar();
   if(quiet) return;
@@ -1128,12 +1108,20 @@ function dxSetBurial(b){
 }
 function dxUpdUrn(){
   $('#dx-urn').hidden=DX.burial==='bur';
-  $('#dx-bur-n').textContent=DX.burial==='bur'?'매장하시면 관이 매장용 오동나무관(30만원)으로 바뀌고, 궁중대렴을 기본으로 넣어 드려요. 유골함은 필요 없어요. 묘지 비용은 따로예요.':'세 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.';
+  $('#dx-bur-n').textContent=DX.burial==='bur'?'매장하시면 관이 매장용 오동나무관(30만원)으로 바뀌고, 궁중대렴을 기본으로 넣어 드려요. 유골함은 필요 없어요. 묘지 비용은 따로예요.':'두 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.';
 }
-function dxToggle(k){ if(dxLocked(k)) return; DX.off[k]=!DX.off[k]; if(DX_CNT[k]) DX.cnt[k]=dxBaseCnt(k); if(DX_OPT0[k]) DX.opt[k]=DX_OPT0[k]; dxUpdRow(k); if(DX_PAIR[k]) dxUpdRow(DX_PAIR[k],true); if(k==='ipgwan') dxUpdRow('daeryeom'); dxUpdSum(); }
-function dxSetOpt(k,v){ if(DX.off[k]||DX.opt[k]===v) return; DX.opt[k]=v; dxUpdRow(k); dxUpdSum(); }
+function dxToggle(k){ DX.off[k]=!DX.off[k]; if(DX_CNT[k]) DX.cnt[k]=dxBaseCnt(k); if(dxOpts(k)) DX.opt[k]=dxBase(k); dxUpdRow(k); if(k==='ipgwan') dxUpdRow('daeryeom'); dxUpdSum(); }
+function dxSetOpt(k,v){
+  const o=DX_OPT[k]; if(DX.off[k]||!o) return; let s=(DX.opt[k]||dxBase(k)).slice();
+  if(!o.multi){ if(s[0]===v) return; s=[v]; }
+  else if(v==='none'){ if(s.length===1&&s[0]==='none') return; s=['none']; }
+  else { s=s.filter(x=>x!=='none');
+    if(s.includes(v)){ s=s.filter(x=>x!==v);
+      if(!s.length){ if(dxOpts(k).some(x=>x[0]==='none')) s=['none']; else { toast('장의 차량은 하나는 꼭 있어야 해요'); return; } } }
+    else { s.push(v); if(o.alt&&o.alt[v]) s=s.filter(x=>x!==o.alt[v]); } }
+  DX.opt[k]=s; dxUpdRow(k); dxUpdSum(); }
 function dxCount(k,i,d){
-  const c=DX_CNT[k], v=DX.cnt[k].slice(); v[i]=Math.max(0,Math.min(c.max,v[i]+d));
+  const c=DX_CNT[k], v=DX.cnt[k].slice(); v[i]=Math.max(0,Math.min(dxBaseCnt(k)[i],v[i]+d));   /* 공제만 : 상품 수보다 늘리지 않음 */
   if(v[0]+v[1]===0){ DX.off[k]=true; DX.cnt[k]=dxBaseCnt(k); toast((k==='staff'?'접객 도우미를':'상복을')+' 뺐어요'); }
   else DX.cnt[k]=v;
   dxUpdRow(k); dxUpdSum();
@@ -1146,23 +1134,23 @@ function estLines(){
     if(DX_CNT[k]) L.push([l[1],dxNow(l)*10000,'',null,dxCntText(k),k==='staff'?'1인 12만원':'남성용 5만원 · 여성용 3만원']);
     else L.push([l[1],dxNow(l)*10000,'',null,dxName(l),dxSub(l)||null]); });
   L.push(['모시는 방식',0,'','0원',DX.burial==='cre'?'화장':'매장',DX.burial==='cre'?'화장장 사용료 별도':'묘지 비용 별도']);
-  if(urnSep()) L.push(['유골함',0,'','별도','상담 때 실물을 보고 골라요','40만원 ~ 400만원 · 합계에 넣지 않음']);
+  if(urnSep()) L.push(['유골함',0,'','별도','카탈로그를 보시고 상담으로 정해요','합계에 넣지 않음']);
   if(DX.disc) L.push(['할인',-200000,'',null,'수급자 · 국가유공자']);
   L.push(['무료 제공',0,'','무료','고인 이송 · 모바일 부고 · 장지 안내 · 화장 예약']);
   return L;
 }
 /* 빼신 것 : [구분, 이름, 금액(원, 음수)] · 합계에는 들어가지 않고 보여 주기만 */
-function estCut(){ return dxLines().filter(l=>DX.off[l[0]]).map(l=>[l[1],DX_CNT[l[0]]?l[2]+' ('+dxCntText(l[0],dxBaseCnt(l[0]))+')':(l[6]||l[2]),-l[4]*10000]); }
+function estCut(){ return dxLines().filter(l=>DX.off[l[0]]).map(l=>[l[1],DX_CNT[l[0]]?l[2]+' ('+dxCntText(l[0],dxBaseCnt(l[0]))+')':dxCutName(l),-l[4]*10000]); }
 const estTotal=()=>dxCalc().T*10000;
 const urnSep=()=>DX.burial!=='bur';   /* 화장이면 유골함은 합계에 넣지 않는 별도 항목 (2026-10-21 사용자 지시) */
-const URN_NOTE='유골함은 합계에 들어 있지 않은 별도 항목이에요 · 40만원 ~ 400만원';
+const URN_NOTE='유골함은 합계에 들어 있지 않은 별도 항목이에요 · 카탈로그를 보시고 상담으로 정해요';
 const lineVal=l=>l[3]||(l[1]<0?'−'+won(-l[1]):won(l[1]));
 const estKind=()=>DX_TYPES[DX.type].name+' 상품 견적';
 const estWho=()=>{ const n=String(PR.nm||'').trim().replace(/\s*(고객)?\s*님$/,'').trim(); return n?n+' 고객님':''; };
-/* ── 사전 상담 감사 할인권 (가족장 · 일반장 견적 + 카톡 채널 추가 · 기한 없음 · 수급자 할인과 함께 사용 · 저장하지 않음) ── */
+/* ── 사전 상담 감사 할인권 (가족장 견적 + 카톡 채널 추가 · 기한 없음 · 수급자 할인과 함께 사용 · 저장하지 않음) ── */
 const CP_AMT=100000, CP_CH_URL='https://pf.kakao.com/_BxnMxhX/friend';
-const CP_RULES=['가족장 · 일반장(3일장)으로 장례를 진행할 때 정산 금액에서 10만원을 할인해 드립니다.','카카오톡 채널 @나만의장례 친구에게 드리는 할인권이며, 현장에서 채널 친구를 확인합니다.','기한 없이 쓰실 수 있고, 수급자 · 국가유공자 할인과 함께 쓰실 수 있습니다.','장례 한 번에 한 장만 쓸 수 있고, 현금으로 바꿀 수 없습니다.'];
-const cpType=()=>DX.type==='fam'||DX.type==='gen';
+const CP_RULES=['가족장(3일장)으로 장례를 진행할 때 정산 금액에서 10만원을 할인해 드립니다.','카카오톡 채널 @나만의장례 친구에게 드리는 할인권이며, 현장에서 채널 친구를 확인합니다.','기한 없이 쓰실 수 있고, 수급자 · 국가유공자 할인과 함께 쓰실 수 있습니다.','장례 한 번에 한 장만 쓸 수 있고, 현금으로 바꿀 수 없습니다.'];
+const cpType=()=>DX.type==='fam';
 const cpOK=()=>cpType()&&PR.ch;
 function cpNo(){ if(!PR.cp){ const d=new Date(), A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789', r=new Uint32Array(4);
     try{ crypto.getRandomValues(r); }catch(e){ for(let i=0;i<4;i++) r[i]=Math.floor(Math.random()*4294967295); }
@@ -1172,7 +1160,7 @@ function cpNo(){ if(!PR.cp){ const d=new Date(), A='ABCDEFGHJKLMNPQRSTUVWXYZ2345
 const cpAfter=()=>won(Math.max(0,estTotal()-CP_AMT))+(urnSep()?' (유골함 별도)':'');
 function renderCp(box){
   if(!PR.ch){
-    box.innerHTML='<p class="cp-t">사전 상담 감사 할인권 <b>100,000원</b></p><p>'+(DX.type==='gen'?'일반장':'가족장')+' 견적을 받아 주셔서 고맙습니다. 카카오톡 채널 <b>@나만의장례</b>를 추가하시면, 나중에 장례 때 쓰실 수 있는 10만원 할인권을 드려요.</p><a class="btn btn-primary" data-a="ch" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>채널 추가하고 할인권 받기</a><p class="note">이미 채널 친구이시면 눌러도 그대로 받으실 수 있어요.</p>';
+    box.innerHTML='<p class="cp-t">사전 상담 감사 할인권 <b>100,000원</b></p><p>가족장 견적을 받아 주셔서 고맙습니다. 카카오톡 채널 <b>@나만의장례</b>를 추가하시면, 나중에 장례 때 쓰실 수 있는 10만원 할인권을 드려요.</p><a class="btn btn-primary" data-a="ch" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>채널 추가하고 할인권 받기</a><p class="note">이미 채널 친구이시면 눌러도 그대로 받으실 수 있어요.</p>';
     const a=box.querySelector('[data-a="ch"]'); a.href=CP_CH_URL;
     a.addEventListener('click',()=>{ PR.ch=true; cpNo(); setTimeout(()=>{ renderCp(box); toast('할인권이 나왔어요. 견적 이미지를 다시 저장해 주세요'); },300); });
     return; }
@@ -1214,9 +1202,9 @@ function estText(){ const L=estLines(), X=estCut(), w=estWho(), c=dxCalc(), T=DX
   return '[나만의장례 '+estKind()+']\n'+(w?w+'\n':'')+'\n'+
     L.map(l=>'['+l[0]+'] '+l[4]+' — '+lineVal(l)+(l[5]?'\n     '+l[5]:'')).join('\n')+
     (X.length?'\n\n[빼신 것 · 합계에 들어가지 않음]\n'+X.map(x=>'· '+x[0]+' '+x[1]+' '+won(-x[2])).join('\n'):'')+
-    '\n\n'+T.name+' 상품 '+dWon(c.B)+(c.R?' · 빼신 것 '+dWon(-c.R):'')+(c.C?' · 고르고 바꾸신 것 '+dSWon(c.C):'')+(c.D?' · 할인 '+dWon(-c.D):'')+
+    '\n\n'+T.name+' 상품 '+dWon(c.B)+(c.R?' · 빼신 것 '+dWon(-c.R):'')+(c.C?' · 줄이신 인원 · 벌 수 '+dSWon(c.C):'')+(c.D?' · 할인 '+dWon(-c.D):'')+
     '\n합계: '+won(estTotal())+(urnSep()?'\n(※ '+URN_NOTE+')':'')+(DX.disc?'\n(수급자 · 국가유공자 할인 20만원 포함 · 대상 확인은 상담 때)':'')+
-    (cpOK()?'\n\n[사전 상담 감사 할인권] 100,000원 할인\n번호 '+PR.cp+' · 발급일 '+PR.cpd+'\n· 가족장 · 일반장(3일장) 진행 시 정산 금액에서 할인 · 카카오톡 채널 친구 확인\n· 기한 없음 · 수급자 · 국가유공자 할인과 함께 사용 가능':'')+
+    (cpOK()?'\n\n[사전 상담 감사 할인권] 100,000원 할인\n번호 '+PR.cp+' · 발급일 '+PR.cpd+'\n· 가족장(3일장) 진행 시 정산 금액에서 할인 · 카카오톡 채널 친구 확인\n· 기한 없음 · 수급자 · 국가유공자 할인과 함께 사용 가능':'')+
     '\n\n※ 미리 내는 돈 없이 장례를 마친 뒤 정산해요.\n※ 이 견적을 꼭 저장해 두셨다가 현장에서 보여 주시면 그대로 진행해 드려요.\n\n* 장례식장 시설 사용료 · 음식값, 화장장 사용료, 장지 비용 별도\n* 리무진은 1차 장지 또는 화장장까지 편도, 장의버스는 왕복\n* 장의 차량 기준 거리 200km 초과 시 1km당 1,800원\n상담 1661-4214 (24시간)'; }
 const LOGO={mark:new Image(),word:new Image()};
 const logoReady=Promise.all(['mark','word'].map(k=>new Promise(r=>{ LOGO[k].onload=r; LOGO[k].onerror=r; LOGO[k].src={mark:'data:image/png;base64,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',word:'data:image/png;base64,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'}[k]; })));
@@ -1258,12 +1246,12 @@ function dxEstHTML(){
   let rows=keep.map(l=>{ const k=l[0];
     if(DX_CNT[k]){ const d=dxNow(l)-l[4]; return tr(l[1],dNb(dxCntText(k)),(k==='staff'?'1인 12만원':'남성용 5만원 · 여성용 3만원')+(d?' · 상품 구성보다 '+dSMan(d):''),dWon(dxNow(l))); }
     const d=dxNow(l)-l[4], sub=dxSub(l);
-    return tr(l[1],dNb(dxName(l)),sub+(d&&dxPick(k)?(sub?' · ':'')+'상품 구성보다 '+dSMan(d):''),dWon(dxNow(l))); }).join('');
+    return tr(l[1],dNb(dxName(l)),sub+(d&&dxSel(k)?(sub?' · ':'')+'상품 구성보다 '+dSMan(d):''),dWon(dxNow(l))); }).join('');
   rows+=tr('모시는 방식',DX.burial==='cre'?'화장':'매장',DX.burial==='cre'?'화장장 사용료 별도':'묘지 비용 별도','0원');
-  if(urnSep()) rows+=tr('유골함','상담 때 실물을 보고 골라요','40만원 ~ 400만원 · 합계에 넣지 않음','별도');
+  if(urnSep()) rows+=tr('유골함','카탈로그를 보시고 상담으로 정해요','합계에 넣지 않음','별도');
   if(DX.disc) rows+=tr('할인','수급자 · 국가유공자','',dWon(-20));
   rows+=tr('무료 제공',dNb('고인 이송 · 모바일 부고 · 장지 안내 · 화장 예약'),'','무료');
-  if(cut.length) rows+='<tr class="sub"><th colspan="3" scope="colgroup">빼신 것 <small>합계에 들어가지 않아요</small></th></tr>'+cut.map(l=>tr(l[1],'<s>'+dNb(DX_CNT[l[0]]?dxCntText(l[0],dxBaseCnt(l[0])):(l[6]||l[2]))+'</s>','','<s>'+dWon(l[4])+'</s>','cut')).join('');
+  if(cut.length) rows+='<tr class="sub"><th colspan="3" scope="colgroup">빼신 것 <small>합계에 들어가지 않아요</small></th></tr>'+cut.map(l=>tr(l[1],l[0]==='shroud'?'<s>면수의</s> 자가수의 사용':'<s>'+dNb(DX_CNT[l[0]]?dxCntText(l[0],dxBaseCnt(l[0])):(l[6]||l[2]))+'</s>','','<s>'+dWon(l[4])+'</s>','cut')).join('');
   const net=c.B-c.T;   /* 상품 금액보다 얼마나 덜었는지 (합계 줄 · 휴대폰 합계 줄과 같은 셈) */
   const kind=net>0?T.name+' 상품에서 '+dMan(net)+' 덜어낸 견적이에요.':net<0?T.name+' 상품에 '+dMan(-net)+' 더한 견적이에요.':T.name+' 상품 그대로의 견적이에요.';
   return '<section class="dx-est" aria-labelledby="h-est">'+
@@ -1276,6 +1264,7 @@ function dxEstHTML(){
     '<div class="keep-box" role="note"><p class="keep-t">이 견적, 꼭 저장해 두세요</p><p>현장에서 보여 주시면 이 금액 그대로 진행해 드려요. 첫 견적이 끝 견적이고, 미리 내는 돈 없이 장례를 마친 뒤 정산해요.</p>'+
       '<div class="est-who"><div class="fld"><label for="est-nm">견적에 넣을 성함 <span>(선택)</span></label><input id="est-nm" class="in" autocomplete="name" enterkeyhint="done"></div><p class="note">넣으시면 견적 이미지와 복사 글 맨 위에 「○○○ 고객님」으로 들어가요. 어디에도 저장되지 않아요.</p></div>'+
       '<button type="button" class="btn btn-primary" data-a="img">견적 이미지 저장</button></div>'+
+    '<p class="note wz-link">원하시는 항목은 업그레이드하실 수 있어요. 상담 때 말씀해 주시면 상품에 든 것과의 차액만 더해 견적에 적어 드려요. <a href="#upgrade" data-a="up">업그레이드할 수 있는 항목</a></p>'+
     '<p class="note wz-link">미리 내는 돈 없이 장례를 마친 뒤 정산해요. <a href="#prepaid" data-a="prepaid">일반 선불식 상조와 무엇이 다른가요?</a></p>'+
     (DX.type!=='nob'?'<div class="cp-box"></div>':'')+
     '<div class="acts2"><a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><a class="btn btn-line" data-a="talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>견적 보내고 카톡 상담</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button></div>'+
@@ -1296,6 +1285,7 @@ function dxShowEst(){
   $('[data-a="img"]',v).addEventListener('click',saveEstImg);
   $('[data-a="copy"]',v).addEventListener('click',()=>copyText(estText(),'견적 내용을 복사했어요',tbl));
   $('[data-a="talk"]',v).addEventListener('click',()=>copyText(estText(),'견적을 복사했어요. 카카오톡 대화창에 붙여 넣어 보내 주세요',tbl));
+  $$('[data-a="up"]',v).forEach(a=>a.addEventListener('click',dxGoUp));
   $('[data-a="prepaid"]',v).addEventListener('click',e=>{ const p=$('#prepaid'); if(!p) return; e.preventDefault(); window.scrollTo({top:dxY(p,12),behavior:RM?'auto':'smooth'}); });
   const cpb=$('.cp-box',v); if(cpb) renderCp(cpb);
   dxSwap($('#dx-pick-view'),v,()=>{ dxBar(); window.scrollTo({top:dxY($('[data-page="price"]'),0),behavior:'auto'}); const h=$('#h-est'); try{ h.focus({preventScroll:true}); }catch(e){} });
@@ -1325,7 +1315,7 @@ function bindPrice(){
   cbH(); window.addEventListener('resize',cbH);
   if('IntersectionObserver' in window){ new IntersectionObserver(es=>{ es.forEach(en=>{ DX_SEEN=en.isIntersecting; }); dxBar(); },{rootMargin:'0px 0px -35% 0px'}).observe($('#dx-pick-view')); }
   /* /price/?type=fam 으로 오면 그 상품이 골라진 채로 */
-  const q=new URLSearchParams(location.search).get('type');
+  let q=new URLSearchParams(location.search).get('type'); if(q==='gen') q='fam'; /* 일반장은 2026-11-09 없앰 */
   if(q&&DX_TYPES[q]){ dxSetType(q,true); try{ history.replaceState(null,'',location.pathname); }catch(e){} }
 }
 
@@ -1335,32 +1325,32 @@ const MAPS={
     {id:'gg2',x:3,y:0,name:'고조할아버지 · 고조할머니',chon:4,formal:'고조부(高祖父) · 고조모(高祖母)',call:'고조할아버지 · 고조할머니',jibang:'顯高祖考 · 顯高祖妣',rel:'gggf',note:'기제사는 보통 고조부모까지 4대를 모십니다.'},
     {id:'gg',x:3,y:1,p:'gg2',name:'증조할아버지 · 증조할머니',chon:3,formal:'증조부(曾祖父) · 증조모(曾祖母)',call:'증조할아버지 · 증조할머니',jibang:'顯曾祖考 · 顯曾祖妣',rel:'ggf'},
     {id:'gp',x:3,y:2,p:'gg',name:'할아버지 · 할머니',chon:2,formal:'조부(祖父) · 조모(祖母)',call:'할아버지 · 할머니',refer:'할아버지 · 할머니 (남의 조부는 조부님)',jibang:'顯祖考 · 顯祖妣',rel:'gf'},
-    {id:'gu',x:7,y:2,p:'gg',name:'큰할아버지 · 작은할아버지',chon:4,formal:'종조부(從祖父)',call:'큰할아버지 · 작은할아버지',spouse:'큰할머니 · 작은할머니 (종조모 從祖母)',note:'할아버지의 형제입니다.'},
-    {id:'gaunt',x:8,y:2,p:'gg',name:'고모할머니',chon:4,formal:'대고모(大姑母) · 왕고모',call:'고모할머니',spouse:'고모할아버지',note:'할아버지의 누이입니다.'},
+    {id:'gu',x:7,y:2,p:'gg',name:'큰할아버지 · 작은할아버지',chon:4,formal:'종조부(從祖父)',call:'큰할아버지 · 작은할아버지',spouse:'큰할머니 · 작은할머니 (종조모 從祖母)',note:'할아버지의 형제예요.'},
+    {id:'gaunt',x:8,y:2,p:'gg',name:'고모할머니',chon:4,formal:'대고모(大姑母) · 왕고모',call:'고모할머니',spouse:'고모할아버지',note:'할아버지의 누이예요.'},
     {id:'mgp',x:1,y:2,mat:1,name:'외할아버지 · 외할머니',chon:2,formal:'외조부(外祖父) · 외조모(外祖母)',call:'외할아버지 · 외할머니',jibang:'顯外祖考 · 顯外祖妣 (외손이 제사를 모실 때)'},
     {id:'fa',x:3,y:3,p:'gp',name:'아버지',chon:1,formal:'부친(父親)',call:'아버지',refer:'아버지 · 가친(家親)',dead:'선친(先親) · 선고(先考)',jibang:'顯考 (현고)',rel:'f'},
     {id:'mo',x:2,y:3,p:'mgp',mat:1,name:'어머니',chon:1,formal:'모친(母親)',call:'어머니',refer:'어머니 · 자친(慈親)',dead:'선비(先妣) · 선자(先慈)',jibang:'顯妣 (현비)',rel:'m'},
     {id:'unc',x:5,y:3,p:'gp',name:'큰아버지 · 작은아버지',chon:3,formal:'백부(伯父) · 숙부(叔父)',call:'큰아버지 · 작은아버지 (결혼 전이면 삼촌)',spouse:'큰어머니(백모 伯母) · 작은어머니(숙모 叔母)'},
-    {id:'aunt',x:6,y:3,p:'gp',name:'고모',chon:3,formal:'고모(姑母)',call:'고모',spouse:'고모부(姑母夫)',note:'아버지의 누이입니다.'},
-    {id:'dang',x:7,y:3,p:'gu',name:'당숙',chon:5,formal:'당숙(堂叔) · 종숙(從叔)',call:'아저씨 · 당숙',spouse:'아주머니 · 당숙모',note:'아버지의 사촌 형제, 흔히 5촌 아저씨라고 합니다.'},
-    {id:'muncle',x:0,y:3,p:'mgp',mat:1,name:'외삼촌',chon:3,formal:'외숙(外叔)',call:'외삼촌',spouse:'외숙모(外叔母)',note:'어머니의 남자 형제입니다.'},
-    {id:'maunt',x:1,y:3,p:'mgp',mat:1,name:'이모',chon:3,formal:'이모(姨母)',call:'이모',spouse:'이모부(姨母夫)',note:'어머니의 여자 형제입니다.'},
-    {id:'me',x:3,y:4,p:'fa',me:1,name:'나',chon:'',note:'촌수는 나를 기준으로 셉니다. 다른 칸을 눌러 보세요.'},
+    {id:'aunt',x:6,y:3,p:'gp',name:'고모',chon:3,formal:'고모(姑母)',call:'고모',spouse:'고모부(姑母夫)',note:'아버지의 누이예요.'},
+    {id:'dang',x:7,y:3,p:'gu',name:'당숙',chon:5,formal:'당숙(堂叔) · 종숙(從叔)',call:'아저씨 · 당숙',spouse:'아주머니 · 당숙모',note:'아버지의 사촌 형제, 흔히 5촌 아저씨라고 해요.'},
+    {id:'muncle',x:0,y:3,p:'mgp',mat:1,name:'외삼촌',chon:3,formal:'외숙(外叔)',call:'외삼촌',spouse:'외숙모(外叔母)',note:'어머니의 남자 형제예요.'},
+    {id:'maunt',x:1,y:3,p:'mgp',mat:1,name:'이모',chon:3,formal:'이모(姨母)',call:'이모',spouse:'이모부(姨母夫)',note:'어머니의 여자 형제예요.'},
+    {id:'me',x:3,y:4,p:'fa',me:1,name:'나',chon:'',note:'촌수는 나를 기준으로 세어요. 다른 칸도 눌러 보실 수 있어요.'},
     {id:'sib',x:4,y:4,p:'fa',name:{m:'형 · 누나 · 동생',f:'오빠 · 언니 · 동생'},chon:2,formal:'형제자매(兄弟姉妹)',call:{m:'형 · 누나 · 이름(동생)',f:'오빠 · 언니 · 이름(동생)'},refer:{m:'형 · 누님 · 아우 · 누이동생',f:'오빠 · 언니 · 남동생 · 여동생'},spouse:{m:'형의 아내 형수님 · 남동생의 아내 제수씨 · 누나의 남편 매형(자형) · 여동생의 남편 매제',f:'오빠의 아내 새언니 · 남동생의 아내 올케 · 언니의 남편 형부 · 여동생의 남편 제부'},jibang:'형 顯兄 · 형수 顯兄嫂 · 동생 亡弟',rel:'bro'},
     {id:'cous',x:5,y:4,p:'unc',name:'사촌',chon:4,formal:'종형제(從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',refer:'사촌 형 · 사촌 동생'},
-    {id:'gcous',x:6,y:4,p:'aunt',name:'고종사촌',chon:4,formal:'고종형제(姑從兄弟) · 내종(內從)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'고모의 자녀입니다.'},
-    {id:'jae',x:7,y:4,p:'dang',name:'육촌',chon:6,formal:'재종형제(再從兄弟)',call:'나이에 따라 형 · 누나 · 이름',note:'당숙의 자녀입니다.'},
-    {id:'mcous',x:0,y:4,p:'muncle',mat:1,name:'외사촌',chon:4,formal:'외종형제(外從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'외삼촌의 자녀입니다.'},
-    {id:'icous',x:1,y:4,p:'maunt',mat:1,name:'이종사촌',chon:4,formal:'이종형제(姨從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'이모의 자녀입니다.'},
-    {id:'inlaw',x:2,y:5,inl:1,name:'며느리 · 사위',chon:1,formal:'자부(子婦) · 서(壻)',call:'며느리: 아가 · 새아가 · ○○ 어미 / 사위: ○ 서방 · 자네',note:'자녀의 배우자는 인척 1촌입니다.'},
+    {id:'gcous',x:6,y:4,p:'aunt',name:'고종사촌',chon:4,formal:'고종형제(姑從兄弟) · 내종(內從)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'고모의 자녀예요.'},
+    {id:'jae',x:7,y:4,p:'dang',name:'육촌',chon:6,formal:'재종형제(再從兄弟)',call:'나이에 따라 형 · 누나 · 이름',note:'당숙의 자녀예요.'},
+    {id:'mcous',x:0,y:4,p:'muncle',mat:1,name:'외사촌',chon:4,formal:'외종형제(外從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'외삼촌의 자녀예요.'},
+    {id:'icous',x:1,y:4,p:'maunt',mat:1,name:'이종사촌',chon:4,formal:'이종형제(姨從兄弟)',call:'나이에 따라 형 · 누나 · 오빠 · 언니 · 이름',note:'이모의 자녀예요.'},
+    {id:'inlaw',x:2,y:5,inl:1,name:'며느리 · 사위',chon:1,formal:'자부(子婦) · 서(壻)',call:'며느리: 아가 · 새아가 · ○○ 어미 / 사위: ○ 서방 · 자네',note:'자녀의 배우자는 인척 1촌이에요.'},
     {id:'ch',x:3,y:5,p:'me',name:'아들 · 딸',chon:1,formal:'자(子) · 여(女)',call:'이름',refer:'아들 · 딸 (남의 자녀는 아드님 · 따님)',jibang:'아들 亡子 (망자)',rel:'son'},
     {id:'nep',x:4,y:5,p:'sib',name:{m:'조카 · 생질',f:'조카 · 이질'},chon:3,formal:{m:'형제의 자녀 조카(姪) · 자매의 자녀 생질(甥姪)',f:'남자 형제의 자녀 조카(姪) · 자매의 자녀 이질(姨姪)'},call:'이름',spouse:'조카며느리 · 조카사위'},
-    {id:'cnep',x:5,y:5,p:'cous',name:'5촌 조카',chon:5,formal:'당질(堂姪)',call:'이름',note:'사촌의 자녀입니다.'},
+    {id:'cnep',x:5,y:5,p:'cous',name:'5촌 조카',chon:5,formal:'당질(堂姪)',call:'이름',note:'사촌의 자녀예요.'},
     {id:'gch',x:3,y:6,p:'ch',name:'손자 · 손녀',chon:2,formal:'손자(孫子) · 손녀(孫女)',call:'이름',spouse:'손자며느리 · 손녀사위'}
   ],wed:[['mo','fa']],dash:[['inlaw','ch']]},
   cheo:{cols:7,rows:3,gen:['장인 · 장모','아내 형제','처조카'],nodes:[
     {id:'jang',x:3,y:0,inl:1,name:'장인 · 장모',chon:1,formal:'장인(丈人) · 장모(丈母)',call:'장인어른 · 아버님 / 장모님 · 어머님',refer:'장인 · 장모 (남의 장인은 빙장 聘丈 · 빙모 聘母)'},
-    {id:'me',x:1,y:1,me:1,name:'나 (남편)',chon:'',note:'아내 쪽 가족은 아내를 기준으로 촌수를 셉니다.'},
+    {id:'me',x:1,y:1,me:1,name:'나 (남편)',chon:'',note:'아내 쪽 가족은 아내를 기준으로 촌수를 세어요.'},
     {id:'wife',x:2,y:1,p:'jang',name:'아내',chon:'무촌',formal:'처(妻)',call:'여보 · ○○ 씨',refer:'아내 · 집사람 · 안사람',jibang:'亡室 (망실)',rel:'wife'},
     {id:'wbo',x:3,y:1,p:'jang',inl:1,name:'아내의 오빠',chon:2,formal:'처남(妻男) · 손위',call:'형님',refer:'처남',spouse:'아주머니'},
     {id:'wby',x:4,y:1,p:'jang',inl:1,name:'아내의 남동생',chon:2,formal:'처남(妻男)',call:'처남 · ○○ 씨',spouse:'처남댁'},
@@ -1370,7 +1360,7 @@ const MAPS={
   ],wed:[['me','wife']],dash:[]},
   si:{cols:7,rows:3,gen:['시부모','남편 형제','시조카'],nodes:[
     {id:'sibu',x:3,y:0,inl:1,name:'시아버지 · 시어머니',chon:1,formal:'시부(媤父) · 시모(媤母)',call:'아버님 · 어머님',refer:'시아버지 · 시어머니'},
-    {id:'me',x:1,y:1,me:1,name:'나 (아내)',chon:'',note:'남편 쪽 가족은 남편을 기준으로 촌수를 셉니다. 요즘은 도련님 · 아가씨 대신 ‘○○ 씨’처럼 이름으로 부르기도 합니다.'},
+    {id:'me',x:1,y:1,me:1,name:'나 (아내)',chon:'',note:'남편 쪽 가족은 남편을 기준으로 촌수를 세어요. 요즘은 도련님 · 아가씨 대신 ‘○○ 씨’처럼 이름으로 부르기도 해요.'},
     {id:'hus',x:2,y:1,p:'sibu',name:'남편',chon:'무촌',formal:'부(夫)',call:'여보 · ○○ 씨',refer:'남편 · 바깥양반 · ○○ 아빠',jibang:'顯辟 (현벽)',rel:'hus'},
     {id:'hbo',x:3,y:1,p:'sibu',inl:1,name:'남편의 형',chon:2,formal:'시숙(媤叔)',call:'아주버님',spouse:'형님 (손윗동서)'},
     {id:'hby',x:4,y:1,p:'sibu',inl:1,name:'남편의 남동생',chon:2,formal:'시동생(媤同生)',call:'도련님 (결혼 전) · 서방님 (결혼 후)',spouse:'동서'},
@@ -1449,33 +1439,33 @@ function bloodTerm(d,bs){
   if(u===0){ const k=down.map(x=>x==='m'?'S':'D').join(''), T=L_DOWN[k]; return T?{id:k,name:T[0],call:T[1],formal:T[2]}:{id:'x',name:dn+'대 아래 자손',call:'이름'}; }
   const line=up.slice(0,u-1).join(''), br=down[0];
   if(u===1&&dn===1){ const w=sibWord(sex,age,bs); return {id:(age==='-'?'y':'e')+(m?'B':'Z'),name:w,call:age==='-'?'이름':w,formal:m?(age==='-'?'제(弟)':'형(兄)'):(age==='-'?'매(妹)':'자(姊)')}; }
-  if(u===1&&dn===2){ if(br==='m') return {id:'nep',name:m?'조카':'조카딸',call:'이름',formal:m?'질(姪)':'질녀(姪女)',note:'형제의 자녀입니다.'};
-    return bs==='m'?{id:'nep',name:m?'생질':'생질녀',call:'이름',formal:'생질(甥姪)',note:'누이의 자녀입니다.'}:{id:'nep',name:m?'이질':'이질녀',call:'이름',formal:'이질(姨姪)',note:'자매의 자녀입니다.'}; }
+  if(u===1&&dn===2){ if(br==='m') return {id:'nep',name:m?'조카':'조카딸',call:'이름',formal:m?'질(姪)':'질녀(姪女)',note:'형제의 자녀예요.'};
+    return bs==='m'?{id:'nep',name:m?'생질':'생질녀',call:'이름',formal:'생질(甥姪)',note:'누이의 자녀예요.'}:{id:'nep',name:m?'이질':'이질녀',call:'이름',formal:'이질(姨姪)',note:'자매의 자녀예요.'}; }
   if(u===1&&dn===3) return {id:'x',name:br==='m'?(m?'종손자':'종손녀'):'형제자매의 손주',call:'이름',formal:br==='m'?'종손(從孫)':''};
   if(u===2&&dn===1){
-    if(line==='F'){ if(m) return age==='+'?{id:'pUo',name:'큰아버지',call:'큰아버지',formal:'백부(伯父)'}:age==='-'?{id:'pUy',name:'작은아버지',call:'작은아버지 (결혼 전이면 삼촌)',formal:'숙부(叔父)'}:{id:'pU',name:'큰아버지 · 작은아버지',call:'큰아버지 · 작은아버지'}; return {id:'pA',name:'고모',call:'고모',formal:'고모(姑母)',note:'아버지의 누이입니다.'}; }
-    if(m) return {id:'mU',name:'외삼촌',call:'외삼촌',formal:'외숙(外叔)',note:'어머니의 남자 형제입니다.'}; return {id:'mA',name:'이모',call:'이모',formal:'이모(姨母)',note:'어머니의 여자 형제입니다.'}; }
+    if(line==='F'){ if(m) return age==='+'?{id:'pUo',name:'큰아버지',call:'큰아버지',formal:'백부(伯父)'}:age==='-'?{id:'pUy',name:'작은아버지',call:'작은아버지 (결혼 전이면 삼촌)',formal:'숙부(叔父)'}:{id:'pU',name:'큰아버지 · 작은아버지',call:'큰아버지 · 작은아버지'}; return {id:'pA',name:'고모',call:'고모',formal:'고모(姑母)',note:'아버지의 누이예요.'}; }
+    if(m) return {id:'mU',name:'외삼촌',call:'외삼촌',formal:'외숙(外叔)',note:'어머니의 남자 형제예요.'}; return {id:'mA',name:'이모',call:'이모',formal:'이모(姨母)',note:'어머니의 여자 형제예요.'}; }
   if(u===2&&dn===2){ const t=line==='F'?(br==='m'?['사촌','종형제(從兄弟)','cF']:['고종사촌','고종(姑從)','cFA']):(br==='m'?['외사촌','외종(外從)','cM']:['이종사촌','이종(姨從)','cMA']);
     if(!age) return {id:t[2],name:t[0],call:'나이에 따라 '+(bs==='m'?'형 · 누나':'오빠 · 언니')+' · 이름',formal:t[1],cous:t[0],sibw:''};
     const w=sibWord(sex,age,bs); return {id:t[2],name:t[0]+' '+w,call:age==='+'?w:'이름',formal:t[1],cous:t[0],sibw:w}; }
-  if(u===2&&dn===3){ const pre=line==='F'?(br==='m'?'':'고종 '):(br==='m'?'외종 ':'이종 '); return {id:'cnep',name:pre+'5촌 조카',call:'이름',formal:pre===''?(m?'당질(堂姪)':'당질녀(堂姪女)'):'',note:'사촌의 자녀입니다.'}; }
+  if(u===2&&dn===3){ const pre=line==='F'?(br==='m'?'':'고종 '):(br==='m'?'외종 ':'이종 '); return {id:'cnep',name:pre+'5촌 조카',call:'이름',formal:pre===''?(m?'당질(堂姪)':'당질녀(堂姪女)'):'',note:'사촌의 자녀예요.'}; }
   if(u===3&&dn===1){
-    if(line==='FF') return m?{id:'gU',name:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'큰할아버지 · 작은할아버지',call:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'할아버지',formal:'종조부(從祖父)',note:'할아버지의 형제입니다.'}:{id:'gA',name:'고모할머니',call:'고모할머니',formal:'대고모(大姑母)',note:'할아버지의 누이입니다.'};
-    if(line==='MF') return m?{id:'mgU',name:'외종조부',call:'외할아버지',formal:'외종조부(外從祖父)',note:'외할아버지의 형제입니다.'}:{id:'x',name:'외할아버지의 누이',call:'할머니'};
+    if(line==='FF') return m?{id:'gU',name:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'큰할아버지 · 작은할아버지',call:age==='+'?'큰할아버지':age==='-'?'작은할아버지':'할아버지',formal:'종조부(從祖父)',note:'할아버지의 형제예요.'}:{id:'gA',name:'고모할머니',call:'고모할머니',formal:'대고모(大姑母)',note:'할아버지의 누이예요.'};
+    if(line==='MF') return m?{id:'mgU',name:'외종조부',call:'외할아버지',formal:'외종조부(外從祖父)',note:'외할아버지의 형제예요.'}:{id:'x',name:'외할아버지의 누이',call:'할머니'};
     if(line==='FM') return m?{id:'x',name:'아버지의 외삼촌 (진외종조부)',call:'할아버지'}:{id:'x',name:'아버지의 이모',call:'할머니'};
     return m?{id:'x',name:'어머니의 외삼촌',call:'할아버지'}:{id:'x',name:'어머니의 이모',call:'할머니'}; }
   if(u===3&&dn===2){
-    if(line==='FF'&&br==='m') return m?{id:'dang',name:'당숙',call:'아저씨 · 당숙',formal:'종숙(從叔)',note:'아버지의 사촌 형제입니다. 흔히 5촌 아저씨라고 합니다.'}:{id:'dangA',name:'당고모',call:'고모 · 당고모',formal:'종고모(從姑母)',note:'아버지의 사촌 자매, 5촌 고모입니다.'};
-    if(line==='FF') return {id:'x',name:'아버지의 고종사촌',call:m?'아저씨':'아주머니 · 고모',note:'할아버지 누이의 자녀입니다.'};
-    if(line==='FM') return {id:'x',name:'아버지의 '+(br==='m'?'외사촌':'이종사촌'),call:m?'아저씨':'아주머니',note:'할머니 형제자매의 자녀입니다.'};
-    if(line==='MF'&&br==='m') return m?{id:'mdang',name:'외당숙',call:'아저씨 · 외당숙',formal:'외종숙(外從叔)',note:'어머니의 사촌 형제, 외5촌 아저씨입니다.'}:{id:'mdangA',name:'종이모',call:'이모',formal:'종이모(從姨母)',note:'어머니의 사촌 자매입니다.'};
+    if(line==='FF'&&br==='m') return m?{id:'dang',name:'당숙',call:'아저씨 · 당숙',formal:'종숙(從叔)',note:'아버지의 사촌 형제예요. 흔히 5촌 아저씨라고 해요.'}:{id:'dangA',name:'당고모',call:'고모 · 당고모',formal:'종고모(從姑母)',note:'아버지의 사촌 자매, 5촌 고모예요.'};
+    if(line==='FF') return {id:'x',name:'아버지의 고종사촌',call:m?'아저씨':'아주머니 · 고모',note:'할아버지 누이의 자녀예요.'};
+    if(line==='FM') return {id:'x',name:'아버지의 '+(br==='m'?'외사촌':'이종사촌'),call:m?'아저씨':'아주머니',note:'할머니 형제자매의 자녀예요.'};
+    if(line==='MF'&&br==='m') return m?{id:'mdang',name:'외당숙',call:'아저씨 · 외당숙',formal:'외종숙(外從叔)',note:'어머니의 사촌 형제, 외5촌 아저씨예요.'}:{id:'mdangA',name:'종이모',call:'이모',formal:'종이모(從姨母)',note:'어머니의 사촌 자매예요.'};
     return {id:'x',name:'어머니의 '+(line==='MF'?'고종사촌':(br==='m'?'외사촌':'이종사촌')),call:m?'아저씨':'이모'}; }
-  if(u===3&&dn===3&&line==='FF'&&br==='m'){ const w=age?sibWord(sex,age,bs):''; return {id:'x',name:'육촌'+(w?' '+w:''),call:age==='+'?w:'이름',formal:'재종(再從)',note:'당숙의 자녀입니다.'}; }
+  if(u===3&&dn===3&&line==='FF'&&br==='m'){ const w=age?sibWord(sex,age,bs):''; return {id:'x',name:'육촌'+(w?' '+w:''),call:age==='+'?w:'이름',formal:'재종(再從)',note:'당숙의 자녀예요.'}; }
   if(u===4&&dn===1&&line==='FFF') return m?{id:'x',name:'증조할아버지의 형제',call:'할아버지',formal:'종증조부(從曾祖父)'}:{id:'x',name:'증조할아버지의 누이',call:'할머니'};
   if(u===4&&dn===2&&line==='FFF') return m?{id:'x',name:'할아버지의 사촌 형제',call:'할아버지',formal:'재종조부(再從祖父)'}:{id:'x',name:'할아버지의 사촌 누이',call:'할머니'};
-  if(u===4&&dn===3&&line==='FFF'&&br==='m') return m?{id:'x',name:'재당숙',call:'아저씨',formal:'재종숙(再從叔)',note:'아버지의 육촌 형제, 7촌 아저씨입니다.'}:{id:'x',name:'재당고모',call:'고모',note:'아버지의 육촌 자매, 7촌 고모입니다.'};
+  if(u===4&&dn===3&&line==='FFF'&&br==='m') return m?{id:'x',name:'재당숙',call:'아저씨',formal:'재종숙(再從叔)',note:'아버지의 육촌 형제, 7촌 아저씨예요.'}:{id:'x',name:'재당고모',call:'고모',note:'아버지의 육촌 자매, 7촌 고모예요.'};
   if(u===4&&dn===4&&line==='FFF'&&br==='m'){ const w=age?sibWord(sex,age,bs):''; return {id:'x',name:'팔촌'+(w?' '+w:''),call:age==='+'?w:'이름',formal:'삼종(三從)'}; }
-  const gg=u-dn; return {id:'x',name:(u+dn)+'촌 친척',call:gg>=2?(m?'할아버지':'할머니'):gg===1?(m?'아저씨':'아주머니'):gg===0?(age==='+'?(m?'형님':'누님'):'이름'):'이름',note:'따로 정해진 호칭이 없으면 항렬과 나이에 맞춰 아저씨 · 아주머니 · 형님처럼 부르거나 이름을 부릅니다.'};
+  const gg=u-dn; return {id:'x',name:(u+dn)+'촌 친척',call:gg>=2?(m?'할아버지':'할머니'):gg===1?(m?'아저씨':'아주머니'):gg===0?(age==='+'?(m?'형님':'누님'):'이름'):'이름',note:'따로 정해진 호칭이 없으면 항렬과 나이에 맞춰 아저씨 · 아주머니 · 형님처럼 부르거나 이름을 불러요.'};
 }
 const SP_OF={F:['어머니'],M:['아버지'],FF:['할머니'],FM:['할아버지'],MF:['외할머니'],MM:['외할아버지'],S:['며느리','아가 · 새아가 · ○○ 어미','자부(子婦)'],D:['사위','○ 서방 · 자네','서(壻)'],SS:['손자며느리','아가'],SD:['손녀사위','○ 서방'],DS:['외손자며느리','아가'],DD:['외손녀사위','○ 서방'],pUo:['큰어머니','큰어머니','백모(伯母)'],pUy:['작은어머니','작은어머니','숙모(叔母)'],pU:['큰어머니 · 작은어머니','큰어머니 · 작은어머니'],pA:['고모부','고모부','고모부(姑母夫)'],mU:['외숙모','외숙모','외숙모(外叔母)'],mA:['이모부','이모부','이모부(姨母夫)'],gU:['큰할머니 · 작은할머니','할머니','종조모(從祖母)'],gA:['고모할아버지','할아버지'],mgU:['외종조모','외할머니'],dang:['당숙모','아주머니 · 당숙모','종숙모(從叔母)'],dangA:['당고모부','아저씨'],mdang:['외당숙모','아주머니'],mdangA:['종이모부','이모부']};
 function spouseOf(t,bs,relSex){
@@ -1500,17 +1490,17 @@ function relate(a,b){
   let d=bloodDesc(a,b);
   if(d){ const t=bloodTerm(d,a.sex); const sp=spouseOf(t,a.sex,b.sex); return {name:t.name,call:t.call,formal:t.formal,note:t.note,chonText:chonText(chonOf(d)),kind:'혈족',spouse:sp?sp.name:'',rel:JB_OF[t.id]||''}; }
   if(b.spouse){ d=bloodDesc(a,b.spouse); if(d){ const t=bloodTerm(d,a.sex); const sp=spouseOf(t,a.sex,b.spouse.sex); const nm=sp?sp.name:t.name+'의 '+(b.sex==='m'?'남편':'아내');
-    return {name:nm,call:sp?sp.call:(b.born<a.born-15?(b.sex==='m'?'아저씨':'아주머니'):'○○ 씨'),formal:sp?sp.formal:'',note:t.name+'의 '+(b.sex==='m'?'남편':'아내')+'입니다.',chonText:chonText(chonOf(d),'인척'),kind:'인척 · 내 가족의 배우자',rel:(t.id==='eB'&&a.sex==='m')?'sil':''}; } }
+    return {name:nm,call:sp?sp.call:(b.born<a.born-15?(b.sex==='m'?'아저씨':'아주머니'):'○○ 씨'),formal:sp?sp.formal:'',note:t.name+'의 '+(b.sex==='m'?'남편이에요.':'아내예요.'),chonText:chonText(chonOf(d),'인척'),kind:'인척 · 내 가족의 배우자',rel:(t.id==='eB'&&a.sex==='m')?'sil':''}; } }
   if(a.spouse){
     d=bloodDesc(a.spouse,b);
     if(d){ const t=bloodTerm(d,a.spouse.sex); const T=(a.sex==='m'?IN_M:IN_F)[t.id]; const sw=a.sex==='m'?'아내':'남편';
-      if(T) return {name:T[0],call:T[1],formal:T[2]||'',chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+'입니다.'};
-      if(t.cous) return {name:(a.sex==='m'?'처':'시')+t.cous,call:t.call,chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+'입니다.'};
+      if(T) return {name:T[0],call:T[1],formal:T[2]||'',chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+josa(t.name,'이에요.','예요.')};
+      if(t.cous) return {name:(a.sex==='m'?'처':'시')+t.cous,call:t.call,chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족',note:sw+'의 '+t.name+josa(t.name,'이에요.','예요.')};
       return {name:sw+'의 '+t.name,call:t.call,chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자의 가족'}; }
     if(b.spouse){ d=bloodDesc(a.spouse,b.spouse); if(d){ const t=bloodTerm(d,a.spouse.sex); const T=(a.sex==='m'?INE_M:INE_F)[t.id]; const sw=a.sex==='m'?'아내':'남편'; const desc=sw+'의 '+t.name+'의 '+(b.sex==='m'?'남편':'아내');
-      return {name:T?T[0]:desc,call:T?T[1]:(b.born<a.born-15?'어른':'○○ 씨'),chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자 가족의 배우자',note:desc+'입니다.'}; } }
+      return {name:T?T[0]:desc,call:T?T[1]:(b.born<a.born-15?'어른':'○○ 씨'),chonText:chonText(chonOf(d),'인척'),kind:'인척 · 배우자 가족의 배우자',note:desc+josa(desc,'이에요.','예요.')}; } }
   }
-  return {name:'사돈',call:b.born<a.born-15?'사돈어른':'사돈',chonText:'촌수 없음',kind:'법적 친족 아님',note:'내 가족의 배우자 쪽 가족입니다. 촌수를 따지지 않고 서로 사돈이라고 부릅니다.'};
+  return {name:'사돈',call:b.born<a.born-15?'사돈어른':'사돈',chonText:'촌수 없음',kind:'법적 친족 아님',note:'내 가족의 배우자 쪽 가족이에요. 촌수를 따지지 않고 서로 사돈이라고 불러요.'};
 }
 function josa(w,a,b){ for(let i=w.length-1;i>=0;i--){ const c=w.charCodeAt(i); if(c>=0xAC00&&c<=0xD7A3) return ((c-0xAC00)%28)?a:b; } return b; }
 function renderAnswer(box,pathText,r){
@@ -1638,9 +1628,9 @@ function bindChon(){
 try{ localStorage.removeItem('mf-hist'); ['mf-ps','mf-pr','mf-ch'].forEach(k=>sessionStorage.removeItem(k)); }catch(e){}
 if(PAGE==='print'){
   const q=new URLSearchParams(location.search); let msg='';
-  const t=q.get('tab'); if(t&&['jb','mj','hb','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
-  const r=q.get('rel'); if(r&&Object.prototype.hasOwnProperty.call(REL,r)){ PS.rel=r; PS.tab='jb'; if(!REL[r].gen) PS.pair=false; msg='고르신 관계로 지방을 준비했습니다'; }
-  const ci=q.get('clan'); if(ci!==null&&/^\d+$/.test(ci)&&CLANS[+ci]){ const c=CLANS[+ci]; PS.c1=c; PS.man=false; msg=clanLabel(c)+' '+c.bh+c.sh+' · 고인 본관에 넣었습니다'; }
+  const t=q.get('tab'); if(t&&['jb','mj','ck','sj','env','tx'].indexOf(t)>=0) PS.tab=t;
+  const r=q.get('rel'); if(r&&Object.prototype.hasOwnProperty.call(REL,r)){ PS.rel=r; PS.tab='jb'; if(!REL[r].gen) PS.pair=false; msg='고르신 관계로 지방을 준비했어요'; }
+  const ci=q.get('clan'); if(ci!==null&&/^\d+$/.test(ci)&&CLANS[+ci]){ const c=CLANS[+ci]; PS.c1=c; PS.man=false; msg=clanLabel(c)+' '+c.bh+c.sh+' · 고인 본관에 넣었어요'; }
   if(location.search) try{ history.replaceState(null,'',location.pathname); }catch(e){}
   bindPrint();
   if(msg) setTimeout(()=>toast(msg),400);
@@ -1655,7 +1645,7 @@ route();
 (function(){
   if(RM||!('IntersectionObserver' in window)||!Element.prototype.animate) return;
   const vh=window.innerHeight||800;
-  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
+  const els=$$('.page-head>*,.hero-main>*,.hero-side>*,.promise-wrap>.ph,.sec>h2,.sec>h3,.sec>.sec-lead,.sec>p,.sec>.btn,.sec>.callout,.sec>.card,.sec>.actions,.sec>.tblwrap,.sec>.dowe,.num-step>li,.promise>div,.svc>a,.sec .grid2>*,.sec .grid3>*,.sec .grid4>*,.fit3>li,.sec>.bills,.sec>.bill-f,.sec>.bill-pair>*,.guides>a,.faq,.terms').filter(el=>!el.closest('[hidden]')&&el.getBoundingClientRect().top>vh*0.98);
   if(!els.length) return;
   els.forEach(el=>el.classList.add('rv'));
   let queue=[], timer=0;
