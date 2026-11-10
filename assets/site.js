@@ -34,7 +34,7 @@ document.addEventListener('click',e=>{
 });
 
 /* ── 화면 이동 (메뉴마다 주소가 따로 있음) ── */
-const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn','gajokjang','sangjo','support','jibang'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn','gajokjang','sangjo','support','jibang','catalog'];
 const PAGE=(function(){ const b=document.body.getAttribute('data-route'); return PAGES.indexOf(b)>=0?b:'home'; })();
 function route(){
   const p=PAGE;
@@ -1623,6 +1623,16 @@ function bindChon(){
   $('#pswap').addEventListener('click',()=>{ const t=PS2.a; PS2.a=PS2.b; PS2.b=t; renderPair(); });
   const ex=$('#ch-ex'); EX.forEach(x=>{ const b=document.createElement('button'); b.type='button'; b.textContent=x[0]; b.addEventListener('click',()=>{ CH.steps=JSON.parse(JSON.stringify(x[1])); if(x[2]) CS.me=x[2]; renderChonAll(false); }); ex.appendChild(b); });
 }
+
+/* ── 유골함 카탈로그 : 종교 문양으로 보기 (저장하지 않음) ── */
+(function(){
+  const all=$('#cat-all'); if(!all) return;
+  $$('[data-cf]').forEach(b=>b.addEventListener('click',()=>{
+    const f=b.getAttribute('data-cf');
+    if(f) all.setAttribute('data-f',f); else all.removeAttribute('data-f');
+    $$('[data-cf]').forEach(x=>x.setAttribute('aria-pressed',String(x===b)));
+  }));
+})();
 
 /* ── 시작 : 이 주소의 화면만 준비 (입력한 내용은 어디에도 저장하지 않음) ── */
 try{ localStorage.removeItem('mf-hist'); ['mf-ps','mf-pr','mf-ch'].forEach(k=>sessionStorage.removeItem(k)); }catch(e){}

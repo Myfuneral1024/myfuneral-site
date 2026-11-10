@@ -18,7 +18,7 @@ OUT = sys.argv[sys.argv.index('--out') + 1] if '--out' in sys.argv else ROOT
 BASE = 'https://www.myfuneral.co.kr'
 VER = datetime.datetime.now().strftime('%Y%m%d%H%M')
 TODAY = datetime.date.today().isoformat()
-ROUTES = ['urgent', 'nobinso', 'price', 'print', 'date', 'clan', 'chon', 'manners', 'urn', 'gajokjang', 'sangjo', 'support', 'jibang']  # urn · 안내 화면 4개는 메뉴에 없음
+ROUTES = ['urgent', 'nobinso', 'price', 'print', 'date', 'clan', 'chon', 'manners', 'urn', 'gajokjang', 'sangjo', 'support', 'jibang', 'catalog']  # urn · 안내 화면 4개는 메뉴에 없음
 STATIC = ['CNAME', 'favicon.svg', 'apple-touch-icon.png', 'og.png', 'robots.txt',
           'naverb64ba87306a5179497b82d3c875bb21e.html']
 
@@ -49,6 +49,8 @@ META = {
                 '생계 · 의료 · 주거급여 수급자가 돌아가시면 장제급여를 받을 수 있습니다. 신청하는 곳과 서류, 국가유공자 안장 지원, 나만의장례 20만원 할인을 정리했습니다. 24시간 상담 1661-4214.'),
     'jibang': ('지방 쓰는 법 · 아버지 어머니 지방 예시 · 무료 출력 | 나만의장례',
                '현고학생부군신위처럼 모시는 분마다 다른 지방 쓰는 법을 표로 정리했습니다. 종이 크기, 두 분을 함께 모실 때, 본관 쓰는 법까지 보고 출력실에서 무료로 바로 인쇄할 수 있습니다.'),
+    'catalog': ('유골함 카탈로그 · 진공함 · 합골함 · 수목함 가격 | 나만의장례',
+                '나만의장례가 준비해 드리는 태림원 유골함 66가지와 금액입니다. 수목함 20만원부터 진공함 · 별자리 탄생석 진공함 · 명품 자개함 · 합골함까지. 모실 곳과 봉안당 칸 크기에 맞춰 상담으로 골라 드립니다. 24시간 1661-4214.'),
     'manners': ('조문 예절 · 부의 봉투 쓰는 법 | 나만의장례',
                 '조문 순서, 절하는 법과 공수, 위로의 말, 삼가야 할 것, 부의 봉투 쓰는 법과 부의금 관례까지 처음 가는 조문에 필요한 예절을 정리했습니다.'),
 }
@@ -132,7 +134,7 @@ js = JS
 start = js.index('/* ── 화면 이동 ── */')
 end = js.index("window.addEventListener('hashchange',route);") + len("window.addEventListener('hashchange',route);")
 js = js[:start] + r"""/* ── 화면 이동 (메뉴마다 주소가 따로 있음) ── */
-const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn','gajokjang','sangjo','support','jibang'];
+const PAGES=['home','urgent','nobinso','price','print','date','clan','chon','manners','urn','gajokjang','sangjo','support','jibang','catalog'];
 const PAGE=(function(){ const b=document.body.getAttribute('data-route'); return PAGES.indexOf(b)>=0?b:'home'; })();
 function route(){
   const p=PAGE;
