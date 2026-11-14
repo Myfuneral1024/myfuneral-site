@@ -208,6 +208,55 @@ details.faq .faq-a{padding:0 2px 18px;color:var(--ink2)}
 @media (min-width:961px){.notice{margin:-24px 0 0;font-size:15px}.notice summary{grid-template-columns:auto minmax(0,1fr) auto;grid-template-areas:"tag t more";gap:12px;padding:10px 16px;min-height:48px}.notice-t .nl{display:inline-block;margin-right:.4em}.notice-body{margin:0 16px}.notice-dl{max-width:560px}}
 @media (prefers-reduced-motion: reduce){.notice::details-content{transition:none}.notice-more::after{transition:none}}
 
+/* 지금 바로 전화 (2026-11-14 사용자 지시: 급하게 알아보는 분이 주저리 글을 읽지 않고 바로 전화로 이어지게) */
+.urg{margin:-28px 0 16px;padding:22px 18px 18px;border-radius:6px;background:var(--pine);color:var(--pine-ink);display:grid;gap:18px}
+.urg-q{margin:0;font-family:var(--serif);font-weight:900;font-size:clamp(24px,6.6vw,36px);line-height:1.32;letter-spacing:-0.015em;color:inherit;text-wrap:balance}
+.urg-q .ln{white-space:nowrap}
+.urg-s{margin-top:8px;font-size:16.5px;line-height:1.6;color:inherit;opacity:.88}
+.urg-call{display:flex;align-items:center;justify-content:center;gap:10px;min-height:66px;margin-top:16px;padding:0 16px;border-radius:6px;background:var(--pine-ink);color:var(--pine);text-decoration:none;font-weight:800;box-shadow:0 1px 0 rgba(0,0,0,.08);transition:transform .16s var(--ease-out,ease)}
+.urg-call:active{transform:scale(.98)}
+.urg-call .ic-ph{width:26px;height:26px;flex:none}
+.urg-call .n{font-family:var(--serif);font-weight:900;font-size:28px;letter-spacing:.01em;line-height:1;white-space:nowrap}
+.urg-call .t{font-size:17px;white-space:nowrap}
+.urg-m{display:flex;flex-wrap:wrap;gap:2px 0;margin-top:10px;font-size:14px;line-height:1.6;color:inherit;opacity:.86}
+.urg-m span{white-space:nowrap}
+.urg-m span+span::before{content:"·";margin:0 7px}
+.urg-b{padding-top:16px;border-top:1px solid color-mix(in srgb,var(--pine-ink) 24%,transparent)}
+.urg-h{font-size:15px;font-weight:700;color:inherit;opacity:.9}
+.urg-l{list-style:none;margin:8px 0 0;padding:0;counter-reset:u}
+.urg-l li{counter-increment:u;display:grid;grid-template-columns:28px minmax(0,1fr);column-gap:10px;padding:8px 0}
+.urg-l li::before{content:counter(u);grid-row:span 2;display:grid;place-items:center;width:24px;height:24px;margin-top:1px;border-radius:50%;border:1.5px solid currentColor;font-size:13px;font-weight:800;line-height:1}
+.urg-l b{font-size:16.5px;line-height:1.45}
+.urg-l span{font-size:14.5px;line-height:1.55;opacity:.82}
+.urg-more{display:inline-flex;align-items:center;min-height:44px;margin-right:18px;color:inherit;font-weight:700;font-size:15px;text-underline-offset:4px}
+.urg-more::after{content:"→";margin-left:6px}
+.urg-c .urg-more{margin-top:2px}
+.urg+.notice{margin-top:0}
+.urg.solo+.sec{margin-top:36px;padding-top:0;border-top:0}
+@media (min-width:961px){
+  .urg{margin-top:-24px;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);gap:0;padding:32px 36px}
+  .urg-a{padding-right:36px}
+  .urg-b{padding:0 0 0 36px;border-top:0;border-left:1px solid color-mix(in srgb,var(--pine-ink) 24%,transparent)}
+  .urg-call{align-self:flex-start;display:inline-flex;padding:0 28px}
+  .urg.solo{grid-template-columns:minmax(0,1fr)}
+  .urg.solo .urg-a{padding:0;display:grid;grid-template-columns:minmax(0,1fr) auto;column-gap:48px;align-items:center}
+  .urg.solo .urg-call{margin-top:0}
+}
+@media (max-width:360px){.urg{padding:20px 14px 14px}.urg-call{gap:8px;padding:0 10px}.urg-call .n{font-size:25px}.urg-call .t{font-size:16px}}
+@media (prefers-reduced-motion: reduce){.urg-call{transition:none}}
+/* 장례가 발생하면 : 전화 뒤 진행 순서 */
+.flow{list-style:none;margin:4px 0 0;padding:0;counter-reset:f}
+.flow li{counter-increment:f;position:relative;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;padding:0 0 22px 46px}
+.flow li::before{content:counter(f);position:absolute;left:0;top:-1px;width:30px;height:30px;display:grid;place-items:center;border-radius:50%;background:var(--pine);color:var(--pine-ink);font-weight:800;font-size:14px}
+.flow li::after{content:"";position:absolute;left:14.5px;top:32px;bottom:2px;width:1px;background:var(--edge)}
+.flow li:last-child{padding-bottom:4px}.flow li:last-child::after{display:none}
+.flow b{font-size:17px;line-height:1.5}
+.flow em{font-style:normal;font-size:13.5px;font-weight:700;color:var(--ink2);white-space:nowrap;border:1px solid var(--edge);border-radius:999px;padding:1px 10px}
+.flow span{flex-basis:100%;color:var(--ink2);line-height:1.65}
+.flow-call{margin-top:20px;align-self:flex-start}
+#urgent-flow{scroll-margin-top:96px}
+.flow-call .ic-ph{width:22px;height:22px}
+
 /* 홈 첫 화면 */
 .hero{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:56px;padding-block:24px 8px;align-items:start}
 @media (max-width:960px){.hero{grid-template-columns:minmax(0,1fr);gap:40px;padding-block:8px 0}}
