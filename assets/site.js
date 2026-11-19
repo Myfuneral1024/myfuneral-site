@@ -898,11 +898,11 @@ const DX_TYPES={
 };
 const DX_COFFIN={cre:['화장용 오동나무관',20],bur:['매장용 오동나무관',30]};
 const DX_LINES={
-  nob:[['svc','장례 형태','무빈소 장례 기본','장례지도사 · 입관지도사 · 입관용품',60,false,'무빈소 장례'],
+  nob:[['svc','장례 형태','무빈소 장례 기본','장례지도사 1명 · 입관지도사 2명 · 입관용품 50여 가지',60,false,'무빈소 장례'],
        ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 기본 수의예요. 미리 준비해 두신 수의가 있으면 공제해 드려요.',15,true,'면수의'],
        ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
        ['car','장의 차량','장의 차량 · 리무진 (편도)','1차 장지 또는 화장장까지 모셔요',40,true,'리무진 (편도)']],
-  fam:[['svc','장례 형태','가족장 (3일장) 기본','장례지도사 · 입관지도사 · 입관용품',70,false,'가족장 (3일장)'],
+  fam:[['svc','장례 형태','가족장 (3일장) 기본','장례지도사 1명 · 입관지도사 2명 · 입관용품 50여 가지',70,false,'가족장 (3일장)'],
        ['coffin','관'],['shroud','수의','면수의','무명(면)으로 지은 기본 수의예요. 미리 준비해 두신 수의가 있으면 공제해 드려요.',15,true,'면수의'],
        ['ipgwan','입관','입관 생화 꽃장식','관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',20,true,'생화 꽃장식'],
        ['binso','빈소 헌화','빈소 헌화 30송이','조문객이 영정 앞에 올리는 꽃',5,true,'30송이'],
@@ -926,7 +926,7 @@ const dxIsBase=k=>!dxOpts(k)||String((DX.opt[k]||dxBase(k)).slice().sort())===St
 const dxBaseLbl=k=>dxOpts(k).filter(x=>dxBase(k).includes(x[0])).map(x=>x[1].replace(/\s*\(.*\)$/,'')).join(' · ');
 function dxResetOpt(){ DX.opt={}; Object.keys(DX_OPT).forEach(k=>{ if(dxOpts(k)) DX.opt[k]=dxBase(k); }); }
 const dxName=l=>{ const sl=dxSel(l[0]); return sl&&!DX.off[l[0]]?sl.map(x=>x[1]).join(' + '):(l[6]||l[2]); };
-const dxSub=l=>{ const k=l[0]; if(k==='svc') return '장례지도사 · 입관지도사 · 입관용품 포함'; if(k==='car'||k==='bus') return l[3]; if(k==='daeryeom') return '매장하실 때 기본으로 넣어 드려요'; const sl=dxSel(k); return !sl?'':sl.length>1?sl.map(x=>x[5]).join(' · '):(sl[0][4]||''); };
+const dxSub=l=>{ const k=l[0]; if(k==='svc') return '장례지도사 1명 · 입관지도사 2명 · 입관용품 50여 가지'; if(k==='car'||k==='bus') return l[3]; if(k==='daeryeom') return '매장하실 때 기본으로 넣어 드려요'; const sl=dxSel(k); return !sl?'':sl.length>1?sl.map(x=>x[5]).join(' · '):(sl[0][4]||''); };
 /* 인원 · 벌 수를 정하는 줄 : 상품에 들어 있는 수가 처음 값, 0이 되면 뺀 것으로 */
 const DX_CNT={
   staff:{unit:'명',max:6,price:[12,12],rows:['첫째 날','둘째 날'],note:'줄이신 만큼 100% 빼 드려요. 더 필요하시면 상담 때 말씀해 주세요(1인 12만원). 4일장 이상은 현장에서 상담해 드려요.',base:{fam:[1,1]}},
@@ -997,10 +997,11 @@ function dxOptHTML(k){
     (k==='car'?'<p class="pl-cnote">리무진과 장의버스는 함께 고르실 수 있어요.'+(DX.type==='nob'?' 스타리아&nbsp;·&nbsp;카니발과 리무진은 둘 중 하나만 고르시면 돼요.':'')+'</p>':'')+
   '</div>';
 }
+const DX_BD='<div class="bd pl-bd" role="group" aria-label="장례 기본에 들어 있는 것"><div class="bd-r"><span>장례지도사</span><span class="bd-d" aria-hidden="true"></span><strong>1명</strong></div><div class="bd-r"><span>입관지도사</span><span class="bd-d" aria-hidden="true"></span><strong>2명</strong></div><div class="bd-r"><span>입관용품</span><span class="bd-d" aria-hidden="true"></span><strong>50여&nbsp;가지</strong></div><p class="bd-n">장례지도사가 처음부터 끝까지 장례를 맡고, 입관지도사가 염습과 입관을 모셔요.<strong class="bd-k">장례에 필요한 기본 항목은 모두&nbsp;들어&nbsp;있어요.</strong></p></div>';
 function dxRowHTML(l){
   const k=l[0], nm=l[2], sub=l[3], p=l[4], rm=l[5];
   return '<li class="pl-row'+(DX_CNT[k]?' has-cnt':'')+(dxOpts(k)?' has-opt':'')+'" id="pl-'+k+'">'+
-    '<span class="pl-t"><span class="pl-tt">'+dNb(nm)+'</span></span>'+(sub?'<small class="pl-s">'+dNb(sub)+'</small>':'')+
+    '<span class="pl-t"><span class="pl-tt">'+dNb(nm)+'</span></span>'+(k==='svc'?DX_BD:sub?'<small class="pl-s">'+dNb(sub)+'</small>':'')+
     '<span class="pl-amt">'+dMan(p)+'</span>'+
     '<span class="pl-act">'+(rm?'<button type="button" class="pl-btn'+(k==='shroud'?' own':'')+'" data-off="'+k+'" aria-pressed="false" aria-label="'+dEsc(nm)+' '+dxOffLbl(k)+'">'+dxOffLbl(k)+'</button>':'')+'</span>'+
     (DX_CNT[k]?dxCntHTML(k):'')+(dxOpts(k)?dxOptHTML(k):'')+
