@@ -647,7 +647,7 @@ create or replace function public.mf_settings() returns jsonb
 language plpgsql stable security definer set search_path = public as $$
 declare me public.mf_staff := public.mf__me();
 begin
-  return coalesce((select jsonb_object_agg(key, value) from public.mf_setting where key in ('stamp')), '{}'::jsonb);
+  return coalesce((select jsonb_object_agg(key, value) from public.mf_setting where key in ('stamp','bank')), '{}'::jsonb);
 end $$;
 
 create or replace function public.mf_setting_set(p_key text, p_value text) returns void
@@ -655,9 +655,10 @@ language plpgsql security definer set search_path = public as $$
 declare me public.mf_staff := public.mf__me();
 begin
   if me.role <> 'admin' then perform public.mf__err('본사만 바꿀 수 있어요.'); end if;
-  if p_key not in ('stamp') then perform public.mf__err('바꿀 수 없는 설정이에요.'); end if;
-  if length(coalesce(p_value,'')) > 300000 then perform public.mf__err('그림이 너무 커요.'); end if;
-  if coalesce(p_value,'') <> '' and p_value !~ '^data:image/(png|jpeg);base64,' then perform public.mf__err('그림 파일이 아니에요.'); end if;
+  if p_key not in ('stamp','bank') then perform public.mf__err('바꿀 수 없는 설정이에요.'); end if;
+  if p_key = 'stamp' and length(coalesce(p_value,'')) > 300000 then perform public.mf__err('그림이 너무 커요.'); end if;
+  if p_key = 'stamp' and coalesce(p_value,'') <> '' and p_value !~ '^data:image/(png|jpeg);base64,' then perform public.mf__err('그림 파일이 아니에요.'); end if;
+  if p_key = 'bank' and length(coalesce(p_value,'')) > 120 then perform public.mf__err('계좌 글이 너무 길어요.'); end if;
   insert into public.mf_setting(key, value, updated_by, updated_at) values (p_key, coalesce(p_value,''), me.id, now())
   on conflict (key) do update set value = excluded.value, updated_by = excluded.updated_by, updated_at = now();
   perform public.mf__log('설정 바꿈', 'setting:'||p_key, '{}'::jsonb);
