@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#252525">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="나만의장례">
+<title>나만의장례 업무</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=Noto+Serif+KR:wght@700;900&display=swap">
+<!-- 나만의장례 업무 앱 · 원본 _src/app/src.html → python3 _src/app/build.py 로 /app/ 를 만든다. 서버 SQL 은 _src/app/myfuneral-app.sql -->
+<style>
+:root{
+  --bg:#f5f5f3; --surface:#ffffff; --sunk:#ededeb; --ink:#1e1e1d; --ink2:#3b3b39; --muted:#5e5e5b;
+  --line:#dddddb; --edge:#9b9b97; --pine:#252525; --pine-ink:#ffffff; --pine-soft:#ebebe8;
+  --warn:#963a1c; --warn-soft:#f5e4dc; --ok:#2d5a3c; --ok-soft:#e3ede6;
+  --serif:"Noto Serif KR","Nanum Myeongjo","AppleMyungjo",serif;
+  --sans:"IBM Plex Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+  --top:56px; --nav:64px; --ease:cubic-bezier(0.23,1,0.32,1);
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#121212; --surface:#1b1b1a; --sunk:#161615; --ink:#ebebe8; --ink2:#c9c9c5; --muted:#a2a29d;
+  --line:#2f2f2d; --edge:#62625e; --pine:#ebebe8; --pine-ink:#151515; --pine-soft:#2b2b29;
+  --warn:#eba387; --warn-soft:#3a2219; --ok:#9fd0ae; --ok-soft:#1d2b21; color-scheme:dark }}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%;scroll-padding-top:calc(var(--top) + 12px);scroll-padding-bottom:calc(var(--nav) + 96px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.55;word-break:keep-all;overflow-wrap:break-word;font-variant-numeric:tabular-nums;-webkit-tap-highlight-color:transparent}
+h1,h2,h3{margin:0;line-height:1.3}
+p{margin:0}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+[hidden]{display:none!important}
+.nw{white-space:nowrap}
+.kv a,.cpres a{color:inherit;text-underline-offset:3px}
+.kv dd a{display:inline-flex;align-items:center;min-height:44px;margin:-11px 0}
+.h2 a{display:inline-flex;align-items:center;min-height:44px;margin:-12px 0}
+.dl{display:flex;justify-content:space-between;gap:10px}
+.dl b{white-space:nowrap;font-weight:500}
+.muted{color:var(--muted)}
+.small{font-size:14px}
+
+/* 위 막대 · 아래 메뉴 */
+.top{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+.top-in{max-width:760px;margin:0 auto;height:var(--top);display:flex;align-items:center;gap:6px;padding:0 max(10px,env(safe-area-inset-right,0px)) 0 max(10px,env(safe-area-inset-left,0px))}
+.top h1{flex:1;min-width:0;font-size:18px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.brand{display:flex;align-items:center;gap:8px;color:var(--ink);text-decoration:none;min-height:44px;flex:1;min-width:0}
+.brand svg{display:block;flex:none}
+.brand small{font-size:13px;color:var(--muted);white-space:nowrap}
+.ib{display:inline-flex;align-items:center;justify-content:center;min-width:44px;height:44px;border:0;background:none;border-radius:4px;color:var(--ink2);cursor:pointer;padding:0 6px;flex:none}
+.ib:hover{background:var(--sunk)}
+.me-btn{width:36px;height:36px;border-radius:50%;background:var(--pine);color:var(--pine-ink);font-weight:700;font-size:15px;display:inline-flex;align-items:center;justify-content:center}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav-in{max-width:760px;margin:0 auto;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;height:var(--nav)}
+.nav a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-decoration:none;color:var(--muted);font-size:12px;font-weight:500;position:relative}
+.nav a svg{display:block}
+.nav a[aria-current="page"]{color:var(--ink);font-weight:700}
+.nav a[aria-current="page"]::before{content:"";position:absolute;top:0;left:22%;right:22%;height:2px;background:var(--pine)}
+.nav .dot{position:absolute;top:8px;left:calc(50% + 8px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--warn);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center}
+main{max-width:760px;margin:0 auto;padding:16px max(14px,env(safe-area-inset-right,0px)) calc(var(--nav) + 28px + env(safe-area-inset-bottom,0px)) max(14px,env(safe-area-inset-left,0px))}
+body.nonav main{padding-bottom:40px}
+body.hasbar main{padding-bottom:calc(var(--nav) + 104px + env(safe-area-inset-bottom,0px))}
+
+/* 부품 */
+.card{background:var(--surface);border:1px solid var(--line);border-radius:4px}
+.pad{padding:16px}
+.stack{display:flex;flex-direction:column;gap:14px}
+.sec{background:var(--surface);border:1px solid var(--line);border-radius:4px;padding:16px;display:flex;flex-direction:column;gap:14px}
+.sec-h{display:flex;align-items:center;gap:10px;font-size:18px;font-weight:700;font-family:var(--serif)}
+.sec-h .no{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:24px;padding:0 6px;background:var(--pine);color:var(--pine-ink);font-family:var(--sans);font-size:13px;font-weight:700;border-radius:2px}
+.sec-h small{margin-left:auto;font-family:var(--sans);font-size:13px;font-weight:500;color:var(--muted)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 18px;border-radius:4px;border:1px solid transparent;font-weight:700;text-decoration:none;cursor:pointer;background:none;font-size:16px;color:var(--ink)}
+.btn-p{background:var(--pine);color:var(--pine-ink);border-color:var(--pine)}
+.btn-l{background:var(--surface);color:var(--ink);border-color:var(--ink)}
+.btn-g{color:var(--ink2);padding:0 8px;text-decoration:underline;text-underline-offset:3px;font-weight:500}
+.btn-w{background:var(--surface);color:var(--warn);border-color:var(--warn)}
+.btn-block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed}
+.btn-lg{min-height:56px;font-size:17px}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.row.end{justify-content:flex-end}
+.grid2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+@media (max-width:420px){.grid2.st{grid-template-columns:minmax(0,1fr)}}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.lbl{font-size:14px;font-weight:700;color:var(--ink2)}
+.lbl span{font-weight:400;color:var(--muted)}
+.in{width:100%;min-height:48px;padding:0 12px;border:1px solid var(--edge);border-radius:4px;background:var(--surface);font-size:16px}
+textarea.in{padding:10px 12px;line-height:1.65;resize:vertical;min-height:84px}
+select.in{padding-right:8px}
+.in.big{min-height:56px;font-size:18px}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:6px}
+.seg button{min-height:46px;padding:0 6px;border:1px solid var(--line);border-radius:4px;background:var(--surface);cursor:pointer;font-size:15px;line-height:1.25}
+.seg button[aria-pressed="true"]{border:2px solid var(--pine);background:var(--pine-soft);font-weight:700}
+.seg.wrap{grid-auto-flow:row;grid-template-columns:repeat(auto-fill,minmax(96px,1fr))}
+.chk{display:flex;align-items:flex-start;gap:10px;min-height:44px;cursor:pointer;padding:10px 0}
+.chk input{width:22px;height:22px;accent-color:var(--pine);margin:1px 0 0;flex:none}
+.note{font-size:14px;color:var(--muted)}
+.warn{background:var(--warn-soft);color:var(--warn);border-radius:4px;padding:10px 12px;font-size:14px}
+.okbox{background:var(--ok-soft);color:var(--ok);border-radius:4px;padding:10px 12px;font-size:14px;font-weight:500}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:12px;font-size:12.5px;font-weight:700;background:var(--sunk);color:var(--ink2);white-space:nowrap}
+.chip.dark{background:var(--pine);color:var(--pine-ink)}
+.chip.warn{background:var(--warn-soft);color:var(--warn)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
+.empty{padding:28px 12px;text-align:center;color:var(--muted)}
+.list{display:flex;flex-direction:column;background:var(--surface);border:1px solid var(--line);border-radius:4px}
+.li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;padding:13px 14px;border-top:1px solid var(--line);text-decoration:none;color:inherit;align-items:center;min-height:64px}
+.li:first-child{border-top:0}
+.li:hover{background:var(--sunk)}
+.li b{font-size:16px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .s{grid-column:1;color:var(--muted);font-size:13.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.li .r{grid-column:2;grid-row:1 / span 2;display:flex;flex-direction:column;align-items:flex-end;gap:4px;font-size:13px;color:var(--muted)}
+.h2{font-size:15px;font-weight:700;color:var(--ink2);margin:18px 2px 8px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.h2 a{font-weight:500;font-size:14px;color:var(--ink2)}
+.kv{margin:0;display:flex;flex-direction:column}
+.kv>div{display:grid;grid-template-columns:96px minmax(0,1fr);gap:10px;padding:9px 0;border-top:1px solid var(--line)}
+.kv>div:first-child{border-top:0}
+.kv dt{color:var(--muted);font-size:14px}
+.kv dd{margin:0;font-weight:500;min-width:0}
+.kv dd small{display:block;color:var(--muted);font-weight:400;font-size:13px}
+.tbl{width:100%;border-collapse:collapse;font-size:15px}
+.tbl th,.tbl td{text-align:left;padding:9px 4px;border-top:1px solid var(--line);vertical-align:top}
+.tbl thead th{border-top:0;border-bottom:1px solid var(--ink);font-size:13px;color:var(--muted);font-weight:500}
+.tbl td.v{text-align:right;white-space:nowrap}
+.tbl td small{display:block;color:var(--muted);font-size:13px}
+.tbl tr.minus td{color:var(--ink2)}
+.tbl tfoot td{border-top:2px solid var(--ink);font-weight:700;font-size:17px}
+.tbl.fx{table-layout:fixed}.tbl col.g{width:5.8em}.tbl col.v{width:7.6em}
+@media (max-width:360px){.tbl{font-size:14px}.tbl th,.tbl td{padding:9px 3px}.tbl col.v{width:6.8em}.tbl tfoot td{font-size:15px}}
+.big-total{font-family:var(--serif);font-weight:900;font-size:26px}
+.search{position:relative}
+.search .in{padding-left:44px}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.quick{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.quick a{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;min-height:92px;padding:10px 6px;background:var(--surface);border:1px solid var(--line);border-radius:4px;text-decoration:none;color:var(--ink);font-weight:700;font-size:15px;text-align:center;line-height:1.3}
+.quick a svg{color:var(--ink2)}
+.hello{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:16px;background:var(--pine);color:var(--pine-ink);border-radius:4px}
+.hello b{font-family:var(--serif);font-size:20px}
+.hello span{font-size:14px;opacity:.85}
+.banner{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border:2px solid var(--warn);border-radius:4px;color:var(--warn);font-weight:700;text-decoration:none;min-height:52px}
+.tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs a,.tabs button{flex:none;display:inline-flex;align-items:center;min-height:40px;padding:0 14px;border:1px solid var(--line);border-radius:20px;background:var(--surface);color:var(--ink2);text-decoration:none;font-size:14.5px;cursor:pointer}
+.tabs [aria-current="page"],.tabs [aria-pressed="true"]{background:var(--pine);color:var(--pine-ink);border-color:var(--pine);font-weight:700}
+.exs{display:flex;flex-direction:column;gap:8px}
+.ex{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) 44px;gap:6px;align-items:center}
+.sch{display:grid;grid-template-columns:72px minmax(0,1.1fr) minmax(0,.9fr);gap:6px;align-items:center}
+.sch .pl{grid-column:2 / -1}
+@media (max-width:520px){.sch{grid-template-columns:minmax(0,1fr) minmax(0,1fr);padding-bottom:10px;border-bottom:1px solid var(--line)}.sch b{grid-column:1 / -1}.sch .pl{grid-column:1 / -1}}
+.stp{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 0}
+.stp .ctl{display:flex;align-items:center;border:1px solid var(--edge);border-radius:4px;overflow:hidden;background:var(--surface)}
+.stp .ctl button{width:46px;height:46px;border:0;background:none;font-size:20px;cursor:pointer}
+.stp .ctl output{min-width:52px;text-align:center;font-weight:700}
+.bar{position:fixed;left:0;right:0;bottom:calc(var(--nav) + env(safe-area-inset-bottom,0px));z-index:19;background:var(--surface);border-top:1px solid var(--ink)}
+.bar-in{max-width:760px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px}
+.bar-in .t{display:flex;flex-direction:column;line-height:1.25}
+.bar-in .t span{font-size:13px;color:var(--muted)}
+.bar-in .t b{font-family:var(--serif);font-weight:900;font-size:22px}
+.cpres{border:1px solid var(--line);border-radius:4px;padding:12px 14px;display:flex;flex-direction:column;gap:6px}
+.cpres.bad{border-color:var(--warn)}
+.pv{background:var(--sunk);border-radius:4px;padding:12px;display:flex;justify-content:center}
+.pv canvas{display:block;width:100%;max-width:440px;height:auto;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+.log{list-style:none;margin:0;padding:0;font-size:14px}
+.log li{display:flex;gap:10px;padding:7px 0;border-top:1px solid var(--line);color:var(--ink2)}
+.log li:first-child{border-top:0}
+.log time{color:var(--muted);white-space:nowrap}
+
+/* 로그인 */
+.auth{min-height:100vh;min-height:100dvh;display:flex;flex-direction:column;justify-content:center;padding:32px max(18px,env(safe-area-inset-right,0px)) 40px max(18px,env(safe-area-inset-left,0px));max-width:440px;margin:0 auto;gap:22px}
+.auth-logo{display:flex;flex-direction:column;align-items:center;gap:12px;color:var(--ink)}
+.auth-logo b{font-family:var(--serif);font-size:20px}
+.auth .card{padding:20px 18px;display:flex;flex-direction:column;gap:14px}
+
+/* 창 · 알림 */
+.dim{position:fixed;inset:0;z-index:50;background:rgba(0,0,0,.42);display:flex;align-items:flex-end;justify-content:center}
+@media (min-width:700px){.dim{align-items:center}}
+.sheet{width:100%;max-width:520px;max-height:88vh;overflow:auto;background:var(--surface);border-radius:8px 8px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:14px;animation:up 260ms var(--ease)}
+@media (min-width:700px){.sheet{border-radius:6px}}
+.sheet h2{font-size:19px;font-family:var(--serif)}
+@keyframes up{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+#toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--nav) + 18px + env(safe-area-inset-bottom,0px));z-index:60;max-width:calc(100% - 32px);background:var(--ink);color:var(--bg);padding:12px 18px;border-radius:4px;font-weight:500;text-align:center;animation:fade 220ms var(--ease)}
+body.nonav #toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+body.hasbar #toast{bottom:calc(var(--nav) + 92px + env(safe-area-inset-bottom,0px))}
+@keyframes fade{from{opacity:0;transform:translate(-50%,8px)}to{opacity:1;transform:translate(-50%,0)}}
+.view{animation:vin 240ms var(--ease)}
+@keyframes vin{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--pine);border-radius:50%;animation:rot .8s linear infinite;margin:40px auto}
+@keyframes rot{to{transform:rotate(360deg)}}
+.btn,.seg button,.ib,.quick a,.stp .ctl button,.tabs a,.tabs button{transition:transform 140ms var(--ease),background-color 160ms ease}
+.btn:active,.seg button:active,.ib:active,.quick a:active,.stp .ctl button:active{transform:scale(.97)}
+@media (prefers-reduced-motion: reduce){.sheet,.view,#toast{animation:none}.btn,.seg button,.ib,.quick a,.stp .ctl button{transition:none}.btn:active,.seg button:active,.ib:active,.quick a:active,.stp .ctl button:active{transform:none}}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true" focusable="false">__SYM__</svg>
+<div id="app"></div>
+<div id="toast" role="status" aria-live="polite" hidden></div>
+<script>
+(function(){
+'use strict';
+/* ══ 설정 ══ */
+const CFG={url:'__SB_URL__',key:'__SB_KEY__',ver:'__VER__'};
+const READY=!/^__/.test(CFG.url)&&!/^__/.test(CFG.key);
+const MAIL='@staff.myfuneral.co.kr';
+const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>[...(r||document).querySelectorAll(s)];
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const won=n=>(Number(n)||0).toLocaleString('ko-KR')+'원';
+const sgn=n=>n<0?'−'+won(-n):won(n);
+const man=n=>n%10000===0?(n/10000).toLocaleString('ko-KR')+'만원':won(n);
+const digits=t=>String(t||'').replace(/\D/g,'');
+const telFmt=t=>{ const d=digits(t); if(d.length===11) return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7); if(d.length===10) return d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6); return String(t||'').trim(); };
+const telMask=t=>{ const d=digits(t); return d.length>=10?d.slice(0,3)+'-****-'+d.slice(-4):String(t||'').trim(); };
+const today=()=>{ const d=new Date(); return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); };
+const isoOk=s=>/^\d{4}-\d{2}-\d{2}$/.test(s||'');
+const fmtDot=s=>{ if(!isoOk(String(s||'').slice(0,10))) return ''; const p=String(s).slice(0,10).split('-').map(Number); return p[0]+'. '+p[1]+'. '+p[2]+'.'; };
+const fmtKo=s=>{ const p=String(s).slice(0,10).split('-').map(Number); return p[0]+'년 '+p[1]+'월 '+p[2]+'일'; };
+const WD=['일','월','화','수','목','금','토'];
+const fmtMD=s=>{ if(!isoOk(s)) return ''; const p=s.split('-').map(Number); return p[1]+'월 '+p[2]+'일 ('+WD[new Date(Date.UTC(p[0],p[1]-1,p[2])).getUTCDay()]+')'; };
+const fmtT=t=>{ if(!/^\d{2}:\d{2}/.test(t||'')) return ''; let h=+t.slice(0,2), m=+t.slice(3,5); const ap=h<12?'오전':'오후'; h=h%12||12; return ap+' '+h+'시'+(m?' '+m+'분':''); };
+const when=s=>{ if(!s) return ''; const d=new Date(s); if(isNaN(d)) return ''; const n=new Date(); const same=d.toDateString()===n.toDateString();
+  return same?String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'):(d.getMonth()+1)+'. '+d.getDate()+'.'+(d.getFullYear()!==n.getFullYear()?' ('+String(d.getFullYear()).slice(2)+')':''); };
+const whenFull=s=>{ const d=new Date(s); return isNaN(d)?'':(d.getMonth()+1)+'월 '+d.getDate()+'일 '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); };
+/* 금액 입력: 1000 미만 숫자는 만원 (30 = 30만원), 「5만」 = 5만원, 그 밖에는 원 */
+const amt=v=>{ v=String(v||'').replace(/[\s,원]/g,''); if(!v) return 0; const neg=/^[-−]/.test(v); v=v.replace(/^[-−]/,''); let n;
+  const m=v.match(/^(\d+(?:\.\d+)?)만$/); if(m) n=Math.round(parseFloat(m[1])*10000); else if(/^\d+$/.test(v)) n=parseInt(v,10)<1000?parseInt(v,10)*10000:parseInt(v,10); else return NaN; return neg?-n:n; };
+let toastT=0;
+function toast(msg){ const t=$('#toast'); t.textContent=msg; t.hidden=false; t.style.animation='none'; void t.offsetWidth; t.style.animation=''; clearTimeout(toastT); toastT=setTimeout(()=>{ t.hidden=true; },2800); }
+const LS={get:k=>{ try{ return localStorage.getItem(k); }catch(e){ return null; } },set:(k,v)=>{ try{ if(v==null||v==='') localStorage.removeItem(k); else localStorage.setItem(k,v); }catch(e){} }};
+const UA=navigator.userAgent||'';
+const IS_IOS=/iPhone|iPad|iPod/i.test(UA)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+const IS_MOBILE=IS_IOS||/Android/i.test(UA);
+const CAN_SHARE=(()=>{ try{ return !!(navigator.share&&navigator.canShare&&navigator.canShare({files:[new File([''],'a.png',{type:'image/png'})]})); }catch(e){ return false; } })();
+
+/* ══ 이름표 ══ */
+const ROLE={admin:'본사',head:'본부장',leader:'팀장',member:'팀원'};
+const SSTAT={pending:'승인 대기',active:'사용 중',stopped:'정지'};
+const CSTAT={active:['가입',''],done:['장례 진행','dark'],cancel:['취소','warn']};
+const FSTAT={open:['진행 중','dark'],done:['장례 끝남',''],settled:['정산 끝남','ok'],cancel:['취소','warn']};
+const KSTAT={registered:['등록됨',''],used:['쓰임','dark'],void:['무효','warn']};
+const PRODN={nob:'무빈소장',fam:'가족장',und:'상담 때 정함'};
+const nwj=t=>String(t==null?'':t).split(' · ').map(x=>(x.length<=10||/MF-/.test(x))?'<span class="nw">'+esc(x)+'</span>':esc(x)).join(' · ');
+const chip=(m,k)=>{ const x=m[k]||[k,'']; return '<span class="chip '+x[1]+'">'+esc(x[0])+'</span>'; };
+
+/* ══ 가격표 (만원) · 홈페이지 비용 계산과 같게 (2026-11-23 무빈소장 139 · 가족장 199) ══ */
+const PRICE={
+  svc:{nob:[15,14,15],fam:[30,14,15]},
+  coffin:[['c1','화장용 오동나무관',20,'cre'],['c2','화장용 특수관',30,'cre'],['c3','매장용 오동나무관',30,'bur'],['c4','매장용 솔송관',80,'bur'],['c5','매장용 향나무관',160,'bur']],
+  shroud:[['s1','면수의',15],['s2','저마수의',20],['s3','황토수의',30],['s4','쟈가드수의',50],['s5','대마수의',60],['own','자가수의 사용',0]],
+  ipgwan:[['none','하지 않음',0],['i1','생화 꽃장식',20],['i2','궁중대렴',20],['i3','생화 꽃장식 + 궁중대렴',30]],
+  binso:[['none','하지 않음',0],['b1','헌화 30송이',5],['b2','헌화 50송이',7]],
+  car:[['none','차량 미사용',0],['v1','카니발 · 스타리아',30],['v2','리무진 (편도)',40],['v3','장의버스 (왕복)',40],['v4','리무진 + 장의버스',80]]
+};
+const PROD={nob:{n:'무빈소장',p:{cre:139,bur:159},inc:'장례지도사 · 입관지도사 2명 · 입관용품 50여 가지 · 관 · 수의 · 꽃장식 · 리무진'},
+            fam:{n:'가족장 (3일장)',p:{cre:199,bur:219},inc:'장례지도사(3일) · 입관지도사 2명 · 입관용품 50여 가지 · 관 · 수의 · 꽃장식 · 리무진 · 빈소 헌화 · 접객 도우미 · 상복'}};
+const SVC_ROWS=f=>[['장례지도사','1명',f?'3일 동안 장례를 처음부터 끝까지':'장례를 처음부터 끝까지'],['입관지도사','2명','염습 · 입관'],['입관용품','50여 가지','수시 · 염습 · 입관 · 발인에 쓰는 용품']];
+const KM_WON=1800, STAFF_WON=120000, MOURN=[50000,30000];
+const SUP={kind:'sup',name:'수급자 · 국가유공자',amount:200000}, CPD={kind:'cp',name:'사전 상담 감사 할인권',amount:100000};
+const SUP_SUB='장례 때 확인 서류를 보고 빼 드려요', CP_SUB='카카오톡 채널 친구 · 기한 없음 · 수급자 할인과 함께 · 장례 한 번에 한 장 · 현금으로 바꿀 수 없어요';
+function BASE(t,b){ const f=t==='fam', bur=b==='bur';
+  return {coffin:bur?'c3':'c1',shroud:'s1',ipgwan:bur?'i3':'i1',binso:f?'b1':'none',car:'v2',staff:f?[1,1]:[0,0],mourn:f?[2,2]:[0,0]}; }
+const opt=(g,id)=>PRICE[g].find(o=>o[0]===id);
+const CP_RE=/^MF-\d{6}-[A-HJ-NP-Z2-9]{4}$/;
+
+/* ══ 서버 (수파베이스) ══ */
+const SK='mfa-session';
+let sess=(()=>{ try{ return JSON.parse(LS.get(SK)||'null'); }catch(e){ return null; } })();
+function keep(t){ sess={a:t.access_token,r:t.refresh_token,e:t.expires_at||Math.floor(Date.now()/1000)+(t.expires_in||3600)}; LS.set(SK,JSON.stringify(sess)); }
+function drop(){ sess=null; LS.set(SK,''); }
+const authMsg=j=>{ const m=String((j&&(j.msg||j.error_description||j.message||j.error))||'');
+  if(/Invalid login/i.test(m)) return '휴대폰 번호나 비밀번호가 맞지 않아요.';
+  if(/already registered|already exists/i.test(m)) return '이미 가입한 번호예요. 로그인해 주세요.';
+  if(/password/i.test(m)) return '비밀번호를 8자 이상으로 정해 주세요.';
+  if(/rate limit|too many/i.test(m)) return '잠시 뒤에 다시 해 주세요.';
+  return m||'로그인하지 못했어요.'; };
+async function authCall(path,body,token){
+  let r; try{ r=await fetch(CFG.url+'/auth/v1/'+path,{method:'POST',headers:Object.assign({apikey:CFG.key,'Content-Type':'application/json'},token?{Authorization:'Bearer '+token}:{}),body:JSON.stringify(body||{})}); }
+  catch(e){ throw new Error('인터넷 연결을 확인해 주세요.'); }
+  const t=await r.text(); let j=null; try{ j=t?JSON.parse(t):null; }catch(e){}
+  if(!r.ok) throw new Error(authMsg(j)); return j; }
+let refreshing=null;
+async function refresh(){ if(!sess||!sess.r) throw new Error('다시 로그인해 주세요.');
+  if(!refreshing) refreshing=authCall('token?grant_type=refresh_token',{refresh_token:sess.r}).then(t=>{ keep(t); }).catch(e=>{ if(/로그인|맞지/.test(e.message)) drop(); throw e; }).finally(()=>{ refreshing=null; });
+  return refreshing; }
+async function rpc(fn,args,again){
+  if(sess&&sess.e-90<Date.now()/1000){ try{ await refresh(); }catch(e){ if(!sess){ showLogin(); throw new Error('다시 로그인해 주세요.'); } } }
+  let r; try{ r=await fetch(CFG.url+'/rest/v1/rpc/'+fn,{method:'POST',headers:{apikey:CFG.key,Authorization:'Bearer '+(sess?sess.a:CFG.key),'Content-Type':'application/json'},body:JSON.stringify(args||{})}); }
+  catch(e){ throw new Error('인터넷 연결을 확인해 주세요.'); }
+  const t=await r.text(); let j=null; try{ j=t?JSON.parse(t):null; }catch(e){}
+  if(r.status===401&&!again&&sess){ try{ await refresh(); return rpc(fn,args,true); }catch(e){ drop(); showLogin(); throw new Error('다시 로그인해 주세요.'); } }
+  if(!r.ok){ const m=j&&j.message||''; if(/승인을 기다리|멈춘 계정/.test(m)){ boot(); } throw new Error(m&&/[가-힣]/.test(m)?m:'서버에서 처리하지 못했어요. 잠시 뒤 다시 해 주세요.'); }
+  return j; }
+
+/* ══ 상태 ══ */
+let ME=null, ORG=null, STAFF=null, SETTINGS={}, dirty=false, prevHash='';
+const isMgr=()=>ME&&['admin','head','leader'].includes(ME.role);
+async function loadOrg(force){ if(!ORG||force) ORG=await rpc('mf_org'); return ORG; }
+async function loadStaff(force){ if(!STAFF||force) STAFF=await rpc('mf_staff_list'); return STAFF; }
+const teamName=id=>{ for(const h of ORG||[]) for(const t of h.teams) if(t.id===id) return t.name; return ''; };
+
+/* ══ 그림 (아이콘) ══ */
+const IC={
+  home:'<path d="M4 11.2 12 4l8 7.2V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/>',
+  doc:'<path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5M9.5 12.5h6M9.5 16h6"/>',
+  flower:'<path d="M12 2.8c1.7 1.9 1.7 3.6 0 4.9-1.7-1.3-1.7-3-0-4.9z"/><path d="M9 10.5h6V20H9z"/><path d="M6.5 20.5h11"/>',
+  ticket:'<path d="M4 7a1 1 0 0 1 1-1h14a1 1 0 0 1 1 1v3a2 2 0 0 0 0 4v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a2 2 0 0 0 0-4z"/><path d="M14 6v12" stroke-dasharray="2 2.2"/>',
+  people:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 20c.6-3.4 2.8-5.3 5.5-5.3s4.9 1.9 5.5 5.3"/><circle cx="17" cy="9.5" r="2.4"/><path d="M15.8 14.8c2.3.2 4 1.9 4.6 5.2"/>',
+  back:'<path d="M15 5l-7 7 7 7"/>',
+  search:'<circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
+  phone:'<path d="M6.5 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.2 6.2l1.3-2 4 1.5v3a2 2 0 0 1-2.2 2A17 17 0 0 1 4.5 5.7a2 2 0 0 1 2-2.2z"/>'
+};
+const ico=(k,s)=>'<svg width="'+(s||24)+'" height="'+(s||24)+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[k]+'</svg>';
+const LOGO_SVG='<svg width="30" height="31" viewBox="0 0 163 166" aria-hidden="true" focusable="false"><use href="#lg-mark"/></svg><svg width="92" height="18" viewBox="0 0 527 100" role="img" aria-label="나만의장례"><use href="#lg-word"/></svg>';
+
+/* ══ 창 (확인 · 시트) ══ */
+function sheet(html,onMount){ const d=document.createElement('div'); d.className='dim'; d.innerHTML='<div class="sheet" role="dialog" aria-modal="true">'+html+'</div>';
+  const close=()=>{ d.remove(); document.removeEventListener('keydown',kd); }; const kd=e=>{ if(e.key==='Escape') close(); };
+  d.addEventListener('click',e=>{ if(e.target===d) close(); }); document.addEventListener('keydown',kd); document.body.appendChild(d);
+  const f=d.querySelector('input,select,textarea,button'); if(f) setTimeout(()=>f.focus(),60); if(onMount) onMount(d.firstChild,close); return close; }
+function ask(title,body,ok,warn){ return new Promise(res=>{ sheet('<h2>'+esc(title)+'</h2>'+(body?'<p class="muted">'+esc(body)+'</p>':'')+'<div class="grid2"><button type="button" class="btn btn-l" data-no>그만두기</button><button type="button" class="btn '+(warn?'btn-w':'btn-p')+'" data-ok>'+esc(ok||'확인')+'</button></div>',
+  (el,close)=>{ el.querySelector('[data-no]').onclick=()=>{ close(); res(false); }; el.querySelector('[data-ok]').onclick=()=>{ close(); res(true); }; }); }); }
+
+/* ══ 화면 틀 ══ */
+function frame(o){ /* o: {title, back, nav, bar} */
+  document.body.classList.toggle('nonav',o.nav===false); document.body.classList.toggle('hasbar',!!o.bar);
+  const navItems=[['/','홈','home'],['/c','상담','doc'],['/f','장례','flower'],['/k','할인권','ticket']].concat(isMgr()?[['/a','관리','people']]:[]);
+  const cur=(location.hash.slice(1)||'/').split('?')[0];
+  const sec='/'+(cur.split('/')[1]||'');
+  $('#app').innerHTML='<header class="top"><div class="top-in">'+
+    (o.back?'<a class="ib" href="#'+esc(o.back)+'" data-back aria-label="뒤로">'+ico('back')+'</a><h1>'+esc(o.title||'')+'</h1>':'<a class="brand" href="#/" aria-label="홈">'+LOGO_SVG+'<small>업무</small></a>')+
+    (ME?'<a class="ib" href="#/me" aria-label="내 정보"><span class="me-btn">'+esc((ME.name||'나').slice(0,1))+'</span></a>':'')+
+    '</div></header><main id="main"><div class="view" id="view"><div class="spin" aria-label="불러오는 중"></div></div></main>'+
+    (o.bar?'<div class="bar"><div class="bar-in" id="bar"></div></div>':'')+
+    (o.nav===false?'':'<nav class="nav" aria-label="메뉴"><div class="nav-in">'+navItems.map(([h,l,i])=>'<a href="#'+h+'"'+((h==='/'?cur==='/':sec===h)?' aria-current="page"':'')+'>'+ico(i)+l+(h==='/a'&&ME&&ME.pending?'<span class="dot">'+ME.pending+'</span>':'')+'</a>').join('')+'</div></nav>');
+  return $('#view'); }
+const V=html=>{ const v=$('#view'); v.innerHTML=html; return v; };
+function fail(e){ toast(e&&e.message||'문제가 생겼어요.'); }
+
+/* ══ 로그인 · 가입 ══ */
+function authFrame(inner){ document.body.className='nonav'; $('#app').innerHTML='<div class="auth view"><div class="auth-logo"><svg width="64" height="65" viewBox="0 0 163 166" aria-hidden="true"><use href="#lg-mark"/></svg><svg width="150" height="29" viewBox="0 0 527 100" role="img" aria-label="나만의장례"><use href="#lg-word"/></svg><b>업무 앱</b></div>'+inner+'</div>'; }
+function showLogin(msg){
+  if(!READY){ authFrame('<div class="card"><p class="warn">아직 서버 연결 전이에요. 본사에서 설정을 마치면 쓰실 수 있어요.</p></div>'); return; }
+  authFrame('<form class="card" id="f-login" novalidate><div class="fld"><label class="lbl" for="l-ph">휴대폰 번호</label><input class="in big" id="l-ph" type="tel" inputmode="numeric" autocomplete="username" placeholder="010-0000-0000"></div>'+
+    '<div class="fld"><label class="lbl" for="l-pw">비밀번호</label><input class="in big" id="l-pw" type="password" autocomplete="current-password"></div>'+
+    (msg?'<p class="warn">'+esc(msg)+'</p>':'<p class="warn" id="l-err" hidden></p>')+'<button class="btn btn-p btn-lg" type="submit">로그인</button></form>'+
+    '<p style="text-align:center">처음이신가요? <a href="#" id="go-join" class="btn btn-g">가입하기</a></p>'+
+    '<p class="note" style="text-align:center">비밀번호를 잊으셨으면 본사나 본부장께 초기화를 부탁해 주세요.</p>');
+  $('#go-join').onclick=e=>{ e.preventDefault(); showJoin(); };
+  $('#f-login').onsubmit=async e=>{ e.preventDefault(); const ph=digits($('#l-ph').value), pw=$('#l-pw').value, er=$('#l-err')||$('.warn');
+    if(ph.length<10){ er.hidden=false; er.textContent='휴대폰 번호를 넣어 주세요.'; return; } if(!pw){ er.hidden=false; er.textContent='비밀번호를 넣어 주세요.'; return; }
+    const b=e.submitter||$('#f-login button'); b.disabled=true;
+    try{ keep(await authCall('token?grant_type=password',{email:ph+MAIL,password:pw})); await boot(); }
+    catch(x){ er.hidden=false; er.textContent=x.message; b.disabled=false; } };
+}
+function showJoin(){
+  authFrame('<form class="card" id="f-join" novalidate><h2 style="font-size:19px">가입 신청</h2><p class="note">가입하시면 본사가 확인하고 본부 · 팀을 정해 드려요. 승인되면 바로 쓰실 수 있어요.</p>'+
+    '<div class="fld"><label class="lbl" for="j-nm">이름</label><input class="in" id="j-nm" autocomplete="name"></div>'+
+    '<div class="fld"><label class="lbl" for="j-ph">휴대폰 번호 <span>(로그인 아이디)</span></label><input class="in" id="j-ph" type="tel" inputmode="numeric" autocomplete="username" placeholder="010-0000-0000"></div>'+
+    '<div class="fld"><label class="lbl" for="j-pw">비밀번호 <span>(8자 이상)</span></label><input class="in" id="j-pw" type="password" autocomplete="new-password"></div>'+
+    '<div class="fld"><label class="lbl" for="j-pw2">비밀번호 한 번 더</label><input class="in" id="j-pw2" type="password" autocomplete="new-password"></div>'+
+    '<div class="fld"><label class="lbl" for="j-wish">소속 <span>(아시면 · 예: 서울본부 1팀 팀장)</span></label><input class="in" id="j-wish" autocomplete="off"></div>'+
+    '<p class="warn" id="j-err" hidden></p><button class="btn btn-p btn-lg" type="submit">가입 신청</button></form><p style="text-align:center"><a href="#" id="go-login" class="btn btn-g">로그인으로 돌아가기</a></p>');
+  $('#go-login').onclick=e=>{ e.preventDefault(); showLogin(); };
+  $('#f-join').onsubmit=async e=>{ e.preventDefault(); const nm=$('#j-nm').value.trim(), ph=digits($('#j-ph').value), pw=$('#j-pw').value, pw2=$('#j-pw2').value, er=$('#j-err');
+    const bad=!nm?'이름을 넣어 주세요.':(!/^01\d{8,9}$/.test(ph)?'휴대폰 번호를 확인해 주세요.':(pw.length<8?'비밀번호는 8자 이상으로 정해 주세요.':(pw!==pw2?'비밀번호가 서로 달라요.':'')));
+    if(bad){ er.hidden=false; er.textContent=bad; return; }
+    const b=$('#f-join button[type=submit]'); b.disabled=true;
+    try{ const t=await authCall('signup',{email:ph+MAIL,password:pw,data:{name:nm,phone:telFmt(ph),wish:$('#j-wish').value.trim()}});
+      if(!t||!t.access_token){ er.hidden=false; er.textContent='가입 설정이 아직이에요. 본사에 알려 주세요. (수파베이스 이메일 확인 끄기)'; b.disabled=false; return; }
+      keep(t); await boot(); }
+    catch(x){ er.hidden=false; er.textContent=x.message; b.disabled=false; } };
+}
+function showWait(stopped){
+  authFrame('<div class="card"><h2 style="font-size:19px">'+(stopped?'사용이 멈춘 계정이에요':'본사 승인을 기다리고 있어요')+'</h2><p class="muted">'+(stopped?'본사에 문의해 주세요.':'본사가 확인하고 본부 · 팀을 정하면 바로 쓰실 수 있어요. 승인되면 아래 「다시 확인」을 눌러 주세요.')+'</p>'+
+    (ME?'<dl class="kv"><div><dt>이름</dt><dd>'+esc(ME.name)+'</dd></div><div><dt>휴대폰</dt><dd>'+esc(ME.phone)+'</dd></div></dl>':'')+
+    '<button class="btn btn-p" id="w-re">다시 확인</button><button class="btn btn-g" id="w-out">로그아웃</button></div>');
+  $('#w-re').onclick=()=>boot(); $('#w-out').onclick=logout; }
+function showNewPw(){
+  authFrame('<form class="card" id="f-np" novalidate><h2 style="font-size:19px">새 비밀번호를 정해 주세요</h2><p class="note">비밀번호가 초기화됐어요. 앞으로 쓰실 비밀번호를 정해 주세요.</p>'+
+    '<div class="fld"><label class="lbl" for="n-pw">새 비밀번호 <span>(8자 이상)</span></label><input class="in" id="n-pw" type="password" autocomplete="new-password"></div>'+
+    '<div class="fld"><label class="lbl" for="n-pw2">한 번 더</label><input class="in" id="n-pw2" type="password" autocomplete="new-password"></div><p class="warn" id="n-err" hidden></p><button class="btn btn-p btn-lg" type="submit">정하기</button></form>');
+  $('#f-np').onsubmit=async e=>{ e.preventDefault(); const a=$('#n-pw').value, b=$('#n-pw2').value, er=$('#n-err');
+    if(a.length<8){ er.hidden=false; er.textContent='8자 이상으로 정해 주세요.'; return; } if(a!==b){ er.hidden=false; er.textContent='두 번 넣은 비밀번호가 달라요.'; return; }
+    try{ await rpc('mf_change_pw',{p_new:a}); toast('새 비밀번호로 바꿨어요'); await boot(); }catch(x){ er.hidden=false; er.textContent=x.message; } };
+}
+async function logout(){ const t=sess&&sess.a; drop(); ME=ORG=STAFF=null; SETTINGS={}; if(t) authCall('logout',{},t).catch(()=>{}); location.hash='#/'; showLogin(); }
+
+/* ══ 시작 ══ */
+async function boot(){
+  if(!READY||!sess){ showLogin(); return; }
+  try{ ME=await rpc('mf_whoami'); }catch(e){ if(!sess){ showLogin(); return; } authFrame('<div class="card"><p class="warn">'+esc(e.message)+'</p><button class="btn btn-p" id="b-re">다시 하기</button></div>'); $('#b-re').onclick=boot; return; }
+  if(!ME){ drop(); showLogin('계정 정보를 찾지 못했어요. 다시 로그인해 주세요.'); return; }
+  if(ME.status==='pending') return showWait(false);
+  if(ME.status==='stopped') return showWait(true);
+  if(ME.must_change_pw) return showNewPw();
+  ORG=null; STAFF=null;
+  try{ SETTINGS=await rpc('mf_settings')||{}; }catch(e){ SETTINGS={}; }
+  loadStamp(); route();
+}
+
+/* ══ 길찾기 ══ */
+const ROUTES=[];
+const on=(re,fn)=>ROUTES.push([re,fn]);
+function route(){
+  if(!ME||ME.status!=='active') return;
+  const h=location.hash.slice(1)||'/'; const [path,qs]=h.split('?'); const q=new URLSearchParams(qs||'');
+  dirty=false; prevHash=location.hash;
+  for(const [re,fn] of ROUTES){ const m=path.match(re); if(m){ window.scrollTo(0,0); Promise.resolve(fn(m,q)).catch(fail); return; } }
+  location.hash='#/'; }
+window.addEventListener('hashchange',()=>{ if(dirty&&location.hash!==prevHash){ if(!confirm('저장하지 않은 내용이 있어요. 나가시겠어요?')){ const h=prevHash; history.replaceState(null,'',h||'#/'); return; } } route(); });
+window.addEventListener('beforeunload',e=>{ if(dirty){ e.preventDefault(); e.returnValue=''; } });
+const go=h=>{ location.hash=h; };
+
+/* ══ 홈 ══ */
+on(/^\/$/,async()=>{
+  if(ME.role==='admin'){ try{ const w=await rpc('mf_whoami'); ME.pending=w.pending; }catch(e){} }
+  frame({});
+  const org=[ME.hq_name,ME.team_name].filter(Boolean).join(' · ');
+  V('<div class="stack"><div class="hello"><div><b>'+esc(ME.name)+' 님</b><br><span>'+esc([ROLE[ME.role],org].filter(Boolean).join(' · '))+'</span></div></div>'+
+    (ME.role==='admin'&&ME.pending?'<a class="banner" href="#/a">승인 기다리는 직원 '+ME.pending+'명<span>'+ico('back',20).replace('M15 5l-7 7 7 7','M9 5l7 7-7 7')+'</span></a>':'')+
+    '<div><label class="lbl" for="q" style="display:block;margin:0 2px 6px">가입자 찾기</label><div class="search">'+ico('search',22)+'<input class="in big" id="q" type="search" autocomplete="off" placeholder="이름 · 전화번호 · 증서 번호"></div></div>'+
+    '<div id="found"></div>'+
+    '<div class="quick"><a href="#/c/new">'+ico('doc',28)+'사전 상담<br>적기</a><a href="#/f/new">'+ico('flower',28)+'장례<br>접수</a><a href="#/k">'+ico('ticket',28)+'할인권<br>조회</a></div>'+
+    '<div><div class="h2">진행 중인 장례 <a href="#/f">모두 보기</a></div><div id="h-f"><div class="spin"></div></div></div>'+
+    '<div><div class="h2">최근 사전 상담 <a href="#/c">모두 보기</a></div><div id="h-c"><div class="spin"></div></div></div></div>');
+  let t=0; $('#q').addEventListener('input',e=>{ clearTimeout(t); const v=e.target.value.trim(); t=setTimeout(()=>find(v),280); });
+  const [fl,cl]=await Promise.all([rpc('mf_funeral_list',{p_q:'',p_status:'live',p_limit:5}),rpc('mf_consult_list',{p_q:'',p_status:'',p_limit:5})]);
+  $('#h-f').innerHTML=fl.length?'<div class="list">'+fl.map(fRow).join('')+'</div>':'<div class="list"><p class="empty">진행 중인 장례가 없어요.</p></div>';
+  $('#h-c').innerHTML=cl.length?'<div class="list">'+cl.map(cRow).join('')+'</div>':'<div class="list"><p class="empty">아직 적은 상담이 없어요.<br><a class="btn btn-g" href="#/c/new">첫 사전 상담 적기</a></p></div>';
+});
+async function find(v){ const box=$('#found'); if(!box) return; if(v.length<2){ box.innerHTML=''; return; }
+  try{ const r=await rpc('mf_find',{p_q:v}); if(($('#q')||{}).value.trim()!==v) return;
+    box.innerHTML=r.length?'<div class="list">'+r.map(x=>'<a class="li" href="#/'+(x.kind==='consult'?'c':'f')+'/'+x.id+'"><b>'+esc(x.name)+'</b><span class="s">'+esc([x.kind==='consult'?'가입증서':'장례',telFmt(x.phone),x.sub].filter(Boolean).join(' · '))+'</span><span class="r">'+chip(x.kind==='consult'?CSTAT:FSTAT,x.status)+'<span>'+esc(x.owner_name)+'</span></span></a>').join('')+'</div>'
+      :'<div class="list"><p class="empty">「'+esc(v)+'」로 찾은 기록이 없어요.</p></div>'; }catch(e){ fail(e); } }
+const cRow=c=>'<a class="li" href="#/c/'+c.id+'"><b>'+esc(c.client_name)+' 님'+(c.target_name?' <span class="muted" style="font-weight:400">· 모실 분 '+esc(c.target_name)+'</span>':'')+'</b><span class="s">'+esc([PRODN[c.product],c.cert_no,c.owner_name].filter(Boolean).join(' · '))+'</span><span class="r">'+chip(CSTAT,c.status)+'<span>'+esc(fmtDot(c.joined_on))+'</span></span></a>';
+const fRow=f=>'<a class="li" href="#/f/'+f.id+'"><b>故 '+esc(f.deceased_name||'(이름 전)')+(f.chief_name?' <span class="muted" style="font-weight:400">· 상주 '+esc(f.chief_name)+'</span>':'')+'</b><span class="s">'+esc([f.hall,f.start_on?fmtMD(f.start_on):'',f.owner_name].filter(Boolean).join(' · '))+'</span><span class="r">'+chip(FSTAT,f.status)+'<span>'+(f.total?esc(won(f.total)):'')+'</span></span></a>';
+
+/* ══ 사전 상담 목록 ══ */
+on(/^\/c$/,async(m,q)=>{
+  frame({}); const st=q.get('s')||''; const qq=q.get('q')||'';
+  V('<div class="stack"><div class="row" style="justify-content:space-between"><h2 class="sec-h">사전 상담 · 가입증서</h2><a class="btn btn-p" href="#/c/new">'+ico('plus',20)+'새 상담</a></div>'+
+    '<div class="search">'+ico('search',22)+'<input class="in" id="cq" type="search" placeholder="이름 · 전화 · 증서 번호" value="'+esc(qq)+'"></div>'+
+    '<div class="tabs">'+[['','전체'],['active','가입'],['done','장례 진행'],['cancel','취소']].map(([k,l])=>'<a href="#/c?s='+k+'"'+(st===k?' aria-current="page"':'')+'>'+l+'</a>').join('')+'</div><div id="cl"><div class="spin"></div></div></div>');
+  const load=async v=>{ const r=await rpc('mf_consult_list',{p_q:v,p_status:st,p_limit:100}); $('#cl').innerHTML=r.length?'<div class="list">'+r.map(cRow).join('')+'</div>':'<div class="list"><p class="empty">'+(v?'찾은 상담이 없어요.':'아직 상담이 없어요.')+'</p></div>'; };
+  let t=0; $('#cq').addEventListener('input',e=>{ clearTimeout(t); t=setTimeout(()=>load(e.target.value.trim()).catch(fail),280); });
+  await load(qq);
+});
+
+/* ══ 사전 상담 적기 · 고치기 ══ */
+const C_DEF=()=>({id:null,client_name:'',client_phone:'',target_name:'',relation:'',joined_on:today(),product:'und',burial:'cre',discounts:[],cond:'',memo:'',note:'',consent:false,status:'active',owner_id:''});
+on(/^\/c\/new$/,()=>consultForm(C_DEF()));
+on(/^\/c\/(\d+)\/edit$/,async m=>{ frame({title:'상담 고치기',back:'/c/'+m[1]}); const c=await rpc('mf_consult_get',{p_id:+m[1]}); consultForm(c); });
+function discUI(box,D,opts){ /* D: discounts 배열(바뀌면 그대로 고침), opts.onChange */
+  const has=k=>D.find(x=>x.kind===k);
+  const cp=has('cp'); const etc=D.filter(x=>x.kind==='etc');
+  box.innerHTML='<label class="chk"><input type="checkbox" data-d="sup"'+(has('sup')?' checked':'')+'><span>수급자 · 국가유공자 <b>−20만원</b><br><span class="note">'+esc(SUP_SUB)+'</span></span></label>'+
+    '<label class="chk"><input type="checkbox" data-d="cp"'+(cp?' checked':'')+'><span>사전 상담 감사 할인권 <b>−10만원</b><br><span class="note">카카오톡 채널 친구 · 번호를 넣으면 조회 · 등록돼요</span></span></label>'+
+    '<div class="fld" data-cpw'+(cp?'':' hidden')+'><div class="row" style="flex-wrap:nowrap"><input class="in" data-cpno placeholder="MF-261123-ABCD" autocomplete="off" autocapitalize="characters" value="'+esc(cp&&cp.code||'')+'"><button type="button" class="btn btn-l" data-cpchk>조회</button></div><div data-cpres></div></div>'+
+    '<div class="fld"><span class="lbl">그 밖의 할인 <span>(내용 · 금액, 30 = 30만원)</span></span><div class="exs" data-exs></div><button type="button" class="btn btn-g" data-exadd style="align-self:flex-start">+ 한 줄 더</button></div>';
+  const rows=etc.length?etc.map(x=>({n:x.name,a:x.amount?String(x.amount/10000%1===0?x.amount/10000:x.amount):''})):[{n:'',a:''}];
+  const sync=()=>{ const out=[]; if($('[data-d=sup]',box).checked) out.push(Object.assign({},SUP));
+    if($('[data-d=cp]',box).checked) out.push(Object.assign({},CPD,{code:$('[data-cpno]',box).value.trim().toUpperCase()}));
+    rows.forEach(r=>{ const a=amt(r.a); if(r.n.trim()&&a&&!isNaN(a)) out.push({kind:'etc',name:r.n.trim(),amount:Math.abs(a)}); });
+    D.splice(0,D.length,...out); opts.onChange&&opts.onChange(); };
+  const drawEx=()=>{ const ex=$('[data-exs]',box); ex.innerHTML=''; rows.forEach((r,i)=>{ const d=document.createElement('div'); d.className='ex';
+      d.innerHTML='<input class="in" placeholder="예: 지인 소개" autocomplete="off" aria-label="'+(i+1)+'번째 할인 내용"><input class="in" inputmode="numeric" placeholder="금액" autocomplete="off" aria-label="'+(i+1)+'번째 할인 금액"><button type="button" class="ib" aria-label="지우기">'+ico('x',18)+'</button>';
+      const [a,b]=$$('input',d); a.value=r.n; b.value=r.a; a.oninput=()=>{ r.n=a.value; sync(); }; b.oninput=()=>{ r.a=b.value; sync(); };
+      $('button',d).onclick=()=>{ if(rows.length>1) rows.splice(i,1); else { r.n=''; r.a=''; } drawEx(); sync(); }; ex.appendChild(d); });
+    $('[data-exadd]',box).hidden=rows.length>=5; };
+  drawEx();
+  $('[data-exadd]',box).onclick=()=>{ rows.push({n:'',a:''}); drawEx(); };
+  $('[data-d=sup]',box).onchange=sync;
+  $('[data-d=cp]',box).onchange=e=>{ $('[data-cpw]',box).hidden=!e.target.checked; sync(); };
+  $('[data-cpno]',box).oninput=()=>{ $('[data-cpres]',box).innerHTML=''; sync(); };
+  $('[data-cpchk]',box).onclick=async()=>{ const v=$('[data-cpno]',box).value.trim().toUpperCase(); $('[data-cpno]',box).value=v; sync();
+    try{ const r=await rpc('mf_coupon_get',{p_code:v}); $('[data-cpres]',box).innerHTML=cpCard(r,opts.mine); }catch(e){ fail(e); } };
+}
+function cpCard(r,mine){ /* mine: 이 상담/장례에 이미 걸린 번호면 「쓰임」도 괜찮음 */
+  if(!r.format_ok) return '<div class="cpres bad"><b>번호가 맞지 않아요</b><span class="note">MF-날짜6자리-글자4자리예요. 글자는 I · O · 0 · 1을 쓰지 않아요.</span></div>';
+  if(!r.found) return '<div class="cpres"><b>처음 보는 할인권 · 쓸 수 있어요</b><span class="note">'+esc(fmtKo(r.issued_on))+' 발급 · 저장하면 등록돼요</span></div>';
+  const s=r.status, lines=[nwj(['등록 '+whenFull(r.registered_at),r.registered_name,r.cert_no&&'증서 '+r.cert_no].filter(Boolean).join(' · '))];
+  if(s==='used') lines.push(nwj(['사용 '+whenFull(r.used_at),r.used_name,r.case_no&&'장례 '+r.case_no].filter(Boolean).join(' · ')));
+  if(s==='void') lines.push(nwj(['무효',r.void_reason].filter(Boolean).join(' · ')));
+  const okNow=s==='registered'||(s==='used'&&mine&&mine(r));
+  return '<div class="cpres'+(okNow?'':' bad')+'"><div class="row" style="justify-content:space-between"><b>'+esc(r.code)+'</b>'+chip(KSTAT,s)+'</div><span>'+esc(r.client_name||'')+'</span>'+lines.map(l=>'<span class="note">'+l+'</span>').join('')+
+    (s==='used'&&!okNow?'<span class="warn">이미 장례에 쓰인 할인권이에요.</span>':'')+(s==='void'?'<span class="warn">무효 처리된 할인권이에요.</span>':'')+'</div>'; }
+async function consultForm(c){
+  const isNew=!c.id; frame({title:isNew?'사전 상담 적기':'상담 고치기',back:isNew?'/c':'/c/'+c.id});
+  const D=(c.discounts||[]).map(x=>Object.assign({},x));
+  V('<form class="stack" id="cf" novalidate>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">01</span>가입하신 분</h2>'+
+      '<div class="grid2 st"><div class="fld"><label class="lbl" for="c-nm">성함</label><input class="in" id="c-nm" autocomplete="off"></div><div class="fld"><label class="lbl" for="c-ph">휴대폰 <span>(문자 받을 번호)</span></label><input class="in" id="c-ph" type="tel" inputmode="tel" autocomplete="off" placeholder="010-0000-0000"></div></div>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="c-tg">모실 분 <span>(선택)</span></label><input class="in" id="c-tg" autocomplete="off"></div><div class="fld"><label class="lbl" for="c-rl">관계 <span>(선택)</span></label><input class="in" id="c-rl" autocomplete="off" placeholder="어머니 · 본인"></div></div>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="c-dt">가입일</label><input class="in" id="c-dt" type="date"></div>'+(isMgr()?'<div class="fld"><label class="lbl" for="c-ow">담당</label><select class="in" id="c-ow"></select></div>':'<div></div>')+'</div></section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">02</span>상품</h2><div class="seg" role="group" aria-label="상품"><button type="button" data-pr="nob">무빈소장<br><small>139만원</small></button><button type="button" data-pr="fam">가족장<br><small>199만원</small></button><button type="button" data-pr="und">상담 때<br>정함</button></div>'+
+      '<div class="fld" id="c-burw"><span class="lbl">모시는 방식 <span>(매장이면 +20만원)</span></span><div class="seg" role="group" aria-label="모시는 방식"><button type="button" data-bu="cre">화장</button><button type="button" data-bu="bur">매장</button></div></div></section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">03</span>할인</h2><div id="c-disc"></div><div class="fld"><label class="lbl" for="c-cd">할인 조건 · 메모 <span>(증서에 나와요)</span></label><input class="in" id="c-cd" autocomplete="off" placeholder="예: 가족장으로 진행하실 때 적용"></div>'+
+      '<div class="row" style="justify-content:space-between;border-top:2px solid var(--ink);padding-top:10px"><span>할인 합계</span><b class="big-total" id="c-ds" style="font-size:22px">0원</b></div><p class="note" id="c-af"></p></section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">04</span>메모</h2><div class="fld"><label class="lbl" for="c-mm">상담 메모 <span>(우리끼리만 · 증서에 안 나와요)</span></label><textarea class="in" id="c-mm" rows="4" placeholder="가족 상황, 원하시는 것, 다시 연락할 날 등"></textarea></div>'+
+      '<div class="fld"><label class="lbl" for="c-nt">전할 말 <span>(증서에 나와요 · 선택)</span></label><input class="in" id="c-nt" autocomplete="off" placeholder="예: 언제든 편하게 연락 주세요."></div>'+
+      (isNew?'':'<div class="fld"><span class="lbl">상태</span><div class="seg" role="group" aria-label="상태"><button type="button" data-st="active">가입</button><button type="button" data-st="cancel">취소</button></div></div>')+'</section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">05</span>개인정보 동의</h2><label class="chk"><input type="checkbox" id="c-ok"><span><b>가입하신 분께 동의를 받았어요</b><br><span class="note">이름 · 연락처 · 상담 내용을 장례 상담과 진행 연락에만 쓰고, 장례를 마치거나 해지하시면 정리한다는 것을 말씀드리고 동의를 받았어요.</span></span></label></section>'+
+    '<p class="warn" id="c-err" hidden></p><button class="btn btn-p btn-lg btn-block" type="submit">'+(isNew?'저장하고 가입증서 만들기':'저장')+'</button></form>');
+  const F={nm:'#c-nm',ph:'#c-ph',tg:'#c-tg',rl:'#c-rl',dt:'#c-dt',cd:'#c-cd',mm:'#c-mm',nt:'#c-nt'};
+  const K={nm:'client_name',ph:'client_phone',tg:'target_name',rl:'relation',dt:'joined_on',cd:'cond',mm:'memo',nt:'note'};
+  Object.keys(F).forEach(k=>{ const el=$(F[k]); el.value=c[K[k]]||''; el.addEventListener('input',()=>{ c[K[k]]=el.value; dirty=true; }); });
+  $('#c-ok').checked=!!c.consent; $('#c-ok').onchange=e=>{ c.consent=e.target.checked; dirty=true; };
+  const paint=()=>{ $$('[data-pr]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.pr===c.product))); $$('[data-bu]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.bu===c.burial)));
+    $$('[data-st]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.st===c.status))); $('#c-burw').hidden=c.product==='und';
+    const ds=D.reduce((s,x)=>s+(+x.amount||0),0); $('#c-ds').textContent=ds?sgn(-ds):'0원';
+    $('#c-af').textContent=(c.product!=='und'&&ds)?PROD[c.product].n+' '+man(PROD[c.product].p[c.burial]*10000)+' − '+man(ds)+' → 할인 뒤 상품 금액 '+won(PROD[c.product].p[c.burial]*10000-ds):''; };
+  $$('[data-pr]').forEach(b=>b.onclick=()=>{ c.product=b.dataset.pr; dirty=true; paint(); });
+  $$('[data-bu]').forEach(b=>b.onclick=()=>{ c.burial=b.dataset.bu; dirty=true; paint(); });
+  $$('[data-st]').forEach(b=>b.onclick=()=>{ c.status=b.dataset.st; dirty=true; paint(); });
+  discUI($('#c-disc'),D,{onChange:()=>{ dirty=true; paint(); }});
+  if(isMgr()){ const st=await loadStaff(); const sel=$('#c-ow'); const own=c.owner_id||ME.id;
+    sel.innerHTML=st.filter(s=>s.status==='active').map(s=>'<option value="'+esc(s.id)+'">'+esc(s.name+' · '+ROLE[s.role]+(s.team_name?' · '+s.team_name:''))+'</option>').join(''); sel.value=own; if(!sel.value) sel.value=ME.id;
+    sel.onchange=()=>{ c.owner_id=sel.value; dirty=true; }; }
+  paint();
+  $('#cf').onsubmit=async e=>{ e.preventDefault(); const er=$('#c-err'); er.hidden=true;
+    const bad=!c.client_name.trim()?'가입하신 분 성함을 넣어 주세요.':(c.client_phone&&!/^0\d{9,10}$/.test(digits(c.client_phone))?'휴대폰 번호를 확인해 주세요.':
+      (D.some(x=>x.kind==='cp'&&!CP_RE.test(x.code||''))?'할인권 번호를 확인해 주세요 (MF-숫자6자리-글자4자리).':(!c.consent?'개인정보 동의를 받으셨는지 체크해 주세요.':'')));
+    if(bad){ er.hidden=false; er.textContent=bad; er.scrollIntoView({block:'center'}); return; }
+    const b=$('#cf button[type=submit]'); b.disabled=true;
+    try{ const r=await rpc('mf_consult_save',{p:{id:c.id,client_name:c.client_name.trim(),client_phone:telFmt(c.client_phone),target_name:c.target_name.trim(),relation:c.relation.trim(),joined_on:c.joined_on,
+        product:c.product,burial:c.burial,discounts:D,cond:c.cond.trim(),memo:c.memo,note:c.note.trim(),consent:c.consent,status:c.status,owner_id:isMgr()?(c.owner_id||ME.id):null}});
+      dirty=false; toast(isNew?'저장했어요':'고쳤어요'); go('#/c/'+r.id+(isNew?'?new=1':'')); }
+    catch(x){ er.hidden=false; er.textContent=x.message; b.disabled=false; } };
+}
+
+/* ══ 사전 상담 보기 · 가입증서 ══ */
+on(/^\/c\/(\d+)$/,async(m,q)=>{
+  frame({title:'가입증서',back:'/c'});
+  const c=await rpc('mf_consult_get',{p_id:+m[1]});
+  const D=c.discounts||[]; const ds=D.reduce((s,x)=>s+(+x.amount||0),0);
+  const prod=c.product!=='und'?PROD[c.product].n+' · '+(c.burial==='bur'?'매장':'화장')+' · '+man(PROD[c.product].p[c.burial]*10000):'상담 때 정함';
+  V('<div class="stack">'+(q.get('new')?'<p class="okbox">저장했어요. 아래 「문자로 보내기」로 가입증서를 보내 드리세요.</p>':'')+
+    '<section class="sec"><div class="row" style="justify-content:space-between"><h2 class="sec-h">'+esc(c.client_name)+' 님</h2>'+chip(CSTAT,c.status)+'</div>'+
+    '<dl class="kv"><div><dt>증서 번호</dt><dd>'+esc(c.cert_no)+'</dd></div><div><dt>가입일</dt><dd>'+esc(fmtDot(c.joined_on))+'</dd></div>'+
+    (c.client_phone?'<div><dt>휴대폰</dt><dd><a href="tel:'+esc(digits(c.client_phone))+'">'+esc(telFmt(c.client_phone))+'</a></dd></div>':'')+
+    (c.target_name||c.relation?'<div><dt>모실 분</dt><dd>'+esc(c.target_name?c.target_name+' 님':'')+(c.relation?' ('+esc(c.relation)+')':'')+'</dd></div>':'')+
+    '<div><dt>상품</dt><dd>'+esc(prod)+'</dd></div>'+
+    (D.length?'<div><dt>할인</dt><dd>'+D.map(x=>'<span class="dl"><span>'+esc(x.name)+(x.code?'<small>'+esc(x.code)+'</small>':'')+'</span><b>'+esc(sgn(-x.amount))+'</b></span>').join('')+'<span class="dl" style="border-top:1px solid var(--line);margin-top:4px;padding-top:4px"><span>합계</span><b style="font-weight:700">'+esc(sgn(-ds))+'</b></span>'+(c.cond?'<small>'+esc(c.cond)+'</small>':'')+'</dd></div>':'')+
+    (c.memo?'<div><dt>상담 메모</dt><dd style="white-space:pre-wrap;font-weight:400">'+esc(c.memo)+'</dd></div>':'')+
+    '<div><dt>담당</dt><dd>'+esc(c.owner_name)+(c.team_name?' · '+esc(c.team_name):'')+'</dd></div>'+
+    (c.funeral_id?'<div><dt>장례</dt><dd><a href="#/f/'+c.funeral_id+'">'+esc(c.funeral_case_no||'장례 기록 보기')+'</a></dd></div>':'')+'</dl>'+
+    '<div class="grid2"><a class="btn btn-l" href="#/c/'+c.id+'/edit">고치기</a>'+(c.status==='active'?'<a class="btn btn-p" href="#/f/new?from='+c.id+'">장례 접수로 이어 가기</a>':(c.funeral_id?'<a class="btn btn-p" href="#/f/'+c.funeral_id+'">장례 기록 보기</a>':'<span></span>'))+'</div></section>'+
+    '<section class="sec"><h2 class="sec-h">가입증서</h2><div class="pv"><canvas id="cv" width="1080" height="1500" role="img" aria-label="가입증서"></canvas></div>'+
+    '<div class="stack" style="gap:8px">'+(CAN_SHARE?'<button class="btn btn-p btn-lg" id="b-share">문자로 보내기 (증서 + 글)</button>':'')+(IS_MOBILE?'<button class="btn btn-l" id="b-sms">문자 글만 보내기</button>':'')+
+    '<div class="grid2"><button class="btn btn-l" id="b-img">이미지 저장</button><button class="btn btn-l" id="b-copy">글로 복사</button></div></div>'+
+    '<p class="note">휴대폰에서 「문자로 보내기」를 누르고 메시지 앱을 고르시면 증서 이미지와 글이 함께 가요.</p></section>'+
+    '<section class="sec"><h2 class="sec-h">기록</h2><ul class="log" id="lg"><li>불러오는 중…</li></ul></section></div>');
+  let blob=null; const cv=await drawCert(c); const pv=$('#cv'); pv.width=cv.width; pv.height=cv.height; pv.getContext('2d').drawImage(cv,0,0);
+  const getBlob=()=>blob?Promise.resolve(blob):new Promise(r=>cv.toBlob(b=>{ blob=b; r(b); },'image/png'));
+  const fname='나만의장례_가입증서_'+(c.client_name||'').replace(/[\\/:*?"<>|\s]/g,'')+'_'+c.cert_no+'.png';
+  const txt=certText(c);
+  if($('#b-share')) $('#b-share').onclick=()=>getBlob().then(b=>navigator.share({files:[new File([b],fname,{type:'image/png'})],text:txt,title:'나만의장례 가입증서'})).then(()=>toast('보냈어요')).catch(e=>{ if(e&&e.name!=='AbortError') toast('공유가 안 돼요. 이미지 저장 뒤 보내 주세요'); });
+  if($('#b-sms')) $('#b-sms').onclick=()=>{ location.href='sms:'+digits(c.client_phone)+(IS_IOS?'&':'?')+'body='+encodeURIComponent(txt); };
+  $('#b-img').onclick=()=>getBlob().then(b=>{ saveFile(fname,b); toast('가입증서 이미지를 저장했어요'); });
+  $('#b-copy').onclick=()=>copyText(txt,'문자 글을 복사했어요');
+  showLog('consult:'+c.id);
+});
+async function showLog(target){ try{ const r=await rpc('mf_log_list',{p_target:target}); const ul=$('#lg'); if(!ul) return;
+  ul.innerHTML=r.length?r.map(l=>'<li><time>'+esc(whenFull(l.at))+'</time><span>'+esc(l.name)+' · '+esc(l.action)+'</span></li>').join(''):'<li>기록이 없어요.</li>'; }catch(e){} }
+function saveFile(name,blob){ try{ const url=URL.createObjectURL(blob); const a=document.createElement('a'); a.href=url; a.download=name; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),5000); }catch(e){ toast('저장하지 못했어요'); } }
+function copyText(t,ok){ let p; try{ p=navigator.clipboard.writeText(t); }catch(e){ p=Promise.reject(e); }
+  p.then(()=>toast(ok||'복사했어요')).catch(()=>{ const ta=document.createElement('textarea'); ta.value=t; ta.style.position='fixed'; ta.style.opacity='0'; document.body.appendChild(ta); ta.select(); let k=false; try{ k=document.execCommand('copy'); }catch(e){} ta.remove(); toast(k?(ok||'복사했어요'):'복사하지 못했어요'); }); }
+function certText(c){ const o=[], D=c.discounts||[], ds=D.reduce((s,x)=>s+(+x.amount||0),0), on=c.product!=='und', pa=on?PROD[c.product].p[c.burial]*10000:0;
+  o.push('[나만의장례] 후불제 상조 가입증서', c.client_name+' 님, 가입해 주셔서 고맙습니다.', '');
+  o.push('· 증서 번호: '+c.cert_no, '· 가입일: '+fmtDot(c.joined_on));
+  if(c.target_name||c.relation) o.push('· 모실 분: '+(c.target_name?c.target_name+' 님'+(c.relation?' ('+c.relation+')':''):c.relation));
+  o.push('· 상품: '+(on?PROD[c.product].n+' '+man(pa)+' ('+(c.burial==='bur'?'매장':'화장')+' 기준)':'상담 때 함께 정해요 (무빈소장 139만원 · 가족장 199만원, 화장 기준)'));
+  if(D.length){ o.push('· 할인 내역'); D.forEach(x=>o.push('  - '+x.name+' −'+man(+x.amount)+(x.code?' (번호 '+x.code+')':''))); if(c.cond) o.push('  - 조건: '+c.cond); o.push('  → 할인 합계 −'+man(ds)+(on?' · 할인 뒤 상품 금액 '+man(Math.max(0,pa-ds)):'')); }
+  o.push('', '가입비 · 월 납입금이 없어요. 미리 내시는 돈 없이 장례를 마친 뒤 한 번에 정산해요.', '첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.');
+  if(c.note) o.push('', c.note);
+  o.push('', '장례가 발생하시면 24시간 1661-4214로 전화 주시고, 증서 번호나 가입하신 분 성함을 말씀해 주세요.');
+  o.push('담당 '+[c.owner_name,telFmt(c.owner_phone)].filter(Boolean).join(' '), 'www.myfuneral.co.kr · 카카오톡 @나만의장례');
+  return o.join('\n'); }
+
+/* ── 가입증서 그림 (가입증서 만들기 파일과 같은 모양) ── */
+const LOGO={mark:new Image(),word:new Image()};
+const logoReady=Promise.all(['mark','word'].map(k=>new Promise(r=>{ LOGO[k].onload=r; LOGO[k].onerror=r; LOGO[k].src={mark:'__MARK__',word:'__WORD__'}[k]; })));
+const STAMP=new Image(); let stampReady=Promise.resolve();
+function loadStamp(){ const s=SETTINGS.stamp||''; stampReady=s?new Promise(r=>{ STAMP.onload=r; STAMP.onerror=r; STAMP.src=s; }):Promise.resolve(); }
+const SANS='"IBM Plex Sans KR","Malgun Gothic","Apple SD Gothic Neo","Noto Sans KR",sans-serif', SERIF='"Noto Serif KR","Nanum Myeongjo","Batang","AppleMyungjo",serif';
+const fnt=(w,p,f)=>w+' '+p+'px '+(f||SANS);
+function wrapT(x,t,maxW,f){ x.font=f; if(x.measureText(t).width<=maxW) return [t]; const out=[]; let cur='';
+  t.split(/( · |\s)/).forEach(p=>{ const nx=cur+p; if(cur&&x.measureText(nx).width>maxW){ out.push(cur.replace(/ · $/,' ·').trimEnd()); cur=p.replace(/^ · /,'').trimStart(); } else cur=nx; }); if(cur) out.push(cur); return out; }
+function spaced(x,t,cx,y,gap){ const ch=[...t]; const ws=ch.map(c=>x.measureText(c).width); const tw=ws.reduce((a,b)=>a+b,0)+gap*(ch.length-1); let px=cx-tw/2; x.textAlign='left'; ch.forEach((c,i)=>{ x.fillText(c,px,y); px+=ws[i]+gap; }); }
+const INK='#1a1e1b', INK2='#3b3f3c', MUTE='#59615b', DARK='#252525', LABEL='#e6e6e2', LINE='#7d7d78';
+function secHeadC(x,X0,y,no,t){ y+=64; x.fillStyle=DARK; x.fillRect(X0,y-30,52,36); x.fillStyle='#fff'; x.textAlign='center'; x.font=fnt(700,22); x.fillText(no,X0+26,y-5); x.textAlign='left'; x.fillStyle=INK; x.font=fnt(700,30); x.fillText(t,X0+68,y); return y+18; }
+function tableC(x,X0,X1,y,rows){ const KW=210, VX=X0+KW+24, top=y;
+  rows.forEach(r=>{ const af=fnt(700,30), vf=r.strong?fnt(700,30):fnt(500,30), sf=fnt(500,22); x.font=af; const aw=r.a?x.measureText(r.a).width+36:0;
+    const vl=wrapT(x,String(r.v),X1-20-aw-VX,vf); const sl=[]; (r.sub||[]).forEach(s=>wrapT(x,s,X1-20-VX,sf).forEach(l=>sl.push(l)));
+    const h=48+(vl.length-1)*40+(sl.length?34+(sl.length-1)*31:0)+28;
+    x.fillStyle=r.strong?'#f1f1ee':'#fff'; x.fillRect(X0+KW,y,X1-X0-KW,h); x.fillStyle=r.strong?DARK:LABEL; x.fillRect(X0,y,KW,h);
+    x.textAlign='center'; x.fillStyle=r.strong?'#fff':INK; wrapT(x,r.k,KW-24,fnt(700,26)).forEach((t,i,arr)=>{ x.font=fnt(700,26); x.fillText(t,X0+KW/2,y+h/2+9+(i-(arr.length-1)/2)*34); });
+    x.textAlign='left'; x.font=vf; x.fillStyle=INK; vl.forEach((t,i)=>x.fillText(t,VX,y+48+i*40));
+    x.font=sf; x.fillStyle=MUTE; sl.forEach((t,i)=>x.fillText(t,VX,y+48+(vl.length-1)*40+34+i*31));
+    if(r.a){ x.textAlign='right'; x.font=af; x.fillStyle=INK; x.fillText(r.a,X1-20,y+48); }
+    y+=h; x.fillStyle=LINE; x.fillRect(X0,y-1,X1-X0,1.5); });
+  x.fillStyle=LINE; x.fillRect(X0+KW-0.75,top,1.5,y-top); x.strokeStyle=DARK; x.lineWidth=2.5; x.strokeRect(X0,top,X1-X0,y-top); return y; }
+async function drawCert(c){
+  const txt='가입증서후불제상조소규모가족장무빈소장전문직영장례지도사비월납입금없이마친뒤정산하는증번호일정보하신분휴대폰모실님관계상품화장매장기준금액이에요상담때함께해요할인내역조건합계에서빼드려요구성을바꾸시면달라져요식장지쓰신만큼따로첫견적끝부당한추가요금은200%돌려니다가없어요미리내는돈번에발생하365시간전화통저희다맡아나성함말씀해주세요1661-4214위께서나만의장례가입셨음확인합년월담당www.myfuneral.co.kr카카오톡@대표0123456789,.−()○·'+JSON.stringify(c);
+  if(document.fonts&&document.fonts.load) await Promise.all(['500 30px "IBM Plex Sans KR"','700 30px "IBM Plex Sans KR"','900 76px "Noto Serif KR"','700 44px "Noto Serif KR"'].map(f=>document.fonts.load(f,txt).catch(()=>null)));
+  await Promise.all([logoReady,stampReady]);
+  const W=1080, X0=96, X1=W-96, cv=document.createElement('canvas'); cv.width=W; cv.height=4200; const x=cv.getContext('2d');
+  x.fillStyle='#fff'; x.fillRect(0,0,W,cv.height); x.textBaseline='alphabetic';
+  const lw=78+18+232, lx=(W-lw)/2; try{ if(LOGO.mark.naturalWidth) x.drawImage(LOGO.mark,lx,92,78,80); if(LOGO.word.naturalWidth) x.drawImage(LOGO.word,lx+96,112,232,44); }catch(e){}
+  x.textAlign='center'; x.fillStyle=MUTE; x.font=fnt(500,23); x.fillText('후불제 상조 · 소규모 가족장 · 무빈소장 전문 · 100% 직영 장례지도사',W/2,214);
+  x.fillStyle=INK; x.font=fnt(900,76,SERIF); spaced(x,'가입증서',W/2,320,28);
+  x.textAlign='center'; x.fillStyle=INK2; x.font=fnt(500,25); x.fillText('가입비 · 월 납입금 없이, 장례를 마친 뒤 정산하는 후불제 상조',W/2,370);
+  let y=410; x.fillStyle=DARK; x.fillRect(X0,y,X1-X0,3); y+=48;
+  x.textAlign='left'; x.font=fnt(500,23); x.fillStyle=MUTE; x.fillText('증서 번호',X0,y); x.font=fnt(700,26); x.fillStyle=INK; x.fillText(c.cert_no,X0+112,y);
+  const ds=fmtDot(c.joined_on); x.textAlign='right'; x.font=fnt(700,26); x.fillText(ds,X1,y); const dw=x.measureText(ds).width; x.font=fnt(500,23); x.fillStyle=MUTE; x.fillText('가입일',X1-dw-14,y);
+  y+=22; x.fillStyle='#c9c9c4'; x.fillRect(X0,y,X1-X0,1.5);
+  y=secHeadC(x,X0,y,'01','가입 정보');
+  const R=[{k:'가입하신 분',v:c.client_name+' 님'}]; if(c.client_phone) R.push({k:'휴대폰',v:telMask(c.client_phone)});
+  if(c.target_name) R.push({k:'모실 분',v:c.target_name+' 님'+(c.relation?' ('+c.relation+')':'')}); else if(c.relation) R.push({k:'모실 분',v:c.relation});
+  const on=c.product!=='und', pa=on?PROD[c.product].p[c.burial]*10000:0;
+  if(on) R.push({k:'상품',v:PROD[c.product].n+' · '+(c.burial==='bur'?'매장':'화장'),a:won(pa),sub:[PROD[c.product].inc,'가입일 기준 금액이에요']});
+  else R.push({k:'상품',v:'상담 때 함께 정해요',sub:['무빈소장 139만원 · 가족장 199만원 (화장 기준)']});
+  y=tableC(x,X0,X1,y,R);
+  const D=c.discounts||[], dsum=D.reduce((s,d)=>s+(+d.amount||0),0);
+  if(D.length){ y=secHeadC(x,X0,y+8,'02','할인 내역');
+    const DR=D.map(d=>({k:'할인',v:d.name,a:'−'+won(+d.amount),sub:d.kind==='sup'?[SUP_SUB]:(d.kind==='cp'?[(d.code?'번호 '+d.code+' · ':'')+CP_SUB]:[])}));
+    if(c.cond) DR.push({k:'조건',v:c.cond});
+    DR.push({k:'할인 합계',v:'정산 때 빼 드려요',a:'−'+won(dsum),strong:1});
+    if(on) DR.push({k:'할인 뒤 금액',v:PROD[c.product].n+' '+man(pa)+' − '+man(dsum),a:won(Math.max(0,pa-dsum)),strong:1,sub:['구성을 바꾸시면 달라져요','장례식장 · 화장장 · 장지 비용은 쓰신 만큼 따로']});
+    y=tableC(x,X0,X1,y,DR); }
+  y+=36; const ph=110; x.fillStyle='#f1f1ee'; x.fillRect(X0,y,X1-X0,ph); x.fillStyle=DARK; x.fillRect(X0,y,6,ph);
+  x.textAlign='left'; x.fillStyle=INK; x.font=fnt(700,28); x.fillText('첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다',X0+30,y+48); x.font=fnt(500,25); x.fillStyle=INK2; x.fillText('미리 내시는 돈 없이 장례를 모두 마친 뒤 한 번에 정산해요.',X0+30,y+88); y+=ph;
+  y+=24; const ch=172; x.fillStyle=DARK; x.fillRect(X0,y,X1-X0,ch);
+  x.textAlign='left'; x.fillStyle='#fff'; x.font=fnt(700,28); x.fillText('장례가 발생하시면',X0+36,y+58);
+  x.font=fnt(500,23); x.fillStyle='#d8d8d4'; x.fillText('365일 24시간 · 전화 한 통이면 저희가 다 맡아요',X0+36,y+98); x.fillText('증서 번호나 성함을 말씀해 주세요',X0+36,y+134);
+  x.textAlign='right'; x.fillStyle='#fff'; x.font=fnt(900,64,SERIF); x.fillText('1661-4214',X1-36,y+110); y+=ch;
+  if(c.note){ y+=24; const ls=[]; String(c.note).split(/\n/).forEach(t=>wrapT(x,t,X1-X0-56,fnt(500,26)).forEach(s=>ls.push(s))); const h=66+ls.length*38;
+    x.strokeStyle=INK; x.lineWidth=2; x.strokeRect(X0,y,X1-X0,h); x.textAlign='left'; x.font=fnt(700,22); x.fillStyle=MUTE; x.fillText('담당자가 전하는 말',X0+28,y+38); x.font=fnt(500,26); x.fillStyle=INK; ls.forEach((t,i)=>x.fillText(t,X0+28,y+80+i*38)); y+=h; }
+  y+=70; x.textAlign='center'; x.fillStyle=INK; x.font=fnt(500,27); x.fillText('위 분께서 나만의장례 후불제 상조에 가입하셨음을 확인합니다.',W/2,y);
+  y+=56; x.font=fnt(700,28); x.fillText(fmtKo(c.joined_on),W/2,y);
+  y+=84; x.font=fnt(700,44,SERIF); const cw=x.measureText('나만의장례').width; x.fillText('나만의장례',W/2,y);
+  if(SETTINGS.stamp&&STAMP.naturalWidth){ const sz=118, r=Math.min(sz/STAMP.naturalWidth,sz/STAMP.naturalHeight), sw=STAMP.naturalWidth*r, sh=STAMP.naturalHeight*r; x.globalAlpha=.92; x.drawImage(STAMP,W/2+cw/2+6,y-sh/2-14,sw,sh); x.globalAlpha=1; y+=26; }
+  else { x.font=fnt(500,24); x.fillStyle=MUTE; x.textAlign='left'; x.fillText('(인)',W/2+cw/2+18,y); x.textAlign='center'; }
+  y+=58; x.font=fnt(500,24); x.fillStyle=MUTE; x.textAlign='center'; x.fillText('담당  '+[c.owner_name,telFmt(c.owner_phone)].filter(Boolean).join('   '),W/2,y);
+  y+=46; x.fillStyle='#c9c9c4'; x.fillRect(X0,y,X1-X0,1.5); y+=44;
+  x.textAlign='center'; x.font=fnt(500,22); x.fillStyle=MUTE; x.fillText('www.myfuneral.co.kr · 카카오톡 @나만의장례 · 대표번호 1661-4214',W/2,y); y+=70;
+  const H=Math.ceil(y), o=document.createElement('canvas'); o.width=W; o.height=H; const ox=o.getContext('2d'); ox.drawImage(cv,0,0);
+  ox.strokeStyle=DARK; ox.lineWidth=6; ox.strokeRect(30,30,W-60,H-60); ox.lineWidth=1.5; ox.strokeRect(46,46,W-92,H-92); return o; }
+
+/* ══ 장례 목록 ══ */
+on(/^\/f$/,async(m,q)=>{
+  frame({}); const st=q.has('s')?q.get('s'):'live';
+  V('<div class="stack"><div class="row" style="justify-content:space-between"><h2 class="sec-h">장례 기록</h2><a class="btn btn-p" href="#/f/new">'+ico('plus',20)+'장례 접수</a></div>'+
+    '<div class="search">'+ico('search',22)+'<input class="in" id="fq" type="search" placeholder="고인 · 상주 · 전화 · 장례식장"></div>'+
+    '<div class="tabs">'+[['live','진행 중'],['settled','정산 끝남'],['','전체'],['cancel','취소']].map(([k,l])=>'<a href="#/f?s='+k+'"'+(st===k?' aria-current="page"':'')+'>'+l+'</a>').join('')+'</div><div id="fl"><div class="spin"></div></div></div>');
+  const load=async v=>{ const r=await rpc('mf_funeral_list',{p_q:v,p_status:st,p_limit:100}); $('#fl').innerHTML=r.length?'<div class="list">'+r.map(fRow).join('')+'</div>':'<div class="list"><p class="empty">'+(v?'찾은 장례가 없어요.':'기록이 없어요.')+'</p></div>'; };
+  let t=0; $('#fq').addEventListener('input',e=>{ clearTimeout(t); t=setTimeout(()=>load(e.target.value.trim()).catch(fail),280); });
+  await load('');
+});
+
+/* ══ 장례 비용 줄 ══ */
+function costLines(d){ const L=[], f=d.type==='fam', C=d.cost||{};
+  if(d.type){ const s=PRICE.svc[d.type]; SVC_ROWS(f).forEach((r,i)=>L.push({g:r[0],t:r[1],s:r[2],v:s[i]*10000})); }
+  [['coffin','관'],['shroud','수의'],['ipgwan','입관'],['binso','빈소 헌화'],['car','장의 차량']].forEach(([k,g])=>{ if(k==='binso'&&!f) return; const o=opt(k,C[k]); if(!o) return; if((k==='ipgwan'||k==='binso'||k==='car')&&o[0]==='none') return; L.push({g,t:o[1],v:o[2]*10000}); });
+  const st=C.staff||[0,0]; if(f&&(st[0]||st[1])) L.push({g:'접객 도우미',t:[st[0]?'첫째 날 '+st[0]+'명':'',st[1]?'둘째 날 '+st[1]+'명':''].filter(Boolean).join(' · '),s:'1인 12만원',v:(st[0]+st[1])*STAFF_WON});
+  const mo=C.mourn||[0,0]; if(mo[0]||mo[1]) L.push({g:'상복',t:[mo[0]?'남성용 '+mo[0]+'벌':'',mo[1]?'여성용 '+mo[1]+'벌':''].filter(Boolean).join(' · '),v:mo[0]*MOURN[0]+mo[1]*MOURN[1]});
+  const km=parseInt(C.km,10)||0; if(km>0) L.push({g:'거리 추가',t:'200km 넘은 '+km+'km',s:'1km당 1,800원',v:km*KM_WON});
+  const ua=amt(C.urn_amt); if((C.urn_name||'').trim()||ua) L.push({g:'유골함',t:(C.urn_name||'').trim()||'유골함',v:isNaN(ua)?0:ua});
+  (C.ex||[]).forEach(e=>{ const a=amt(e.a); if((e.n||'').trim()&&a&&!isNaN(a)) L.push({g:a<0?'공제':'추가',t:e.n.trim(),v:a}); });
+  (d.discounts||[]).forEach(x=>L.push({g:'할인',t:x.name,s:x.code||'',v:-(+x.amount||0)}));
+  return L; }
+const costTotal=d=>costLines(d).reduce((s,l)=>s+l.v,0);
+
+/* ══ 장례 접수 · 고치기 ══ */
+const SCH=[['an','안치'],['ip','입관'],['ba','발인'],['hw','화장'],['ja','장지 도착']];
+const F_DEF=()=>({id:null,consult_id:null,status:'open',deceased_name:'',chief_name:'',chief_phone:'',start_on:today(),owner_id:'',
+  data:{type:null,bur:'cre',sex:'',age:'',died_at:'',died_place_t:'',died_place:'',chief_rel:'',religion:'',hall:'',room:'',crem:'',inout:'',grave_t:'',grave:'',
+    sched:Object.fromEntries(SCH.map(s=>[s[0],{d:'',t:'',p:''}])),cost:{coffin:'',shroud:'',ipgwan:'none',binso:'none',car:'none',staff:[0,0],mourn:[0,0],km:'',urn_name:'',urn_amt:'',ex:[{n:'',a:''}]},
+    discounts:[],pay:'',paid:false,memo:''}});
+on(/^\/f\/new$/,async(m,q)=>{ const f=F_DEF(); const from=q.get('from');
+  if(from){ frame({title:'장례 접수',back:'/c/'+from}); const c=await rpc('mf_consult_get',{p_id:+from});
+    f.consult_id=c.id; f._cert=c.cert_no; f.deceased_name=c.target_name||''; f.chief_name=c.client_name; f.chief_phone=c.client_phone; f.data.chief_rel='';
+    f._relnote=c.relation?'가입하신 분('+c.client_name+') 기준 모실 분은 「'+c.relation+'」':'';
+    if(c.product!=='und'){ f.data.type=c.product; f.data.bur=c.burial; Object.assign(f.data.cost,BASE(c.product,c.burial)); }
+    f.data.discounts=(c.discounts||[]).map(x=>Object.assign({},x)); }
+  funeralForm(f); });
+on(/^\/f\/(\d+)\/edit$/,async m=>{ frame({title:'장례 고치기',back:'/f/'+m[1]}); const f=await rpc('mf_funeral_get',{p_id:+m[1]}); f._cert=f.cert_no; funeralForm(f); });
+async function funeralForm(f){
+  const isNew=!f.id; const d=f.data=Object.assign(F_DEF().data,f.data||{}); d.cost=Object.assign(F_DEF().data.cost,d.cost||{}); d.sched=Object.assign(F_DEF().data.sched,d.sched||{});
+  if(!d.cost.ex||!d.cost.ex.length) d.cost.ex=[{n:'',a:''}];
+  frame({title:isNew?'장례 접수':'장례 고치기',back:isNew?(f.consult_id?'/c/'+f.consult_id:'/f'):'/f/'+f.id,bar:true});
+  const selO=(g,list)=>list.map(o=>'<option value="'+o[0]+'">'+esc(o[1])+(o[2]?' · '+o[2]+'만원':'')+'</option>').join('');
+  V('<form class="stack" id="ff" novalidate>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">01</span>접수</h2>'+
+      '<div class="fld"><span class="lbl">사전 가입</span><div id="f-link"></div></div>'+
+      '<div class="fld"><span class="lbl">진행 상태</span><div class="seg" role="group" aria-label="진행 상태">'+Object.keys(FSTAT).map(k=>'<button type="button" data-fs="'+k+'">'+FSTAT[k][0]+'</button>').join('')+'</div></div>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="f-so">장례 시작일</label><input class="in" id="f-so" type="date"></div>'+(isMgr()?'<div class="fld"><label class="lbl" for="f-ow">담당</label><select class="in" id="f-ow"></select></div>':'<div></div>')+'</div></section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">02</span>고인 · 상주</h2>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="f-dn">고인 성함</label><input class="in" id="f-dn" autocomplete="off"></div><div class="fld"><label class="lbl" for="f-ag">나이 <span>(선택)</span></label><input class="in" id="f-ag" inputmode="numeric" autocomplete="off"></div></div>'+
+      '<div class="fld"><span class="lbl">성별</span><div class="seg" role="group" aria-label="성별"><button type="button" data-sx="남">남</button><button type="button" data-sx="여">여</button></div></div>'+
+      '<div class="fld"><label class="lbl" for="f-da">돌아가신 때</label><input class="in" id="f-da" type="datetime-local"></div>'+
+      '<div class="fld"><span class="lbl">돌아가신 곳</span><div class="seg" role="group" aria-label="돌아가신 곳"><button type="button" data-dp="병원">병원</button><button type="button" data-dp="자택">자택</button><button type="button" data-dp="기타">기타</button></div><input class="in" id="f-dpn" autocomplete="off" placeholder="병원 이름 · 장소"></div>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="f-cn">상주 성함</label><input class="in" id="f-cn" autocomplete="off"></div><div class="fld"><label class="lbl" for="f-cr">고인과 관계</label><input class="in" id="f-cr" autocomplete="off" placeholder="장남 · 딸"></div></div>'+
+      '<p class="note" id="f-rn" hidden></p>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="f-cp">상주 연락처</label><input class="in" id="f-cp" type="tel" inputmode="tel" autocomplete="off"></div><div class="fld"><label class="lbl" for="f-rg">종교</label><select class="in" id="f-rg"><option value="">없음</option><option>기독교</option><option>천주교</option><option>불교</option><option>원불교</option><option>기타</option></select></div></div></section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">03</span>장례 방식 · 장소</h2>'+
+      '<div class="fld"><span class="lbl">상품 <span>(고르면 상품 구성이 채워져요)</span></span><div class="seg" role="group" aria-label="상품"><button type="button" data-ty="nob">무빈소장<br><small>139만원</small></button><button type="button" data-ty="fam">가족장<br><small>199만원</small></button></div></div>'+
+      '<div class="fld"><span class="lbl">모시는 방식</span><div class="seg" role="group" aria-label="모시는 방식"><button type="button" data-fb="cre">화장</button><button type="button" data-fb="bur">매장</button></div></div>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="f-hl">장례식장</label><input class="in" id="f-hl" autocomplete="off"></div><div class="fld"><label class="lbl" for="f-rm">빈소 · 호실</label><input class="in" id="f-rm" autocomplete="off"></div></div>'+
+      '<div class="grid2" id="f-crw"><div class="fld"><label class="lbl" for="f-cm">화장장</label><input class="in" id="f-cm" autocomplete="off"></div><div class="fld"><span class="lbl">관내 · 관외</span><div class="seg" role="group" aria-label="관내 관외"><button type="button" data-io="관내">관내</button><button type="button" data-io="관외">관외</button></div></div></div>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="f-gt">장지</label><select class="in" id="f-gt"><option value="">정하지 않음</option><option>봉안당</option><option>수목장 · 자연장</option><option>묘지</option><option>해양장</option></select></div><div class="fld"><label class="lbl" for="f-gn">장지 이름</label><input class="in" id="f-gn" autocomplete="off"></div></div></section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">04</span>일정</h2><div class="stack" style="gap:10px" id="f-sch"></div></section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">05</span>비용<small>가격표 그대로</small></h2>'+
+      '<div id="f-svc"></div>'+
+      '<div class="fld"><label class="lbl" for="f-c-coffin">관</label><select class="in" id="f-c-coffin" data-c="coffin"><option value="">고르지 않음</option>'+selO('coffin',PRICE.coffin)+'</select></div>'+
+      '<div class="fld"><label class="lbl" for="f-c-shroud">수의</label><select class="in" id="f-c-shroud" data-c="shroud"><option value="">고르지 않음</option>'+selO('shroud',PRICE.shroud)+'</select></div>'+
+      '<div class="fld"><label class="lbl" for="f-c-ipgwan">입관</label><select class="in" id="f-c-ipgwan" data-c="ipgwan">'+selO('ipgwan',PRICE.ipgwan)+'</select></div>'+
+      '<div class="fld" data-fam><label class="lbl" for="f-c-binso">빈소 헌화</label><select class="in" id="f-c-binso" data-c="binso">'+selO('binso',PRICE.binso)+'</select></div>'+
+      '<div class="fld"><label class="lbl" for="f-c-car">장의 차량</label><select class="in" id="f-c-car" data-c="car">'+selO('car',PRICE.car)+'</select></div>'+
+      '<div class="fld" data-fam><span class="lbl">접객 도우미 <span>(1인 12만원)</span></span><div id="f-stf"></div></div>'+
+      '<div class="fld"><span class="lbl">상복 <span>(남 5만원 · 여 3만원)</span></span><div id="f-mrn"></div></div>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="f-km">200km 넘은 거리 <span>(km)</span></label><input class="in" id="f-km" inputmode="numeric" autocomplete="off" placeholder="0"></div><div></div></div>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="f-un">유골함</label><input class="in" id="f-un" autocomplete="off" placeholder="함 이름"></div><div class="fld"><label class="lbl" for="f-ua">유골함 금액</label><input class="in" id="f-ua" inputmode="numeric" autocomplete="off" placeholder="예: 45 (= 45만원)"></div></div>'+
+      '<div class="fld"><span class="lbl">기타 추가 · 공제 <span>(공제는 금액 앞에 −, 30 = 30만원)</span></span><div class="exs" id="f-ex"></div><button type="button" class="btn btn-g" id="f-exadd" style="align-self:flex-start">+ 한 줄 더</button></div></section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">06</span>할인</h2><div id="f-disc"></div></section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">07</span>정산 · 메모</h2><div class="fld"><span class="lbl">결제 방법</span><div class="seg" role="group" aria-label="결제 방법"><button type="button" data-py="계좌이체">계좌이체</button><button type="button" data-py="현금">현금</button><button type="button" data-py="카드">카드</button></div></div>'+
+      '<label class="chk"><input type="checkbox" id="f-pd"><span>받았어요 (결제 끝남)</span></label>'+
+      '<div class="fld"><label class="lbl" for="f-mm">메모 <span>(우리끼리만)</span></label><textarea class="in" id="f-mm" rows="4"></textarea></div><div id="f-lines"></div></section>'+
+    '<p class="warn" id="f-err" hidden></p></form>');
+  $('#bar').innerHTML='<div class="t"><span>합계</span><b id="f-tot">0원</b></div><button type="button" class="btn btn-p" id="f-save">저장</button>';
+  const touch=()=>{ dirty=true; paint(); };
+  /* 사전 가입 연결 */
+  const drawLink=()=>{ $('#f-link').innerHTML=f.consult_id?'<div class="cpres"><div class="row" style="justify-content:space-between"><b>'+esc(f._cert||'가입증서')+'</b><button type="button" class="btn btn-g" id="f-unlink">연결 끊기</button></div><span class="note">사전 가입이 이 장례로 이어져요. 할인 · 상품을 가져왔어요.</span></div>'
+      :'<button type="button" class="btn btn-l" id="f-pick">가입자 불러오기</button><span class="note">사전 상담 · 가입증서가 있으면 불러와 주세요.</span>';
+    if($('#f-unlink')) $('#f-unlink').onclick=()=>{ f.consult_id=null; f._cert=''; touch(); drawLink(); };
+    if($('#f-pick')) $('#f-pick').onclick=pickConsult; };
+  const pickConsult=()=>sheet('<h2>가입자 불러오기</h2><div class="search">'+ico('search',22)+'<input class="in" id="pk-q" type="search" placeholder="이름 · 전화 · 증서 번호"></div><div id="pk-r"></div><button type="button" class="btn btn-l" data-close>닫기</button>',(el,close)=>{
+    $('[data-close]',el).onclick=close; let t=0;
+    $('#pk-q',el).oninput=e=>{ clearTimeout(t); const v=e.target.value.trim(); t=setTimeout(async()=>{ if(v.length<2){ $('#pk-r',el).innerHTML=''; return; } const r=await rpc('mf_consult_list',{p_q:v,p_status:'active',p_limit:20});
+      $('#pk-r',el).innerHTML=r.length?'<div class="list">'+r.map(c=>'<button type="button" class="li" style="border-left:0;border-right:0;border-bottom:0;background:none;text-align:left;width:100%;cursor:pointer" data-cid="'+c.id+'"><b>'+esc(c.client_name)+' 님</b><span class="s">'+esc([c.target_name&&'모실 분 '+c.target_name,PRODN[c.product],c.cert_no].filter(Boolean).join(' · '))+'</span><span class="r">'+esc(fmtDot(c.joined_on))+'</span></button>').join('')+'</div>':'<p class="empty">가입 중인 분 가운데 찾지 못했어요.</p>';
+      $$('[data-cid]',el).forEach(b=>b.onclick=async()=>{ const c=await rpc('mf_consult_get',{p_id:+b.dataset.cid}); close();
+        f.consult_id=c.id; f._cert=c.cert_no; if(!f.deceased_name) f.deceased_name=c.target_name||''; if(!f.chief_name){ f.chief_name=c.client_name; f.chief_phone=c.client_phone; }
+        if(c.product!=='und'&&!d.type){ d.type=c.product; d.bur=c.burial; Object.assign(d.cost,BASE(c.product,c.burial)); }
+        if(!d.discounts.length) d.discounts=(c.discounts||[]).map(x=>Object.assign({},x));
+        funeralForm(f); dirty=true; toast(c.client_name+' 님 가입 내용을 가져왔어요'); }); },250); }; });
+  drawLink();
+  /* 글 칸 */
+  const T=[['#f-so',f,'start_on'],['#f-dn',f,'deceased_name'],['#f-cn',f,'chief_name'],['#f-cp',f,'chief_phone'],['#f-ag',d,'age'],['#f-da',d,'died_at'],['#f-dpn',d,'died_place'],['#f-cr',d,'chief_rel'],['#f-rg',d,'religion'],
+    ['#f-hl',d,'hall'],['#f-rm',d,'room'],['#f-cm',d,'crem'],['#f-gt',d,'grave_t'],['#f-gn',d,'grave'],['#f-km',d.cost,'km'],['#f-un',d.cost,'urn_name'],['#f-ua',d.cost,'urn_amt'],['#f-mm',d,'memo']];
+  T.forEach(([s,o,k])=>{ const el=$(s); el.value=o[k]||''; const h=()=>{ o[k]=el.value; touch(); }; el.addEventListener('input',h); el.addEventListener('change',h); });
+  if(f._relnote){ $('#f-rn').hidden=false; $('#f-rn').textContent=f._relnote; }
+  $('#f-pd').checked=!!d.paid; $('#f-pd').onchange=e=>{ d.paid=e.target.checked; touch(); };
+  const segs=[['fs',f,'status'],['sx',d,'sex'],['dp',d,'died_place_t'],['fb',d,'bur'],['io',d,'inout'],['py',d,'pay']];
+  segs.forEach(([a,o,k])=>$$('[data-'+a+']').forEach(b=>b.onclick=()=>{ const v=b.dataset[a]; if(a==='fb'){ setBur(v); return; } o[k]=(o[k]===v&&a!=='fs')?'':v; touch(); }));
+  $$('[data-ty]').forEach(b=>b.onclick=async()=>{ const t=b.dataset.ty; if(d.type===t) return;
+    const filled=d.cost.coffin||d.cost.shroud; if(filled&&!(await ask('상품 구성으로 다시 채울까요?',(t==='nob'?'무빈소장':'가족장')+' 상품 구성(관 · 수의 · 입관 · 차량 · 도우미 · 상복)으로 바꿔요. 직접 고르신 것은 바뀌어요.','다시 채우기'))) { d.type=t; touch(); return; }
+    d.type=t; Object.assign(d.cost,BASE(t,d.bur)); syncCost(); touch(); toast((t==='nob'?'무빈소장':'가족장')+' 상품 구성으로 채웠어요'); });
+  const setBur=b=>{ if(d.bur===b) return; d.bur=b; const m={c1:'c3',c2:'c3',c3:'c1',c4:'c1',c5:'c1'}; const oc=opt('coffin',d.cost.coffin); if(oc&&oc[3]!==b) d.cost.coffin=m[d.cost.coffin];
+    if(b==='bur'&&d.cost.ipgwan==='i1') d.cost.ipgwan='i3'; if(b==='cre'&&d.cost.ipgwan==='i3') d.cost.ipgwan='i1'; syncCost(); touch(); };
+  /* 일정 */
+  $('#f-sch').innerHTML=SCH.map(([k,n])=>'<div class="sch"><b>'+n+'</b><input class="in" type="date" data-sd="'+k+'" aria-label="'+n+' 날짜"><input class="in" type="time" step="600" data-st="'+k+'" aria-label="'+n+' 시각"><input class="in pl" data-sp="'+k+'" autocomplete="off" placeholder="'+n+' 장소 · 메모" aria-label="'+n+' 장소"></div>').join('');
+  SCH.forEach(([k])=>{ [['sd','d'],['st','t'],['sp','p']].forEach(([a,kk])=>{ const el=$('[data-'+a+'="'+k+'"]'); el.value=d.sched[k][kk]||''; const h=()=>{ d.sched[k][kk]=el.value; touch(); }; el.addEventListener('input',h); el.addEventListener('change',h); }); });
+  /* 비용 */
+  $$('[data-c]').forEach(sel=>sel.onchange=()=>{ d.cost[sel.dataset.c]=sel.value; touch(); });
+  const syncCost=()=>{ $$('[data-c]').forEach(sel=>{ sel.value=d.cost[sel.dataset.c]||''; }); steps.forEach(s=>s()); };
+  const stepper=(box,arr,i,label,unit,max)=>{ const r=document.createElement('div'); r.className='stp'; r.innerHTML='<span>'+label+'</span><span class="ctl"><button type="button" aria-label="'+label+' 줄이기">−</button><output></output><button type="button" aria-label="'+label+' 늘리기">+</button></span>';
+    const [mi,pl]=$$('button',r), out=$('output',r); const up=()=>{ out.textContent=d.cost[arr][i]+unit; mi.disabled=d.cost[arr][i]<=0; pl.disabled=d.cost[arr][i]>=max; };
+    mi.onclick=()=>{ d.cost[arr][i]=Math.max(0,d.cost[arr][i]-1); up(); touch(); }; pl.onclick=()=>{ d.cost[arr][i]=Math.min(max,d.cost[arr][i]+1); up(); touch(); }; up(); box.appendChild(r); return up; };
+  d.cost.staff=(d.cost.staff||[0,0]).slice(); d.cost.mourn=(d.cost.mourn||[0,0]).slice();
+  const steps=[stepper($('#f-stf'),'staff',0,'첫째 날','명',6),stepper($('#f-stf'),'staff',1,'둘째 날','명',6),stepper($('#f-mrn'),'mourn',0,'남성용','벌',10),stepper($('#f-mrn'),'mourn',1,'여성용','벌',10)];
+  const drawEx=()=>{ const box=$('#f-ex'); box.innerHTML=''; d.cost.ex.forEach((e,i)=>{ const r=document.createElement('div'); r.className='ex';
+      r.innerHTML='<input class="in" placeholder="내용" autocomplete="off" aria-label="'+(i+1)+'번째 기타 내용"><input class="in" inputmode="numeric" placeholder="금액" autocomplete="off" aria-label="'+(i+1)+'번째 기타 금액"><button type="button" class="ib" aria-label="지우기">'+ico('x',18)+'</button>';
+      const [a,b]=$$('input',r); a.value=e.n||''; b.value=e.a||''; a.oninput=()=>{ e.n=a.value; touch(); }; b.oninput=()=>{ e.a=b.value; touch(); };
+      $('button',r).onclick=()=>{ if(d.cost.ex.length>1) d.cost.ex.splice(i,1); else { e.n=''; e.a=''; } drawEx(); touch(); }; box.appendChild(r); }); $('#f-exadd').hidden=d.cost.ex.length>=6; };
+  drawEx(); $('#f-exadd').onclick=()=>{ d.cost.ex.push({n:'',a:''}); drawEx(); };
+  discUI($('#f-disc'),d.discounts,{onChange:touch,mine:r=>f.id&&r.funeral_id===f.id});
+  if(isMgr()){ const st=await loadStaff(); const sel=$('#f-ow'); sel.innerHTML=st.filter(s=>s.status==='active').map(s=>'<option value="'+esc(s.id)+'">'+esc(s.name+' · '+ROLE[s.role]+(s.team_name?' · '+s.team_name:''))+'</option>').join('');
+    sel.value=f.owner_id||ME.id; if(!sel.value) sel.value=ME.id; sel.onchange=()=>{ f.owner_id=sel.value; dirty=true; }; }
+  syncCost();
+  function paint(){
+    $$('[data-fs]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fs===f.status)));
+    [['sx',d.sex],['dp',d.died_place_t],['fb',d.bur],['io',d.inout],['py',d.pay],['ty',d.type]].forEach(([a,v])=>$$('[data-'+a+']').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset[a]===v))));
+    $$('[data-fam]').forEach(el=>{ el.hidden=d.type!=='fam'; }); $('#f-crw').hidden=d.bur==='bur';
+    $('#f-svc').innerHTML=d.type?'<table class="tbl"><tbody>'+SVC_ROWS(d.type==='fam').map((r,i)=>'<tr><td><b>'+r[0]+'</b> '+r[1]+'<small>'+r[2]+'</small></td><td class="v">'+won(PRICE.svc[d.type][i]*10000)+'</td></tr>').join('')+'</tbody></table>':'<p class="note">상품을 고르시면 장례지도사 · 입관지도사 · 입관용품 금액이 나와요.</p>';
+    const L=costLines(d), tot=L.reduce((s,l)=>s+l.v,0); $('#f-tot').textContent=sgn(tot);
+    $('#f-lines').innerHTML=L.length?'<table class="tbl fx"><colgroup><col class="g"><col><col class="v"></colgroup><thead><tr><th>구분</th><th>내용</th><th style="text-align:right">금액</th></tr></thead><tbody>'+L.map(l=>'<tr'+(l.v<0?' class="minus"':'')+'><td class="nw">'+esc(l.g)+'</td><td>'+nwj(l.t)+(l.s?'<small>'+nwj(l.s)+'</small>':'')+'</td><td class="v">'+esc(sgn(l.v))+'</td></tr>').join('')+'</tbody><tfoot><tr><td colspan="2">합계</td><td class="v">'+esc(sgn(tot))+'</td></tr></tfoot></table>':'';
+  }
+  paint(); dirty=false;
+  $('#f-save').onclick=async()=>{ const er=$('#f-err'); er.hidden=true;
+    const cps=d.discounts.filter(x=>x.kind==='cp');
+    const bad=!f.deceased_name.trim()&&!f.chief_name.trim()?'고인 성함이나 상주 성함을 넣어 주세요.':(cps.some(x=>!CP_RE.test(x.code||''))?'할인권 번호를 확인해 주세요 (MF-숫자6자리-글자4자리).':
+      (d.cost.ex.some(e=>(e.n||'').trim()&&isNaN(amt(e.a)))||isNaN(amt(d.cost.urn_amt))?'금액은 숫자로 넣어 주세요 (30 = 30만원).':''));
+    if(bad){ er.hidden=false; er.textContent=bad; er.scrollIntoView({block:'center'}); return; }
+    const b=$('#f-save'); b.disabled=true;
+    const data=JSON.parse(JSON.stringify(d)); data.cost.ex=data.cost.ex.filter(e=>(e.n||'').trim()||(e.a||'').trim());
+    try{ const r=await rpc('mf_funeral_save',{p:{id:f.id,consult_id:f.consult_id,status:f.status,deceased_name:f.deceased_name.trim(),chief_name:f.chief_name.trim(),chief_phone:telFmt(f.chief_phone),
+        start_on:isoOk(f.start_on)?f.start_on:null,total:costTotal(d),owner_id:isMgr()?(f.owner_id||ME.id):null,data}});
+      dirty=false; toast(isNew?'접수했어요':'저장했어요'); go('#/f/'+r.id); }
+    catch(x){ er.hidden=false; er.textContent=x.message; er.scrollIntoView({block:'center'}); b.disabled=false; } };
+}
+
+/* ══ 장례 보기 ══ */
+on(/^\/f\/(\d+)$/,async m=>{
+  frame({title:'장례 기록',back:'/f'});
+  const f=await rpc('mf_funeral_get',{p_id:+m[1]}); const d=f.data||{}; const L=costLines(d), tot=L.reduce((s,l)=>s+l.v,0);
+  const sch=SCH.map(([k,n])=>{ const s=(d.sched||{})[k]||{}; const a=[fmtMD(s.d),fmtT(s.t)].filter(Boolean).join(' '); return (a||s.p)?'<div><dt>'+n+'</dt><dd>'+esc(a||'시간 미정')+(s.p?'<small>'+esc(s.p)+'</small>':'')+'</dd></div>':''; }).join('');
+  const kv=(k,v)=>v?'<div><dt>'+k+'</dt><dd>'+v+'</dd></div>':'';
+  V('<div class="stack"><section class="sec"><div class="row" style="justify-content:space-between"><h2 class="sec-h">故 '+esc(f.deceased_name||'(이름 전)')+'</h2>'+chip(FSTAT,f.status)+'</div>'+
+    '<dl class="kv">'+kv('행사 번호',esc(f.case_no))+(f.consult_id?kv('사전 가입','<a href="#/c/'+f.consult_id+'">'+esc(f.cert_no||'가입증서')+'</a>'):'')+
+    kv('고인',esc([d.sex,d.age?d.age+'세':''].filter(Boolean).join(' · '))+(d.died_at?'<small>'+esc(d.died_at.replace('T',' '))+' · '+esc([d.died_place_t,d.died_place].filter(Boolean).join(' '))+'</small>':''))+
+    kv('상주',esc(f.chief_name)+(d.chief_rel?' ('+esc(d.chief_rel)+')':'')+(f.chief_phone?'<small><a href="tel:'+esc(digits(f.chief_phone))+'">'+esc(telFmt(f.chief_phone))+'</a></small>':''))+
+    kv('상품',esc(d.type?PROD[d.type].n+' · '+(d.bur==='bur'?'매장':'화장'):''))+kv('장례식장',esc([d.hall,d.room].filter(Boolean).join(' · ')))+
+    (d.bur!=='bur'?kv('화장장',esc([d.crem,d.inout].filter(Boolean).join(' · '))):'')+kv('장지',esc([d.grave_t,d.grave].filter(Boolean).join(' · ')))+kv('종교',esc(d.religion))+
+    kv('담당',esc(f.owner_name)+(f.team_name?' · '+esc(f.team_name):''))+'</dl>'+
+    '<div class="grid2"><a class="btn btn-p" href="#/f/'+f.id+'/edit">고치기</a><button class="btn btn-l" id="b-sch">일정 글 복사</button></div></section>'+
+    (sch?'<section class="sec"><h2 class="sec-h">일정</h2><dl class="kv">'+sch+'</dl></section>':'')+
+    '<section class="sec"><h2 class="sec-h">비용</h2>'+(L.length?'<table class="tbl fx"><colgroup><col class="g"><col><col class="v"></colgroup><thead><tr><th>구분</th><th>내용</th><th style="text-align:right">금액</th></tr></thead><tbody>'+L.map(l=>'<tr'+(l.v<0?' class="minus"':'')+'><td class="nw">'+esc(l.g)+'</td><td>'+nwj(l.t)+(l.s?'<small>'+nwj(l.s)+'</small>':'')+'</td><td class="v">'+esc(sgn(l.v))+'</td></tr>').join('')+'</tbody><tfoot><tr><td colspan="2">합계</td><td class="v">'+esc(sgn(tot))+'</td></tr></tfoot></table>':'<p class="note">비용을 아직 적지 않았어요.</p>')+
+    '<p class="note">'+esc([d.pay,d.paid?'결제 끝남':'결제 전'].filter(Boolean).join(' · '))+'</p><button class="btn btn-l" id="b-cost">비용 글 복사</button></section>'+
+    (d.memo?'<section class="sec"><h2 class="sec-h">메모</h2><p style="white-space:pre-wrap">'+esc(d.memo)+'</p></section>':'')+
+    '<section class="sec"><h2 class="sec-h">기록</h2><ul class="log" id="lg"><li>불러오는 중…</li></ul></section></div>');
+  $('#b-sch').onclick=()=>{ const o=['[나만의장례] 故 '+(f.deceased_name||'')+' 님 장례 일정']; if(d.hall) o.push('· 장례식장: '+[d.hall,d.room].filter(Boolean).join(' '));
+    SCH.forEach(([k,n])=>{ const s=(d.sched||{})[k]||{}; const a=[fmtMD(s.d),fmtT(s.t)].filter(Boolean).join(' '); if(a||s.p) o.push('· '+n+': '+(a||'시간 미정')+(s.p?' · '+s.p:'')); });
+    if(d.grave_t||d.grave) o.push('· 장지: '+[d.grave_t,d.grave].filter(Boolean).join(' · ')); o.push('','담당 '+[f.owner_name,telFmt(f.owner_phone)].filter(Boolean).join(' '),'나만의장례 24시간 1661-4214'); copyText(o.join('\n'),'일정 글을 복사했어요'); };
+  $('#b-cost').onclick=()=>{ const o=['[나만의장례] 故 '+(f.deceased_name||'')+' 님 장례 비용']; L.forEach(l=>o.push('· '+l.g+' '+l.t+' — '+sgn(l.v))); o.push('합계 '+sgn(tot),'','첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.','장례식장 시설 · 음식 · 화장장 · 장지 비용은 쓰신 만큼 따로예요.','나만의장례 24시간 1661-4214'); copyText(o.join('\n'),'비용 글을 복사했어요'); };
+  showLog('funeral:'+f.id);
+});
+
+/* ══ 할인권 ══ */
+on(/^\/k$/,async(m,q)=>{
+  frame({}); const st=q.get('s')||'';
+  V('<div class="stack"><h2 class="sec-h">할인권</h2><section class="sec"><div class="fld"><label class="lbl" for="kq">할인권 번호 조회</label><div class="row" style="flex-wrap:nowrap"><input class="in big" id="kq" autocomplete="off" autocapitalize="characters" placeholder="MF-261123-ABCD" value="'+esc(q.get('code')||'')+'"><button class="btn btn-p" id="kgo" style="min-height:56px">조회</button></div></div><div id="kr"></div>'+
+    '<p class="note">손님이 홈페이지에서 받은 「사전 상담 감사 할인권」(10만원) 번호를 넣어 주세요. 장례에 쓰면 「쓰임」으로 바뀌어 다시 쓰지 못해요.</p></section>'+
+    '<div><div class="h2">등록된 할인권</div><div class="tabs">'+[['','전체'],['registered','등록됨'],['used','쓰임'],['void','무효']].map(([k,l])=>'<a href="#/k?s='+k+'"'+(st===k?' aria-current="page"':'')+'>'+l+'</a>').join('')+'</div><div id="kl"><div class="spin"></div></div></div></div>');
+  const look=async()=>{ const v=$('#kq').value.trim().toUpperCase(); $('#kq').value=v; if(!v) return; const r=await rpc('mf_coupon_get',{p_code:v}); const box=$('#kr'); box.innerHTML=cpCard(r);
+    if(r.format_ok&&!r.found){ box.insertAdjacentHTML('beforeend','<div class="stack" style="gap:8px;margin-top:10px"><div class="grid2"><input class="in" id="kn" placeholder="손님 성함" autocomplete="off"><input class="in" id="kp" type="tel" placeholder="연락처" autocomplete="off"></div><button class="btn btn-l" id="kreg">이 할인권 등록하기</button></div>');
+      $('#kreg').onclick=async()=>{ try{ await rpc('mf_coupon_register',{p_code:v,p_name:$('#kn').value.trim(),p_phone:telFmt($('#kp').value)}); toast('등록했어요'); look(); list(); }catch(e){ fail(e); } }; }
+    if(ME.role==='admin'&&(!r.found||r.status==='registered')&&r.format_ok){ box.insertAdjacentHTML('beforeend','<button class="btn btn-g" id="kvoid" style="margin-top:6px;color:var(--warn)">무효로 하기</button>');
+      $('#kvoid').onclick=()=>sheet('<h2>할인권 무효로 하기</h2><p class="muted">'+esc(v)+'를 다시 쓰지 못하게 막아요.</p><input class="in" id="vr" placeholder="까닭 (예: 중복 발급)"><div class="grid2"><button class="btn btn-l" data-x>그만두기</button><button class="btn btn-w" data-ok>무효로</button></div>',(el,close)=>{
+        $('[data-x]',el).onclick=close; $('[data-ok]',el).onclick=async()=>{ try{ await rpc('mf_coupon_void',{p_code:v,p_reason:$('#vr',el).value.trim()}); close(); toast('무효로 했어요'); look(); list(); }catch(e){ fail(e); } }; }); } };
+  const list=async()=>{ const r=await rpc('mf_coupon_list',{p_status:st,p_limit:200}); $('#kl').innerHTML=r.length?'<div class="list">'+r.map(c=>'<a class="li" href="#/k?code='+esc(c.code)+'"><b>'+esc(c.code)+'</b><span class="s">'+esc([c.client_name,c.cert_no&&'증서 '+c.cert_no,c.case_no&&'장례 '+c.case_no,c.registered_name].filter(Boolean).join(' · '))+'</span><span class="r">'+chip(KSTAT,c.status)+'<span>'+esc(when(c.registered_at))+'</span></span></a>').join('')+'</div>':'<div class="list"><p class="empty">등록된 할인권이 없어요.</p></div>'; };
+  $('#kgo').onclick=()=>look().catch(fail); $('#kq').onkeydown=e=>{ if(e.key==='Enter'){ e.preventDefault(); look().catch(fail); } };
+  if(q.get('code')) look().catch(fail); await list();
+});
+
+/* ══ 관리 ══ */
+on(/^\/a$/,async()=>{ if(ME.role==='admin'){ try{ const w=await rpc('mf_whoami'); ME.pending=w.pending; }catch(e){} } history.replaceState(null,'','#/a/'+(ME.role==='admin'&&ME.pending?'wait':'staff')); route(); });
+on(/^\/a\/(wait|staff|org|set)$/,async m=>{
+  if(!isMgr()){ go('#/'); return; }
+  frame({}); const tab=m[1]; const admin=ME.role==='admin';
+  const tabs=admin?[['wait','승인 대기'+(ME.pending?' '+ME.pending:'')],['staff','직원'],['org','본부 · 팀'],['set','회사 설정']]:[['staff',ME.role==='head'?'우리 본부 직원':'우리 팀 직원']];
+  V('<div class="stack"><h2 class="sec-h">관리</h2><div class="tabs">'+tabs.map(([k,l])=>'<a href="#/a/'+k+'"'+(k===tab?' aria-current="page"':'')+'>'+esc(l)+'</a>').join('')+'</div><div id="ab"><div class="spin"></div></div></div>');
+  const [org,st]=await Promise.all([loadOrg(true),loadStaff(true)]);
+  if(admin){ const w=await rpc('mf_whoami'); ME.pending=w.pending; }
+  const box=$('#ab');
+  if(tab==='wait'){ const P=st.filter(s=>s.status==='pending');
+    box.innerHTML=P.length?'<div class="list">'+P.map(s=>'<div class="li"><b>'+esc(s.name)+'</b><span class="s">'+esc([s.phone,s.wish&&'소속: '+s.wish,'가입 '+when(s.created_at)].filter(Boolean).join(' · '))+'</span><span class="r"><button class="btn btn-p" data-ap="'+esc(s.id)+'" style="min-height:44px">승인</button></span></div>').join('')+'</div>'
+      :'<div class="list"><p class="empty">승인 기다리는 직원이 없어요.</p></div>';
+    $$('[data-ap]').forEach(b=>b.onclick=()=>staffSheet(st.find(s=>s.id===b.dataset.ap),true)); }
+  if(tab==='staff'){ const A=st.filter(s=>s.status!=='pending'); const groups={};
+    A.forEach(s=>{ const g=s.role==='admin'?'본사':(s.hq_name||'본부 없음')+(s.team_name?' · '+s.team_name:''); (groups[g]=groups[g]||[]).push(s); });
+    box.innerHTML=Object.keys(groups).map(g=>'<div class="h2">'+esc(g)+'</div><div class="list">'+groups[g].map(s=>'<button type="button" class="li" style="border-left:0;border-right:0;border-bottom:0;background:none;text-align:left;width:100%;cursor:pointer" data-sid="'+esc(s.id)+'"><b>'+esc(s.name)+'</b><span class="s">'+esc([ROLE[s.role],s.phone].join(' · '))+'</span><span class="r">'+(s.status==='stopped'?'<span class="chip warn">정지</span>':'')+'</span></button>').join('')+'</div>').join('')||'<div class="list"><p class="empty">직원이 없어요.</p></div>';
+    $$('[data-sid]').forEach(b=>b.onclick=()=>{ const s=st.find(x=>x.id===b.dataset.sid); if(admin) staffSheet(s,false); else if(ME.role==='head'&&['leader','member'].includes(s.role)) resetSheet(s); else toast(s.name+' · '+ROLE[s.role]); }); }
+  if(tab==='org'){ box.innerHTML='<div class="stack">'+(org.length?org.map(h=>'<section class="sec"><div class="row" style="justify-content:space-between"><h3 style="font-size:17px">'+esc(h.name)+(h.active?'':' <span class="chip warn">숨김</span>')+'</h3><span class="row"><button class="btn btn-g" data-eh="'+h.id+'">고치기</button><button class="btn btn-l" data-at="'+h.id+'" style="min-height:44px">+ 팀</button></span></div><p class="note">직원 '+h.staff+'명</p>'+
+      (h.teams.length?'<div class="list">'+h.teams.map(t=>'<button type="button" class="li" style="border-left:0;border-right:0;border-bottom:0;background:none;text-align:left;width:100%;cursor:pointer" data-et="'+t.id+'" data-h="'+h.id+'"><b>'+esc(t.name)+'</b><span class="s">직원 '+t.staff+'명</span><span class="r">'+(t.active?'':'<span class="chip warn">숨김</span>')+'</span></button>').join('')+'</div>':'<p class="note">아직 팀이 없어요.</p>')+'</section>').join(''):'<p class="empty">본부를 먼저 만들어 주세요.</p>')+
+      '<button class="btn btn-p" id="ah">+ 본부 만들기</button></div>';
+    const nameSheet=(title,val,active,save)=>sheet('<h2>'+esc(title)+'</h2><input class="in" id="nm" value="'+esc(val||'')+'" placeholder="이름">'+(active!=null?'<label class="chk"><input type="checkbox" id="na"'+(active?'':' checked')+'><span>숨기기 (새로 고를 때 안 보임)</span></label>':'')+'<div class="grid2"><button class="btn btn-l" data-x>그만두기</button><button class="btn btn-p" data-ok>저장</button></div>',(el,close)=>{
+      $('[data-x]',el).onclick=close; $('[data-ok]',el).onclick=async()=>{ try{ await save($('#nm',el).value.trim(),!($('#na',el)&&$('#na',el).checked)); close(); toast('저장했어요'); route(); }catch(e){ fail(e); } }; });
+    $('#ah').onclick=()=>nameSheet('본부 만들기','',null,(n)=>rpc('mf_save_hq',{p_id:null,p_name:n,p_active:true}));
+    $$('[data-eh]').forEach(b=>b.onclick=()=>{ const h=org.find(x=>x.id==b.dataset.eh); nameSheet('본부 고치기',h.name,h.active,(n,a)=>rpc('mf_save_hq',{p_id:h.id,p_name:n,p_active:a})); });
+    $$('[data-at]').forEach(b=>b.onclick=()=>{ const h=org.find(x=>x.id==b.dataset.at); nameSheet(h.name+' · 팀 만들기','',null,(n)=>rpc('mf_save_team',{p_id:null,p_hq:h.id,p_name:n,p_active:true})); });
+    $$('[data-et]').forEach(b=>b.onclick=()=>{ const h=org.find(x=>x.id==b.dataset.h), t=h.teams.find(x=>x.id==b.dataset.et); nameSheet('팀 고치기',t.name,t.active,(n,a)=>rpc('mf_save_team',{p_id:t.id,p_hq:h.id,p_name:n,p_active:a})); }); }
+  if(tab==='set'){ box.innerHTML='<section class="sec"><h2 class="sec-h">직인</h2><p class="note">가입증서에 찍히는 회사 직인이에요. 한 번 넣으면 모든 직원의 증서에 같이 나와요. 흰 바탕에 도장만 있는 사진이 좋아요.</p>'+
+      '<div class="row">'+(SETTINGS.stamp?'<img src="'+esc(SETTINGS.stamp)+'" alt="지금 직인" width="72" height="72" style="object-fit:contain;border:1px solid var(--line);border-radius:4px;background:#fff">':'<span class="note">아직 직인이 없어요 · 증서에는 「(인)」으로 나와요</span>')+'</div>'+
+      '<div class="row"><label class="btn btn-l" style="position:relative;overflow:hidden">직인 사진 넣기<input type="file" id="stf" accept="image/*" style="position:absolute;inset:0;opacity:0"></label>'+(SETTINGS.stamp?'<button class="btn btn-g" id="std">직인 빼기</button>':'')+'</div></section>';
+    $('#stf').onchange=e=>{ const fl=e.target.files&&e.target.files[0]; if(!fl) return; const rd=new FileReader(); rd.onload=()=>{ const im=new Image(); im.onload=async()=>{ const mx=360, r=Math.min(1,mx/Math.max(im.naturalWidth,im.naturalHeight)); const c=document.createElement('canvas'); c.width=Math.round(im.naturalWidth*r); c.height=Math.round(im.naturalHeight*r); const x=c.getContext('2d'); x.fillStyle='#fff'; x.fillRect(0,0,c.width,c.height); x.drawImage(im,0,0,c.width,c.height);
+        const v=c.toDataURL('image/png'); try{ await rpc('mf_setting_set',{p_key:'stamp',p_value:v}); SETTINGS.stamp=v; loadStamp(); toast('직인을 넣었어요'); route(); }catch(x){ fail(x); } }; im.src=rd.result; }; rd.readAsDataURL(fl); };
+    if($('#std')) $('#std').onclick=async()=>{ if(!(await ask('직인을 뺄까요?','가입증서에 「(인)」으로 나와요.','빼기',true))) return; try{ await rpc('mf_setting_set',{p_key:'stamp',p_value:''}); SETTINGS.stamp=''; loadStamp(); route(); }catch(x){ fail(x); } }; }
+});
+function staffSheet(s,approve){
+  const org=ORG||[]; let role=s.role==='admin'&&approve?'member':s.role, hq=s.hq_id||'', team=s.team_id||'', status=approve?'active':s.status;
+  const hqOpts=()=>'<option value="">본부 고르기</option>'+org.filter(h=>h.active||h.id==hq).map(h=>'<option value="'+h.id+'">'+esc(h.name)+'</option>').join('');
+  const teamOpts=()=>{ const h=org.find(x=>x.id==hq); return '<option value="">팀 고르기</option>'+(h?h.teams.filter(t=>t.active||t.id==team).map(t=>'<option value="'+t.id+'">'+esc(t.name)+'</option>').join(''):''); };
+  sheet('<h2>'+esc(s.name)+(approve?' · 가입 승인':'')+'</h2><p class="note">'+esc([s.phone,s.wish&&'적은 소속: '+s.wish].filter(Boolean).join(' · '))+'</p>'+
+    '<div class="fld"><span class="lbl">역할</span><div class="seg" role="group" aria-label="역할">'+['head','leader','member','admin'].map(r=>'<button type="button" data-r="'+r+'">'+ROLE[r]+'</button>').join('')+'</div></div>'+
+    '<div class="fld" data-hqw><label class="lbl" for="s-hq">본부</label><select class="in" id="s-hq"></select></div><div class="fld" data-tw><label class="lbl" for="s-tm">팀</label><select class="in" id="s-tm"></select></div>'+
+    (org.length?'':'<p class="warn">본부 · 팀을 먼저 만들어 주세요 (관리 → 본부 · 팀).</p>')+
+    (approve?'':'<div class="fld"><span class="lbl">상태</span><div class="seg" role="group" aria-label="상태"><button type="button" data-ss="active">사용 중</button><button type="button" data-ss="stopped">정지</button></div></div>')+
+    '<p class="warn" id="s-err" hidden></p><div class="grid2"><button class="btn btn-l" data-x>그만두기</button><button class="btn btn-p" data-ok>'+(approve?'승인':'저장')+'</button></div>'+
+    (approve?'<button class="btn btn-g" data-rej style="color:var(--warn)">가입 거절 (정지)</button>':'<button class="btn btn-g" data-pw>비밀번호 초기화</button>'),(el,close)=>{
+    const sh=$('#s-hq',el), stm=$('#s-tm',el);
+    const paint=()=>{ $$('[data-r]',el).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.r===role))); $$('[data-ss]',el).forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.ss===status)));
+      $('[data-hqw]',el).hidden=role==='admin'; $('[data-tw]',el).hidden=role==='admin'||role==='head'; sh.innerHTML=hqOpts(); sh.value=hq||''; stm.innerHTML=teamOpts(); stm.value=team||''; };
+    $$('[data-r]',el).forEach(b=>b.onclick=()=>{ role=b.dataset.r; paint(); }); $$('[data-ss]',el).forEach(b=>b.onclick=()=>{ status=b.dataset.ss; paint(); });
+    sh.onchange=()=>{ hq=sh.value; team=''; paint(); }; stm.onchange=()=>{ team=stm.value; };
+    paint(); $('[data-x]',el).onclick=close;
+    $('[data-ok]',el).onclick=async()=>{ const er=$('#s-err',el); try{ await rpc('mf_staff_set',{p_id:s.id,p_role:role,p_status:status,p_hq:role==='admin'?(hq?+hq:null):(hq?+hq:null),p_team:(role==='leader'||role==='member')&&team?+team:null});
+      close(); toast(approve?s.name+' 님을 승인했어요':'저장했어요'); STAFF=null; route(); }catch(x){ er.hidden=false; er.textContent=x.message; } };
+    if($('[data-rej]',el)) $('[data-rej]',el).onclick=async()=>{ try{ await rpc('mf_staff_set',{p_id:s.id,p_role:'member',p_status:'stopped',p_hq:null,p_team:null}); }catch(x){ /* 팀 없이 정지 */ }
+      close(); route(); };
+    if($('[data-pw]',el)) $('[data-pw]',el).onclick=()=>{ close(); resetSheet(s); }; });
+}
+function resetSheet(s){ ask(s.name+' 님 비밀번호를 초기화할까요?','임시 비밀번호가 나와요. 본인에게 알려 주시면, 로그인할 때 새 비밀번호를 정하게 돼요.','초기화').then(async ok=>{ if(!ok) return;
+  try{ const pw=await rpc('mf_staff_reset_pw',{p_id:s.id}); sheet('<h2>임시 비밀번호</h2><p class="big-total" style="text-align:center;letter-spacing:.08em">'+esc(pw)+'</p><p class="muted">'+esc(s.name)+' 님께 알려 주세요. 로그인하면 새 비밀번호를 정하게 돼요.</p><button class="btn btn-l" data-c>복사</button><button class="btn btn-p" data-x>닫기</button>',(el,close)=>{ $('[data-c]',el).onclick=()=>copyText(pw,'복사했어요'); $('[data-x]',el).onclick=close; }); }catch(x){ fail(x); } }); }
+
+/* ══ 내 정보 ══ */
+let installEvt=null; window.addEventListener('beforeinstallprompt',e=>{ e.preventDefault(); installEvt=e; });
+on(/^\/me$/,()=>{
+  frame({title:'내 정보',back:'/'});
+  const standalone=matchMedia('(display-mode: standalone)').matches||navigator.standalone;
+  V('<div class="stack"><section class="sec"><dl class="kv"><div><dt>이름</dt><dd>'+esc(ME.name)+'</dd></div><div><dt>아이디</dt><dd>'+esc(ME.phone)+' <small>휴대폰 번호로 로그인해요</small></dd></div><div><dt>역할</dt><dd>'+esc(ROLE[ME.role])+'</dd></div><div><dt>소속</dt><dd>'+esc([ME.hq_name,ME.team_name].filter(Boolean).join(' · ')||'본사')+'</dd></div></dl>'+
+    '<div class="grid2"><button class="btn btn-l" id="m-nm">이름 고치기</button><button class="btn btn-l" id="m-pw">비밀번호 바꾸기</button></div></section>'+
+    (standalone?'':'<section class="sec"><h2 class="sec-h">휴대폰 홈 화면에 앱 두기</h2>'+(installEvt?'<button class="btn btn-p" id="m-in">홈 화면에 추가</button>':'<p class="muted">'+(IS_IOS?'사파리 아래 가운데 「공유」 버튼 → 「홈 화면에 추가」를 눌러 주세요.':'크롬 오른쪽 위 「⋮」 → 「홈 화면에 추가」(또는 「앱 설치」)를 눌러 주세요.')+'</p>')+'</section>')+
+    '<button class="btn btn-w" id="m-out">로그아웃</button><p class="note" style="text-align:center">나만의장례 업무 앱 · '+esc(CFG.ver)+'</p></div>');
+  $('#m-nm').onclick=()=>sheet('<h2>이름 고치기</h2><input class="in" id="nn" value="'+esc(ME.name)+'"><div class="grid2"><button class="btn btn-l" data-x>그만두기</button><button class="btn btn-p" data-ok>저장</button></div>',(el,close)=>{ $('[data-x]',el).onclick=close;
+    $('[data-ok]',el).onclick=async()=>{ try{ await rpc('mf_set_my_name',{p_name:$('#nn',el).value}); ME.name=$('#nn',el).value.trim(); close(); toast('고쳤어요'); route(); }catch(x){ fail(x); } }; });
+  $('#m-pw').onclick=()=>sheet('<h2>비밀번호 바꾸기</h2><input class="in" id="p1" type="password" autocomplete="new-password" placeholder="새 비밀번호 (8자 이상)"><input class="in" id="p2" type="password" autocomplete="new-password" placeholder="한 번 더"><p class="warn" id="pe" hidden></p><div class="grid2"><button class="btn btn-l" data-x>그만두기</button><button class="btn btn-p" data-ok>바꾸기</button></div>',(el,close)=>{ $('[data-x]',el).onclick=close;
+    $('[data-ok]',el).onclick=async()=>{ const a=$('#p1',el).value, b=$('#p2',el).value, er=$('#pe',el); if(a.length<8){ er.hidden=false; er.textContent='8자 이상으로 정해 주세요.'; return; } if(a!==b){ er.hidden=false; er.textContent='두 번 넣은 비밀번호가 달라요.'; return; }
+      try{ await rpc('mf_change_pw',{p_new:a}); close(); toast('비밀번호를 바꿨어요'); }catch(x){ er.hidden=false; er.textContent=x.message; } }; });
+  if($('#m-in')) $('#m-in').onclick=()=>{ installEvt.prompt(); installEvt=null; };
+  $('#m-out').onclick=async()=>{ if(await ask('로그아웃할까요?','','로그아웃',true)) logout(); };
+});
+
+/* ══ 앱 업데이트 · 시작 ══ */
+if('serviceWorker' in navigator&&location.protocol==='https:') navigator.serviceWorker.register('sw.js').catch(()=>{});
+boot();
+})();
+</script>
+</body>
+</html>
