@@ -2226,6 +2226,25 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 <script>
 (function(){
 'use strict';
+/* 전화번호를 넣으면 하이픈(-)이 저절로 (2026-11-23) — 휴대폰 010-0000-0000 · 서울 02-000-0000 · 지역 031-000-0000 · 대표번호 1661-4214 · 0505-000-0000
+   type="tel" 칸이면 어디든(나중에 생기는 칸도) 같이 된다. 하이픈 바로 뒤에서 지우면 그 앞 숫자가 지워진다. */
+(function(){
+  function telHy(v){ let d=String(v||'').replace(/\D/g,''); if(!d) return '';
+    const cut=(a,b)=>{ const n=d.length; if(n<=a) return d; if(n<=a+b) return d.slice(0,a)+'-'+d.slice(a); if(n<=a+b+4) return d.slice(0,a)+'-'+d.slice(a,a+b)+'-'+d.slice(a+b); return d.slice(0,a)+'-'+d.slice(a,a+b+1)+'-'+d.slice(a+b+1); };
+    if(/^(15|16|18)/.test(d)){ d=d.slice(0,8); return d.length>4?d.slice(0,4)+'-'+d.slice(4):d; }
+    if(d[0]!=='0') return d.slice(0,11);
+    if(/^02/.test(d)){ d=d.slice(0,10); return cut(2,3); }
+    if(/^050/.test(d)){ d=d.slice(0,12); return cut(4,3); }
+    d=d.slice(0,11); return cut(3,3); }
+  const last=new WeakMap(), isTel=el=>el&&el.tagName==='INPUT'&&el.type==='tel';
+  document.addEventListener('focusin',e=>{ if(isTel(e.target)) last.set(e.target,e.target.value); },true);
+  document.addEventListener('input',e=>{ const el=e.target; if(!isTel(el)) return;
+    let v=el.value; const pos=el.selectionStart==null?v.length:el.selectionStart; let before=v.slice(0,pos).replace(/\D/g,'').length;
+    if(e.inputType==='deleteContentBackward'&&before>0&&v.replace(/\D/g,'')===String(last.get(el)||'').replace(/\D/g,'')){ const d=v.replace(/\D/g,''); v=d.slice(0,before-1)+d.slice(before); before--; }
+    const f=telHy(v);
+    if(f!==el.value){ el.value=f; let i=0, c=0; while(i<f.length&&c<before){ if(/\d/.test(f[i])) c++; i++; } try{ el.setSelectionRange(i,i); }catch(_){} }
+    last.set(el,el.value); },true);
+})();
 const $=(s,r)=> (r||document).querySelector(s);
 const $$=(s,r)=> Array.from((r||document).querySelectorAll(s));
 const PHONE='1661-4214';
