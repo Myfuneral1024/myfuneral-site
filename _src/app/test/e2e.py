@@ -85,7 +85,7 @@ async def main():
         await mem.click('[data-sx=여]'); await mem.fill('#f-ag','84'); await mem.click('[data-dp=병원]'); await mem.fill('#f-dpn','서울대학교병원')
         await mem.fill('[data-sd=ba]','2026-11-25'); await mem.fill('[data-st=ba]','07:00'); await mem.fill('[data-sp=ba]','서울대학교병원 장례식장')
         await mem.fill('#f-un','진공 유골함 (별자리)'); await mem.fill('#f-ua','45')
-        tot=await mem.inner_text('#f-tot'); print('  장례 합계 (가족장 199 + 유골함 45 − 35):', tot)
+        tot=await mem.inner_text('#f-tot'); print('  장례 합계 (가족장 205 + 유골함 45 − 35):', tot)
         await shot(mem,'13_funeral_form')
         await mem.click('#f-save'); print('  ', await toast(mem)); await mem.wait_for_selector('#b-cost'); await shot(mem,'14_funeral_view')
         # 할인권 조회

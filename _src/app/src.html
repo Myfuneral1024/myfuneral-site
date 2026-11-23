@@ -244,17 +244,17 @@ const PRODN={nob:'무빈소장',fam:'가족장',und:'상담 때 정함'};
 const nwj=t=>String(t==null?'':t).split(' · ').map(x=>(x.length<=10||/MF-/.test(x))?'<span class="nw">'+esc(x)+'</span>':esc(x)).join(' · ');
 const chip=(m,k)=>{ const x=m[k]||[k,'']; return '<span class="chip '+x[1]+'">'+esc(x[0])+'</span>'; };
 
-/* ══ 가격표 (만원) · 홈페이지 비용 계산과 같게 (2026-11-23 무빈소장 139 · 가족장 199) ══ */
+/* ══ 가격표 (만원) · 홈페이지 비용 계산과 같게 (2026-11-23 입관지도사 20만원 → 무빈소장 145 · 가족장 205) ══ */
 const PRICE={
-  svc:{nob:[15,14,15],fam:[30,14,15]},
+  svc:{nob:[15,20,15],fam:[30,20,15]},
   coffin:[['c1','화장용 오동나무관',20,'cre'],['c2','화장용 특수관',30,'cre'],['c3','매장용 오동나무관',30,'bur'],['c4','매장용 솔송관',80,'bur'],['c5','매장용 향나무관',160,'bur']],
   shroud:[['s1','면수의',15],['s2','저마수의',20],['s3','황토수의',30],['s4','쟈가드수의',50],['s5','대마수의',60],['own','자가수의 사용',0]],
   ipgwan:[['none','하지 않음',0],['i1','생화 꽃장식',20],['i2','궁중대렴',20],['i3','생화 꽃장식 + 궁중대렴',30]],
   binso:[['none','하지 않음',0],['b1','헌화 30송이',5],['b2','헌화 50송이',7]],
   car:[['none','차량 미사용',0],['v1','카니발 · 스타리아',30],['v2','리무진 (편도)',40],['v3','장의버스 (왕복)',40],['v4','리무진 + 장의버스',80]]
 };
-const PROD={nob:{n:'무빈소장',p:{cre:139,bur:159},inc:'장례지도사 · 입관지도사 2명 · 입관용품 50여 가지 · 관 · 수의 · 꽃장식 · 리무진'},
-            fam:{n:'가족장 (3일장)',p:{cre:199,bur:219},inc:'장례지도사(3일) · 입관지도사 2명 · 입관용품 50여 가지 · 관 · 수의 · 꽃장식 · 리무진 · 빈소 헌화 · 접객 도우미 · 상복'}};
+const PROD={nob:{n:'무빈소장',p:{cre:145,bur:165},inc:'장례지도사 · 입관지도사 2명 · 입관용품 50여 가지 · 관 · 수의 · 꽃장식 · 리무진'},
+            fam:{n:'가족장 (3일장)',p:{cre:205,bur:225},inc:'장례지도사(3일) · 입관지도사 2명 · 입관용품 50여 가지 · 관 · 수의 · 꽃장식 · 리무진 · 빈소 헌화 · 접객 도우미 · 상복'}};
 const SVC_ROWS=f=>[['장례지도사','1명',f?'3일 동안 장례를 처음부터 끝까지':'장례를 처음부터 끝까지'],['입관지도사','2명','염습 · 입관'],['입관용품','50여 가지','수시 · 염습 · 입관 · 발인에 쓰는 용품']];
 const KM_WON=1800, STAFF_WON=120000, MOURN=[50000,30000];
 const SUP={kind:'sup',name:'수급자 · 국가유공자',amount:200000}, CPD={kind:'cp',name:'사전 상담 감사 할인권',amount:100000};
@@ -496,7 +496,7 @@ async function consultForm(c){
       '<div class="grid2 st"><div class="fld"><label class="lbl" for="c-nm">성함</label><input class="in" id="c-nm" autocomplete="off"></div><div class="fld"><label class="lbl" for="c-ph">휴대폰 <span>(문자 받을 번호)</span></label><input class="in" id="c-ph" type="tel" inputmode="tel" autocomplete="off" placeholder="010-0000-0000"></div></div>'+
       '<div class="grid2"><div class="fld"><label class="lbl" for="c-tg">모실 분 <span>(선택)</span></label><input class="in" id="c-tg" autocomplete="off"></div><div class="fld"><label class="lbl" for="c-rl">관계 <span>(선택)</span></label><input class="in" id="c-rl" autocomplete="off" placeholder="어머니 · 본인"></div></div>'+
       '<div class="grid2"><div class="fld"><label class="lbl" for="c-dt">가입일</label><input class="in" id="c-dt" type="date"></div>'+(isMgr()?'<div class="fld"><label class="lbl" for="c-ow">담당</label><select class="in" id="c-ow"></select></div>':'<div></div>')+'</div></section>'+
-    '<section class="sec"><h2 class="sec-h"><span class="no">02</span>상품</h2><div class="seg" role="group" aria-label="상품"><button type="button" data-pr="nob">무빈소장<br><small>139만원</small></button><button type="button" data-pr="fam">가족장<br><small>199만원</small></button><button type="button" data-pr="und">상담 때<br>정함</button></div>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">02</span>상품</h2><div class="seg" role="group" aria-label="상품"><button type="button" data-pr="nob">무빈소장<br><small>145만원</small></button><button type="button" data-pr="fam">가족장<br><small>205만원</small></button><button type="button" data-pr="und">상담 때<br>정함</button></div>'+
       '<div class="fld" id="c-burw"><span class="lbl">모시는 방식 <span>(매장이면 +20만원)</span></span><div class="seg" role="group" aria-label="모시는 방식"><button type="button" data-bu="cre">화장</button><button type="button" data-bu="bur">매장</button></div></div></section>'+
     '<section class="sec"><h2 class="sec-h"><span class="no">03</span>할인</h2><div id="c-disc"></div><div class="fld"><label class="lbl" for="c-cd">할인 조건 · 메모 <span>(증서에 나와요)</span></label><input class="in" id="c-cd" autocomplete="off" placeholder="예: 가족장으로 진행하실 때 적용"></div>'+
       '<div class="row" style="justify-content:space-between;border-top:2px solid var(--ink);padding-top:10px"><span>할인 합계</span><b class="big-total" id="c-ds" style="font-size:22px">0원</b></div><p class="note" id="c-af"></p></section>'+
@@ -573,7 +573,7 @@ function certText(c){ const o=[], D=c.discounts||[], ds=D.reduce((s,x)=>s+(+x.am
   o.push('[나만의장례] 후불제 상조 가입증서', c.client_name+' 님, 가입해 주셔서 고맙습니다.', '');
   o.push('· 증서 번호: '+c.cert_no, '· 가입일: '+fmtDot(c.joined_on));
   if(c.target_name||c.relation) o.push('· 모실 분: '+(c.target_name?c.target_name+' 님'+(c.relation?' ('+c.relation+')':''):c.relation));
-  o.push('· 상품: '+(on?PROD[c.product].n+' '+man(pa)+' ('+(c.burial==='bur'?'매장':'화장')+' 기준)':'상담 때 함께 정해요 (무빈소장 139만원 · 가족장 199만원, 화장 기준)'));
+  o.push('· 상품: '+(on?PROD[c.product].n+' '+man(pa)+' ('+(c.burial==='bur'?'매장':'화장')+' 기준)':'상담 때 함께 정해요 (무빈소장 145만원 · 가족장 205만원, 화장 기준)'));
   if(D.length){ o.push('· 할인 내역'); D.forEach(x=>o.push('  - '+x.name+' −'+man(+x.amount)+(x.code?' (번호 '+x.code+')':''))); if(c.cond) o.push('  - 조건: '+c.cond); o.push('  → 할인 합계 −'+man(ds)+(on?' · 할인 뒤 상품 금액 '+man(Math.max(0,pa-ds)):'')); }
   o.push('', '가입비 · 월 납입금이 없어요. 미리 내시는 돈 없이 장례를 마친 뒤 한 번에 정산해요.', '첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.');
   if(c.note) o.push('', c.note);
@@ -623,7 +623,7 @@ async function drawCert(c){
   if(c.target_name) R.push({k:'모실 분',v:c.target_name+' 님'+(c.relation?' ('+c.relation+')':'')}); else if(c.relation) R.push({k:'모실 분',v:c.relation});
   const on=c.product!=='und', pa=on?PROD[c.product].p[c.burial]*10000:0;
   if(on) R.push({k:'상품',v:PROD[c.product].n+' · '+(c.burial==='bur'?'매장':'화장'),a:won(pa),sub:[PROD[c.product].inc,'가입일 기준 금액이에요']});
-  else R.push({k:'상품',v:'상담 때 함께 정해요',sub:['무빈소장 139만원 · 가족장 199만원 (화장 기준)']});
+  else R.push({k:'상품',v:'상담 때 함께 정해요',sub:['무빈소장 145만원 · 가족장 205만원 (화장 기준)']});
   y=tableC(x,X0,X1,y,R);
   const D=c.discounts||[], dsum=D.reduce((s,d)=>s+(+d.amount||0),0);
   if(D.length){ y=secHeadC(x,X0,y+8,'02','할인 내역');
@@ -708,7 +708,7 @@ async function funeralForm(f){
       '<p class="note" id="f-rn" hidden></p>'+
       '<div class="grid2"><div class="fld"><label class="lbl" for="f-cp">상주 연락처</label><input class="in" id="f-cp" type="tel" inputmode="tel" autocomplete="off"></div><div class="fld"><label class="lbl" for="f-rg">종교</label><select class="in" id="f-rg"><option value="">없음</option><option>기독교</option><option>천주교</option><option>불교</option><option>원불교</option><option>기타</option></select></div></div></section>'+
     '<section class="sec"><h2 class="sec-h"><span class="no">03</span>장례 방식 · 장소</h2>'+
-      '<div class="fld"><span class="lbl">상품 <span>(고르면 상품 구성이 채워져요)</span></span><div class="seg" role="group" aria-label="상품"><button type="button" data-ty="nob">무빈소장<br><small>139만원</small></button><button type="button" data-ty="fam">가족장<br><small>199만원</small></button></div></div>'+
+      '<div class="fld"><span class="lbl">상품 <span>(고르면 상품 구성이 채워져요)</span></span><div class="seg" role="group" aria-label="상품"><button type="button" data-ty="nob">무빈소장<br><small>145만원</small></button><button type="button" data-ty="fam">가족장<br><small>205만원</small></button></div></div>'+
       '<div class="fld"><span class="lbl">모시는 방식</span><div class="seg" role="group" aria-label="모시는 방식"><button type="button" data-fb="cre">화장</button><button type="button" data-fb="bur">매장</button></div></div>'+
       '<div class="grid2"><div class="fld"><label class="lbl" for="f-hl">장례식장</label><input class="in" id="f-hl" autocomplete="off"></div><div class="fld"><label class="lbl" for="f-rm">빈소 · 호실</label><input class="in" id="f-rm" autocomplete="off"></div></div>'+
       '<div class="grid2" id="f-crw"><div class="fld"><label class="lbl" for="f-cm">화장장</label><input class="in" id="f-cm" autocomplete="off"></div><div class="fld"><span class="lbl">관내 · 관외</span><div class="seg" role="group" aria-label="관내 관외"><button type="button" data-io="관내">관내</button><button type="button" data-io="관외">관외</button></div></div></div>'+
