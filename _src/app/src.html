@@ -388,6 +388,8 @@ const SVC_ROWS=f=>[['장례지도사','1명',f?'3일 동안 장례를 처음부�
 const KM_WON=1800, STAFF_WON=120000, MOURN=[50000,30000];
 const SUP={kind:'sup',name:'수급자 · 국가유공자',amount:200000}, CPD={kind:'cp',name:'사전 상담 감사 할인권',amount:100000};
 const SUP_SUB='장례 때 확인 서류를 보고 빼 드려요', CP_SUB='카카오톡 채널 친구 · 기한 없음 · 수급자 할인과 함께 · 장례 한 번에 한 장 · 현금으로 바꿀 수 없어요';
+/* 가입증서(손님에게 가는 글)는 「~습니다」 말투 (2026-11-23 사용자 지시) */
+const SUP_SUB_F='장례 때 확인 서류를 보고 빼 드립니다', CP_SUB_F='카카오톡 채널 친구 · 기한 없음 · 수급자 할인과 함께 · 장례 한 번에 한 장 · 현금으로 바꿀 수 없습니다';
 function BASE(t,b){ const f=t==='fam', bur=b==='bur';
   return {coffin:bur?'c3':'c1',shroud:'s1',ipgwan:bur?'i3':'i1',binso:f?'b1':'none',car:'v2',staff:f?[1,1]:[0,0],mourn:f?[2,2]:[0,0]}; }
 const opt=(g,id)=>PRICE[g].find(o=>o[0]===id);
@@ -710,11 +712,11 @@ function certText(c){ const o=[], D=c.discounts||[], ds=D.reduce((s,x)=>s+(+x.am
   o.push('[나만의장례] 후불제 상조 가입증서', c.client_name+' 님, 가입해 주셔서 고맙습니다.', '');
   o.push('· 증서 번호: '+c.cert_no, '· 가입일: '+fmtDot(c.joined_on));
   if(c.target_name||c.relation) o.push('· 모실 분: '+(c.target_name?c.target_name+' 님'+(c.relation?' ('+c.relation+')':''):c.relation));
-  o.push('· 상품: '+(on?PROD[c.product].n+' '+man(pa)+' ('+(c.burial==='bur'?'매장':'화장')+' 기준)':'상담 때 함께 정해요 (무빈소장 145만원 · 가족장 205만원, 화장 기준)'));
+  o.push('· 상품: '+(on?PROD[c.product].n+' '+man(pa)+' ('+(c.burial==='bur'?'매장':'화장')+' 기준)':'상담 때 함께 정합니다 (무빈소장 145만원 · 가족장 205만원, 화장 기준)'));
   if(D.length){ o.push('· 할인 내역'); D.forEach(x=>o.push('  - '+x.name+' −'+man(+x.amount)+(x.code?' (번호 '+x.code+')':''))); if(c.cond) o.push('  - 조건: '+c.cond); o.push('  → 할인 합계 −'+man(ds)+(on?' · 할인 뒤 상품 금액 '+man(Math.max(0,pa-ds)):'')); }
-  o.push('', '가입비 · 월 납입금이 없어요. 미리 내시는 돈 없이 장례를 마친 뒤 한 번에 정산해요.', '첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.');
+  o.push('', '가입비 · 월 납입금이 없습니다. 미리 내시는 돈 없이 장례를 마친 뒤 한 번에 정산합니다.', '첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.');
   if(c.note) o.push('', c.note);
-  o.push('', '장례가 발생하시면 24시간 1661-4214로 전화 주시고, 증서 번호나 가입하신 분 성함을 말씀해 주세요.');
+  o.push('', '장례가 발생하시면 24시간 1661-4214로 전화 주시고, 증서 번호나 가입하신 분 성함을 말씀해 주십시오.');
   o.push('담당 '+[c.owner_name,telFmt(c.owner_phone)].filter(Boolean).join(' '), 'www.myfuneral.co.kr · 카카오톡 @나만의장례');
   return o.join('\n'); }
 
@@ -742,7 +744,7 @@ function tableC(x,X0,X1,y,rows){ const KW=210, VX=X0+KW+24, top=y;
     y+=h; x.fillStyle=LINE; x.fillRect(X0,y-1,X1-X0,1.5); });
   x.fillStyle=LINE; x.fillRect(X0+KW-0.75,top,1.5,y-top); x.strokeStyle=DARK; x.lineWidth=2.5; x.strokeRect(X0,top,X1-X0,y-top); return y; }
 async function drawCert(c){
-  const txt='가입증서후불제상조소규모가족장무빈소장전문직영장례지도사비월납입금없이마친뒤정산하는증번호일정보하신분휴대폰모실님관계상품화장매장기준금액이에요상담때함께해요할인내역조건합계에서빼드려요구성을바꾸시면달라져요식장지쓰신만큼따로첫견적끝부당한추가요금은200%돌려니다가없어요미리내는돈번에발생하365시간전화통저희다맡아나성함말씀해주세요1661-4214위께서나만의장례가입셨음확인합년월담당www.myfuneral.co.kr카카오톡@대표0123456789,.−()○·'+JSON.stringify(c);
+  const txt='입니다습니까십시오모두맡습니다집니다정합니다드립니다없습니다가입증서후불제상조소규모가족장무빈소장전문직영장례지도사비월납입금없이마친뒤정산하는증번호일정보하신분휴대폰모실님관계상품화장매장기준금액이에요상담때함께해요할인내역조건합계에서빼드려요구성을바꾸시면달라져요식장지쓰신만큼따로첫견적끝부당한추가요금은200%돌려니다가없어요미리내는돈번에발생하365시간전화통저희다맡아나성함말씀해주세요1661-4214위께서나만의장례가입셨음확인합년월담당www.myfuneral.co.kr카카오톡@대표0123456789,.−()○·'+JSON.stringify(c);
   if(document.fonts&&document.fonts.load) await Promise.all(['500 30px "IBM Plex Sans KR"','700 30px "IBM Plex Sans KR"','900 76px "Noto Serif KR"','700 44px "Noto Serif KR"'].map(f=>document.fonts.load(f,txt).catch(()=>null)));
   await Promise.all([logoReady,stampReady]);
   const W=1080, X0=96, X1=W-96, cv=document.createElement('canvas'); cv.width=W; cv.height=4200; const x=cv.getContext('2d');
@@ -759,21 +761,21 @@ async function drawCert(c){
   const R=[{k:'가입하신 분',v:c.client_name+' 님'}]; if(c.client_phone) R.push({k:'휴대폰',v:telMask(c.client_phone)});
   if(c.target_name) R.push({k:'모실 분',v:c.target_name+' 님'+(c.relation?' ('+c.relation+')':'')}); else if(c.relation) R.push({k:'모실 분',v:c.relation});
   const on=c.product!=='und', pa=on?PROD[c.product].p[c.burial]*10000:0;
-  if(on) R.push({k:'상품',v:PROD[c.product].n+' · '+(c.burial==='bur'?'매장':'화장'),a:won(pa),sub:[PROD[c.product].inc,'가입일 기준 금액이에요']});
-  else R.push({k:'상품',v:'상담 때 함께 정해요',sub:['무빈소장 145만원 · 가족장 205만원 (화장 기준)']});
+  if(on) R.push({k:'상품',v:PROD[c.product].n+' · '+(c.burial==='bur'?'매장':'화장'),a:won(pa),sub:[PROD[c.product].inc,'가입일 기준 금액입니다']});
+  else R.push({k:'상품',v:'상담 때 함께 정합니다',sub:['무빈소장 145만원 · 가족장 205만원 (화장 기준)']});
   y=tableC(x,X0,X1,y,R);
   const D=c.discounts||[], dsum=D.reduce((s,d)=>s+(+d.amount||0),0);
   if(D.length){ y=secHeadC(x,X0,y+8,'02','할인 내역');
-    const DR=D.map(d=>({k:'할인',v:d.name,a:'−'+won(+d.amount),sub:d.kind==='sup'?[SUP_SUB]:(d.kind==='cp'?[(d.code?'번호 '+d.code+' · ':'')+CP_SUB]:[])}));
+    const DR=D.map(d=>({k:'할인',v:d.name,a:'−'+won(+d.amount),sub:d.kind==='sup'?[SUP_SUB_F]:(d.kind==='cp'?[(d.code?'번호 '+d.code+' · ':'')+CP_SUB_F]:[])}));
     if(c.cond) DR.push({k:'조건',v:c.cond});
-    DR.push({k:'할인 합계',v:'정산 때 빼 드려요',a:'−'+won(dsum),strong:1});
-    if(on) DR.push({k:'할인 뒤 금액',v:PROD[c.product].n+' '+man(pa)+' − '+man(dsum),a:won(Math.max(0,pa-dsum)),strong:1,sub:['구성을 바꾸시면 달라져요','장례식장 · 화장장 · 장지 비용은 쓰신 만큼 따로']});
+    DR.push({k:'할인 합계',v:'정산 때 빼 드립니다',a:'−'+won(dsum),strong:1});
+    if(on) DR.push({k:'할인 뒤 금액',v:PROD[c.product].n+' '+man(pa)+' − '+man(dsum),a:won(Math.max(0,pa-dsum)),strong:1,sub:['구성을 바꾸시면 달라집니다','장례식장 · 화장장 · 장지 비용은 쓰신 만큼 따로']});
     y=tableC(x,X0,X1,y,DR); }
   y+=36; const ph=110; x.fillStyle='#f1f1ee'; x.fillRect(X0,y,X1-X0,ph); x.fillStyle=DARK; x.fillRect(X0,y,6,ph);
-  x.textAlign='left'; x.fillStyle=INK; x.font=fnt(700,28); x.fillText('첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다',X0+30,y+48); x.font=fnt(500,25); x.fillStyle=INK2; x.fillText('미리 내시는 돈 없이 장례를 모두 마친 뒤 한 번에 정산해요.',X0+30,y+88); y+=ph;
+  x.textAlign='left'; x.fillStyle=INK; x.font=fnt(700,28); x.fillText('첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다',X0+30,y+48); x.font=fnt(500,25); x.fillStyle=INK2; x.fillText('미리 내시는 돈 없이 장례를 모두 마친 뒤 한 번에 정산합니다.',X0+30,y+88); y+=ph;
   y+=24; const ch=172; x.fillStyle=DARK; x.fillRect(X0,y,X1-X0,ch);
   x.textAlign='left'; x.fillStyle='#fff'; x.font=fnt(700,28); x.fillText('장례가 발생하시면',X0+36,y+58);
-  x.font=fnt(500,23); x.fillStyle='#d8d8d4'; x.fillText('365일 24시간 · 전화 한 통이면 저희가 다 맡아요',X0+36,y+98); x.fillText('증서 번호나 성함을 말씀해 주세요',X0+36,y+134);
+  x.font=fnt(500,23); x.fillStyle='#d8d8d4'; x.fillText('365일 24시간 · 전화 한 통이면 저희가 모두 맡습니다',X0+36,y+98); x.fillText('증서 번호나 성함을 말씀해 주십시오',X0+36,y+134);
   x.textAlign='right'; x.fillStyle='#fff'; x.font=fnt(900,64,SERIF); x.fillText('1661-4214',X1-36,y+110); y+=ch;
   if(c.note){ y+=24; const ls=[]; String(c.note).split(/\n/).forEach(t=>wrapT(x,t,X1-X0-56,fnt(500,26)).forEach(s=>ls.push(s))); const h=66+ls.length*38;
     x.strokeStyle=INK; x.lineWidth=2; x.strokeRect(X0,y,X1-X0,h); x.textAlign='left'; x.font=fnt(700,22); x.fillStyle=MUTE; x.fillText('담당자가 전하는 말',X0+28,y+38); x.font=fnt(500,26); x.fillStyle=INK; ls.forEach((t,i)=>x.fillText(t,X0+28,y+80+i*38)); y+=h; }
