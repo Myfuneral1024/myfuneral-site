@@ -899,7 +899,7 @@ const DX_TYPES={
 };
 /* 입관용품 : [묶음 이름, 작은 이름, [[키, 이름, 설명, 금액, 꼭 쓰는 것, 늘릴 수 있는 수]…]] — 상품마다 같고, 모두 1개씩 들어 있어요 */
 const DX_GOODS_AMT=150000;   /* 입관용품 50여 가지 · 두 상품 같음 */
-const DX_STAFF={"nob":{"dir":["장례지도사 1명","처음 상담부터 화장 · 장지까지 장례를 맡아요",150000],"ipg":["입관지도사 2명","고인을 씻겨 드리고 수의를 입혀 입관을 모셔요 · 1명 7만원",140000]},"fam":{"dir":["장례지도사 1명","3일 동안 곁에서 처음부터 끝까지 장례를 맡아요",300000],"ipg":["입관지도사 2명","고인을 씻겨 드리고 수의를 입혀 입관을 모셔요 · 1명 7만원",140000]}};
+const DX_STAFF={"nob":{"dir":["장례지도사 1명","처음 상담부터 화장 · 장지까지 장례를 맡아요",150000],"ipg":["입관지도사 2명","고인을 씻겨 드리고 수의를 입혀 입관을 모셔요 · 1명 10만원",200000]},"fam":{"dir":["장례지도사 1명","3일 동안 곁에서 처음부터 끝까지 장례를 맡아요",300000],"ipg":["입관지도사 2명","고인을 씻겨 드리고 수의를 입혀 입관을 모셔요 · 1명 10만원",200000]}};
 const DX_COFFIN={cre:['화장용 오동나무관',200000],bur:['매장용 오동나무관',300000]};
 /* 줄 : g 구분(견적) · n 이름 · s 작은 글 · p 한 개 금액 · lock 꼭 있어야 함(− · + 없음) · max 늘릴 수 있는 수 · u 단위
    rows : 인원 · 벌 수를 날짜 · 성별로 나눠 셈 · steps : 정해진 단계(헌화 30 · 50송이) */
@@ -1125,7 +1125,7 @@ function dxStepQ(id,d){
 function estLines(){
   const L=[];
   dxKeys().forEach(k=>{ const D=DX_L[k];
-    if(dxIsLock(k)){ L.push([D.g,dxBaseAmt(k),'',null,k==='dir'?'1명':k==='ipg'?'2명':k==='goods'?'50여 가지':dxName(k),k==='coffin'?null:k==='goods'?'수시 · 염습 · 입관 · 발인에 쓰는 용품':dxSubText(k).replace(/ · 1명 7만원$/,'')]); return; }
+    if(dxIsLock(k)){ L.push([D.g,dxBaseAmt(k),'',null,k==='dir'?'1명':k==='ipg'?'2명':k==='goods'?'50여 가지':dxName(k),k==='coffin'?null:k==='goods'?'수시 · 염습 · 입관 · 발인에 쓰는 용품':dxSubText(k).replace(/ · 1명 10만원$/,'')]); return; }
     const n=dxNowAmt(k), b=dxBaseAmt(k); if(!n) return;
     if(D.rows){ L.push([D.g,n,'',null,dxCntText(k),(k==='staff'?'1인 12만원':'남성용 5만원 · 여성용 3만원')+(n!==b?(b?' · 상품 구성보다 '+dSMan(n-b):' · 더하신 것'):'')]); return; }
     const nm=D.steps?dxQText(k):k==='daer'&&DX.q.flower===0?'궁중대렴 (꽃장식 없이)':(D.en||D.n);
