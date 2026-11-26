@@ -927,10 +927,12 @@ const DX_L={
   ipg:{g:'입관지도사',lock:1},
   goods:{g:'입관용품',lock:1},
   coffin:{g:'관',lock:1},
-  shroud:{g:'수의',n:'면수의',s:'무명(면)으로 지은 기본 수의예요',p:150000,max:1,u:'벌',zero:'자가수의 사용'},
-  flower:{g:'입관',n:'입관 생화 꽃장식',en:'생화 꽃장식',s:'관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',p:200000,max:1,u:''},
-  daer:{g:'입관',n:'궁중대렴',s:'수의를 입혀 드린 고인을 베로 감싸 정성껏 묶어 드려요 · 꽃장식과 함께면 10만원',max:1,u:''},
-  hh:{g:'빈소 헌화',n:'빈소 헌화',s:'조문객이 영정 앞에 올리는 국화',steps:[['없음',0],['30송이',50000],['50송이',70000]]},
+  shroud:{g:'수의',n:'수의',opts:[1,2,3,0],steps:[['자가수의',0],['기본 · 면수의',150000],['중급 · 저마수의',200000],['고급 · 대마수의',600000]],
+    z0:'미리 준비해 두셨다면',note:'지역에 따라 들어오는 수의가 조금 다를 수 있어서, 상담&nbsp;때 실물을 보여 드리고 정해요.',
+    sd:['미리 준비해 두신 수의(자가수의)로 모셔요','무명(면)으로 지은 기본 수의예요','모시풀에서 얻은 모시로 지은 수의예요 · 가볍고 시원한 결이에요','삼베로 지은 수의예요 · 바람이 잘 통하는 옷감이에요']},
+  flower:{g:'입관',n:'입관 생화 꽃장식',en:'생화 꽃장식',s:'관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',p:200000,max:1,u:'',pick:1},
+  daer:{g:'입관',n:'궁중대렴',s:'수의를 입혀 드린 고인을 베로 감싸 정성껏 묶어 드려요 · 꽃장식과 함께면 10만원',max:1,u:'',pick:1},
+  hh:{g:'빈소 헌화',n:'빈소 헌화',s:'조문객이 영정 앞에 올리는 국화',steps:[['없음',0],['30송이',50000],['50송이',70000]],opts:[1,2,0],ol:['헌화 안 함'],z0:'분향만 하셔도 돼요'},
   limo:{g:'장의 차량',n:'리무진 (편도)',s:'1차 장지 또는 화장장까지 고인을 모셔요 · 40만원',p:400000,max:1,u:'대',alt:'van',pick:1},
   van:{g:'장의 차량',n:'스타리아 · 카니발',s:'리무진 대신 고인을 모시는 차예요 · 30만원',p:300000,max:1,u:'대',alt:'limo',pick:1},
   bus:{g:'장의 차량',n:'장의버스 (왕복)',s:'가족과 조문객이 함께 타고 다녀와요 · 40만원',p:400000,max:1,u:'대',pick:1},
@@ -982,6 +984,7 @@ function dxSubText(k){ const L=DX_L[k];
   if(k==='dir'||k==='ipg') return DX_STAFF[DX.type][k][1];
   if(k==='coffin') return '꼭 있어야 해서 빼지 않아요';
   if(k==='goods') return '수시포 · 칠성판 · 염포 · 습신 · 관보 · 명정 · 위패처럼 염습과 입관에 쓰는 것 모두';
+  if(k==='shroud'){ const q=DX.q.shroud===undefined?1:DX.q.shroud; return L.sd[q]; }
   if(k==='daer') return DX.q.flower===0?(DX.q.daer?'꽃장식 없이 궁중대렴만 하시면 20만원이에요':'수의를 입혀 드린 고인을 베로 감싸 정성껏 묶어 드려요 · 꽃장식 없이 하시면 20만원'):L.s;
   return L.s; }
 function dxCntText(k,v){ const L=DX_L[k]; v=v||DX.q[k];
@@ -1019,16 +1022,23 @@ function dxCntHTML(k){
     L.rows.map((r,i)=>'<div class="pl-st"><span class="l">'+r[0]+'<small>1'+L.u+' '+dMan(r[1])+'</small></span>'+dxStep(k+':'+i,r[0])+'</div>').join('')+
     '<p class="pl-diff" id="d-'+k+'"></p></div>';
 }
+/* 고르는 줄 (수의) : 하나만 골라요 · 수량이 아니라 선택 (2026-11-26 사용자 지시) */
+function dxOptHTML(k){
+  const L=DX_L[k], b=L.steps[dxBaseQ(k)][1];
+  return '<div class="pl-opt wide sh" role="group" aria-label="'+L.n+' 고르기" style="--n:'+(L.opts.length>3?2:L.opts.length)+'">'+L.opts.map(i=>{ const st=L.steps[i], d=st[1]-b;
+    return '<button type="button" data-opt="'+k+':'+i+'" aria-pressed="false"><span class="ck" aria-hidden="true"></span><b>'+dNb((L.ol&&L.ol[i])||st[0])+'</b><span class="p">'+(st[1]?dMan(st[1]):'공제 '+dMan(-b))+'</span><small>'+(i===dxBaseQ(k)?'상품에 들어 있어요':st[1]?'상품보다 '+dSMan(d):L.z0)+'</small></button>'; }).join('')+
+    (L.note?'<p class="pl-cnote">'+L.note+'</p>':'')+'</div>';
+}
 function dxRowHTML(k){
   const L=DX_L[k], lock=dxIsLock(k);
   let act='';
   if(lock) act='<span class="pl-fix">꼭 필요해요</span>';
   else if(L.pick) act='<button type="button" class="pl-pick" data-pick="'+k+'" aria-pressed="false" aria-label="'+dEsc(L.n)+' 고르기"><span class="ck" aria-hidden="true"></span><span class="lb">선택</span></button>';
-  else if(!L.rows) act=dxStep(k,L.n);
-  return '<li class="pl-row'+(L.rows?' has-cnt':'')+'" id="pl-'+k+'">'+
+  else if(!L.rows&&!L.opts) act=dxStep(k,L.n);
+  return '<li class="pl-row'+(L.rows?' has-cnt':'')+(L.opts?' has-opt':'')+'" id="pl-'+k+'">'+
     '<span class="pl-t"><span class="pl-tt">'+dNb(dxName(k))+'</span></span><small class="pl-s">'+dNb(dxSubText(k))+'</small>'+
     '<span class="pl-amt"></span><span class="pl-act">'+act+'</span>'+
-    (L.rows?dxCntHTML(k):'')+
+    (L.rows?dxCntHTML(k):'')+(L.opts?dxOptHTML(k):'')+
     (DX_HONEST[k]?'<div class="dx-fold"><div><p class="pl-honest">'+DX_HONEST[k]+'</p></div></div>':'')+
   '</li>';
 }
@@ -1039,11 +1049,11 @@ function dxBuild(){
     '<div class="dx-prod-top"><p class="dx-prod-tag">고르신 상품 · '+dEsc(t.tag)+'</p>'+
     '<div class="dx-prod-hd"><h3 class="dx-prod-name" id="dx-prod-name">'+t.name+'</h3><p class="dx-prod-price"><b>'+dxTotal().toLocaleString('ko-KR')+'</b>원</p></div>'+
     '<p class="dx-prod-desc">'+dEsc(t.desc)+'</p></div>'+
-    '<div class="pl-h"><b>상품 구성</b><small>− 로 빼시면 100% 공제, + 로 더하실 수 있어요</small></div>'+
+    '<div class="pl-h"><b>상품 구성</b><small>고르신 것만 금액에 들어가요 · 빼시면 100% 공제</small></div>'+
     '<ul class="pl">'+DX_SECS[DX.type].map(s=>'<li class="pl-gh" aria-hidden="true">'+s[0]+'</li>'+(s[0]==='장의 차량'?'<li class="pl-ghn">'+(DX.type==='nob'?'리무진과 스타리아&nbsp;· 카니발 중 하나, 장의버스는 함께 고르실 수 있어요. 차가 필요 없으시면 모두 빼셔도 돼요.':'리무진과 장의버스 중 하나만, 또는 둘 다 고르실 수 있어요.')+'</li>':'')+s[1].map(dxRowHTML).join('')).join('')+
       '<li class="pl-gh" aria-hidden="true">무료</li><li class="pl-row free"><span class="pl-t"><span class="pl-tt">무료로 해 드리는 것</span></span><small class="pl-s">고인 이송 차량&nbsp;· 모바일 부고&nbsp;· 장지 안내&nbsp;· 화장 예약</small><span class="pl-amt free">무료</span><span class="pl-act"></span></li>'+
     '</ul>'+
-    '<p class="pl-note">장례지도사 · 입관지도사 · 입관용품과 관은 꼭 있어야 해서 빼지 않아요. 쓰지 않으실 것은 −&nbsp;를 누르시면 금액 그대로 100% 공제되고, 더 필요하신 것은 +&nbsp;로 더하시면 돼요. 수의를 미리 준비해 두셨다면 수의를 −&nbsp;로 빼 주세요(자가수의). 수의와 관을 더 좋은 것으로 바꾸고 싶으시면 <a href="#upgrade" data-a="up">바꾸실 수 있는 수의 · 관</a>을 봐 주세요.</p>';
+    '<p class="pl-note">장례지도사 · 입관지도사 · 입관용품과 관은 꼭 있어야 해서 빼지 않아요. 쓰지 않으실 것은 선택을 끄시거나 −&nbsp;를 누르시면 금액 그대로 100% 공제되고, 더 필요하신 것은 고르시거나 +&nbsp;로 더하시면 돼요. 수의는 면 · 저마 · 대마 중에 골라 주시고, 미리 준비해 두셨다면 「자가수의」를 골라 주세요. 관을 더 좋은 것으로 바꾸고 싶으시면 <a href="#upgrade" data-a="up">바꾸실 수 있는 수의 · 관</a>을 봐 주세요.</p>';
   dxKeys().forEach(k=>dxUpdRow(k,true));
   const up=$('[data-a="up"]',$('#dx-prod')); if(up) up.addEventListener('click',dxGoUp);
 }
@@ -1054,18 +1064,19 @@ function dxUpdRow(k,init){
   const r=$('#pl-'+k); if(!r) return;
   const L=DX_L[k], a=$('.pl-amt',r), prev=a.innerHTML;
   if(dxIsLock(k)){ a.innerHTML=dWon(dxBaseAmt(k)); $('.pl-tt',r).textContent=dxName(k); return; }
-  const b=dxBaseAmt(k), n=dxNowAmt(k), q=DX.q[k], off=b>0&&n===0;
+  const b=dxBaseAmt(k), n=dxNowAmt(k), q=DX.q[k], cut=b>0&&n===0, off=cut&&!L.opts;   /* 자가수의는 고른 것이라 줄을 긋지 않아요 */
   r.classList.toggle('off',off); r.classList.toggle('add',b===0&&n===0);
-  a.innerHTML=off?'<span class="minus">공제 '+dMan(-b)+'</span>':b===0&&n===0?'<span class="zero">0원</span>':dWon(n);
+  a.innerHTML=cut?'<span class="minus">공제 '+dMan(-b)+'</span>':b===0&&n===0?'<span class="zero">0원</span>':dWon(n);
   if(prev!==a.innerHTML) dxAnim(a,init);
   if(k==='daer'||k==='shroud'){ const s=$('.pl-s',r); if(s) s.innerHTML=dNb(dxSubText(k)); }
   if(L.rows){ q.forEach((n,i)=>dxSetStep(k+':'+i,n+L.u,n<=0,n>=L.max));
     const d=n-b, bt=dxCntText(k,dxBaseQ(k)), same=String(q)===String(dxBaseQ(k));
     $('#d-'+k).innerHTML=same?(b?'상품 구성 그대로예요':'필요하시면 + 로 더해 주세요'):d?(b?'상품 구성('+dNb(bt)+')보다 ':'')+'<b>'+dSMan(d)+'</b>':'상품 구성('+dNb(bt)+')과 금액이 같아요'; }
+  else if(L.opts) $$('[data-opt]',r).forEach(bt=>bt.setAttribute('aria-pressed',String(+bt.dataset.opt.split(':')[1]===q)));
   else if(L.steps) dxSetStep(k,dxQText(k),q<=0,q>=L.steps.length-1);
   else if(L.pick){ const pb=$('[data-pick="'+k+'"]',r); if(pb){ pb.setAttribute('aria-pressed',String(!!q)); $('.lb',pb).textContent=q?'선택함':'선택'; } r.classList.toggle('pl-on',!!q); }
   else dxSetStep(k,dxQText(k),q<=0,q>=L.max);
-  const f=$('.dx-fold',r); if(f) f.classList.toggle('open',off&&!(k==='limo'&&DX.q.van));
+  const f=$('.dx-fold',r); if(f) f.classList.toggle('open',cut&&!(k==='limo'&&DX.q.van));
 }
 function dxUpdTypePrices(){ Object.keys(DX_TYPES).forEach(t=>{ const el=$('[data-tp="'+t+'"]'); if(el) el.innerHTML=(dxTotal(t)/10000)+'<small>만원</small>'; }); }
 
@@ -1130,6 +1141,9 @@ function dxUpdUrn(){
   $('#dx-urn').hidden=DX.burial==='bur';
   $('#dx-bur-n').textContent=DX.burial==='bur'?'매장하시면 관이 매장용 오동나무관(30만원)으로 바뀌고, 궁중대렴을 기본으로 넣어 드려요. 유골함은 필요 없어요. 묘지 비용은 따로예요.':'두 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.';
 }
+function dxSetOpt(k,i){ const L=DX_L[k]; if(!L||!L.opts||DX.q[k]===i) return; DX.q[k]=i;
+  if(k==='shroud'&&i===0) toast('자가수의로 모시고, 면수의 금액을 공제했어요');
+  dxUpdRow(k); dxUpdSum(); }
 /* − · + 누름 : id = 키 · 키:줄번호 */
 function dxStepQ(id,d){
   const p=id.split(':');
@@ -1278,7 +1292,7 @@ function dxEstHTML(){
     '<div class="keep-box" role="note"><p class="keep-t">이 견적, 꼭 저장해 두세요</p><p>현장에서 보여 주시면 이 금액 그대로 진행해 드려요. 첫 견적이 끝 견적이고, 미리 내는 돈 없이 장례를 마친 뒤 정산해요.</p>'+
       '<div class="est-who"><div class="fld"><label for="est-nm">견적에 넣을 성함 <span>(선택)</span></label><input id="est-nm" class="in" autocomplete="name" enterkeyhint="done"></div><p class="note">넣으시면 견적 이미지와 복사 글 맨 위에 「○○○ 고객님」으로 들어가요. 어디에도 저장되지 않아요.</p></div>'+
       '<button type="button" class="btn btn-primary" data-a="img">견적 이미지 저장</button></div>'+
-    '<p class="note wz-link">수의와 관은 더 좋은 것으로 바꾸실 수도 있어요. 상담 때 말씀해 주시면 상품에 든 것과의 차액만 더해 견적에 적어 드려요. <a href="#upgrade" data-a="up">바꾸실 수 있는 수의 · 관</a></p>'+
+    '<p class="note wz-link">수의는 위 상품 구성에서 고르실 수 있고, 관은 더 좋은 것으로 바꾸실 수도 있어요. 상담 때 말씀해 주시면 상품에 든 것과의 차액만 더해 견적에 적어 드려요. <a href="#upgrade" data-a="up">바꾸실 수 있는 수의 · 관</a></p>'+
     '<p class="note wz-link">미리 내는 돈 없이 장례를 마친 뒤 정산해요. <a href="#prepaid" data-a="prepaid">일반 선불식 상조와 무엇이 다른가요?</a></p>'+
     (cpType()?'<div class="cp-box"></div>':'')+
     '<div class="acts2"><a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><a class="btn btn-line" data-a="talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>견적 보내고 카톡 상담</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button></div>'+
@@ -1316,6 +1330,7 @@ function bindPrice(){
     if(b.dataset.bur){ dxSetBurial(b.dataset.bur); return; }
     if(b.dataset.q){ const q=b.dataset.q, i=q.lastIndexOf(':'); dxStepQ(q.slice(0,i),+q.slice(i+1)); return; }
     if(b.dataset.pick){ const k=b.dataset.pick; dxStepQ(k,DX.q[k]?-1:1); return; }
+    if(b.dataset.opt){ const o=b.dataset.opt.split(':'); dxSetOpt(o[0],+o[1]); return; }
     if(b.hasAttribute('data-est')){ dxShowEst(); return; }
     if(b.hasAttribute('data-back')){ dxBackEst(); return; }
   });

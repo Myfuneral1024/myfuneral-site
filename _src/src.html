@@ -914,6 +914,18 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 /* 상품 구성 묶음 제목 · − + (2026-11-23) */
 .pl-gh{padding:18px 0 6px;font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.02em;border-bottom:1px solid var(--line)}
 .pl-ghn{padding:8px 0 2px;font-size:14px;line-height:1.55;color:var(--ink2)}
+/* 수의 고르기 (수량 대신 선택, 하나만) */
+.pl-opt.sh{grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.pl-opt.sh{grid-template-columns:repeat(var(--n,2),minmax(0,1fr))}}
+.pl-opt.sh button{grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:10px;border:1.5px solid var(--edge);padding:10px 12px;transition:background-color .2s,border-color .2s,color .2s}
+.pl-opt.sh button .ck{width:18px;height:18px;border:2px solid var(--edge);border-radius:50%;position:relative;transition:border-color .2s,background-color .2s}
+.pl-opt.sh button small{grid-column:2 / -1;margin-top:1px}
+.pl-opt.sh button[aria-pressed="true"]{border:1.5px solid #252525;padding:10px 12px;background:#252525;color:#fff}
+.pl-opt.sh button[aria-pressed="true"] small{color:rgba(255,255,255,.78)}
+.pl-opt.sh button[aria-pressed="true"] .ck{border-color:#fff;background:#fff}
+.pl-opt.sh button[aria-pressed="true"] .ck::after{content:"";position:absolute;left:5px;top:1px;width:4px;height:9px;border:solid #252525;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+@media (hover:hover){.pl-opt.sh button[aria-pressed="false"]:hover{border-color:var(--ink)}}
+.pl-row.has-opt .pl-amt .minus{white-space:nowrap}
 /* 장의 차량 고르기 (수량 대신 선택) */
 .pl-pick{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:104px;padding:0 14px;border:1.5px solid var(--edge);border-radius:4px;background:var(--surface);color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s}
 .pl-pick .ck{width:18px;height:18px;border:2px solid var(--edge);border-radius:3px;position:relative;flex:none;transition:border-color .2s,background-color .2s}
@@ -1013,7 +1025,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 .dx-est .acts2{display:flex;flex-wrap:wrap;gap:10px}
 
 @media (prefers-reduced-motion: reduce){
-  .dx-fold,.pl-tt::after,.pl-t,.dx-step button,.dx-bar,.dx-type,.dx-type .ck,.dx-type .inc,.dx-type .dx-go,.dx-seg button,.pl-btn,.pl-pick,.pl-pick .ck{transition:none}
+  .dx-fold,.pl-tt::after,.pl-t,.dx-step button,.dx-bar,.dx-type,.dx-type .ck,.dx-type .inc,.dx-type .dx-go,.dx-seg button,.pl-btn,.pl-pick,.pl-pick .ck,.pl-opt.sh button,.pl-opt.sh button .ck{transition:none}
 }
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
@@ -1120,10 +1132,10 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 
     <div class="sec">
       <h2>상품에서 시작해, 우리 가족에 꼭 맞게</h2>
-      <ol class="fit3"><li><b>상품에서 시작해요</b><span>빈소 없이 모시는 무빈소장과 빈소를 차리는 가족장 가운데, 가족분들께 맞는 상품을 고르시면 돼요.</span></li><li><b>쓰지 않는 것은 −, 100% 공제</b><span>꽃장식 · 헌화 · 장의 차량 · 도우미 · 상복 가운데 쓰지 않으실 것은 금액 그대로 공제해 드려요. 수의를 미리 준비해 두셨다면 수의 금액도 공제돼요.</span></li><li><b>더 필요한 것은 +</b><span>도우미 · 상복 · 헌화 · 장의버스는 필요한 만큼 더하시면 돼요. 수의와 관은 상담 때 더 좋은 것으로 바꾸실 수도 있어요.</span></li></ol>
+      <ol class="fit3"><li><b>상품에서 시작해요</b><span>빈소 없이 모시는 무빈소장과 빈소를 차리는 가족장 가운데, 가족분들께 맞는 상품을 고르시면 돼요.</span></li><li><b>쓰지 않는 것은 빼고, 100% 공제</b><span>꽃장식 · 헌화 · 장의 차량 · 도우미 · 상복 가운데 쓰지 않으실 것은 금액 그대로 공제해 드려요. 수의를 미리 준비해 두셨다면 수의 금액도 공제돼요.</span></li><li><b>필요한 것은 고르고 더해요</b><span>수의는 면 · 저마 · 대마 가운데 고르시고, 도우미 · 상복 · 헌화 · 장의버스는 필요한 만큼 더하시면 돼요. 관은 상담 때 더 좋은 것으로 바꾸실 수도 있어요.</span></li></ol>
       <p class="sec-lead">장례지도사 · 입관지도사 · 입관용품부터 관 · 수의 · 차량까지, 상품마다 무엇이 들었는지 금액까지 다 보여 드려요.</p>
       <div class="bills"><div class="bill-tabs" role="radiogroup" aria-label="상품 고르기"><label><input type="radio" name="bill-k" value="nob" checked><span>무빈소장</span></label><label><input type="radio" name="bill-k" value="fam"><span>가족장</span></label></div><article class="bill" data-bill="nob" aria-label="무빈소장 상품에 들어 있는 것"><header class="bill-h"><h3>무빈소장</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례지도사</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">1명 · 처음 상담부터 화장 · 장지까지 장례를 맡아요</span></li><li><span class="bk">입관지도사</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">2명 · 염습과 입관을 모셔요</span></li><li><span class="bk">입관용품</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">50여 가지 · 수시포 · 칠성판 · 염포 · 습신 · 관보 · 명정 · 위패 …</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>40<small>만원</small></b><span class="bv">리무진 (편도)</span></li></ul><p class="bill-t"><span>합계</span><b>145<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="nob">이 상품으로 비용 보기</a></article><article class="bill" data-bill="fam" aria-label="가족장 (3일장) 상품에 들어 있는 것"><header class="bill-h"><h3>가족장 (3일장)</h3><span>화장 기준</span></header><ul class="bill-l"><li><span class="bk">장례지도사</span><i aria-hidden="true"></i><b>30<small>만원</small></b><span class="bv">1명 · 3일 동안 곁에서 처음부터 끝까지 장례를 맡아요</span></li><li><span class="bk">입관지도사</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">2명 · 염습과 입관을 모셔요</span></li><li><span class="bk">입관용품</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">50여 가지 · 수시포 · 칠성판 · 염포 · 습신 · 관보 · 명정 · 위패 …</span></li><li><span class="bk">관</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">화장용 오동나무관</span></li><li><span class="bk">수의</span><i aria-hidden="true"></i><b>15<small>만원</small></b><span class="bv">면수의</span></li><li><span class="bk">입관 꽃장식</span><i aria-hidden="true"></i><b>20<small>만원</small></b><span class="bv">생화</span></li><li><span class="bk">빈소 헌화</span><i aria-hidden="true"></i><b>5<small>만원</small></b><span class="bv">30송이</span></li><li><span class="bk">장의 차량</span><i aria-hidden="true"></i><b>40<small>만원</small></b><span class="bv">리무진 (편도)</span></li><li><span class="bk">접객 도우미</span><i aria-hidden="true"></i><b>24<small>만원</small></b><span class="bv">하루 1명씩 이틀</span></li><li><span class="bk">상복</span><i aria-hidden="true"></i><b>16<small>만원</small></b><span class="bv">남 2벌 · 여 2벌</span></li></ul><p class="bill-t"><span>합계</span><b>205<small>만원</small></b></p><a class="btn btn-line" href="#price" data-goto-type="fam">이 상품으로 비용 보기</a></article></div>
-      <p class="bills-more"><b>조문객이 많으셔도 가족장으로 모시면 돼요.</b> 접객 도우미 · 빈소 헌화 · 장의버스를 필요한 만큼 +&nbsp;로 더해 맞춰 드려요.</p>
+      <p class="bills-more"><b>조문객이 많으셔도 가족장으로 모시면 돼요.</b> 접객 도우미 · 빈소 헌화 · 장의버스를 필요한 만큼 더해 맞춰 드려요.</p>
       <dl class="bill-f"><div><dt>무료</dt><dd>고인 이송 차량 · 모바일 부고 · 장지 안내 · 화장 예약</dd></div><div><dt>따로</dt><dd>장례식장 시설 사용료 · 음식, 화장장 사용료, 장지 비용은 쓰신 만큼 따로 내시면 돼요. 유골함은 합계 밖 별도이고, 실제 카탈로그를 보시고 상담으로 정하시면 돼요.</dd></div></dl>
       <div class="actions"><a class="btn btn-primary" href="#price">우리 가족 비용 계산하기</a><a class="btn btn-line" href="#price" data-goto="upgrade">바꾸실 수 있는 수의 · 관</a></div>
     </div>
@@ -1173,7 +1185,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
         <details class="faq"><summary>비용은 언제 내나요?</summary><div class="faq-a">장례를 모두 마치신 뒤에 정산하시면 돼요. 계약할 때 미리 내실 돈은 없어요.</div></details>
         <details class="faq"><summary>선불식 상조와 무엇이 다른가요?</summary><div class="faq-a">선불식 상조는 가입한 뒤 매달 조금씩 미리 내고, 가입할 때 정한 상품대로 장례를 치러요. 저희는 필요한 것만 골라, 미리 내는 돈 없이 장례를 마친 뒤 정산해요. <a href="#price" data-goto="prepaid">자세히 비교해 보기</a></div></details>
         <details class="faq"><summary>쓰지 않는 항목은 정말 다 공제해 주나요?</summary><div class="faq-a">네. 쓰지 않으신 항목은 상품 금액에서 100% 공제해 드려요. 꽃장식 · 헌화 · 장의 차량 · 도우미 · 상복이 그래요. 수의를 미리 준비해 두셨다면(자가수의) 수의 금액도 공제해 드려요. 장례지도사 · 입관지도사 · 입관용품과 관은 꼭 있어야 해서 빼지 않아요.</div></details>
-        <details class="faq"><summary>상품에 든 것보다 좋은 것으로 바꿀 수 있나요?</summary><div class="faq-a">네. 수의와 관은 원하시면 상담 때 더 좋은 것으로 바꾸실 수 있어요. 상품에 든 것과의 차액만 더해지고, 견적에 그대로 적어 드려요. 도우미 · 상복 · 헌화 · 장의버스는 비용 계산에서 +&nbsp;로 바로 더하실 수 있어요. <a href="#price" data-goto="upgrade">바꾸실 수 있는 수의 · 관</a></div></details>
+        <details class="faq"><summary>상품에 든 것보다 좋은 것으로 바꿀 수 있나요?</summary><div class="faq-a">네. 수의는 비용 계산에서 면 · 저마 · 대마 가운데 바로 고르실 수 있고, 관은 원하시면 상담 때 더 좋은 것으로 바꾸실 수 있어요. 상품에 든 것과의 차액만 더해지고, 견적에 그대로 적어 드려요. 도우미 · 상복 · 헌화 · 장의버스도 비용 계산에서 바로 더하실 수 있어요. <a href="#price" data-goto="upgrade">바꾸실 수 있는 수의 · 관</a></div></details>
         <details class="faq"><summary>싼 만큼 무언가 빠지는 건 아닌가요?</summary><div class="faq-a">빠지는 건 쓰지 않으실 상품과 중간 마진뿐이에요. 직영 장례지도사가 처음부터 끝까지 맡고, 염습과 입관, 장지까지 함께 가는 것도 그대로예요.</div></details>
         <details class="faq"><summary>상담 때 들은 금액보다 더 나오지 않나요?</summary><div class="faq-a">첫 견적이 끝 견적이에요. 모든 품목과 비용을 미리 알려 드리고, 부당한 추가 요금은 200% 돌려 드립니다. 견적에 없던 금액을 미리 말씀드리지 않고 받았다면, 그 금액의 두 배를 돌려 드려요. 1661-4214로 말씀해 주세요.<br>장례식장 시설 사용료와 음식값, 화장장 사용료, 장지 비용은 쓰신 만큼 따로 내시면 돼요. 장의 차량은 200km까지가 기본이고, 넘으면 1km당 1,800원이 더해져요.</div></details>
         <details class="faq"><summary>빈소가 없으면 소홀하지 않을까요?</summary><div class="faq-a">아니에요. 빈소를 차리지 않는 것 말고는 똑같아요. 전담 장례지도사가 안치부터 입관, 발인까지 함께하고, 고인을 모시는 과정은 하나도 빼지 않아요.</div></details>
@@ -1316,7 +1328,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
               <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="nob"><span class="hd"><span class="t">무빈소장</span><span class="ck" aria-hidden="true"></span></span><span class="g">빈소 없이 가족끼리 조용히</span><span class="p" data-tp="nob">145<small>만원</small></span><span class="inc">장례지도사&nbsp;1명&nbsp;· 입관지도사&nbsp;2명&nbsp;· 입관용품&nbsp;50여&nbsp;가지&nbsp;· 관&nbsp;· 면수의&nbsp;· 입관&nbsp;꽃장식&nbsp;· 리무진</span><span class="dx-go"><span class="off">이 상품으로 계산하기</span><span class="on">고른 상품</span></span></button>
               <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="fam"><span class="hd"><span class="t">가족장 <small>3일장</small></span><span class="ck" aria-hidden="true"></span></span><span class="g">가족 · 가까운 친지와 함께</span><span class="p" data-tp="fam">205<small>만원</small></span><span class="inc">장례지도사(3일)&nbsp;· 입관지도사&nbsp;2명&nbsp;· 입관용품&nbsp;50여&nbsp;가지&nbsp;· 관&nbsp;· 면수의&nbsp;· 입관&nbsp;꽃장식&nbsp;· 리무진&nbsp;· 빈소&nbsp;헌화&nbsp;· 접객&nbsp;도우미&nbsp;· 상복</span><span class="dx-go"><span class="off">이 상품으로 계산하기</span><span class="on">고른 상품</span></span></button>
             </div>
-            <p class="dx-tnote">조문객이 많으시면 가족장을 고르신 뒤, 접객 도우미 · 빈소 헌화 · 장의버스를 +&nbsp;로 더하시면 돼요.</p>
+            <p class="dx-tnote">조문객이 많으시면 가족장을 고르신 뒤, 접객 도우미 · 빈소 헌화 · 장의버스를 더하시면 돼요.</p>
             <div class="dx-burial">
               <span id="dx-bur-l">모시는 방식</span>
               <div class="dx-seg" role="group" aria-labelledby="dx-bur-l"><button type="button" data-bur="cre" aria-pressed="true">화장</button><button type="button" data-bur="bur" aria-pressed="false">매장</button></div>
@@ -1348,7 +1360,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 
     <div class="sec" id="upgrade">
       <h2>수의와 관은 바꾸실 수도 있어요</h2>
-      <p class="sec-lead">접객 도우미 · 상복 · 빈소 헌화 · 장의버스 · 궁중대렴은 위 상품 구성에서 +&nbsp;로 바로 더하실 수 있어요. 수의와 관은 실물을 보시고 정하시는 게 좋아서, 더 좋은 것으로 바꾸고 싶으시면 상담 때 말씀해 주세요. 상품에 든 것과의 <b>차액만</b> 더해 견적에 그대로 적어 드려요.</p>
+      <p class="sec-lead">수의와 접객 도우미 · 상복 · 빈소 헌화 · 장의버스 · 궁중대렴은 위 상품 구성에서 바로 고르시거나 더하실 수 있어요. 관은 실물을 보시고 정하시는 게 좋아서, 더 좋은 것으로 바꾸고 싶으시면 상담 때 말씀해 주세요. 상품에 든 것과의 <b>차액만</b> 더해 견적에 그대로 적어 드려요.</p>
       <div class="tblwrap"><table class="wordtbl cmp up"><thead><tr><th>항목</th><th>상품에 든 것</th><th>원하시면 <span class="muted">(괄호는 차액)</span></th></tr></thead><tbody>
         <tr><td><b>수의</b></td><td data-l="상품에 든 것">기본 · 면수의 15만원</td><td data-l="원하시면"><div class="up-o"><span>중급 · 저마수의 20만원 <small>(+5만원)</small></span><span>고급 · 대마수의 60만원 <small>(+45만원)</small></span><span>자가수의를 쓰시면 공제 <small>(−15만원)</small></span></div></td></tr><tr><td><b>관 · 화장</b></td><td data-l="상품에 든 것">화장용 오동나무관 20만원</td><td data-l="원하시면"><div class="up-o"><span>특수관 30만원 <small>(+10만원)</small></span></div></td></tr><tr><td><b>관 · 매장</b></td><td data-l="상품에 든 것">매장용 오동나무관 30만원</td><td data-l="원하시면"><div class="up-o"><span>솔송관 80만원 <small>(+50만원)</small></span><span>향나무관 160만원 <small>(+130만원)</small></span></div></td></tr>
       </tbody></table></div>
@@ -1364,7 +1376,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
         <li>상품마다 장례지도사 1명 · 입관지도사 2명 · 입관용품 50여 가지가 들어 있고, 각각의 금액을 위 상품 구성에 적어 두었어요.</li>
         <li>쓰지 않으신 항목은 상품 금액에서 100% 공제해 드려요. 장례지도사 · 입관지도사 · 입관용품과 관은 꼭 있어야 해서 빼지 않아요.</li>
         <li>수의를 미리 준비해 두셨다면(자가수의) 그 수의로 모시고, 상품의 면수의 금액 15만원을 공제해 드려요.</li>
-        <li>도우미 · 상복 · 헌화 · 장의버스는 +&nbsp;로 더하시면 되고, 수의와 관은 상담 때 더 좋은 것으로 바꾸실 수 있어요. 상품에 든 것과의 차액만 더해져요. <a href="#upgrade">바꾸실 수 있는 수의 · 관</a></li>
+        <li>수의와 도우미 · 상복 · 헌화 · 장의버스는 위 상품 구성에서 바로 고르시거나 더하시면 돼요. 관은 상담 때 더 좋은 것으로 바꾸실 수 있어요. 상품에 든 것과의 차액만 더해져요. <a href="#upgrade">바꾸실 수 있는 수의 · 관</a></li>
         <li><b>유골함은 견적 합계에 넣지 않는 별도 항목이에요.</b> 실제 카탈로그를 보시고 상담하며, 모실 곳과 형편에 맞게 합리적으로 정하실 수 있어요. <a href="#catalog">유골함 카탈로그</a> · <a href="#urn">일반함과 진공함 차이</a></li>
         <li>고인 이송 차량, 모바일 부고, 장지 안내, 화장 예약은 무료예요.</li>
         <li>무빈소장 · 가족장 견적을 받으신 뒤 카카오톡 채널 @나만의장례를 추가하시면 10만원 사전 상담 감사 할인권을 드려요. 기한이 없고, 수급자 · 국가유공자 할인과 함께 쓰셔도 돼요.</li>
@@ -3188,10 +3200,12 @@ const DX_L={
   ipg:{g:'입관지도사',lock:1},
   goods:{g:'입관용품',lock:1},
   coffin:{g:'관',lock:1},
-  shroud:{g:'수의',n:'면수의',s:'무명(면)으로 지은 기본 수의예요',p:150000,max:1,u:'벌',zero:'자가수의 사용'},
-  flower:{g:'입관',n:'입관 생화 꽃장식',en:'생화 꽃장식',s:'관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',p:200000,max:1,u:''},
-  daer:{g:'입관',n:'궁중대렴',s:'수의를 입혀 드린 고인을 베로 감싸 정성껏 묶어 드려요 · 꽃장식과 함께면 10만원',max:1,u:''},
-  hh:{g:'빈소 헌화',n:'빈소 헌화',s:'조문객이 영정 앞에 올리는 국화',steps:[['없음',0],['30송이',50000],['50송이',70000]]},
+  shroud:{g:'수의',n:'수의',opts:[1,2,3,0],steps:[['자가수의',0],['기본 · 면수의',150000],['중급 · 저마수의',200000],['고급 · 대마수의',600000]],
+    z0:'미리 준비해 두셨다면',note:'지역에 따라 들어오는 수의가 조금 다를 수 있어서, 상담&nbsp;때 실물을 보여 드리고 정해요.',
+    sd:['미리 준비해 두신 수의(자가수의)로 모셔요','무명(면)으로 지은 기본 수의예요','모시풀에서 얻은 모시로 지은 수의예요 · 가볍고 시원한 결이에요','삼베로 지은 수의예요 · 바람이 잘 통하는 옷감이에요']},
+  flower:{g:'입관',n:'입관 생화 꽃장식',en:'생화 꽃장식',s:'관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',p:200000,max:1,u:'',pick:1},
+  daer:{g:'입관',n:'궁중대렴',s:'수의를 입혀 드린 고인을 베로 감싸 정성껏 묶어 드려요 · 꽃장식과 함께면 10만원',max:1,u:'',pick:1},
+  hh:{g:'빈소 헌화',n:'빈소 헌화',s:'조문객이 영정 앞에 올리는 국화',steps:[['없음',0],['30송이',50000],['50송이',70000]],opts:[1,2,0],ol:['헌화 안 함'],z0:'분향만 하셔도 돼요'},
   limo:{g:'장의 차량',n:'리무진 (편도)',s:'1차 장지 또는 화장장까지 고인을 모셔요 · 40만원',p:400000,max:1,u:'대',alt:'van',pick:1},
   van:{g:'장의 차량',n:'스타리아 · 카니발',s:'리무진 대신 고인을 모시는 차예요 · 30만원',p:300000,max:1,u:'대',alt:'limo',pick:1},
   bus:{g:'장의 차량',n:'장의버스 (왕복)',s:'가족과 조문객이 함께 타고 다녀와요 · 40만원',p:400000,max:1,u:'대',pick:1},
@@ -3243,6 +3257,7 @@ function dxSubText(k){ const L=DX_L[k];
   if(k==='dir'||k==='ipg') return DX_STAFF[DX.type][k][1];
   if(k==='coffin') return '꼭 있어야 해서 빼지 않아요';
   if(k==='goods') return '수시포 · 칠성판 · 염포 · 습신 · 관보 · 명정 · 위패처럼 염습과 입관에 쓰는 것 모두';
+  if(k==='shroud'){ const q=DX.q.shroud===undefined?1:DX.q.shroud; return L.sd[q]; }
   if(k==='daer') return DX.q.flower===0?(DX.q.daer?'꽃장식 없이 궁중대렴만 하시면 20만원이에요':'수의를 입혀 드린 고인을 베로 감싸 정성껏 묶어 드려요 · 꽃장식 없이 하시면 20만원'):L.s;
   return L.s; }
 function dxCntText(k,v){ const L=DX_L[k]; v=v||DX.q[k];
@@ -3280,16 +3295,23 @@ function dxCntHTML(k){
     L.rows.map((r,i)=>'<div class="pl-st"><span class="l">'+r[0]+'<small>1'+L.u+' '+dMan(r[1])+'</small></span>'+dxStep(k+':'+i,r[0])+'</div>').join('')+
     '<p class="pl-diff" id="d-'+k+'"></p></div>';
 }
+/* 고르는 줄 (수의) : 하나만 골라요 · 수량이 아니라 선택 (2026-11-26 사용자 지시) */
+function dxOptHTML(k){
+  const L=DX_L[k], b=L.steps[dxBaseQ(k)][1];
+  return '<div class="pl-opt wide sh" role="group" aria-label="'+L.n+' 고르기" style="--n:'+(L.opts.length>3?2:L.opts.length)+'">'+L.opts.map(i=>{ const st=L.steps[i], d=st[1]-b;
+    return '<button type="button" data-opt="'+k+':'+i+'" aria-pressed="false"><span class="ck" aria-hidden="true"></span><b>'+dNb((L.ol&&L.ol[i])||st[0])+'</b><span class="p">'+(st[1]?dMan(st[1]):'공제 '+dMan(-b))+'</span><small>'+(i===dxBaseQ(k)?'상품에 들어 있어요':st[1]?'상품보다 '+dSMan(d):L.z0)+'</small></button>'; }).join('')+
+    (L.note?'<p class="pl-cnote">'+L.note+'</p>':'')+'</div>';
+}
 function dxRowHTML(k){
   const L=DX_L[k], lock=dxIsLock(k);
   let act='';
   if(lock) act='<span class="pl-fix">꼭 필요해요</span>';
   else if(L.pick) act='<button type="button" class="pl-pick" data-pick="'+k+'" aria-pressed="false" aria-label="'+dEsc(L.n)+' 고르기"><span class="ck" aria-hidden="true"></span><span class="lb">선택</span></button>';
-  else if(!L.rows) act=dxStep(k,L.n);
-  return '<li class="pl-row'+(L.rows?' has-cnt':'')+'" id="pl-'+k+'">'+
+  else if(!L.rows&&!L.opts) act=dxStep(k,L.n);
+  return '<li class="pl-row'+(L.rows?' has-cnt':'')+(L.opts?' has-opt':'')+'" id="pl-'+k+'">'+
     '<span class="pl-t"><span class="pl-tt">'+dNb(dxName(k))+'</span></span><small class="pl-s">'+dNb(dxSubText(k))+'</small>'+
     '<span class="pl-amt"></span><span class="pl-act">'+act+'</span>'+
-    (L.rows?dxCntHTML(k):'')+
+    (L.rows?dxCntHTML(k):'')+(L.opts?dxOptHTML(k):'')+
     (DX_HONEST[k]?'<div class="dx-fold"><div><p class="pl-honest">'+DX_HONEST[k]+'</p></div></div>':'')+
   '</li>';
 }
@@ -3300,11 +3322,11 @@ function dxBuild(){
     '<div class="dx-prod-top"><p class="dx-prod-tag">고르신 상품 · '+dEsc(t.tag)+'</p>'+
     '<div class="dx-prod-hd"><h3 class="dx-prod-name" id="dx-prod-name">'+t.name+'</h3><p class="dx-prod-price"><b>'+dxTotal().toLocaleString('ko-KR')+'</b>원</p></div>'+
     '<p class="dx-prod-desc">'+dEsc(t.desc)+'</p></div>'+
-    '<div class="pl-h"><b>상품 구성</b><small>− 로 빼시면 100% 공제, + 로 더하실 수 있어요</small></div>'+
+    '<div class="pl-h"><b>상품 구성</b><small>고르신 것만 금액에 들어가요 · 빼시면 100% 공제</small></div>'+
     '<ul class="pl">'+DX_SECS[DX.type].map(s=>'<li class="pl-gh" aria-hidden="true">'+s[0]+'</li>'+(s[0]==='장의 차량'?'<li class="pl-ghn">'+(DX.type==='nob'?'리무진과 스타리아&nbsp;· 카니발 중 하나, 장의버스는 함께 고르실 수 있어요. 차가 필요 없으시면 모두 빼셔도 돼요.':'리무진과 장의버스 중 하나만, 또는 둘 다 고르실 수 있어요.')+'</li>':'')+s[1].map(dxRowHTML).join('')).join('')+
       '<li class="pl-gh" aria-hidden="true">무료</li><li class="pl-row free"><span class="pl-t"><span class="pl-tt">무료로 해 드리는 것</span></span><small class="pl-s">고인 이송 차량&nbsp;· 모바일 부고&nbsp;· 장지 안내&nbsp;· 화장 예약</small><span class="pl-amt free">무료</span><span class="pl-act"></span></li>'+
     '</ul>'+
-    '<p class="pl-note">장례지도사 · 입관지도사 · 입관용품과 관은 꼭 있어야 해서 빼지 않아요. 쓰지 않으실 것은 −&nbsp;를 누르시면 금액 그대로 100% 공제되고, 더 필요하신 것은 +&nbsp;로 더하시면 돼요. 수의를 미리 준비해 두셨다면 수의를 −&nbsp;로 빼 주세요(자가수의). 수의와 관을 더 좋은 것으로 바꾸고 싶으시면 <a href="#upgrade" data-a="up">바꾸실 수 있는 수의 · 관</a>을 봐 주세요.</p>';
+    '<p class="pl-note">장례지도사 · 입관지도사 · 입관용품과 관은 꼭 있어야 해서 빼지 않아요. 쓰지 않으실 것은 선택을 끄시거나 −&nbsp;를 누르시면 금액 그대로 100% 공제되고, 더 필요하신 것은 고르시거나 +&nbsp;로 더하시면 돼요. 수의는 면 · 저마 · 대마 중에 골라 주시고, 미리 준비해 두셨다면 「자가수의」를 골라 주세요. 관을 더 좋은 것으로 바꾸고 싶으시면 <a href="#upgrade" data-a="up">바꾸실 수 있는 수의 · 관</a>을 봐 주세요.</p>';
   dxKeys().forEach(k=>dxUpdRow(k,true));
   const up=$('[data-a="up"]',$('#dx-prod')); if(up) up.addEventListener('click',dxGoUp);
 }
@@ -3315,18 +3337,19 @@ function dxUpdRow(k,init){
   const r=$('#pl-'+k); if(!r) return;
   const L=DX_L[k], a=$('.pl-amt',r), prev=a.innerHTML;
   if(dxIsLock(k)){ a.innerHTML=dWon(dxBaseAmt(k)); $('.pl-tt',r).textContent=dxName(k); return; }
-  const b=dxBaseAmt(k), n=dxNowAmt(k), q=DX.q[k], off=b>0&&n===0;
+  const b=dxBaseAmt(k), n=dxNowAmt(k), q=DX.q[k], cut=b>0&&n===0, off=cut&&!L.opts;   /* 자가수의는 고른 것이라 줄을 긋지 않아요 */
   r.classList.toggle('off',off); r.classList.toggle('add',b===0&&n===0);
-  a.innerHTML=off?'<span class="minus">공제 '+dMan(-b)+'</span>':b===0&&n===0?'<span class="zero">0원</span>':dWon(n);
+  a.innerHTML=cut?'<span class="minus">공제 '+dMan(-b)+'</span>':b===0&&n===0?'<span class="zero">0원</span>':dWon(n);
   if(prev!==a.innerHTML) dxAnim(a,init);
   if(k==='daer'||k==='shroud'){ const s=$('.pl-s',r); if(s) s.innerHTML=dNb(dxSubText(k)); }
   if(L.rows){ q.forEach((n,i)=>dxSetStep(k+':'+i,n+L.u,n<=0,n>=L.max));
     const d=n-b, bt=dxCntText(k,dxBaseQ(k)), same=String(q)===String(dxBaseQ(k));
     $('#d-'+k).innerHTML=same?(b?'상품 구성 그대로예요':'필요하시면 + 로 더해 주세요'):d?(b?'상품 구성('+dNb(bt)+')보다 ':'')+'<b>'+dSMan(d)+'</b>':'상품 구성('+dNb(bt)+')과 금액이 같아요'; }
+  else if(L.opts) $$('[data-opt]',r).forEach(bt=>bt.setAttribute('aria-pressed',String(+bt.dataset.opt.split(':')[1]===q)));
   else if(L.steps) dxSetStep(k,dxQText(k),q<=0,q>=L.steps.length-1);
   else if(L.pick){ const pb=$('[data-pick="'+k+'"]',r); if(pb){ pb.setAttribute('aria-pressed',String(!!q)); $('.lb',pb).textContent=q?'선택함':'선택'; } r.classList.toggle('pl-on',!!q); }
   else dxSetStep(k,dxQText(k),q<=0,q>=L.max);
-  const f=$('.dx-fold',r); if(f) f.classList.toggle('open',off&&!(k==='limo'&&DX.q.van));
+  const f=$('.dx-fold',r); if(f) f.classList.toggle('open',cut&&!(k==='limo'&&DX.q.van));
 }
 function dxUpdTypePrices(){ Object.keys(DX_TYPES).forEach(t=>{ const el=$('[data-tp="'+t+'"]'); if(el) el.innerHTML=(dxTotal(t)/10000)+'<small>만원</small>'; }); }
 
@@ -3391,6 +3414,9 @@ function dxUpdUrn(){
   $('#dx-urn').hidden=DX.burial==='bur';
   $('#dx-bur-n').textContent=DX.burial==='bur'?'매장하시면 관이 매장용 오동나무관(30만원)으로 바뀌고, 궁중대렴을 기본으로 넣어 드려요. 유골함은 필요 없어요. 묘지 비용은 따로예요.':'두 상품 모두 화장 기준이에요. 아직 정하지 못하셨으면 화장으로 두셔도 돼요.';
 }
+function dxSetOpt(k,i){ const L=DX_L[k]; if(!L||!L.opts||DX.q[k]===i) return; DX.q[k]=i;
+  if(k==='shroud'&&i===0) toast('자가수의로 모시고, 면수의 금액을 공제했어요');
+  dxUpdRow(k); dxUpdSum(); }
 /* − · + 누름 : id = 키 · 키:줄번호 */
 function dxStepQ(id,d){
   const p=id.split(':');
@@ -3539,7 +3565,7 @@ function dxEstHTML(){
     '<div class="keep-box" role="note"><p class="keep-t">이 견적, 꼭 저장해 두세요</p><p>현장에서 보여 주시면 이 금액 그대로 진행해 드려요. 첫 견적이 끝 견적이고, 미리 내는 돈 없이 장례를 마친 뒤 정산해요.</p>'+
       '<div class="est-who"><div class="fld"><label for="est-nm">견적에 넣을 성함 <span>(선택)</span></label><input id="est-nm" class="in" autocomplete="name" enterkeyhint="done"></div><p class="note">넣으시면 견적 이미지와 복사 글 맨 위에 「○○○ 고객님」으로 들어가요. 어디에도 저장되지 않아요.</p></div>'+
       '<button type="button" class="btn btn-primary" data-a="img">견적 이미지 저장</button></div>'+
-    '<p class="note wz-link">수의와 관은 더 좋은 것으로 바꾸실 수도 있어요. 상담 때 말씀해 주시면 상품에 든 것과의 차액만 더해 견적에 적어 드려요. <a href="#upgrade" data-a="up">바꾸실 수 있는 수의 · 관</a></p>'+
+    '<p class="note wz-link">수의는 위 상품 구성에서 고르실 수 있고, 관은 더 좋은 것으로 바꾸실 수도 있어요. 상담 때 말씀해 주시면 상품에 든 것과의 차액만 더해 견적에 적어 드려요. <a href="#upgrade" data-a="up">바꾸실 수 있는 수의 · 관</a></p>'+
     '<p class="note wz-link">미리 내는 돈 없이 장례를 마친 뒤 정산해요. <a href="#prepaid" data-a="prepaid">일반 선불식 상조와 무엇이 다른가요?</a></p>'+
     (cpType()?'<div class="cp-box"></div>':'')+
     '<div class="acts2"><a class="btn btn-primary" href="tel:16614214">이 견적으로 상담 · 1661-4214</a><a class="btn btn-line" data-a="talk" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>견적 보내고 카톡 상담</a><button type="button" class="btn btn-line" data-a="copy">견적 글 복사</button></div>'+
@@ -3577,6 +3603,7 @@ function bindPrice(){
     if(b.dataset.bur){ dxSetBurial(b.dataset.bur); return; }
     if(b.dataset.q){ const q=b.dataset.q, i=q.lastIndexOf(':'); dxStepQ(q.slice(0,i),+q.slice(i+1)); return; }
     if(b.dataset.pick){ const k=b.dataset.pick; dxStepQ(k,DX.q[k]?-1:1); return; }
+    if(b.dataset.opt){ const o=b.dataset.opt.split(':'); dxSetOpt(o[0],+o[1]); return; }
     if(b.hasAttribute('data-est')){ dxShowEst(); return; }
     if(b.hasAttribute('data-back')){ dxBackEst(); return; }
   });

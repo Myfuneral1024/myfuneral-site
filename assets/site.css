@@ -888,6 +888,18 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 /* 상품 구성 묶음 제목 · − + (2026-11-23) */
 .pl-gh{padding:18px 0 6px;font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.02em;border-bottom:1px solid var(--line)}
 .pl-ghn{padding:8px 0 2px;font-size:14px;line-height:1.55;color:var(--ink2)}
+/* 수의 고르기 (수량 대신 선택, 하나만) */
+.pl-opt.sh{grid-template-columns:minmax(0,1fr)}
+@media (min-width:700px){.pl-opt.sh{grid-template-columns:repeat(var(--n,2),minmax(0,1fr))}}
+.pl-opt.sh button{grid-template-columns:auto minmax(0,1fr) auto;align-items:center;column-gap:10px;border:1.5px solid var(--edge);padding:10px 12px;transition:background-color .2s,border-color .2s,color .2s}
+.pl-opt.sh button .ck{width:18px;height:18px;border:2px solid var(--edge);border-radius:50%;position:relative;transition:border-color .2s,background-color .2s}
+.pl-opt.sh button small{grid-column:2 / -1;margin-top:1px}
+.pl-opt.sh button[aria-pressed="true"]{border:1.5px solid #252525;padding:10px 12px;background:#252525;color:#fff}
+.pl-opt.sh button[aria-pressed="true"] small{color:rgba(255,255,255,.78)}
+.pl-opt.sh button[aria-pressed="true"] .ck{border-color:#fff;background:#fff}
+.pl-opt.sh button[aria-pressed="true"] .ck::after{content:"";position:absolute;left:5px;top:1px;width:4px;height:9px;border:solid #252525;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+@media (hover:hover){.pl-opt.sh button[aria-pressed="false"]:hover{border-color:var(--ink)}}
+.pl-row.has-opt .pl-amt .minus{white-space:nowrap}
 /* 장의 차량 고르기 (수량 대신 선택) */
 .pl-pick{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:104px;padding:0 14px;border:1.5px solid var(--edge);border-radius:4px;background:var(--surface);color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s}
 .pl-pick .ck{width:18px;height:18px;border:2px solid var(--edge);border-radius:3px;position:relative;flex:none;transition:border-color .2s,background-color .2s}
@@ -987,6 +999,6 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 .dx-est .acts2{display:flex;flex-wrap:wrap;gap:10px}
 
 @media (prefers-reduced-motion: reduce){
-  .dx-fold,.pl-tt::after,.pl-t,.dx-step button,.dx-bar,.dx-type,.dx-type .ck,.dx-type .inc,.dx-type .dx-go,.dx-seg button,.pl-btn,.pl-pick,.pl-pick .ck{transition:none}
+  .dx-fold,.pl-tt::after,.pl-t,.dx-step button,.dx-bar,.dx-type,.dx-type .ck,.dx-type .inc,.dx-type .dx-go,.dx-seg button,.pl-btn,.pl-pick,.pl-pick .ck,.pl-opt.sh button,.pl-opt.sh button .ck{transition:none}
 }
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
