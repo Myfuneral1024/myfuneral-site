@@ -931,9 +931,9 @@ const DX_L={
   flower:{g:'입관',n:'입관 생화 꽃장식',en:'생화 꽃장식',s:'관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',p:200000,max:1,u:''},
   daer:{g:'입관',n:'궁중대렴',s:'수의를 입혀 드린 고인을 베로 감싸 정성껏 묶어 드려요 · 꽃장식과 함께면 10만원',max:1,u:''},
   hh:{g:'빈소 헌화',n:'빈소 헌화',s:'조문객이 영정 앞에 올리는 국화',steps:[['없음',0],['30송이',50000],['50송이',70000]]},
-  limo:{g:'장의 차량',n:'리무진 (편도)',s:'1차 장지 또는 화장장까지 고인을 모셔요 · 1대 40만원',p:400000,max:1,u:'대',alt:'van'},
-  van:{g:'장의 차량',n:'스타리아 · 카니발',s:'리무진 대신 고인을 모시는 차예요 · 1대 30만원',p:300000,max:1,u:'대',alt:'limo'},
-  bus:{g:'장의 차량',n:'장의버스 (왕복)',s:'가족과 조문객이 함께 타고 다녀와요 · 1대 40만원',p:400000,max:1,u:'대'},
+  limo:{g:'장의 차량',n:'리무진 (편도)',s:'1차 장지 또는 화장장까지 고인을 모셔요 · 40만원',p:400000,max:1,u:'대',alt:'van',pick:1},
+  van:{g:'장의 차량',n:'스타리아 · 카니발',s:'리무진 대신 고인을 모시는 차예요 · 30만원',p:300000,max:1,u:'대',alt:'limo',pick:1},
+  bus:{g:'장의 차량',n:'장의버스 (왕복)',s:'가족과 조문객이 함께 타고 다녀와요 · 40만원',p:400000,max:1,u:'대',pick:1},
   staff:{g:'접객 도우미',n:'접객 도우미',s:'1인 12만원 · 4일장 이상은 현장에서 상담해 드려요',rows:[['첫째 날',120000],['둘째 날',120000]],u:'명',max:6},
   mourn:{g:'상복',n:'상복',s:'남성용에는 셔츠 · 타이가 함께 있어요 · 갖고 계신 분은 빼고 세어 주세요',rows:[['남성용',50000],['여성용',30000]],u:'벌',max:10}
 };
@@ -1023,6 +1023,7 @@ function dxRowHTML(k){
   const L=DX_L[k], lock=dxIsLock(k);
   let act='';
   if(lock) act='<span class="pl-fix">꼭 필요해요</span>';
+  else if(L.pick) act='<button type="button" class="pl-pick" data-pick="'+k+'" aria-pressed="false" aria-label="'+dEsc(L.n)+' 고르기"><span class="ck" aria-hidden="true"></span><span class="lb">선택</span></button>';
   else if(!L.rows) act=dxStep(k,L.n);
   return '<li class="pl-row'+(L.rows?' has-cnt':'')+'" id="pl-'+k+'">'+
     '<span class="pl-t"><span class="pl-tt">'+dNb(dxName(k))+'</span></span><small class="pl-s">'+dNb(dxSubText(k))+'</small>'+
@@ -1035,11 +1036,11 @@ function dxGoUp(e){ const p=$('#upgrade'); if(!p) return; e.preventDefault(); wi
 function dxBuild(){
   const t=DX_TYPES[DX.type];
   $('#dx-prod').innerHTML=
-    '<p class="dx-prod-tag">'+dEsc(t.tag)+'</p>'+
+    '<div class="dx-prod-top"><p class="dx-prod-tag">고르신 상품 · '+dEsc(t.tag)+'</p>'+
     '<div class="dx-prod-hd"><h3 class="dx-prod-name" id="dx-prod-name">'+t.name+'</h3><p class="dx-prod-price"><b>'+dxTotal().toLocaleString('ko-KR')+'</b>원</p></div>'+
-    '<p class="dx-prod-desc">'+dEsc(t.desc)+'</p>'+
+    '<p class="dx-prod-desc">'+dEsc(t.desc)+'</p></div>'+
     '<div class="pl-h"><b>상품 구성</b><small>− 로 빼시면 100% 공제, + 로 더하실 수 있어요</small></div>'+
-    '<ul class="pl">'+DX_SECS[DX.type].map(s=>'<li class="pl-gh" aria-hidden="true">'+s[0]+'</li>'+s[1].map(dxRowHTML).join('')).join('')+
+    '<ul class="pl">'+DX_SECS[DX.type].map(s=>'<li class="pl-gh" aria-hidden="true">'+s[0]+'</li>'+(s[0]==='장의 차량'?'<li class="pl-ghn">'+(DX.type==='nob'?'리무진과 스타리아&nbsp;· 카니발 중 하나, 장의버스는 함께 고르실 수 있어요. 차가 필요 없으시면 모두 빼셔도 돼요.':'리무진과 장의버스 중 하나만, 또는 둘 다 고르실 수 있어요.')+'</li>':'')+s[1].map(dxRowHTML).join('')).join('')+
       '<li class="pl-gh" aria-hidden="true">무료</li><li class="pl-row free"><span class="pl-t"><span class="pl-tt">무료로 해 드리는 것</span></span><small class="pl-s">고인 이송 차량&nbsp;· 모바일 부고&nbsp;· 장지 안내&nbsp;· 화장 예약</small><span class="pl-amt free">무료</span><span class="pl-act"></span></li>'+
     '</ul>'+
     '<p class="pl-note">장례지도사 · 입관지도사 · 입관용품과 관은 꼭 있어야 해서 빼지 않아요. 쓰지 않으실 것은 −&nbsp;를 누르시면 금액 그대로 100% 공제되고, 더 필요하신 것은 +&nbsp;로 더하시면 돼요. 수의를 미리 준비해 두셨다면 수의를 −&nbsp;로 빼 주세요(자가수의). 수의와 관을 더 좋은 것으로 바꾸고 싶으시면 <a href="#upgrade" data-a="up">바꾸실 수 있는 수의 · 관</a>을 봐 주세요.</p>';
@@ -1062,6 +1063,7 @@ function dxUpdRow(k,init){
     const d=n-b, bt=dxCntText(k,dxBaseQ(k)), same=String(q)===String(dxBaseQ(k));
     $('#d-'+k).innerHTML=same?(b?'상품 구성 그대로예요':'필요하시면 + 로 더해 주세요'):d?(b?'상품 구성('+dNb(bt)+')보다 ':'')+'<b>'+dSMan(d)+'</b>':'상품 구성('+dNb(bt)+')과 금액이 같아요'; }
   else if(L.steps) dxSetStep(k,dxQText(k),q<=0,q>=L.steps.length-1);
+  else if(L.pick){ const pb=$('[data-pick="'+k+'"]',r); if(pb){ pb.setAttribute('aria-pressed',String(!!q)); $('.lb',pb).textContent=q?'선택함':'선택'; } r.classList.toggle('pl-on',!!q); }
   else dxSetStep(k,dxQText(k),q<=0,q>=L.max);
   const f=$('.dx-fold',r); if(f) f.classList.toggle('open',off&&!(k==='limo'&&DX.q.van));
 }
@@ -1313,6 +1315,7 @@ function bindPrice(){
     if(b.dataset.type){ dxSetType(b.dataset.type); return; }
     if(b.dataset.bur){ dxSetBurial(b.dataset.bur); return; }
     if(b.dataset.q){ const q=b.dataset.q, i=q.lastIndexOf(':'); dxStepQ(q.slice(0,i),+q.slice(i+1)); return; }
+    if(b.dataset.pick){ const k=b.dataset.pick; dxStepQ(k,DX.q[k]?-1:1); return; }
     if(b.hasAttribute('data-est')){ dxShowEst(); return; }
     if(b.hasAttribute('data-back')){ dxBackEst(); return; }
   });

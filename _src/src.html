@@ -795,17 +795,34 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 .dx-n{flex:none;display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;background:var(--pine);color:var(--pine-ink);font-family:var(--sans);font-size:15px;font-weight:700;letter-spacing:0}
 
 /* 1. 상품 고르기 */
-.dx-types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.dx-types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .dx-tnote{margin:10px 0 0;font-size:14px;line-height:1.65;color:var(--muted)}
-.dx-type{display:flex;flex-direction:column;align-items:flex-start;gap:2px;min-height:44px;padding:14px 14px 13px;border:1px solid var(--line);border-radius:4px;background:var(--surface);color:var(--ink);text-align:left;cursor:pointer;font:inherit;transition:border-color .2s,background-color .2s}
-.dx-type .t{font-weight:700;font-size:17px;line-height:1.35}
-.dx-type .p{font-family:var(--serif);font-weight:900;font-size:24px;line-height:1.25;white-space:nowrap;font-variant-numeric:tabular-nums}
-.dx-type .p small{font-size:14px;font-weight:700;margin-left:1px}
-.dx-type .g{font-size:13.5px;color:var(--muted);line-height:1.45}
-.dx-type[aria-checked="true"]{border:2px solid var(--pine);padding:13px 13px 12px;background:var(--pine-soft)}
-.dx-type:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
-@media (max-width:560px){.dx-type{padding:12px 10px 11px}.dx-type[aria-checked="true"]{padding:11px 9px 10px}.dx-type .t{font-size:16px}.dx-type .p{font-size:21px}.dx-type .p small{font-size:13px}.dx-type .g{font-size:13px}}
-@media (max-width:340px){.dx-type .t{font-size:15px}.dx-type .p{font-size:19px}}
+/* 상품 카드 (2026-11-26 사용자 지시: 「무빈소 상품과 가족장 상품을 고르게, 눈에 띄게」) — 고른 상품은 숯검정 바탕 */
+.dx-type{position:relative;display:flex;flex-direction:column;align-items:stretch;gap:0;min-height:44px;padding:20px 20px 18px;border:1.5px solid var(--edge);border-radius:6px;background:var(--surface);color:var(--ink);text-align:left;cursor:pointer;font:inherit;transition:background-color .25s,border-color .25s,color .25s,box-shadow .25s}
+.dx-type .hd{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.dx-type .t{font-family:var(--serif);font-weight:900;font-size:26px;line-height:1.25}
+.dx-type .t small{font-family:var(--sans);font-size:15px;font-weight:700;color:var(--muted);margin-left:4px;vertical-align:2px}
+.dx-type .ck{flex:none;width:28px;height:28px;border:2px solid var(--edge);border-radius:50%;position:relative;transition:border-color .25s,background-color .25s}
+.dx-type .g{margin-top:2px;font-size:15px;color:var(--ink2);line-height:1.5}
+.dx-type .p{margin-top:12px;font-family:var(--serif);font-weight:900;font-size:40px;line-height:1.05;white-space:nowrap;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.dx-type .p small{font-size:18px;font-weight:700;margin-left:3px;letter-spacing:0}
+.dx-type .inc{margin:12px 0 16px;padding-top:12px;border-top:1px solid var(--line);font-size:14px;line-height:1.65;color:var(--ink2);transition:border-color .25s,color .25s}
+.dx-type .dx-go{margin-top:auto;padding:0 8px;display:flex;align-items:center;justify-content:center;min-height:48px;border-radius:4px;border:1.5px solid var(--ink);font-weight:700;font-size:16px;transition:background-color .25s,color .25s,border-color .25s}
+.dx-type .dx-go .on{display:none}
+@media (hover:hover){.dx-type:not([aria-checked="true"]):hover{border-color:var(--ink);box-shadow:0 2px 10px rgba(0,0,0,.06)}.dx-type:not([aria-checked="true"]):hover .dx-go{background:var(--ink);color:#fff}}
+.dx-type[aria-checked="true"]{background:#252525;border-color:#252525;color:#fff;box-shadow:0 4px 16px rgba(0,0,0,.16)}
+.dx-type[aria-checked="true"] .t small,.dx-type[aria-checked="true"] .g{color:#d8d8d4}
+.dx-type[aria-checked="true"] .inc{border-top-color:rgba(255,255,255,.24);color:#e6e6e2}
+.dx-type[aria-checked="true"] .ck{border-color:#fff;background:#fff}
+.dx-type[aria-checked="true"] .ck::after{content:"";position:absolute;left:8px;top:3px;width:7px;height:13px;border:solid #252525;border-width:0 3px 3px 0;transform:rotate(45deg)}
+.dx-type[aria-checked="true"] .dx-go{background:#fff;color:#252525;border-color:#fff}
+.dx-type[aria-checked="true"] .dx-go .off{display:none}
+.dx-type[aria-checked="true"] .dx-go .on{display:inline}
+.dx-type[aria-checked="true"] .dx-go .on::before{content:"✓ "}
+.dx-types:has([aria-checked="true"]) .dx-type:not([aria-checked="true"]) .dx-go{border-color:var(--edge)}
+.dx-type:focus-visible{outline:3px solid var(--pine);outline-offset:3px}
+@media (max-width:700px){.dx-types{grid-template-columns:minmax(0,1fr);gap:10px}.dx-type{padding:18px 16px 16px}.dx-type .t{font-size:24px}.dx-type .p{font-size:36px}}
+@media (max-width:340px){.dx-type .t{font-size:22px}.dx-type .p{font-size:32px}}
 
 .dx-burial{display:flex;flex-wrap:wrap;align-items:center;gap:8px 14px;padding:12px 14px;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
 .dx-burial>span{font-weight:700}
@@ -816,8 +833,12 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 .dx-burial small{flex-basis:100%;color:var(--muted);font-size:14px;line-height:1.55}
 
 /* 2. 상품 카드 */
-.dx-prod{background:var(--surface);border:2px solid var(--ink);border-radius:4px;padding:22px 20px 16px}
-@media (max-width:560px){.dx-prod{padding:18px 16px 12px}}
+.dx-prod{background:var(--surface);border:2px solid #252525;border-radius:6px;padding:0 20px 16px;overflow:hidden}
+@media (max-width:560px){.dx-prod{padding:0 16px 12px}}
+.dx-prod-top{margin:0 -20px 4px;padding:20px 20px 18px;background:#252525;color:#fff}
+@media (max-width:560px){.dx-prod-top{margin:0 -16px 4px;padding:18px 16px 16px}}
+.dx-prod-top .dx-prod-tag{color:#d8d8d4}
+.dx-prod-top .dx-prod-desc{color:#e6e6e2}
 .dx-prod-tag{font-size:14px;font-weight:700;color:var(--muted)}
 .dx-prod-hd{display:flex;flex-wrap:wrap;align-items:baseline;justify-content:space-between;gap:2px 16px;margin-top:2px}
 .dx-prod-name{font-family:var(--serif);font-weight:900;font-size:clamp(26px,3vw,32px);line-height:1.25}
@@ -892,6 +913,17 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 .pl-amt .minus{display:inline-block;padding:1px 7px;border:1px solid var(--ink);border-radius:3px;font-family:var(--sans);font-size:14.5px;font-weight:700}
 /* 상품 구성 묶음 제목 · − + (2026-11-23) */
 .pl-gh{padding:18px 0 6px;font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.02em;border-bottom:1px solid var(--line)}
+.pl-ghn{padding:8px 0 2px;font-size:14px;line-height:1.55;color:var(--ink2)}
+/* 장의 차량 고르기 (수량 대신 선택) */
+.pl-pick{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;min-width:104px;padding:0 14px;border:1.5px solid var(--edge);border-radius:4px;background:var(--surface);color:var(--ink);font:inherit;font-weight:700;font-size:15px;cursor:pointer;transition:background-color .2s,border-color .2s,color .2s}
+.pl-pick .ck{width:18px;height:18px;border:2px solid var(--edge);border-radius:3px;position:relative;flex:none;transition:border-color .2s,background-color .2s}
+.pl-pick[aria-pressed="true"]{background:#252525;border-color:#252525;color:#fff}
+.pl-pick[aria-pressed="true"] .ck{border-color:#fff;background:#fff}
+.pl-pick[aria-pressed="true"] .ck::after{content:"";position:absolute;left:4px;top:0;width:5px;height:10px;border:solid #252525;border-width:0 2.5px 2.5px 0;transform:rotate(45deg)}
+.pl-pick:focus-visible{outline:2px solid var(--pine);outline-offset:2px}
+@media (hover:hover){.pl-pick[aria-pressed="false"]:hover{border-color:var(--ink)}}
+.pl-row.pl-on{background:var(--pine-soft);margin:0 -12px;padding-left:12px;padding-right:12px;border-bottom-color:transparent;border-radius:4px}
+.pl-row.pl-on+.pl-row.pl-on{margin-top:4px}
 .pl>.pl-gh:first-child{padding-top:10px}
 .pl-fix{display:inline-block;padding:4px 8px;border:1px solid var(--line);border-radius:3px;font-size:13px;font-weight:700;color:var(--muted);white-space:nowrap;line-height:1.3}
 .pl-row.add .pl-t{color:var(--ink2)}
@@ -981,7 +1013,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
 .dx-est .acts2{display:flex;flex-wrap:wrap;gap:10px}
 
 @media (prefers-reduced-motion: reduce){
-  .dx-fold,.pl-tt::after,.pl-t,.dx-step button,.dx-bar,.dx-type,.dx-seg button,.pl-btn{transition:none}
+  .dx-fold,.pl-tt::after,.pl-t,.dx-step button,.dx-bar,.dx-type,.dx-type .ck,.dx-type .inc,.dx-type .dx-go,.dx-seg button,.pl-btn,.pl-pick,.pl-pick .ck{transition:none}
 }
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
@@ -1273,16 +1305,16 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
   <div class="wrap">
     <div id="dx-pick-view">
       <div class="dx-head">
-        <h1 id="h-price">어떻게 모실지 고르시면,<br>비용을 바로 보여 드릴게요</h1>
-        <p>가족분들이 많이 하시는 구성으로 두 가지를 꾸려 두었어요. 장례지도사 · 입관지도사 · 입관용품까지 <b>무엇이 얼마인지 다 보여 드려요.</b> 쓰지 않으실 것은 −&nbsp;를 누르시면 금액 그대로 100% 공제되고, 더 필요하신 것은 +&nbsp;로 더하시면 돼요. 비용은 미리 내는 돈 없이 장례를 마친 뒤 정산해요.</p>
+        <h1 id="h-price">상품을 고르시면,<br>비용을 바로 보여 드릴게요</h1>
+        <p><b>무엇이 얼마인지 다 보여 드려요.</b> 쓰지 않으실 것은 빼시면 100% 공제되고, 더 필요하신 것은 더하시면 돼요. 미리 내는 돈 없이 장례를 마친 뒤 정산해요.</p>
       </div>
       <div class="dx-layout">
         <div>
           <section class="dx-sec" aria-labelledby="h-s1">
-            <h2 class="dx-h" id="h-s1"><span class="dx-n">1</span>어떤 장례로 모실까요?</h2>
+            <h2 class="dx-h" id="h-s1"><span class="dx-n">1</span>상품을 골라 주세요</h2>
             <div class="dx-types" role="radiogroup" aria-labelledby="h-s1">
-              <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="nob"><span class="t">무빈소장</span><span class="p" data-tp="nob">145<small>만원</small></span><span class="g">빈소 없이 가족끼리</span></button>
-              <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="fam"><span class="t">가족장</span><span class="p" data-tp="fam">205<small>만원</small></span><span class="g">가족 · 가까운 친지와 함께</span></button>
+              <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="nob"><span class="hd"><span class="t">무빈소장</span><span class="ck" aria-hidden="true"></span></span><span class="g">빈소 없이 가족끼리 조용히</span><span class="p" data-tp="nob">145<small>만원</small></span><span class="inc">장례지도사&nbsp;1명&nbsp;· 입관지도사&nbsp;2명&nbsp;· 입관용품&nbsp;50여&nbsp;가지&nbsp;· 관&nbsp;· 면수의&nbsp;· 입관&nbsp;꽃장식&nbsp;· 리무진</span><span class="dx-go"><span class="off">이 상품으로 계산하기</span><span class="on">고른 상품</span></span></button>
+              <button type="button" class="dx-type" role="radio" aria-checked="false" data-type="fam"><span class="hd"><span class="t">가족장 <small>3일장</small></span><span class="ck" aria-hidden="true"></span></span><span class="g">가족 · 가까운 친지와 함께</span><span class="p" data-tp="fam">205<small>만원</small></span><span class="inc">장례지도사(3일)&nbsp;· 입관지도사&nbsp;2명&nbsp;· 입관용품&nbsp;50여&nbsp;가지&nbsp;· 관&nbsp;· 면수의&nbsp;· 입관&nbsp;꽃장식&nbsp;· 리무진&nbsp;· 빈소&nbsp;헌화&nbsp;· 접객&nbsp;도우미&nbsp;· 상복</span><span class="dx-go"><span class="off">이 상품으로 계산하기</span><span class="on">고른 상품</span></span></button>
             </div>
             <p class="dx-tnote">조문객이 많으시면 가족장을 고르신 뒤, 접객 도우미 · 빈소 헌화 · 장의버스를 +&nbsp;로 더하시면 돼요.</p>
             <div class="dx-burial">
@@ -1293,7 +1325,7 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
           </section>
 
           <section class="dx-sec" id="dx-s2" aria-labelledby="h-s2" hidden>
-            <h2 class="dx-h" id="h-s2"><span class="dx-n">2</span>이렇게 들어 있어요</h2>
+            <h2 class="dx-h" id="h-s2"><span class="dx-n">2</span>상품에 이렇게 들어 있어요</h2>
             <article class="dx-prod" id="dx-prod" aria-labelledby="dx-prod-name"></article>
             <p class="dx-urn" id="dx-urn"><b>유골함은 상품과 합계에 들어 있지 않아요.</b> 실제 카탈로그를 보시고 상담하며, 모실 곳과 형편에 맞게 합리적으로 정하실 수 있어요. 고르신 함 금액만 따로 더해져요. <a href="#catalog">유골함 카탈로그</a> · <a href="#urn">일반함과 진공함 차이</a></p>
             <label class="dx-disc"><input type="checkbox" id="dx-disc"><span>수급자 · 국가유공자 가족이에요<small>20만원 할인을 비롯해, 저희가 드릴 수 있는 혜택은 최대한 챙겨 드려요. 받으실 수 있는 지원과 서류도 함께 안내해 드려요.</small></span><b>−20만원</b></label>
@@ -3160,9 +3192,9 @@ const DX_L={
   flower:{g:'입관',n:'입관 생화 꽃장식',en:'생화 꽃장식',s:'관 안을 생화로 곱게 채워, 고인을 꽃자리에 편안히 모셔 드려요',p:200000,max:1,u:''},
   daer:{g:'입관',n:'궁중대렴',s:'수의를 입혀 드린 고인을 베로 감싸 정성껏 묶어 드려요 · 꽃장식과 함께면 10만원',max:1,u:''},
   hh:{g:'빈소 헌화',n:'빈소 헌화',s:'조문객이 영정 앞에 올리는 국화',steps:[['없음',0],['30송이',50000],['50송이',70000]]},
-  limo:{g:'장의 차량',n:'리무진 (편도)',s:'1차 장지 또는 화장장까지 고인을 모셔요 · 1대 40만원',p:400000,max:1,u:'대',alt:'van'},
-  van:{g:'장의 차량',n:'스타리아 · 카니발',s:'리무진 대신 고인을 모시는 차예요 · 1대 30만원',p:300000,max:1,u:'대',alt:'limo'},
-  bus:{g:'장의 차량',n:'장의버스 (왕복)',s:'가족과 조문객이 함께 타고 다녀와요 · 1대 40만원',p:400000,max:1,u:'대'},
+  limo:{g:'장의 차량',n:'리무진 (편도)',s:'1차 장지 또는 화장장까지 고인을 모셔요 · 40만원',p:400000,max:1,u:'대',alt:'van',pick:1},
+  van:{g:'장의 차량',n:'스타리아 · 카니발',s:'리무진 대신 고인을 모시는 차예요 · 30만원',p:300000,max:1,u:'대',alt:'limo',pick:1},
+  bus:{g:'장의 차량',n:'장의버스 (왕복)',s:'가족과 조문객이 함께 타고 다녀와요 · 40만원',p:400000,max:1,u:'대',pick:1},
   staff:{g:'접객 도우미',n:'접객 도우미',s:'1인 12만원 · 4일장 이상은 현장에서 상담해 드려요',rows:[['첫째 날',120000],['둘째 날',120000]],u:'명',max:6},
   mourn:{g:'상복',n:'상복',s:'남성용에는 셔츠 · 타이가 함께 있어요 · 갖고 계신 분은 빼고 세어 주세요',rows:[['남성용',50000],['여성용',30000]],u:'벌',max:10}
 };
@@ -3252,6 +3284,7 @@ function dxRowHTML(k){
   const L=DX_L[k], lock=dxIsLock(k);
   let act='';
   if(lock) act='<span class="pl-fix">꼭 필요해요</span>';
+  else if(L.pick) act='<button type="button" class="pl-pick" data-pick="'+k+'" aria-pressed="false" aria-label="'+dEsc(L.n)+' 고르기"><span class="ck" aria-hidden="true"></span><span class="lb">선택</span></button>';
   else if(!L.rows) act=dxStep(k,L.n);
   return '<li class="pl-row'+(L.rows?' has-cnt':'')+'" id="pl-'+k+'">'+
     '<span class="pl-t"><span class="pl-tt">'+dNb(dxName(k))+'</span></span><small class="pl-s">'+dNb(dxSubText(k))+'</small>'+
@@ -3264,11 +3297,11 @@ function dxGoUp(e){ const p=$('#upgrade'); if(!p) return; e.preventDefault(); wi
 function dxBuild(){
   const t=DX_TYPES[DX.type];
   $('#dx-prod').innerHTML=
-    '<p class="dx-prod-tag">'+dEsc(t.tag)+'</p>'+
+    '<div class="dx-prod-top"><p class="dx-prod-tag">고르신 상품 · '+dEsc(t.tag)+'</p>'+
     '<div class="dx-prod-hd"><h3 class="dx-prod-name" id="dx-prod-name">'+t.name+'</h3><p class="dx-prod-price"><b>'+dxTotal().toLocaleString('ko-KR')+'</b>원</p></div>'+
-    '<p class="dx-prod-desc">'+dEsc(t.desc)+'</p>'+
+    '<p class="dx-prod-desc">'+dEsc(t.desc)+'</p></div>'+
     '<div class="pl-h"><b>상품 구성</b><small>− 로 빼시면 100% 공제, + 로 더하실 수 있어요</small></div>'+
-    '<ul class="pl">'+DX_SECS[DX.type].map(s=>'<li class="pl-gh" aria-hidden="true">'+s[0]+'</li>'+s[1].map(dxRowHTML).join('')).join('')+
+    '<ul class="pl">'+DX_SECS[DX.type].map(s=>'<li class="pl-gh" aria-hidden="true">'+s[0]+'</li>'+(s[0]==='장의 차량'?'<li class="pl-ghn">'+(DX.type==='nob'?'리무진과 스타리아&nbsp;· 카니발 중 하나, 장의버스는 함께 고르실 수 있어요. 차가 필요 없으시면 모두 빼셔도 돼요.':'리무진과 장의버스 중 하나만, 또는 둘 다 고르실 수 있어요.')+'</li>':'')+s[1].map(dxRowHTML).join('')).join('')+
       '<li class="pl-gh" aria-hidden="true">무료</li><li class="pl-row free"><span class="pl-t"><span class="pl-tt">무료로 해 드리는 것</span></span><small class="pl-s">고인 이송 차량&nbsp;· 모바일 부고&nbsp;· 장지 안내&nbsp;· 화장 예약</small><span class="pl-amt free">무료</span><span class="pl-act"></span></li>'+
     '</ul>'+
     '<p class="pl-note">장례지도사 · 입관지도사 · 입관용품과 관은 꼭 있어야 해서 빼지 않아요. 쓰지 않으실 것은 −&nbsp;를 누르시면 금액 그대로 100% 공제되고, 더 필요하신 것은 +&nbsp;로 더하시면 돼요. 수의를 미리 준비해 두셨다면 수의를 −&nbsp;로 빼 주세요(자가수의). 수의와 관을 더 좋은 것으로 바꾸고 싶으시면 <a href="#upgrade" data-a="up">바꾸실 수 있는 수의 · 관</a>을 봐 주세요.</p>';
@@ -3291,6 +3324,7 @@ function dxUpdRow(k,init){
     const d=n-b, bt=dxCntText(k,dxBaseQ(k)), same=String(q)===String(dxBaseQ(k));
     $('#d-'+k).innerHTML=same?(b?'상품 구성 그대로예요':'필요하시면 + 로 더해 주세요'):d?(b?'상품 구성('+dNb(bt)+')보다 ':'')+'<b>'+dSMan(d)+'</b>':'상품 구성('+dNb(bt)+')과 금액이 같아요'; }
   else if(L.steps) dxSetStep(k,dxQText(k),q<=0,q>=L.steps.length-1);
+  else if(L.pick){ const pb=$('[data-pick="'+k+'"]',r); if(pb){ pb.setAttribute('aria-pressed',String(!!q)); $('.lb',pb).textContent=q?'선택함':'선택'; } r.classList.toggle('pl-on',!!q); }
   else dxSetStep(k,dxQText(k),q<=0,q>=L.max);
   const f=$('.dx-fold',r); if(f) f.classList.toggle('open',off&&!(k==='limo'&&DX.q.van));
 }
@@ -3542,6 +3576,7 @@ function bindPrice(){
     if(b.dataset.type){ dxSetType(b.dataset.type); return; }
     if(b.dataset.bur){ dxSetBurial(b.dataset.bur); return; }
     if(b.dataset.q){ const q=b.dataset.q, i=q.lastIndexOf(':'); dxStepQ(q.slice(0,i),+q.slice(i+1)); return; }
+    if(b.dataset.pick){ const k=b.dataset.pick; dxStepQ(k,DX.q[k]?-1:1); return; }
     if(b.hasAttribute('data-est')){ dxShowEst(); return; }
     if(b.hasAttribute('data-back')){ dxBackEst(); return; }
   });
