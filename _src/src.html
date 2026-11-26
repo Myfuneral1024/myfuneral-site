@@ -697,7 +697,8 @@ footer.foot{border-top:1px solid var(--ink);background:var(--surface);padding-bl
 .wordtbl.up small{color:var(--muted);font-size:13px;white-space:nowrap}
 .wordtbl.up thead .muted{font-size:12px}
 .up-dl{margin:0;display:flex;flex-direction:column;gap:10px}
-.up-dl div{display:grid;grid-template-columns:6.5em minmax(0,1fr);gap:12px}
+.up-dl div{display:grid;grid-template-columns:7.6em minmax(0,1fr);gap:12px}
+@media (max-width:420px){.up-dl div{grid-template-columns:minmax(0,1fr);gap:2px}}
 .up-dl dt{font-weight:700;color:var(--ink)}
 .up-dl dd{margin:0}
 @media (max-width:560px){.up-dl div{grid-template-columns:minmax(0,1fr);gap:2px}}
@@ -1317,9 +1318,9 @@ details.faq[open] .faq-a{animation:swapIn 220ms var(--ease-out)}
       <h2>수의와 관은 바꾸실 수도 있어요</h2>
       <p class="sec-lead">접객 도우미 · 상복 · 빈소 헌화 · 장의버스 · 궁중대렴은 위 상품 구성에서 +&nbsp;로 바로 더하실 수 있어요. 수의와 관은 실물을 보시고 정하시는 게 좋아서, 더 좋은 것으로 바꾸고 싶으시면 상담 때 말씀해 주세요. 상품에 든 것과의 <b>차액만</b> 더해 견적에 그대로 적어 드려요.</p>
       <div class="tblwrap"><table class="wordtbl cmp up"><thead><tr><th>항목</th><th>상품에 든 것</th><th>원하시면 <span class="muted">(괄호는 차액)</span></th></tr></thead><tbody>
-        <tr><td><b>수의</b></td><td data-l="상품에 든 것">면수의 15만원</td><td data-l="원하시면"><div class="up-o"><span>저마수의 20만원 <small>(+5만원)</small></span><span>황토수의 30만원 <small>(+15만원)</small></span><span>쟈가드수의 50만원 <small>(+35만원)</small></span><span>대마수의 60만원 <small>(+45만원)</small></span><span>자가수의를 쓰시면 공제 <small>(−15만원)</small></span></div></td></tr><tr><td><b>관 · 화장</b></td><td data-l="상품에 든 것">화장용 오동나무관 20만원</td><td data-l="원하시면"><div class="up-o"><span>특수관 30만원 <small>(+10만원)</small></span></div></td></tr><tr><td><b>관 · 매장</b></td><td data-l="상품에 든 것">매장용 오동나무관 30만원</td><td data-l="원하시면"><div class="up-o"><span>솔송관 80만원 <small>(+50만원)</small></span><span>향나무관 160만원 <small>(+130만원)</small></span></div></td></tr>
+        <tr><td><b>수의</b></td><td data-l="상품에 든 것">기본 · 면수의 15만원</td><td data-l="원하시면"><div class="up-o"><span>중급 · 저마수의 20만원 <small>(+5만원)</small></span><span>고급 · 대마수의 60만원 <small>(+45만원)</small></span><span>자가수의를 쓰시면 공제 <small>(−15만원)</small></span></div></td></tr><tr><td><b>관 · 화장</b></td><td data-l="상품에 든 것">화장용 오동나무관 20만원</td><td data-l="원하시면"><div class="up-o"><span>특수관 30만원 <small>(+10만원)</small></span></div></td></tr><tr><td><b>관 · 매장</b></td><td data-l="상품에 든 것">매장용 오동나무관 30만원</td><td data-l="원하시면"><div class="up-o"><span>솔송관 80만원 <small>(+50만원)</small></span><span>향나무관 160만원 <small>(+130만원)</small></span></div></td></tr>
       </tbody></table></div>
-      <details class="faq"><summary>수의 옷감은 이렇게 달라요</summary><div class="faq-a"><dl class="up-dl"><div><dt>면수의</dt><dd>무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.</dd></div><div><dt>저마수의</dt><dd>저마는 모시풀에서 얻는 모시예요. 예부터 여름 옷감으로 쓰였고, 가볍고 시원한 결이 특징이에요. 예전에는 귀한 옷감이었어요.</dd></div><div><dt>황토수의</dt><dd>황토로 물들인 옷감으로 지은 수의예요. 은은한 흙빛이 나는 자연 소재예요.</dd></div><div><dt>쟈가드수의</dt><dd>자카드 직기로 무늬를 넣어 짠 옷감으로 지은 수의예요. 은은한 무늬와 광택이 있어 단정하고 품위 있게 보여요.</dd></div><div><dt>대마수의</dt><dd>대마(삼)에서 얻은 삼베로 지은 수의예요. 바람이 잘 통하고 흙에서 자연으로 돌아가는 소재라, 오늘날 수의를 대표하는 옷감이에요.</dd></div></dl></div></details>
+      <details class="faq"><summary>수의 옷감은 이렇게 달라요</summary><div class="faq-a"><dl class="up-dl"><div><dt>기본 · 면수의</dt><dd>무명(면)으로 지은 수의예요. 부드럽고 부담이 가장 적어 기본 수의로 많이 써요.</dd></div><div><dt>중급 · 저마수의</dt><dd>저마는 모시풀에서 얻는 모시예요. 예부터 여름 옷감으로 쓰였고, 가볍고 시원한 결이 특징이에요. 예전에는 귀한 옷감이었어요.</dd></div><div><dt>고급 · 대마수의</dt><dd>대마(삼)에서 얻은 삼베로 지은 수의예요. 바람이 잘 통하고 흙에서 자연으로 돌아가는 소재라, 오늘날 수의를 대표하는 옷감이에요.</dd></div></dl><p class="note" style="margin-top:10px">지역에 따라 들어오는 수의가 조금 다를 수 있어서, 상담 때 실물을 보여 드리고 정해요.</p></div></details>
       <p class="note">금액은 나만의장례 가격표 그대로예요. 장의 차량은 200km까지가 기본이고, 넘으면 1km당 1,800원이 더해져요. 유골함은 실제 카탈로그를 보시고 상담하며, 모실 곳과 형편에 맞게 합리적으로 정하실 수 있어요.</p>
       <div class="actions"><a class="btn btn-primary" href="tel:16614214">수의 · 관 상담 · 1661-4214</a><a class="btn btn-line" href="https://pf.kakao.com/_BxnMxhX/chat" target="_blank" rel="noopener"><svg class="ic-talk" width="20" height="20" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><use href="#ic-talk"/></svg>카톡 상담</a></div>
     </div>
