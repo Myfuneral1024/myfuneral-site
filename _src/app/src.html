@@ -338,7 +338,7 @@ const $=(s,r)=>(r||document).querySelector(s), $$=(s,r)=>[...(r||document).query
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const won=n=>(Number(n)||0).toLocaleString('ko-KR')+'원';
 const sgn=n=>n<0?'−'+won(-n):won(n);
-const man=n=>n%10000===0?(n/10000).toLocaleString('ko-KR')+'만원':won(n);
+const man=n=>n%10000===0?(n/10000).toLocaleString('ko-KR')+'만 원':won(n);
 const digits=t=>String(t||'').replace(/\D/g,'');
 const telFmt=t=>{ const d=digits(t); if(d.length===11) return d.slice(0,3)+'-'+d.slice(3,7)+'-'+d.slice(7); if(d.length===10) return d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6); return String(t||'').trim(); };
 const telMask=t=>{ const d=digits(t); return d.length>=10?d.slice(0,3)+'-****-'+d.slice(-4):String(t||'').trim(); };
@@ -352,7 +352,7 @@ const fmtT=t=>{ if(!/^\d{2}:\d{2}/.test(t||'')) return ''; let h=+t.slice(0,2), 
 const when=s=>{ if(!s) return ''; const d=new Date(s); if(isNaN(d)) return ''; const n=new Date(); const same=d.toDateString()===n.toDateString();
   return same?String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'):(d.getMonth()+1)+'. '+d.getDate()+'.'+(d.getFullYear()!==n.getFullYear()?' ('+String(d.getFullYear()).slice(2)+')':''); };
 const whenFull=s=>{ const d=new Date(s); return isNaN(d)?'':(d.getMonth()+1)+'월 '+d.getDate()+'일 '+String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); };
-/* 금액 입력: 1000 미만 숫자는 만원 (30 = 30만원), 「5만」 = 5만원, 그 밖에는 원 */
+/* 금액 입력: 1000 미만 숫자는 만 원 (30 = 30만 원), 「5만」 = 5만 원, 그 밖에는 원 */
 const amt=v=>{ v=String(v||'').replace(/[\s,원]/g,''); if(!v) return 0; const neg=/^[-−]/.test(v); v=v.replace(/^[-−]/,''); let n;
   const m=v.match(/^(\d+(?:\.\d+)?)만$/); if(m) n=Math.round(parseFloat(m[1])*10000); else if(/^\d+$/.test(v)) n=parseInt(v,10)<1000?parseInt(v,10)*10000:parseInt(v,10); else return NaN; return neg?-n:n; };
 let toastT=0;
@@ -373,7 +373,7 @@ const PRODN={nob:'무빈소장',fam:'가족장',und:'상담 때 정함'};
 const nwj=t=>String(t==null?'':t).split(' · ').map(x=>(x.length<=10||/MF-/.test(x))?'<span class="nw">'+esc(x)+'</span>':esc(x)).join(' · ');
 const chip=(m,k)=>{ const x=m[k]||[k,'']; return '<span class="chip '+x[1]+'">'+esc(x[0])+'</span>'; };
 
-/* ══ 가격표 (만원) · 홈페이지 비용 계산과 같게 (2026-11-23 입관지도사 20만원 → 무빈소장 145 · 가족장 205) ══ */
+/* ══ 가격표 (만 원) · 홈페이지 비용 계산과 같게 (2026-11-23 입관지도사 20만 원 → 무빈소장 145 · 가족장 205) ══ */
 const PRICE={
   svc:{nob:[15,20,15],fam:[30,20,15]},
   coffin:[['c1','화장용 오동나무관',20,'cre'],['c2','화장용 특수관',30,'cre'],['c3','매장용 오동나무관',30,'bur'],['c4','매장용 솔송관',80,'bur'],['c5','매장용 향나무관',160,'bur']],
@@ -591,13 +591,13 @@ on(/^\/c\/(\d+)\/edit$/,async m=>{ frame({title:'상담 고치기',back:'/c/'+m[
 function discUI(box,D,opts){ /* D: discounts 배열(바뀌면 그대로 고침), opts.onChange */
   const has=k=>D.find(x=>x.kind===k);
   const cp=has('cp'); const etc=D.filter(x=>x.kind==='etc');
-  box.innerHTML='<label class="chk"><input type="checkbox" data-d="sup"'+(has('sup')?' checked':'')+'><span>수급자 · 국가유공자 <b>−20만원</b><br><span class="note">'+esc(SUP_SUB)+'</span></span></label>'+
-    '<label class="chk"><input type="checkbox" data-d="cp"'+(cp?' checked':'')+'><span>사전 상담 감사 할인권 <b>−10만원</b><br><span class="note">'+(opts.gen?'카카오톡 채널을 추가하신 분 · 번호가 자동으로 만들어져요':'카카오톡 채널 친구 · 번호를 넣으면 조회 · 등록돼요')+'</span></span></label>'+
+  box.innerHTML='<label class="chk"><input type="checkbox" data-d="sup"'+(has('sup')?' checked':'')+'><span>수급자 · 국가유공자 <b>−20만 원</b><br><span class="note">'+esc(SUP_SUB)+'</span></span></label>'+
+    '<label class="chk"><input type="checkbox" data-d="cp"'+(cp?' checked':'')+'><span>사전 상담 감사 할인권 <b>−10만 원</b><br><span class="note">'+(opts.gen?'카카오톡 채널을 추가하신 분 · 번호가 자동으로 만들어져요':'카카오톡 채널 친구 · 번호를 넣으면 조회 · 등록돼요')+'</span></span></label>'+
     '<div class="fld" data-cpw'+(cp?'':' hidden')+'>'+(opts.gen?
       '<input class="in" data-cpno placeholder="MF-261123-ABCD" autocomplete="off" autocapitalize="characters" aria-label="할인권 번호" value="'+esc(cp&&cp.code||'')+'"><div class="grid2"><button type="button" class="btn btn-l" data-cpnew>새 번호</button><button type="button" class="btn btn-l" data-cpchk>번호 조회</button></div>':
       '<div class="row" style="flex-wrap:nowrap"><input class="in" data-cpno placeholder="MF-261123-ABCD" autocomplete="off" autocapitalize="characters" aria-label="할인권 번호" value="'+esc(cp&&cp.code||'')+'"><button type="button" class="btn btn-l" data-cpchk>조회</button></div>')+
       '<div data-cpres></div>'+(opts.gen?'<span class="note" style="margin-bottom:6px">홈페이지에서 이미 받으신 번호가 있으면 그 번호로 바꿔 넣고 「번호 조회」를 눌러 주세요.</span>':'')+'</div>'+
-    '<div class="fld"><span class="lbl">그 밖의 할인 <span>(내용 · 금액, 30 = 30만원)</span></span><div class="exs" data-exs></div><button type="button" class="btn btn-g" data-exadd style="align-self:flex-start">+ 한 줄 더</button></div>';
+    '<div class="fld"><span class="lbl">그 밖의 할인 <span>(내용 · 금액, 30 = 30만 원)</span></span><div class="exs" data-exs></div><button type="button" class="btn btn-g" data-exadd style="align-self:flex-start">+ 한 줄 더</button></div>';
   const rows=etc.length?etc.map(x=>({n:x.name,a:x.amount?String(x.amount/10000%1===0?x.amount/10000:x.amount):''})):[{n:'',a:''}];
   const sync=()=>{ const out=[]; if($('[data-d=sup]',box).checked) out.push(Object.assign({},SUP));
     if($('[data-d=cp]',box).checked) out.push(Object.assign({},CPD,{code:$('[data-cpno]',box).value.trim().toUpperCase()}));
@@ -635,8 +635,8 @@ async function consultForm(c){
       '<div class="grid2 st"><div class="fld"><label class="lbl" for="c-nm">성함</label><input class="in" id="c-nm" autocomplete="off"></div><div class="fld"><label class="lbl" for="c-ph">휴대폰 <span>(문자 받을 번호)</span></label><input class="in" id="c-ph" type="tel" inputmode="tel" autocomplete="off" placeholder="010-0000-0000"></div></div>'+
       '<div class="grid2"><div class="fld"><label class="lbl" for="c-tg">모실 분 <span>(선택)</span></label><input class="in" id="c-tg" autocomplete="off"></div><div class="fld"><label class="lbl" for="c-rl">관계 <span>(선택)</span></label><input class="in" id="c-rl" autocomplete="off" placeholder="어머니 · 본인"></div></div>'+
       '<div class="grid2"><div class="fld"><label class="lbl" for="c-dt">가입일</label><input class="in" id="c-dt" type="date"></div>'+(isMgr()?'<div class="fld"><label class="lbl" for="c-ow">담당</label><select class="in" id="c-ow"></select></div>':'<div></div>')+'</div></section>'+
-    '<section class="sec"><h2 class="sec-h"><span class="no">02</span>상품</h2><div class="seg" role="group" aria-label="상품"><button type="button" data-pr="nob">무빈소장<br><small>145만원</small></button><button type="button" data-pr="fam">가족장<br><small>205만원</small></button><button type="button" data-pr="und">상담 때<br>정함</button></div>'+
-      '<div class="fld" id="c-burw"><span class="lbl">모시는 방식 <span>(매장이면 +20만원)</span></span><div class="seg" role="group" aria-label="모시는 방식"><button type="button" data-bu="cre">화장</button><button type="button" data-bu="bur">매장</button></div></div></section>'+
+    '<section class="sec"><h2 class="sec-h"><span class="no">02</span>상품</h2><div class="seg" role="group" aria-label="상품"><button type="button" data-pr="nob">무빈소장<br><small>145만 원</small></button><button type="button" data-pr="fam">가족장<br><small>205만 원</small></button><button type="button" data-pr="und">상담 때<br>정함</button></div>'+
+      '<div class="fld" id="c-burw"><span class="lbl">모시는 방식 <span>(매장이면 +20만 원)</span></span><div class="seg" role="group" aria-label="모시는 방식"><button type="button" data-bu="cre">화장</button><button type="button" data-bu="bur">매장</button></div></div></section>'+
     '<section class="sec"><h2 class="sec-h"><span class="no">03</span>할인</h2><div id="c-disc"></div><div class="fld"><label class="lbl" for="c-cd">할인 조건 · 메모 <span>(증서에 나와요)</span></label><input class="in" id="c-cd" autocomplete="off" placeholder="예: 가족장으로 진행하실 때 적용"></div>'+
       '<div class="row" style="justify-content:space-between;border-top:2px solid var(--ink);padding-top:10px"><span>할인 합계</span><b class="big-total" id="c-ds" style="font-size:22px">0원</b></div><p class="note" id="c-af"></p></section>'+
     '<section class="sec"><h2 class="sec-h"><span class="no">04</span>메모</h2><div class="fld"><label class="lbl" for="c-mm">상담 메모 <span>(우리끼리만 · 증서에 안 나와요)</span></label><textarea class="in" id="c-mm" rows="4" placeholder="가족 상황, 원하시는 것, 다시 연락할 날 등"></textarea></div>'+
@@ -712,7 +712,7 @@ function certText(c){ const o=[], D=c.discounts||[], ds=D.reduce((s,x)=>s+(+x.am
   o.push('[나만의장례] 후불제 상조 가입증서', c.client_name+' 님, 가입해 주셔서 고맙습니다.', '');
   o.push('· 증서 번호: '+c.cert_no, '· 가입일: '+fmtDot(c.joined_on));
   if(c.target_name||c.relation) o.push('· 모실 분: '+(c.target_name?c.target_name+' 님'+(c.relation?' ('+c.relation+')':''):c.relation));
-  o.push('· 상품: '+(on?PROD[c.product].n+' '+man(pa)+' ('+(c.burial==='bur'?'매장':'화장')+' 기준)':'상담 때 함께 정합니다 (무빈소장 145만원 · 가족장 205만원, 화장 기준)'));
+  o.push('· 상품: '+(on?PROD[c.product].n+' '+man(pa)+' ('+(c.burial==='bur'?'매장':'화장')+' 기준)':'상담 때 함께 정합니다 (무빈소장 145만 원 · 가족장 205만 원, 화장 기준)'));
   if(D.length){ o.push('· 할인 내역'); D.forEach(x=>o.push('  - '+x.name+' −'+man(+x.amount)+(x.code?' (번호 '+x.code+')':''))); if(c.cond) o.push('  - 조건: '+c.cond); o.push('  → 할인 합계 −'+man(ds)+(on?' · 할인 뒤 상품 금액 '+man(Math.max(0,pa-ds)):'')); }
   o.push('', '가입비 · 월 납입금이 없습니다. 미리 내시는 돈 없이 장례를 마친 뒤 한 번에 정산합니다.', '첫 견적이 끝 견적 · 부당한 추가 요금은 200% 돌려 드립니다.');
   if(c.note) o.push('', c.note);
@@ -762,7 +762,7 @@ async function drawCert(c){
   if(c.target_name) R.push({k:'모실 분',v:c.target_name+' 님'+(c.relation?' ('+c.relation+')':'')}); else if(c.relation) R.push({k:'모실 분',v:c.relation});
   const on=c.product!=='und', pa=on?PROD[c.product].p[c.burial]*10000:0;
   if(on) R.push({k:'상품',v:PROD[c.product].n+' · '+(c.burial==='bur'?'매장':'화장'),a:won(pa),sub:[PROD[c.product].inc,'가입일 기준 금액입니다']});
-  else R.push({k:'상품',v:'상담 때 함께 정합니다',sub:['무빈소장 145만원 · 가족장 205만원 (화장 기준)']});
+  else R.push({k:'상품',v:'상담 때 함께 정합니다',sub:['무빈소장 145만 원 · 가족장 205만 원 (화장 기준)']});
   y=tableC(x,X0,X1,y,R);
   const D=c.discounts||[], dsum=D.reduce((s,d)=>s+(+d.amount||0),0);
   if(D.length){ y=secHeadC(x,X0,y+8,'02','할인 내역');
@@ -805,7 +805,7 @@ on(/^\/f$/,async(m,q)=>{
 function costLines(d){ const L=[], f=d.type==='fam', C=d.cost||{};
   if(d.type){ const s=PRICE.svc[d.type]; SVC_ROWS(f).forEach((r,i)=>L.push({g:r[0],t:r[1],s:r[2],v:s[i]*10000})); }
   [['coffin','관'],['shroud','수의'],['ipgwan','입관'],['binso','빈소 헌화'],['car','장의 차량']].forEach(([k,g])=>{ if(k==='binso'&&!f) return; const o=opt(k,C[k]); if(!o) return; if((k==='ipgwan'||k==='binso'||k==='car')&&o[0]==='none') return; L.push({g,t:o[1],v:o[2]*10000}); });
-  const st=C.staff||[0,0]; if(f&&(st[0]||st[1])) L.push({g:'접객 도우미',t:[st[0]?'첫째 날 '+st[0]+'명':'',st[1]?'둘째 날 '+st[1]+'명':''].filter(Boolean).join(' · '),s:'1인 12만원',v:(st[0]+st[1])*STAFF_WON});
+  const st=C.staff||[0,0]; if(f&&(st[0]||st[1])) L.push({g:'접객 도우미',t:[st[0]?'첫째 날 '+st[0]+'명':'',st[1]?'둘째 날 '+st[1]+'명':''].filter(Boolean).join(' · '),s:'1인 12만 원',v:(st[0]+st[1])*STAFF_WON});
   const mo=C.mourn||[0,0]; if(mo[0]||mo[1]) L.push({g:'상복',t:[mo[0]?'남성용 '+mo[0]+'벌':'',mo[1]?'여성용 '+mo[1]+'벌':''].filter(Boolean).join(' · '),v:mo[0]*MOURN[0]+mo[1]*MOURN[1]});
   const km=parseInt(C.km,10)||0; if(km>0) L.push({g:'거리 추가',t:'200km 넘은 '+km+'km',s:'1km당 1,800원',v:km*KM_WON});
   const ua=amt(C.urn_amt); if((C.urn_name||'').trim()||ua) L.push({g:'유골함',t:(C.urn_name||'').trim()||'유골함',v:isNaN(ua)?0:ua});
@@ -832,7 +832,7 @@ async function funeralForm(f){
   const isNew=!f.id; const d=f.data=Object.assign(F_DEF().data,f.data||{}); d.cost=Object.assign(F_DEF().data.cost,d.cost||{}); d.sched=Object.assign(F_DEF().data.sched,d.sched||{});
   if(!d.cost.ex||!d.cost.ex.length) d.cost.ex=[{n:'',a:''}];
   frame({title:isNew?'장례 접수':'장례 고치기',back:isNew?(f.consult_id?'/c/'+f.consult_id:'/f'):'/f/'+f.id,bar:true});
-  const selO=(g,list)=>list.map(o=>'<option value="'+o[0]+'">'+esc(o[1])+(o[2]?' · '+o[2]+'만원':'')+'</option>').join('');
+  const selO=(g,list)=>list.map(o=>'<option value="'+o[0]+'">'+esc(o[1])+(o[2]?' · '+o[2]+'만 원':'')+'</option>').join('');
   V('<form class="stack" id="ff" novalidate>'+
     '<section class="sec"><h2 class="sec-h"><span class="no">01</span>접수</h2>'+
       '<div class="fld"><span class="lbl">사전 가입</span><div id="f-link"></div></div>'+
@@ -847,7 +847,7 @@ async function funeralForm(f){
       '<p class="note" id="f-rn" hidden></p>'+
       '<div class="grid2"><div class="fld"><label class="lbl" for="f-cp">상주 연락처</label><input class="in" id="f-cp" type="tel" inputmode="tel" autocomplete="off"></div><div class="fld"><label class="lbl" for="f-rg">종교</label><select class="in" id="f-rg"><option value="">없음</option><option>기독교</option><option>천주교</option><option>불교</option><option>원불교</option><option>기타</option></select></div></div></section>'+
     '<section class="sec"><h2 class="sec-h"><span class="no">03</span>장례 방식 · 장소</h2>'+
-      '<div class="fld"><span class="lbl">상품 <span>(고르면 상품 구성이 채워져요)</span></span><div class="seg" role="group" aria-label="상품"><button type="button" data-ty="nob">무빈소장<br><small>145만원</small></button><button type="button" data-ty="fam">가족장<br><small>205만원</small></button></div></div>'+
+      '<div class="fld"><span class="lbl">상품 <span>(고르면 상품 구성이 채워져요)</span></span><div class="seg" role="group" aria-label="상품"><button type="button" data-ty="nob">무빈소장<br><small>145만 원</small></button><button type="button" data-ty="fam">가족장<br><small>205만 원</small></button></div></div>'+
       '<div class="fld"><span class="lbl">모시는 방식</span><div class="seg" role="group" aria-label="모시는 방식"><button type="button" data-fb="cre">화장</button><button type="button" data-fb="bur">매장</button></div></div>'+
       '<div class="grid2"><div class="fld"><label class="lbl" for="f-hl">장례식장</label><input class="in" id="f-hl" autocomplete="off"></div><div class="fld"><label class="lbl" for="f-rm">빈소 · 호실</label><input class="in" id="f-rm" autocomplete="off"></div></div>'+
       '<div class="grid2" id="f-crw"><div class="fld"><label class="lbl" for="f-cm">화장장</label><input class="in" id="f-cm" autocomplete="off"></div><div class="fld"><span class="lbl">관내 · 관외</span><div class="seg" role="group" aria-label="관내 관외"><button type="button" data-io="관내">관내</button><button type="button" data-io="관외">관외</button></div></div></div>'+
@@ -860,11 +860,11 @@ async function funeralForm(f){
       '<div class="fld"><label class="lbl" for="f-c-ipgwan">입관</label><select class="in" id="f-c-ipgwan" data-c="ipgwan">'+selO('ipgwan',PRICE.ipgwan)+'</select></div>'+
       '<div class="fld" data-fam><label class="lbl" for="f-c-binso">빈소 헌화</label><select class="in" id="f-c-binso" data-c="binso">'+selO('binso',PRICE.binso)+'</select></div>'+
       '<div class="fld"><label class="lbl" for="f-c-car">장의 차량</label><select class="in" id="f-c-car" data-c="car">'+selO('car',PRICE.car)+'</select></div>'+
-      '<div class="fld" data-fam><span class="lbl">접객 도우미 <span>(1인 12만원)</span></span><div id="f-stf"></div></div>'+
-      '<div class="fld"><span class="lbl">상복 <span>(남 5만원 · 여 3만원)</span></span><div id="f-mrn"></div></div>'+
+      '<div class="fld" data-fam><span class="lbl">접객 도우미 <span>(1인 12만 원)</span></span><div id="f-stf"></div></div>'+
+      '<div class="fld"><span class="lbl">상복 <span>(남 5만 원 · 여 3만 원)</span></span><div id="f-mrn"></div></div>'+
       '<div class="grid2"><div class="fld"><label class="lbl" for="f-km">200km 넘은 거리 <span>(km)</span></label><input class="in" id="f-km" inputmode="numeric" autocomplete="off" placeholder="0"></div><div></div></div>'+
-      '<div class="grid2"><div class="fld"><label class="lbl" for="f-un">유골함</label><input class="in" id="f-un" autocomplete="off" placeholder="함 이름"></div><div class="fld"><label class="lbl" for="f-ua">유골함 금액</label><input class="in" id="f-ua" inputmode="numeric" autocomplete="off" placeholder="예: 45 (= 45만원)"></div></div>'+
-      '<div class="fld"><span class="lbl">기타 추가 · 공제 <span>(공제는 금액 앞에 −, 30 = 30만원)</span></span><div class="exs" id="f-ex"></div><button type="button" class="btn btn-g" id="f-exadd" style="align-self:flex-start">+ 한 줄 더</button></div></section>'+
+      '<div class="grid2"><div class="fld"><label class="lbl" for="f-un">유골함</label><input class="in" id="f-un" autocomplete="off" placeholder="함 이름"></div><div class="fld"><label class="lbl" for="f-ua">유골함 금액</label><input class="in" id="f-ua" inputmode="numeric" autocomplete="off" placeholder="예: 45 (= 45만 원)"></div></div>'+
+      '<div class="fld"><span class="lbl">기타 추가 · 공제 <span>(공제는 금액 앞에 −, 30 = 30만 원)</span></span><div class="exs" id="f-ex"></div><button type="button" class="btn btn-g" id="f-exadd" style="align-self:flex-start">+ 한 줄 더</button></div></section>'+
     '<section class="sec"><h2 class="sec-h"><span class="no">06</span>할인</h2><div id="f-disc"></div></section>'+
     '<section class="sec"><h2 class="sec-h"><span class="no">07</span>정산 · 메모</h2><div class="fld"><span class="lbl">결제 방법</span><div class="seg" role="group" aria-label="결제 방법"><button type="button" data-py="계좌이체">계좌이체</button><button type="button" data-py="현금">현금</button><button type="button" data-py="카드">카드</button></div></div>'+
       '<label class="chk"><input type="checkbox" id="f-pd"><span>받았어요 (결제 끝남)</span></label><div class="fld" id="f-pdw"><label class="lbl" for="f-pdd">결제일 <span>(정산서에 나와요)</span></label><input class="in" id="f-pdd" type="date"></div>'+
@@ -934,7 +934,7 @@ async function funeralForm(f){
   $('#f-save').onclick=async()=>{ const er=$('#f-err'); er.hidden=true;
     const cps=d.discounts.filter(x=>x.kind==='cp');
     const bad=!f.deceased_name.trim()&&!f.chief_name.trim()?'고인 성함이나 상주 성함을 넣어 주세요.':(cps.some(x=>!CP_RE.test(x.code||''))?'할인권 번호를 확인해 주세요 (MF-숫자6자리-글자4자리).':
-      (d.cost.ex.some(e=>(e.n||'').trim()&&isNaN(amt(e.a)))||isNaN(amt(d.cost.urn_amt))?'금액은 숫자로 넣어 주세요 (30 = 30만원).':''));
+      (d.cost.ex.some(e=>(e.n||'').trim()&&isNaN(amt(e.a)))||isNaN(amt(d.cost.urn_amt))?'금액은 숫자로 넣어 주세요 (30 = 30만 원).':''));
     if(bad){ er.hidden=false; er.textContent=bad; er.scrollIntoView({block:'center'}); return; }
     const b=$('#f-save'); b.disabled=true;
     const data=JSON.parse(JSON.stringify(d)); data.cost.ex=data.cost.ex.filter(e=>(e.n||'').trim()||(e.a||'').trim());
@@ -1108,7 +1108,7 @@ function settleModel(f){ const d=f.data||{}, t=d.type, fam=t==='fam', C=d.cost||
     else if(cid==='none'||!oc) o.chg.push({g:LB[k],t:ob[1]+' — 쓰지 않으심',tag:'공제',v:-bv});
     else o.chg.push({g:LB[k],t:short(ob[1])+' → '+short(oc[1]),tag:'변경',v:cv-bv}); });
   SMR.forEach(([k,g,rw,u,pr])=>{ if(k==='staff'&&!fam) return; const bc=b[k], cc=C[k]||[0,0]; rw.forEach((r,i)=>{ const dd=(cc[i]||0)-bc[i]; if(!dd) return;
-    o.chg.push({g,t:r+' '+bc[i]+u+' → '+(cc[i]||0)+u,s:(k==='staff'?'1인 12만원':(i?'1벌 3만원':'1벌 5만원')),tag:dd>0?'추가':'공제',v:dd*pr[i]}); }); });
+    o.chg.push({g,t:r+' '+bc[i]+u+' → '+(cc[i]||0)+u,s:(k==='staff'?'1인 12만 원':(i?'1벌 3만 원':'1벌 5만 원')),tag:dd>0?'추가':'공제',v:dd*pr[i]}); }); });
   const km=parseInt(C.km,10)||0; if(km>0) o.chg.push({g:'차량 거리',t:'200km 넘은 '+km+'km',s:'1km당 1,800원',tag:'추가',v:km*KM_WON});
   const ua=amt(C.urn_amt); if((C.urn_name||'').trim()||ua) o.chg.push({g:'유골함',t:(C.urn_name||'').trim()||'유골함',s:'상품에 없는 별도 항목',tag:'추가',v:isNaN(ua)?0:ua});
   (C.ex||[]).forEach(e=>{ const a=amt(e.a); if((e.n||'').trim()&&a&&!isNaN(a)) o.chg.push({g:'기타',t:e.n.trim(),tag:a<0?'공제':'추가',v:a}); });
@@ -1148,7 +1148,7 @@ on(/^\/f\/(\d+)\/s$/,async m=>{
 on(/^\/k$/,async(m,q)=>{
   frame({}); const st=q.get('s')||'';
   V('<div class="stack"><h2 class="sec-h">할인권</h2><section class="sec"><div class="fld"><label class="lbl" for="kq">할인권 번호 조회</label><div class="row" style="flex-wrap:nowrap"><input class="in big" id="kq" autocomplete="off" autocapitalize="characters" placeholder="MF-261123-ABCD" value="'+esc(q.get('code')||'')+'"><button class="btn btn-p" id="kgo" style="min-height:56px">조회</button></div></div><div id="kr"></div>'+
-    '<p class="note">손님이 홈페이지에서 받은 「사전 상담 감사 할인권」(10만원) 번호를 넣어 주세요. 장례에 쓰면 「쓰임」으로 바뀌어 다시 쓰지 못해요.</p></section>'+
+    '<p class="note">손님이 홈페이지에서 받은 「사전 상담 감사 할인권」(10만 원) 번호를 넣어 주세요. 장례에 쓰면 「쓰임」으로 바뀌어 다시 쓰지 못해요.</p></section>'+
     '<div><div class="h2">등록된 할인권</div><div class="tabs">'+[['','전체'],['registered','등록됨'],['used','쓰임'],['void','무효']].map(([k,l])=>'<a href="#/k?s='+k+'"'+(st===k?' aria-current="page"':'')+'>'+l+'</a>').join('')+'</div><div id="kl"><div class="spin"></div></div></div></div>');
   const look=async()=>{ const v=$('#kq').value.trim().toUpperCase(); $('#kq').value=v; if(!v) return; const r=await rpc('mf_coupon_get',{p_code:v}); const box=$('#kr'); box.innerHTML=cpCard(r);
     if(r.format_ok&&!r.found){ box.insertAdjacentHTML('beforeend','<div class="stack" style="gap:8px;margin-top:10px"><div class="grid2"><input class="in" id="kn" placeholder="손님 성함" autocomplete="off"><input class="in" id="kp" type="tel" placeholder="연락처" autocomplete="off"></div><button class="btn btn-l" id="kreg">이 할인권 등록하기</button></div>');
